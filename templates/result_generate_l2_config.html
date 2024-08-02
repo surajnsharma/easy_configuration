@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Result</title>
+
+    <style>
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 5px 0;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+    </style>
+    <script>
+ /*       function transferConfig(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusElement = document.getElementById('transfer_status');
+                if (data.success) {
+                    statusElement.className = 'success';
+                    statusElement.innerText = data.message;
+                } else {
+                    statusElement.className = 'error';
+                    statusElement.innerText = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const statusElement = document.getElementById('transfer_status');
+                statusElement.className = 'error';
+                statusElement.innerText = 'An error occurred while transferring the configuration.';
+            });
+        }
+
+*/
+        function transferConfig(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusElement = document.getElementById('transfer_status');
+                if (data.success) {
+                    statusElement.className = 'success';
+                    statusElement.innerText = data.message;
+                } else {
+                    statusElement.className = 'error';
+                    statusElement.innerText = JSON.stringify(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const statusElement = document.getElementById('transfer_status');
+                statusElement.className = 'error';
+                statusElement.innerText = 'An error occurred while transferring the configuration.';
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Generated Configuration</h1>
+    <a href="/">Back to Main Page</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="/debug_log">Check Debug Log</a>
+    {% if download_link %}
+        &nbsp;&nbsp;&nbsp;
+        <a href="/download/{{ filename }}">Download Configuration File</a>
+    {% endif %}
+    <p id="transfer_status" class="{{ 'success' if 'successfully' in transfer_status else 'error' }}">{{ transfer_status }}</p>
+    <br>
+    <form onsubmit="transferConfig(event)">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        <label for="router_ip">Select Device:</label>
+        <select id="router_ip" name="router_ip" required>
+            {% for device in devices %}
+                <option value="{{ device['ip'] }}">{{ device['ip'] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <input type="hidden" id="router_user" name="router_user">
+        <input type="hidden" id="router_password" name="router_password">
+        <input type="submit" value="Transfer Configuration to Router">
+            </form>
+    <pre>{{ config_lines|join("\n") }}</pre>
+</div>
+</body>
+</html>

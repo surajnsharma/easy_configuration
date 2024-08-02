@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT Web App</title>
+</head>
+<body>
+    <h1>Chat with ChatGPT</h1>
+    <form id="chat-form">
+        <input type="text" id="input-text" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <div id="response"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').submit(function(event) {
+                event.preventDefault();
+                var inputText = $('#input-text').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/get_response',
+                    data: {input_text: inputText},
+                    success: function(data) {
+                        var response = JSON.parse(data).response;
+                        $('#response').append('<p><strong>User:</strong> ' + inputText + '</p>');
+                        $('#response').append('<p><strong>ChatGPT:</strong> ' + response + '</p>');
+                        $('#input-text').val('');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

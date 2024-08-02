@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            margin: 20px;
+            max-width: 1200px;
+        }
+        .form-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .form-container th, .form-container td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .form-container th {
+            background-color: #f2f2f2;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>View Events</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Iteration</th>
+                    <th>Device Name</th>
+                    <th>Command</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.iteration }}</td>
+                    <td>{{ event.device_name }}</td>
+                    <td>{{ event.command }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_viewevent', event_id=event.id) }}">Edit</a>
+                        <form action="{{ url_for('delete_event', event_id=event.id) }}" method="post" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

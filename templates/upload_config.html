@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Configuration</title>
+</head>
+<body>
+    <h1>Upload Configuration File</h1>
+    <form action="/upload_config" method="post" enctype="multipart/form-data">
+        <label for="file">Choose configuration file:</label>
+        <input type="file" id="file" name="file"><br><br>
+        <label for="router_ips">Router IPs (comma-separated):</label>
+        <input type="text" id="router_ips" name="router_ips"><br><br>
+        <label for="router_user">Router Username:</label>
+        <input type="text" id="router_user" name="router_user"><br><br>
+        <label for="router_password">Router Password:</label>
+        <input type="password" id="router_password" name="router_password"><br><br>
+        <button type="submit">Upload and Push Config</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXLAN Configuration Result</title>
+    <style>
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+                body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .hidden {
+            display: none;
+        }
+        .container {
+            max-width: 1350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            margin: 10px auto;
+            max-width: 1350px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .form-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .form-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .form-container th, .form-container td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .form-container th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .form-container input[type="text"], .form-container input[type="number"], .form-container select, .form-container textarea {
+            width: calc(100% - 10px);
+            padding: 8px;
+            font-size: 14px;
+            margin: 0 5px;
+            box-sizing: border-box;
+        }
+        .form-container button, .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .form-container button:hover, .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .alert {
+            margin-bottom: 15px;
+            color: white;
+            width: 12%;
+            border-radius: 4px;
+        }
+        .alert.success {
+            background-color: #4CAF50;
+        }
+        .alert.error {
+            background-color: #f44336;
+        }
+        .form-container input[type="text"].large-input {
+            width: 200px;
+        }
+        .form-container input[type="number"].small-input {
+            width: 100px;
+        }
+        .active-button {
+            background-color: lightgreen !important;
+        }
+        .small-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+        .form-container th {
+            background-color: #f2f2f2;
+        }
+        .form-container .small-cell {
+            width: 50px;
+        }
+        .small-btn {
+            font-size: 12px;
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        #triggerEventsTable {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        #triggerEventsTable th, #triggerEventsTable td {
+            border: 1px solid #ddd;
+            padding: 4px;
+        }
+        #triggerEventsTable th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        #triggerEventsTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        #triggerEventsTable tr:hover {
+            background-color: #ddd;
+        }
+        #triggerEventsTable th {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-container {
+            margin-bottom: 20px;
+        }
+        .btn-container button {
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+  /*    function transferConfig(form, configType, index) {
+            const formData = new FormData(form);
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusElement = document.getElementById(`${configType}_status_${index}`);
+                if (data.success) {
+                    statusElement.className = 'success';
+                } else {
+                    statusElement.className = 'error';
+                }
+                statusElement.innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            return false; // Prevent form from submitting normally
+        }
+*/
+/*
+
+       function transferConfig(form, configType, index) {
+            const formData = new FormData(form);
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusElement = document.getElementById(`${configType}_status_${index}`);
+                if (data.success) {
+                    statusElement.className = 'success';
+                    statusElement.innerText = data.message;
+                } else {
+                    statusElement.className = 'error';
+                    statusElement.innerText = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            return false; // Prevent form from submitting normally
+        }
+
+        function setDeviceCredentials(router_ip, router_user_input, router_password_input, devices) {
+            const selectedDevice = devices.find(device => device.ip === router_ip);
+            if (selectedDevice) {
+                router_user_input.value = selectedDevice.username;
+                router_password_input.value = selectedDevice.password;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const devices = {{ devices|tojson }};
+            document.querySelectorAll('select[name="router_ip"]').forEach(selectElement => {
+                selectElement.addEventListener('change', function() {
+                    const router_ip = this.value;
+                    const form = this.closest('form');
+                    const router_user_input = form.querySelector('input[name="router_user"]');
+                    const router_password_input = form.querySelector('input[name="router_password"]');
+                    setDeviceCredentials(router_ip, router_user_input, router_password_input, devices);
+                });
+            });
+        });
+
+*/
+
+    </script>
+
+<script>
+    function transferConfig(event, form, configType, index) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const formData = new FormData(form);
+        console.log(`Transferring configuration for ${configType} ${index}`);
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        fetch('/transfer', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Transfer response data:', data);
+            const statusElement = document.getElementById(`${configType}_status_${index}`);
+            if (data.success) {
+                statusElement.className = 'success';
+                statusElement.innerText = data.message;
+            } else {
+                const errorMessage = typeof data.message === 'object'
+                    ? `Device: ${data.message.device}, Message: ${data.message.message}`
+                    : data.message;
+                statusElement.className = 'error';
+                statusElement.innerText = errorMessage;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const statusElement = document.getElementById(`${configType}_status_${index}`);
+            statusElement.className = 'error';
+            statusElement.innerText = 'An error occurred while transferring the configuration.';
+        });
+
+        return false; // Prevent form from submitting normally
+    }
+</script>
+
+    <div class="container">
+        <h1>Generated VXLAN Configuration</h1>
+        <a href="/">Back to Main Page</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/debug_log">Check Debug Log</a><br><br>
+        <h2>Spine Configuration</h2>
+
+        {% for i, spine_config in enumerate(spine_configs) %}
+            <h3>Spine {{ i + 1 }}</h3>
+            <pre>{{ spine_config|join("\n") }}</pre>
+            <form onsubmit="return transferConfig(event, this, 'spine', {{ i + 1 }})" method="POST">
+                <input type="hidden" name="filename" value="spine_{{ i + 1 }}_{{ vxlan_filename }}">
+                <label for="router_ip">Select Device:</label>
+                <select id="router_ip" name="router_ip" required>
+                    {% for device in devices %}
+                        <option value="{{ device['ip'] }}">{{ device['ip'] }}</option>
+                    {% endfor %}
+                </select><br><br>
+                <input type="hidden" id="router_user" name="router_user">
+                <input type="hidden" id="router_password" name="router_password">
+                <input type="submit" value="Transfer Configuration to Router">
+            </form>
+            <p id="spine_status_{{ i + 1 }}"></p>
+            <a href="/download/spine_{{ i + 1 }}_{{ vxlan_filename }}">Download Spine Configuration File</a><br><br>
+        {% endfor %}
+
+        <h2>Leaf Configuration</h2>
+        {% for i, leaf_config in enumerate(leaf_configs) %}
+            <h3>Leaf {{ i + 1 }}</h3>
+            <pre>{{ leaf_config|join("\n") }}</pre>
+            <form onsubmit="return transferConfig(event, this, 'leaf', {{ i + 1 }})" method="POST">
+                <input type="hidden" name="filename" value="leaf_{{ i + 1 }}_{{ vxlan_filename }}">
+                <label for="router_ip">Select Device:</label>
+                <select id="router_ip" name="router_ip" required>
+                    {% for device in devices %}
+                        <option value="{{ device['ip'] }}">{{ device['ip'] }}</option>
+                    {% endfor %}
+                </select><br><br>
+                <input type="hidden" id="router_user" name="router_user">
+                <input type="hidden" id="router_password" name="router_password">
+                <input type="submit" value="Transfer Configuration to Router">
+            </form>
+            <p id="leaf_status_{{ i + 1 }}"></p>
+            <a href="/download/leaf_{{ i + 1 }}_{{ vxlan_filename }}">Download Leaf Configuration File</a><br><br>
+        {% endfor %}
+
+        <br>
+    </div>
+
+</body>
+</html>

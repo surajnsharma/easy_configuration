@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/easy_config.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cytoscape-context-menus/cytoscape-context-menus.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.20.0/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-context-menus/cytoscape-context-menus.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-qtip/cytoscape-qtip.js"></script>
+    <title>Easy Configuration</title>
+    <style>
+        /* Add any additional CSS here */
+         .custom-th {
+            background-color: white !important;
+.hidden {
+            display: none;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Easy Configuration
+            {%- with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {%- for category, message in messages -%}
+            <span class="ml-3 alert-text {{ category }}">{{ message }}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('view_events') }}">View Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/debug_log">Check Debug Log</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('signup') }}">Signup</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div id="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#onboardForm" id="toggleOnboardFormBtn">Onboard Devices</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#triggerEventsForm">Trigger Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#generateConfigForm" id="toggleGenerateConfigFormBtn">Generate Config</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="form-container">
+            <h1>Easy Configuration</h1>
+            <img src="{{ url_for('static', filename='favicon.ico') }}" alt="NetAdmin Icon" class="top-right-icon">
+            <div id="generateConfigForm" class="hidden">
+                <div class="btn-container">
+                    <button id="toggleVlanFormBtn" class="small-btn">VLAN Scale Config</button>
+                    <button id="toggleBgpFormBtn" class="small-btn">BGP Scale Config</button>
+                    <button id="toggleVxlanFormBtn" class="small-btn">VXLAN and Overlay Config</button>
+                    <button id="toggleUploadFormBtn" class="small-btn">Underlay Config</button>
+                    <button id="toggleUploadConfigFormBtn" class="small-btn">Upload Device Config</button>
+                </div>
+            </div>
+            <form id="configForm" class="hidden" action="/" method="post">
+                <table>
+                    <tr>
+                        <th>Num of VLANs</th>
+                        <th>Base IP Addr (e.g., 192.168.0)</th>
+                        <th>Last Octet for IP</th>
+                        <th>Interface names (separated by space)</th>
+                        <th>Base VLAN ID</th>
+                        <th>Save to File</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" id="num_vlans_per_interface" name="num_vlans_per_interface" value="1" required></td>
+                        <td><input type="text" id="base_ip_parts_config" name="base_ip_parts" value="192.168.0" required></td>
+                        <td><input type="number" id="last_octet_config" name="last_octet" value="1" class="large-input" required></td>
+                        <td><input type="text" id="interface_prefixes" name="interface_prefixes" value="et-0/0/0:0 et-0/0/0:1" required></td>
+                        <td><input type="number" id="base_vlan_id" name="base_vlan_id" value="100" class="small-input" required></td>
+                        <td><input type="text" id="filename" name="filename" value="config.txt" class="large-input" required></td>
+                    </tr>
+                </table>
+                <div>
+                    <label>
+                        <input type="checkbox" id="access_checkbox" name="access" onchange="checkAccessCheckbox()"> Access
+                    </label>
+                    <label>
+                        <input type="checkbox" id="trunk_checkbox" name="trunk"> Trunk
+                    </label>
+                    <label>
+                        <input type="checkbox" id="native_vlanid_checkbox" name="native_vlanid" onchange="toggleNativeVlanIdInput()"> Native VLAN ID
+                    </label>
+                    <input type="number" id="native_vlanid_input" name="native_vlanid_value" style="display:none; width: 100px;" placeholder="ID">
+                </div>
+                <input type="submit" value="Generate VLAN Configuration">
+                <input type="reset" value="Reset">
+            </form>
+            <form id="bgpForm" class="hidden" action="/bgp" method="post">
+                <table>
+                    <tr>
+                        <th>BGP local AS</th>
+                        <th>BGP Peer AS</th>
+                        <th>Start Neighbor IP</th>
+                        <th>Neighbor Count</th>
+                        <th>Save to File</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="bgp_local_as" name="bgp_local_as" value="100" required>
+                            <select id="as_type" name="as_type" class="hidden" required>
+                                <option value="global">Global AS</option>
+                                <option value="local">Local AS</option>
+                            </select>
+                        </td>
+                        <td><input type="text" id="bgp_as_number" name="bgp_as_number" value="200" required></td>
+                        <td><input type="text" id="bgp_base_neighbor" name="bgp_base_neighbor" value="192.160.2.1" required></td>
+                        <td><input type="number" id="neighbor_count" name="neighbor_count" class="large-input" value="2" required></td>
+                        <td><input type="text" id="bgp_filename" name="bgp_filename" value="bgp_config.txt" class="large-input" required></td>
+                    </tr>
+                    <input type="text" id="bgp_network" name="bgp_network" class="large-input hidden" value="192.160.2.0">
+                </table>
+                <input type="submit" value="Generate BGP Configuration">
+                <input type="reset" value="Reset">
+            </form>
+            <form id="vxlanForm" class="hidden" action="/vxlan" method="post">
+                <table>
+                    <tr>
+                        <th>Number of Spines</th>
+                        <td><input type="number" id="num_spines" name="num_spines" value="0" min="0" max="4" required></td>
+                        <th>Number of Leafs</th>
+                        <td><input type="number" id="num_leafs" name="num_leafs" value="1" min="0" max="4" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base IP Address (e.g., 192.168.0)</th>
+                        <td><input type="text" id="base_ip_parts_vxlan" name="base_ip_parts" value="192.168.0" required></td>
+                        <th>Last Octet for IP Address</th>
+                        <td><input type="number" id="last_octet_vxlan" name="last_octet" value="1" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base VXLAN VNI</th>
+                        <td><input type="number" id="base_vxlan_vni" name="base_vxlan_vni" value="30000" required></td>
+                        <th>Base VXLAN VLAN ID</th>
+                        <td><input type="number" id="base_vxlan_vlan_id" name="base_vxlan_vlan_id" value="100" required></td>
+                    </tr>
+                    <tr>
+                        <th>Number of VXLAN tunnels</th>
+                        <td><input type="number" id="num_vxlan_configs" name="num_vxlan_configs" value="1" required></td>
+                        <th>Filename</th>
+                        <td><input type="text" id="vxlan_filename" name="vxlan_filename" value="vxlan_config.txt" required></td>
+                    </tr>
+                    <tr>
+                        <th>Leaf Base AS</th>
+                        <td><input type="number" id="leaf_base_as" name="leaf_base_as" value="1001"></td>
+                        <th>Spine Base AS</th>
+                        <td><input type="number" id="spine_base_as" name="spine_base_as" value="2001"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="checkbox" id="generate_overlay_config" name="generate_overlay_config">
+                            <label for="generate_overlay_config">Generate Overlay Config</label>
+                        </td>
+                    </tr>
+                    <tr id="spineIpsRow" class="hidden">
+                        <th colspan="4">Spine IPs</th>
+                    </tr>
+                    <tr id="spineIps" class="hidden">
+                        <td colspan="4">
+                            <table class="nested-table">
+                                <tr class="input-container">
+                                    <td class="cell"><label for="spine_ip_0">Spine IP 1:</label><input type="text" id="spine_ip_0" class="large-input" name="spine_ip_0"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="leafIpsRow" class="hidden">
+                        <th colspan="4">Leaf IPs</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <table class="nested-table">
+                                <tr id="leafIps" class="input-container">
+                                    <td class="cell"><label for="leaf_ip_0">Leaf IP 1:</label><input type="text" id="leaf_ip_0" class="large-input" name="leaf_ip_0"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="Generate VXLAN Configuration">
+                <input type="reset" value="Reset">
+            </form>
+            <form id="uploadForm" class="hidden" action="/upload" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <th>Configuration Method</th>
+                        <td>
+                            <select name="config_method" id="config_method">
+                                <option value="csv">CSV File</option>
+                                <option value="lldp">LLDP Neighbors</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="csv_row">
+                        <th>CSV File</th>
+                        <td><input type="file" name="file">
+                        <a type="button" id="sampleCsvBtn" style="color: blue; cursor: pointer;">Sample CSV</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Delete BGP Group Underlay</th>
+                        <td><input type="checkbox" name="delete_group" id="delete_group" checked></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="button_clicked" value="">
+                <input type="submit" value="Push Configuration" onclick="setButtonClicked('transferConfigBtn')">
+                <button type="button" id="showConfigBtn" onclick="showGeneratedConfig()">Show Underlay Config</button>
+                <button type="button" id="saveTopoCsvBtn">Save MyTopo</button>
+                <button type="button" id="showMytopologyBtn">Show Mytopology</button>
+            </form>
+            <div id="sampleCsvModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>CSV File Example:</p>
+                    <pre>
+                        --------- Underlay CSV Config ------------
+                        hostname,interface,ip_addr,underlay_protocol,description
+                        san-q5130-02,et-0/0/0,192.168.2.1,bgp,##
+                        san-q5130-02,et-0/0/1,192.168.23.1,bgp,##
+                        san-q5120-02,et-0/0/48,192.168.2.2,bgp,##
+                        san-q5120-02,et-0/0/50,192.168.21.1,bgp,##
+                        san-q5120-03,et-0/0/48,192.168.23.2,bgp,##
+                        san-q5120-03,et-0/0/50,192.168.31.1,bgp,##
+
+                        -------- topology CSV format --------------
+                        Device1,Interface1,Device2,Interface2
+                        san-q5120-03,et-0/0/48,san-q5130-02,et-0/0/1
+                        san-q5120-03,em0,sd-mgmt-b05,ge-0/0/17
+                        san-q5120-02,et-0/0/48,san-q5130-02,et-0/0/0
+                    </pre>
+                </div>
+            </div>
+            <form id="uploadConfigForm" class="hidden" action="/upload_config" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <th>Config File in text/set/delete</th>
+                        <td><input type="file" name="file"></td>
+                    </tr>
+                    <tr>
+                        <th>Enter Config Text/set/delete</th>
+                        <td>
+                            <textarea id="config_textarea" name="config_textarea" rows="15" cols="70"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="file" id="device_csv" name="device_csv" class="hidden"></td>
+                    </tr>
+                    <tr>
+                        <th>Router IPs (comma-separated)</th>
+                        <td><input type="text" id="router_ips" name="router_ips"></td>
+                    </tr>
+                    <tr>
+                        <th>Router Username</th>
+                        <td><input type="text" id="router_user" name="router_user" style="width: 250px;" value="root" required></td>
+                    </tr>
+                    <tr>
+                        <th>Router Password</th>
+                        <td><input type="password" id="router_password" name="router_password" style="width: 250px;" value="Embe1mpls" required></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Upload and Push Config">
+                <div id="progressContainer"></div>
+            </form>
+            <form id="onboardForm" class="hidden" action="/onboard_devices" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <th class="custom-th">
+                            <button type="button" id="uploadCsvBtn" class="small-btn">Upload CSV</button>
+                            <button type="button" id="sampleonBoardCsvBtn" class="small-btn">Sample CSV</button>
+                        </th>
+                        <td><input type="file" name="file" id="csvFile" required></td>
+                    </tr>
+                    <tr>
+                        <th class="custom-th"><button type="button" id="uploadImageBtn" class="small-btn">Upload Image</button></th>
+                        <td><input type="file" id="imageFile" name="imageFile" accept=".iso, .tgz, .img" required></td>
+                    </tr>
+                </table>
+
+                <div id="uploadProgressContainer" style="display: none;">
+                    <progress id="uploadProgress" value="0" max="100"></progress>
+                    <span id="uploadProgressText">0%</span>
+                </div>
+                <h2>Uploaded Files</h2>
+                <div>
+                    <select id="uploadedImagesSelect">
+                        <option value="" disabled selected>Select file to delete</option>
+                    </select>
+                    <button type="button" id="deleteSelectedImageBtn">Delete File</button>
+                    <button type="button" id="showSelectedImageBtn">Show File</button>
+                </div>
+                <div id="fileContentEditor" class="hidden">
+                    <div id="editor" style="height: 400px; width: 100%; border: 1px solid #ddd;"></div>
+                    <button type="button" id="saveFileContentBtn">Save</button>
+                    <button type="button" id="closeEditorBtn">Close</button>
+                </div>
+
+                <h2>Onboarded Devices</h2>
+                <div>
+                    <select id="installImageSelect">
+                        <option value="" disabled selected>Select an image to install</option>
+                    </select>
+                    <button id="installSelectedImageBtn">Install Image</button>
+                    <button id="stopImageCopyBtn">Stop Copy</button>
+                </div>
+                <table id="onboardedDevicesTable">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Hostname</th>
+                            <th>IP Address</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Actions</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-device-id="1">
+                            <td><input type="checkbox" class="device-checkbox"></td>
+                            <td>device1</td>
+                            <td>192.168.1.1</td>
+                            <td><input type="text" value="user1"></td>
+                            <td><input type="text" value="password1"></td>
+                            <td><!-- Action buttons --></td>
+                            <td class="progress-cell">0%</td>
+                        </tr>
+                        <!-- More rows can be added dynamically or manually here -->
+                    </tbody>
+                </table>
+                <button type="button" id="addDeviceBtn">Add Device</button>
+                <button type="button" id="saveAllBtn">Save Config All</button>
+                <button type="button" id="restoreAllBtn">Restore All</button>
+            </form>
+            <div id="sampleCsvOnboardDeviceModal" class="modal"></div>
+            <form id="triggerEventsForm" class="hidden" action="/trigger_events" method="post">
+                <button id="addRowBtn" type="button" class="small-btn">Add Row</button>
+                <button id="deleteSelectedBtn" type="button" class="small-btn">Delete Selected</button>
+                <table id="triggerEventsTable">
+                    <thead>
+                        <tr>
+                            <th class="small-cell">Select</th>
+                            <th class="small-cell">Item</th>
+                            <th>Description</th>
+                            <th>Iteration</th>
+                            <th>Device name</th>
+                            <th>Actions</th>
+                            <th class="hidden">Command</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+                <select id="deviceNameSelect" class="hidden"></select>
+            </form>
+        </div>
+        <div id="topologyContainer" class="hidden topologyContainer" style="margin-top: 20px;">
+            <h2>My Topology</h2>
+            <div id="cy" style="height: 600px; width: 100%;"></div>
+        </div>
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Command</h2>
+                <textarea id="commandTextArea" rows="10" cols="80"></textarea>
+                <button id="saveCommandBtn" class="small-btn">Save Command</button>
+            </div>
+        </div>
+        <div id="addDeviceModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add New Device</h2>
+                <form id="addDeviceForm">
+                    <label for="newDeviceHostname">Hostname:</label>
+                    <input type="text" id="newDeviceHostname" name="hostname" required><br>
+                    <label for="newDeviceIP">IP Address:</label>
+                    <input type="text" id="newDeviceIP" name="ip" required><br>
+                    <label for="newDeviceUsername">Username:</label>
+                    <input type="text" id="newDeviceUsername" name="username" required><br>
+                    <label for="newDevicePassword">Password:</label>
+                    <input type="password" id="newDevicePassword" name="password" required><br>
+                    <button type="submit">Add Device</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- div id="showConfigModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Device Configuration</h2>
+            <textarea id="configTextarea" style="height: 400px; width: 100%;"></textarea>
+            <button id="downloadConfigBtn" class="small-btn">Download Configuration</button>
+            <button id="updateConfigBtn" class="small-btn">Update Configuration</button>
+        </div>
+        </div-->
+
+        <div id="showConfigModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Device Configuration</h2>
+            <textarea id="configTextarea" style="height: 400px; width: 100%;"></textarea>
+            <button id="downloadConfigBtn" class="small-btn">Download Configuration</button>
+            <button id="updateConfigBtn" class="small-btn">Update Configuration</button>
+        </div>
+    </div>
+
+         <div id="terminal-container" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background-color:black; z-index:1000;">
+            <div id="terminal"></div>
+        </div>
+    </div>
+
+     <!-- Progress Modal -->
+    <div id="progressModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Restoring Device Configurations</h2>
+            <div id="overallProgressContainer" class="progress-bar">
+                <div id="overallProgressBar"></div>
+            </div>
+            <p id="progressText">0% Complete</p>
+        </div>
+    </div>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="static/onboard_devices.js"></script>
+    <script src="static/overlay.js"></script>
+    <script src="static/vlan_scale.js"></script>
+    <script src="static/underlay.js"></script>
+    <script src="static/mytopology.js"></script>
+    <script src="static/upload_device_config.js"></script>
+    <script src="static/trigger_events.js"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', async function() {
+           const forms = ['configForm', 'bgpForm', 'vxlanForm', 'uploadForm', 'uploadConfigForm', 'onboardForm', 'triggerEventsForm', 'generateConfigForm'];
+            const toggleButtons = ['toggleVlanFormBtn', 'toggleBgpFormBtn', 'toggleVxlanFormBtn', 'toggleUploadFormBtn', 'toggleUploadConfigFormBtn'];
+            toggleButtons.forEach((btnId, index) => {
+                const button = document.getElementById(btnId);
+                if (button) {
+                    button.addEventListener('click', function() {
+                        forms.forEach((formId, formIndex) => {
+                            const form = document.getElementById(formId);
+                            if (form) {
+                                if (formIndex === index) {
+                                    form.classList.toggle('hidden');
+                                    button.classList.toggle('active-button');
+                                } else {
+                                    form.classList.add('hidden');
+                                    document.getElementById(toggleButtons[formIndex]).classList.remove('active-button');
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+
+
+            document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    forms.forEach(formId => {
+                        const form = document.getElementById(formId);
+                        form.classList.add('hidden');
+                    });
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

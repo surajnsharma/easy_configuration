@@ -1,0 +1,383 @@
+
+      .alert-text.success {
+            color: green;
+        }
+        .alert-text.error {
+            color: red;
+        }
+      body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar .nav-link {
+            color: #fff;
+        }
+
+        .navbar .nav-link:hover {
+            color: #00bcd4;
+        }
+
+        #sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            padding-top: 1rem;
+            position: fixed;
+            width: 250px;
+        }
+
+        #sidebar .nav-link {
+            color: #adb5bd;
+            font-size: 1.1rem;
+        }
+
+        #sidebar .nav-link:hover {
+            color: #00bcd4;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h1 {
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+
+        .form-container table {
+            width: 100%;
+            color: #343a40;
+        }
+
+        .form-container th,
+        .form-container td {
+            padding: 1rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-container th {
+            background-color: #e9ecef;
+        }
+
+        .btn-primary {
+            background-color: #00bcd4;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0097a7;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .modal-header,
+        .modal-footer {
+            border-color: #dee2e6;
+        }
+
+        .modal-title {
+            color: #343a40;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .large-input {
+            width: 100%;
+        }
+
+        .nested-table {
+            width: 100%;
+        }
+
+        .input-container {
+            display: flex;
+        }
+
+        .cell {
+            flex: 1;
+            padding: 5px;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        textarea,
+        select {
+            background-color: white !important;
+            color: black;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress-cell {
+            width: 150px;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .top-right-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .small-icon {
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .small-icon:hover {
+            color: #007bff;
+        }
+
+        #editor {
+            height: 500px;
+            width: 100%;
+            border: .5px solid #ddd;
+        }
+
+        .form-container {
+            margin: 10px auto;
+            max-width: 1350px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .topologyContainer {
+            margin: 10px auto;
+            max-width: 1350px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .alert {
+            margin-bottom: 15px;
+            color: white;
+            width: 12%;
+            border-radius: 4px;
+        }
+
+        .alert.success {
+            background-color: #4CAF50;
+        }
+
+        .alert.error {
+            background-color: #f44336;
+        }
+
+        .active-button {
+            background-color: lightgreen !important;
+        }
+
+        .small-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .xsmall-btn {
+            font-size: 5px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: lightgreen;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slide-down 0.4s ease-out;
+        }
+
+        @keyframes slide-down {
+            from {
+                transform: translateY(-200px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal form input[type="text"],
+        .modal form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .modal form button {
+            width: fit-content;
+            align-self: flex-end;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #triggerEventsTable {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        #triggerEventsTable th,
+        #triggerEventsTable td {
+            border: 1px solid #ddd;
+            padding: 4px;
+        }
+
+        #triggerEventsTable th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+
+        #triggerEventsTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #triggerEventsTable tr:hover {
+            background-color: #ddd;
+        }
+
+        #triggerEventsTable th {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-container {
+            margin-bottom: 20px;
+        }
+
+        .btn-container button {
+            margin-right: 10px;
+        }
+
+        .uploaded-images {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .uploaded-images img {
+            max-width: 200px;
+            margin: 10px;
+            position: relative;
+        }
+
+        .uploaded-images button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 50%;
+        }
+
+        .large-input {
+            width: 100%;
+        }
+
+        .nested-table {
+            width: 100%;
+        }
+
+        .input-container {
+            display: flex;
+        }
+
+        .cell {
+            flex: 1;
+            padding: 5px;
+        }

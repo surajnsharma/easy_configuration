@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Add your title, CSS links, and other head elements here -->
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- ... Rest of the HTML code ... -->
+            <div class="col">
+                <form method="POST" action="/" enctype="multipart/form-data" onsubmit="return validateForm()" id="myForm">
+                    <!-- ... Rest of the form fields ... -->
+                    <div class="form-group">
+                        <label for="file">Select Excel File:</label>
+                        <input type="file" class="form-control-file" id="file" name="file" accept=".xlsx, .xls" required>
+                    </div>
+                    <!-- ... Rest of the form fields ... -->
+                    <div class="row">
+                        <div class="col">
+                            <!-- Add a container for the dropdown and set its initial display to "none" -->
+                            <div class="form-group" id="dropdownContainer" style="display: none;">
+                                <label for="dropdown1">Select Must Fix Column Name:</label>
+                                <select class="form-control" id="dropdown1" name="dropdown1">
+                                    {% for option in column_options %}
+                                    <option value="{{ option }}" {% if option == keyword_col_option %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {% if file_available %}
+                    <div class="row">
+                        <div class="col">
+                            <!-- ... Rest of the HTML code ... -->
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- Add an invisible submit button to trigger automatic form submission -->
+                    <button type="submit" id="submitButton" style="display: none;"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // JavaScript to show/hide the dropdown container based on file selection
+        document.getElementById('file').addEventListener('change', function () {
+            var fileInput = this;
+            var dropdownContainer = document.getElementById('dropdownContainer');
+            dropdownContainer.style.display = fileInput.files.length > 0 ? 'block' : 'none';
+            // Automatically submit the form when a file is selected
+            if (fileInput.files.length > 0) {
+                document.getElementById('submitButton').click();
+            }
+        });
+    </script>
+</body>
+</html>

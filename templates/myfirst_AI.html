@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance</title>
+</head>
+<body>
+    <h1>Device Failure Prediction</h1>
+    <form id="predictForm">
+        <label for="deviceData">Device Data (JSON format):</label><br>
+        <textarea id="deviceData" rows="10" cols="50"></textarea><br><br>
+        <button type="button" onclick="predictFailure()">Predict</button>
+    </form>
+    <div id="result"></div>
+
+    <h1>Sentiment Analysis</h1>
+    <form id="sentimentForm">
+        <label for="text">Text:</label><br>
+        <textarea id="text" rows="5" cols="50"></textarea><br><br>
+        <button type="button" onclick="analyzeSentiment()">Analyze</button>
+    </form>
+    <div id="sentimentResult"></div>
+
+    <h1>Image Classification</h1>
+    <form id="imageForm" enctype="multipart/form-data">
+        <label for="image">Upload Image:</label><br>
+        <input type="file" id="image"><br><br>
+        <button type="button" onclick="classifyImage()">Classify</button>
+    </form>
+    <div id="imageResult"></div>
+
+    <h1>Translation</h1>
+    <form id="translateForm">
+        <label for="translateText">Text to Translate (English to German):</label><br>
+        <textarea id="translateText" rows="5" cols="50"></textarea><br><br>
+        <button type="button" onclick="translateText()">Translate</button>
+    </form>
+    <div id="translationResult"></div>
+
+    <h1>Summarization</h1>
+    <form id="summarizeForm">
+        <label for="summarizeText">Text to Summarize:</label><br>
+        <textarea id="summarizeText" rows="10" cols="50"></textarea><br><br>
+        <button type="button" onclick="summarizeText()">Summarize</button>
+    </form>
+    <div id="summaryResult"></div>
+
+    <script>
+        async function predictFailure() {
+            const data = document.getElementById('deviceData').value;
+            const response = await fetch('/predict_failure', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = 'Predictions: ' + JSON.stringify(result.predictions);
+        }
+
+        async function analyzeSentiment() {
+            const text = document.getElementById('text').value;
+            const response = await fetch('/analyze_sentiment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const result = await response.json();
+            document.getElementById('sentimentResult').innerText = 'Sentiment: ' + JSON.stringify(result);
+        }
+
+        async function classifyImage() {
+            const image = document.getElementById('image').files[0];
+            const formData = new FormData();
+            formData.append('image', image);
+
+            const response = await fetch('/classify_image', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('imageResult').innerText = 'Classification: ' + JSON.stringify(result);
+        }
+
+        async function translateText() {
+            const text = document.getElementById('translateText').value;
+            const response = await fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const result = await response.json();
+            document.getElementById('translationResult').innerText = 'Translation: ' + result.translation;
+        }
+
+        async function summarizeText() {
+            const text = document.getElementById('summarizeText').value;
+            const response = await fetch('/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const result = await response.json();
+            document.getElementById('summaryResult').innerText = 'Summary: ' + result.summary;
+        }
+    </script>
+</body>
+</html>

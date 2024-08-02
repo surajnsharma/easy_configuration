@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            margin: 20px;
+            max-width: 600px;
+        }
+        .form-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .form-container th, .form-container td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .form-container th {
+            background-color: #f2f2f2;
+        }
+        .form-container input[type="text"], .form-container input[type="number"], .form-container select, .form-container textarea {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Edit Event</h1>
+        <form action="{{ url_for('edit_viewevent', event_id=event.id) }}" method="post">
+            <table>
+                <tr>
+                    <th>Description</th>
+                    <td><input type="text" name="description" value="{{ event.description }}" required></td>
+                </tr>
+                <tr>
+                    <th>Iteration</th>
+                    <td><input type="number" name="iteration" value="{{ event.iteration }}" required></td>
+                </tr>
+                <tr>
+                    <th>Device Name</th>
+                    <td>
+                        <select name="device_name" required>
+                            {% for device in devices %}
+                                <option value="{{ device.hostname }}" {% if device.hostname == event.device_name %}selected{% endif %}>{{ device.hostname }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Command</th>
+                    <td><textarea name="command" rows="5" required>{{ event.command }}</textarea></td>
+                </tr>
+            </table>
+            <button type="submit">Update Event</button>
+        </form>
+    </div>
+</body>
+</html>

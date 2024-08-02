@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Configuration</title>
+    <style>
+        /* Your existing styles */
+    </style>
+    <script>
+        async function transferConfig(filename, router_ip, hostname) {
+            const formData = new FormData();
+            formData.append('filename', filename);
+            formData.append('router_ip', router_ip);
+
+            try {
+                const response = await fetch('/transfer', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                if (result.success) {
+                    alert('Configuration transferred successfully to ' + hostname);
+                } else {
+                    const errorMessage = typeof result.message === 'object'
+                        ? `Device: ${result.message.device}, Message: ${result.message.message}`
+                        : result.message;
+                    alert('Failed to transfer configuration: ' + errorMessage);
+                }
+            } catch (error) {
+                alert('Error transferring configuration: ' + error.message);
+            }
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Generated Configuration</h1>
+        <a href="/" class="back-link">Back to Main Page</a>
+        &nbsp;&nbsp;&nbsp;<a href="/debug_log">Check Debug Log</a>
+        <h2>Success Hosts</h2>
+        <ul>
+            {% for host in success_hosts %}
+                <li class="success">{{ host }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Failed Hosts</h2>
+        <ul>
+            {% for host, error in failed_hosts %}
+                <li class="error">{{ host }}: {{ error }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Configuration Commands</h2>
+        {% for host, cmds in commands.items() %}
+            <h3>{{ host }}</h3>
+            <a href="{{ url_for('download', filename=host + '_config.txt') }}" class="download-link">Download {{ host }} Configuration</a>
+            {% set device = devices | selectattr('hostname', 'equalto', host) | first %}
+            {% if device %}
+                <button class="btn btn-transfer" onclick="transferConfig('{{ host }}_config.txt', '{{ device.ip }}', '{{ device.username }}', '{{ device.password }}', '{{ host }}')">Transfer Config to {{ host }}</button>
+            {% endif %}
+            <pre>{{ cmds | join('\n') }}</pre>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

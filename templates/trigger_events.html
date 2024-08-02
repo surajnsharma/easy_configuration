@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigger Events</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .small-cell {
+            width: 5%;
+        }
+        .small-btn {
+            font-size: 12px;
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trigger Events</h1>
+    <button id="addRowBtn" class="small-btn">Add Row</button>
+    <button id="deleteSelectedBtn" class="small-btn">Delete Selected</button>
+    <form id="triggerEventsForm">
+        <table id="triggerEventsTable">
+            <thead>
+                <tr>
+                    <th class="small-cell">Select</th>
+                    <th class="small-cell">Item</th>
+                    <th>Description</th>
+                    <th>Iteration</th>
+                    <th>Device name</th>
+                    <th>Command</th>
+                    <th>AI Prediction</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td class="small-cell"><input type="checkbox" class="rowCheckbox"></td>
+                    <td class="small-cell">{{ loop.index }}</td>
+                    <td><input type="text" name="description" value="{{ event.description }}" required></td>
+                    <td><input type="number" name="iteration" value="{{ event.iteration }}" required></td>
+                    <td>
+                        <select name="device_name" required>
+                            {% for device in devices %}
+                            <option value="{{ device.hostname }}" {% if event.device_name == device.hostname %}selected{% endif %}>{{ device.hostname }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="text" name="command" value="{{ event.command }}" required></td>
+                    <td class="aiPrediction"></td>
+                    <td>
+                        <button type="button" class="small-btn start-btn">Start</button>
+                        <button type="button" class="small-btn stop-btn">Stop</button>
+                        <button type="button" class="small-btn save-btn" data-event-id="{{ event.id }}">Save</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <script>
+        document.getElementById('addRowBtn').addEventListener('click', function() {
+            const table = document.getElementById('triggerEventsTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            const selectCell = newRow.insertCell(0);
+            const itemNumberCell = newRow.insertCell(1);
+            const descriptionCell = newRow.insertCell(2);
+            const iterationCell = newRow.insertCell(3);
+            const deviceNameCell = newRow.insertCell(4);
+            const commandCell = newRow.insertCell(5);
+            const aiPredictionCell = newRow.insertCell(6);
+            const actionsCell = newRow.insertCell(7);
+
+            selectCell.innerHTML = '<input type="checkbox" class="rowCheckbox">';
+            selectCell.classList.add('small-cell');
+
+            itemNumberCell.innerHTML = table.rows.length;
+            itemNumberCell.classList.add('small-cell');
+
+            descriptionCell.innerHTML = '<input type="text" name="description" required>';
+            iterationCell.innerHTML = '<input type="number" name="iteration" required>';
+
+            // Get device options from the hidden select dropdown
+            const deviceOptions = document.getElementById('deviceNameSelect').innerHTML;
+            deviceNameCell.innerHTML = `<select name="device_name" required>${deviceOptions}</select>`;
+
+            commandCell.innerHTML = '<input type="text" name="command" required>';
+            aiPredictionCell.classList.add('aiPrediction');
+
+            actionsCell.innerHTML = `
+                <button type="button" class="small-btn start-btn">Start</button>
+                <button type="button" class="small-btn stop-btn">Stop</button>
+                <button type="button" class="small-btn save-btn">Save</button>
+            `;
+        });
+
+        document.getElementById('deleteSelectedBtn').addEventListener('click', function() {
+            const checkboxes = document.querySelectorAll('.rowCheckbox:checked');
+            checkboxes.forEach(checkbox => {
+                const row = checkbox.closest('tr');
+                row.remove();
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('start-btn')) {
+                const row = event.target.closest('tr');
+                const description = row.querySelector('input[name="description"]').value;
+                const iteration = row.querySelector('input[name="iteration"]').value;
+                const deviceName = row.querySelector('select[name="device_name"]').value;
+                const command = row.querySelector('input[name="command"]').value;
+
+                const data = {
+                    description: description,
+                    iteration: iteration,
+                    device_name: deviceName,
+                    command: command
+                };
+
+                fetch('/trigger_events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        row.querySelector('.aiPrediction').innerText = `AI Prediction: ${data.prediction}`;
+                        alert('AI prediction made successfully!');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while making the AI prediction.');
+                });
+            }
+
+            if (event.target.classList.contains('save-btn')) {
+                const row = event.target.closest('tr');
+                const eventId = event.target.getAttribute('data-event-id');
+                const description = row.querySelector('input[name="description"]').value;
+                const iteration = row.querySelector('input[name="iteration"]').value;
+                const deviceName = row.querySelector('select[name="device_name"]').value;
+                const command = row.querySelector('input[name="command"]').value;
+
+                const data = {
+                    event_id: eventId,
+                    description: description,
+                    iteration: iteration,
+                    device_name: deviceName,
+                    command: command
+                };
+
+                fetch('/save_event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Event saved successfully!');
+                    } else {
+                        alert('Error saving event: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while saving the event.');
+                });
+            }
+        });
+
+        async function fetchDevices() {
+            try {
+                const response = await fetch('/trigger_events', { headers: { 'Content-Type': 'application/json' } });
+                const data = await response.json();
+                const deviceSelect = document.getElementById('deviceNameSelect');
+                deviceSelect.innerHTML = '';
+                data.devices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.hostname;
+                    option.textContent = device.hostname;
+                    deviceSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching devices:', error);
+            }
+        }
+
+        fetchDevices();
+    </script>
+    <!-- Hidden select to store device options -->
+    <select id="deviceNameSelect" class="hidden"></select

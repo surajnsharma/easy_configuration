@@ -23,7 +23,7 @@ Flask-Script==2.0.6
 # Install dependencies
 pip install -r requirements.txt
 
-# setup database
+# Setup database
 rm -rf migrations/ # delete existing migrations
 export FLASK_APP=app_generate_config.py
 flask db init

@@ -1,0 +1,14 @@
+Flask
+Flask-Login
+Flask-SocketIO
+Flask-CORS
+paramiko
+psutil
+ipaddress
+yaml
+lxml
+Jinja2
+Werkzeug
+InfluxDB-Client==1.29.0
+jnpr.junos
+ncclient

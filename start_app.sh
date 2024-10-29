@@ -5,7 +5,7 @@ APP_NAME="easy_configuration"  # Name for systemd service
 SERVICE_FILE="/etc/systemd/system/$APP_NAME.service"
 WORKING_DIRECTORY="/root/easy_configuration"
 VENV_PATH="$WORKING_DIRECTORY/venv/bin/gunicorn"
-WORKERS=3
+WORKERS=16
 BIND_ADDRESS="0.0.0.0:8000"
 
 # Function to create the service file if it doesn't exist
@@ -60,18 +60,23 @@ stop_app() {
     sudo systemctl status "$APP_NAME"
 }
 
-# Function to restart the application
-restart_app() {
-    echo "Restarting $APP_NAME service..."
-    sudo systemctl restart "$APP_NAME"
-    sudo systemctl status "$APP_NAME"
-}
-
 # Function to check application status
 check_status() {
     echo "Checking status of $APP_NAME service..."
     sudo systemctl status "$APP_NAME"
 }
+# Function to restart the application with daemon-reload
+restart_app() {
+    echo "Reloading systemd manager configuration..."
+    sudo systemctl daemon-reload
+    echo "Restarting $APP_NAME service..."
+    sudo systemctl restart "$APP_NAME"
+    sudo systemctl status "$APP_NAME"
+    check_status()
+}
+
+
+
 
 # Function to view application logs
 view_logs() {

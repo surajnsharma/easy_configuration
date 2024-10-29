@@ -24,5 +24,5 @@ pip install -r requirements.txt
 ## Running the Application
 1. Initialize the Flask application:
 
-export FLASK_APP=app
+export FLASK_APP="app:create_app('development')" or export FLASK_APP="app:create_app('production')"
 flask run

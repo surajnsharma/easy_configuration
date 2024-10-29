@@ -3,6 +3,37 @@
 # Variables - update these for your environment
 APP_NAME="easy_configuration"  # Name for systemd service
 SERVICE_FILE="/etc/systemd/system/$APP_NAME.service"
+WORKING_DIRECTORY="/root/easy_configuration"
+VENV_PATH="$WORKING_DIRECTORY/venv/bin/gunicorn"
+WORKERS=3
+BIND_ADDRESS="0.0.0.0:8000"
+
+# Function to create the service file if it doesn't exist
+create_service_file() {
+    if [ ! -f "$SERVICE_FILE" ]; then
+        echo "Service file not found. Creating $SERVICE_FILE..."
+        sudo bash -c "cat > $SERVICE_FILE" <<EOF
+[Unit]
+Description=Gunicorn instance to serve $APP_NAME with WebSockets
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=$WORKING_DIRECTORY
+Environment="FLASK_CONFIG=production"
+ExecStart=$VENV_PATH --workers $WORKERS --bind $BIND_ADDRESS --worker-class eventlet "run:app"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+        echo "$SERVICE_FILE created successfully."
+        sudo systemctl daemon-reload
+        sudo systemctl enable "$APP_NAME"
+    else
+        echo "$SERVICE_FILE already exists."
+    fi
+}
 
 # Function to display menu options
 show_menu() {
@@ -48,6 +79,9 @@ view_logs() {
     echo "Press Ctrl+C to exit log view."
     sudo journalctl -u "$APP_NAME.service" -f
 }
+
+# Ensure service file exists
+create_service_file
 
 # Main menu loop
 while true; do

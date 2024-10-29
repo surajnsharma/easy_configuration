@@ -1,0 +1,48 @@
+outputs:
+  default:
+    address: http://localhost:8086
+    bucket: metrics
+    org: juniper
+    precision: ns
+    token: g84qg1Dz4GxjuAqioniTJsl1K_ln3JVPiU4FshYJ3fUjS5n38cgAMtCcLIBt_TVtmf8IWLfV_wxym-f4v85qjw==
+    type: influxdb
+subscriptions:
+  ny-q5240-13_interfaces_interface_state_counters:
+    encoding: proto
+    mode: stream
+    paths:
+    - /interfaces/interface/state/counters
+    sample_interval: 10s
+  ny-q5240-13_junos_system_linecard_interface_traffic:
+    encoding: proto
+    mode: stream
+    paths:
+    - /junos/system/linecard/interface/traffic/
+    sample_interval: 10s
+  ny-q5240-q07_interfaces_interface_state_counters:
+    encoding: proto
+    mode: stream
+    paths:
+    - /interfaces/interface/state/counters
+    sample_interval: 10s
+  ny-q5240-q07_junos_system_linecard_interface_traffic:
+    encoding: proto
+    mode: stream
+    paths:
+    - /junos/system/linecard/interface/traffic/
+    sample_interval: 10s
+targets:
+  ny-q5240-13:
+    address: 10.155.0.53:57400
+    insecure: true
+    password: Embe1mpls
+    tls:
+      enabled: false
+    username: root
+  ny-q5240-q07:
+    address: 10.155.0.54:57400
+    insecure: true
+    password: Embe1mpls
+    tls:
+      enabled: false
+    username: root

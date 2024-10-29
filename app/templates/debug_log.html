@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Debug Log</h1>
+        <a href="{{ url_for('index') }}">Back to Home</a><br><br>
+        <pre>{{ log_content }}</pre>
+    </div>
+</body>
+</html>

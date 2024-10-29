@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLDP Neighbors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LLDP Neighbors</h1>
+        {% for hostname, neighbors in results.items() %}
+            <h2>{{ hostname }}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Local Interface</th>
+                        <th>Remote Chassis ID</th>
+                        <th>Remote Port</th>
+                        <th>Remote System Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for neighbor in neighbors %}
+                        <tr>
+                            <td>{{ neighbor.local_int }}</td>
+                            <td>{{ neighbor.remote_chassis_id }}</td>
+                            <td>{{ neighbor.remote_port }}</td>
+                            <td>{{ neighbor.remote_sysname }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+</body>
+</html>

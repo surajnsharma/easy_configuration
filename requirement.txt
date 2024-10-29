@@ -1,0 +1,20 @@
+Flask-Login Flask-SQLAlchemy
+flask_migrate
+Flask-WTF
+
+#export FLASK_APP=app_generate_config.py
+#flask db init
+#flask db migrate -m "Initial migration with role column"
+#flask db upgrade
+
+
+#AI APP
+pip install transformers
+pip install torch
+pip install torchvision
+pip install pandas
+pip install joblib
+pip install scikit-learn
+pip install sentencepiece
+
+

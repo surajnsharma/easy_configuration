@@ -1,0 +1,9 @@
+set interfaces lo0.0 family inet address 10.0.0.1 primary preferred
+set routing-options router-id 10.0.0.1
+set routing-options autonomous-system 2001
+set protocols bgp group overlay type internal
+set protocols bgp group overlay cluster 10.0.0.1
+set protocols bgp group overlay local-address 10.0.0.1
+set protocols bgp group overlay family evpn signaling
+set protocols bgp group overlay neighbor 10.0.1.9
+set protocols bgp group overlay neighbor 10.0.1.1

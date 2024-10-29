@@ -1,0 +1,33 @@
+<!-- upload_config_result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Config Result</title>
+
+</head>
+<body>
+    <h1>Configuration Upload Result</h1>
+         &nbsp;&nbsp;&nbsp;
+     <a href="/">Go back to the main page</a>
+    <h2>Filename: {{ filename }}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Router IP</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for router_ip, status in transfer_results.items() %}
+            <tr>
+                <td>{{ router_ip }}</td>
+                <td>{{ status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

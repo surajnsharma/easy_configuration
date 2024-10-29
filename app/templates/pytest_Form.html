@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/pytest.js"></script>
+</head>
+<body>
+            <form id="pytestForm" class="hidden" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="log_output">Log Output</label>
+                    <textarea class="form-control" id="log_output" name="log_output" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="keyword_inputs">Expected Keywords</label>
+                    <div id="keyword-inputs-container">
+                        <input type="text" class="form-control mb-2" name="keyword_inputs" placeholder="Enter keywords, separated by commas">
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addKeywordInput()">Add Keyword Input</button>
+                </div>
+                <div class="form-group">
+                    <label for="new_input">New Input</label>
+                    <input type="checkbox" id="new_input" name="new_input">
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Pytest Script</button>
+                <button type="button" class="btn btn-primary" id="mergeTestCasesBtn">Add and Merge Test</button>
+                <h2 class="mt-5">Generated Pytest Script</h2>
+                <pre id="generated_pytest_script"></pre>
+            </form>
+</body>
+</html>

@@ -1,0 +1,24 @@
+No Git repository found. Initializing a new Git repository in this directory...
+Initialized empty Git repository in /Users/surajsharma/FLASK/.git/
+Remote URL set to git@github.com:/.git
+New Git repository initialized.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: error: remote origin already exists.
+Remote URL set to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists. Key location: /Users/surajsharma/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+Checking for files larger than 100 MB to track with Git LFS...

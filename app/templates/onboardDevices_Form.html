@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboard Devices</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="static/onboard_devices.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+</head>
+<style>
+    /* Basic Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+#cancelButton {
+    margin-top: 20px;
+}
+
+</style>
+<body>
+<div class="container mt-5">
+    <!--h2 class="mb-4 fw-bold text-center"> Device Onboarding</h2-->
+    <form id="onboardDevicesForm" action="/onboard_devices" method="post" enctype="multipart/form-data">
+        <h4 class="mb-3 fw-bold text-left"> Device Onboarding</h4>
+        <div class="form-group row mb-3">
+            <label for="csvFile" class="col-sm-3 col-form-label">Config CSV File</label>
+            <div class="col-sm-9 mb-3">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="csvFile" class="custom-file-input" accept=".csv" required>
+                        <label class="custom-file-label" for="csvFile">Onboard device using CSV file</label>
+                    </div>
+
+                    <div class="input-group-append">
+                        <button type="button" id="uploadCsvBtn" class="btn btn-outline-dark btn-sm">Upload CSV</button>
+                        <button type="button" id="OnBoardSampleCsvBtn" class="btn btn-outline-info btn-sm">Sample CSV</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label for="imageFile" class="col-sm-3 col-form-label">Upload Image</label>
+            <div class="col-sm-9">
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" id="imageFile" name="imageFile" class="custom-file-input" accept=".iso, .tgz, .img" required>
+                        <label class="custom-file-label" for="imageFile">Select an image file, accept only *.iso, *.tgz, *.img </label>
+                    </div>
+                    <div class="input-group-append">
+                        <button type="button" id="uploadImageBtn" class="btn btn-outline-dark btn-sm">Upload Image</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="uploadProgressContainer" style="display: none;">
+            <progress id="uploadProgress" value="0" max="100"></progress>
+            <span id="uploadProgressText">0%</span> <!-- Make sure this element exists -->
+        </div>
+
+
+
+        <h6 class="mb-3 fw-bold">Uploaded Files</h6>
+        <div class="mb-3">
+            <div class="form-group row">
+                <label for="uploadedImagesSelect" class="col-sm-3 col-form-label">Select File to Delete</label>
+                <div class="col-sm-9 mb-3">
+                    <div class="input-group">
+                        <select id="uploadedImagesSelect" class="form-control">
+                            <option value="" disabled selected>Select file to delete</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button type="button" id="showSelectedImageBtn" class="btn btn-outline-dark btn-sm">Show File</button>
+                            <button type="button" id="deleteSelectedImageBtn" class="btn btn-outline-danger btn-sm">Delete File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Install Image section -->
+        <div class="form-group row mb-3">
+            <label for="installImageSelect" class="col-sm-3 col-form-label">Select Image to Install</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <select id="installImageSelect" class="form-control">
+                        <option value="" disabled selected>Select an image to install</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button id="copyOnboardSelectedImage" class="btn btn-outline-dark btn-sm">Copy Image</button>
+                        <button id="installSelectedImageBtn" class="btn btn-outline-dark btn-sm">Install Image</button>
+                        <button id="stopImageCopyBtn" class="btn btn-outline-danger btn-sm">Stop Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Onboarding devices table -->
+        <h6 class="mb-3 fw-bold">Onboarded Devices</h6>
+        <div class="table-responsive mb-3">
+            <table id="onboardedDevicesTable" class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Select</th>
+                        <th>Hostname</th>
+                        <th>IP Address</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-device-id="1">
+                        <td><input type="checkbox" class="device-checkbox"></td>
+                        <td>Device 1</td>
+                        <td>192.168.1.1</td>
+                        <td>admin</td>
+                        <td>password</td>
+                        <td><!-- Action buttons --></td>
+                        <td class="progress-cell">0%</td>
+                    </tr>
+                    <!-- More rows can be added dynamically here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Action buttons -->
+
+        <div class="d-flex gap-2 mb-4">
+            <button type="button" id="addDeviceBtn" class="btn text-white" style="background-color: #343a40;">Add Device</button>
+            <button type="button" id="saveAllBtn" class="btn text-white" style="background-color: #343a40;">Save Config All</button>
+            <button type="button" id="restoreAllBtn" class="btn text-white" style="background-color: #343a40;">Restore All</button>
+        </div>
+
+        <div id="fileContentEditor" class="hidden">
+            <div id="editor" style="height: 400px; width: 100%; border: 1px solid #ddd;"></div>
+            <button type="button" id="saveFileContentBtn">Save</button>
+            <button type="button" id="closeEditorBtn">Close</button>
+        </div>
+        <!-- Sample CSV Modal for Onboard Devices -->
+        <div id="sampleCsvOnboardDeviceModal" class="modal"></div>
+    </form>
+    <div id="addDeviceModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span id="closeDeviceModal" class="close">&times;</span>
+                <h2>Add New Device</h2>
+                <form id="addDeviceForm">
+                    <label for="newDeviceHostname">Hostname:</label>
+                    <input type="text" id="newDeviceHostname" name="hostname" required><br>
+                    <label for="newDeviceIP">IP Address:</label>
+                    <input type="text" id="newDeviceIP" name="ip" required><br>
+                    <label for="newDeviceUsername">Username:</label>
+                    <input type="text" id="newDeviceUsername" name="username" required><br>
+                    <label for="newDevicePassword">Password:</label>
+                    <input type="password" id="newDevicePassword" name="password" required><br>
+                    <button type="submit">Add Device</button>
+                </form>
+            </div>
+        </div>
+</div>
+
+        <!-- Progress Modal -->
+        <div id="progressModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <h2>Progress...</h2>
+                <progress id="overallProgressBar" value="0" max="100" style="width:100%;"></progress>
+                <p id="progressText">0% Complete</p>
+
+                <!-- List to display device progress -->
+                <ul id="deviceProgressList"></ul>
+
+                <button id="cancelButton">Cancel</button>
+            </div>
+        </div>
+
+
+</body>
+</html>

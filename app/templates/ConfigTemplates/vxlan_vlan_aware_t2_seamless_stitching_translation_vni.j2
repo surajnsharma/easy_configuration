@@ -1,0 +1,24 @@
+#* VLAN_AWARE_T2_SEAMLESS_STITCHING_TRANSACTION_VNI *#
+{# vxlan_vlan_aware_t2_seamless_stitching_translation_vni.j2 #}
+#* VLAN_AWARE_T2_SEAMLESS_STITCHING *#
+{%- for i in range(service_count) %}
+    {%- set vxlan_vlan_id = base_vxlan_vlan_id + i %}
+    {%- set vxlan_vni = vxlan_vni_list[i] %}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} instance-type mac-vrf
+    set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn encapsulation vxlan
+    set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn default-gateway no-gateway-community
+    set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn extended-vni-list {{ vxlan_vni }}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn remote-ip-host-routes
+    set routing-instances MACVRF{{ vxlan_vlan_id }} vtep-source-interface lo0.0
+    set routing-instances MACVRF{{ vxlan_vlan_id }} service-type vlan-aware
+    set routing-instances MACVRF{{ vxlan_vlan_id }} route-distinguisher {{ leaf_ip }}:{{ vxlan_vlan_id }}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} vrf-target target:{{ leaf_ip }}:{{ vxlan_vlan_id }}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vlan-id {{ vxlan_vlan_id }}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vxlan vni {{ vxlan_vni }}
+    set routing-instances MACVRF{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} l3-interface irb.{{ vxlan_vlan_id }}
+    set interfaces irb.{{ vxlan_vlan_id }} family inet address {{ service_ips[i] }}/24
+    set routing-instances vrf_vlan{{ vxlan_vlan_id }} instance-type vrf
+    set routing-instances vrf_vlan{{ vxlan_vlan_id }} interface irb.{{ vxlan_vlan_id }}
+    set routing-instances vrf_vlan{{ vxlan_vlan_id }} route-distinguisher {{ leaf_ip }}:{{ vxlan_vlan_id }}
+    set routing-instances vrf_vlan{{ vxlan_vlan_id }} vrf-target target:{{ leaf_ip }}:{{ vxlan_vlan_id }}
+{% endfor %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGP Scaling</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="static/bgpForm.js"></script>
+</head>
+
+<body>
+<div class="container mt-5">
+    <form id="bgpForm" class="hidden" action="/bgp" method="post" target="_blank" enctype="multipart/form-data">
+        <h2>BGP Scaling</h2>
+                <table>
+                    <tr>
+                        <th>BGP local AS</th>
+                        <th>BGP Peer AS</th>
+                        <th>Start Neighbor IP</th>
+                        <th>Neighbor Count</th>
+                        <th>Save to File</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="bgp_local_as" name="bgp_local_as" value="100" required>
+                            <select id="as_type" name="as_type" class="hidden" required>
+                                <option value="global">Global AS</option>
+                                <option value="local">Local AS</option>
+                            </select>
+                        </td>
+                        <td><input type="text" id="bgp_as_number" name="bgp_as_number" value="200" required></td>
+                        <td><input type="text" id="bgp_base_neighbor" name="bgp_base_neighbor" value="192.168.0.1/2001:192:168::1" required></td>
+                        <td><input type="number" id="neighbor_count" name="neighbor_count" class="large-input" value="2" required></td>
+                        <td><input type="text" id="bgp_filename" name="bgp_filename" value="bgp_config.txt" class="large-input" required></td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="checkbox" id="ipv4_bgp" name="bgp_version" value="ipv4" onchange="updateBaseBgp()" checked>
+                    <label for="ipv4">IPv4</label>
+                    <input type="checkbox" id="ipv6_bgp" name="bgp_version" value="ipv6" onchange="updateBaseBgp()" checked>
+                    <label for="ipv6">IPv6</label>
+                    <input type="radio" id="bgp_ibgp" name="bgp_type" value="ibgp" onchange="">
+                    <label for="ibgp">ibgp</label>
+                    <input type="radio" id="bgp_ebgp" name="bgp_type" value="ebgp" onchange="" checked>
+                    <label for="ebgp">ebgp</label>
+                    <input type="checkbox" id="bgp_interface_checkbox" name="bgp_interface_checkbox" onchange="toggleBgpInterfaceName()">
+                    <label for="bgp_interface_checkbox">bgp_interface</label>
+                    <input type="text" id="bgp_interface_name_input" name="bgp_interface_name_input" value="et-0/0/0" style="width: 100px;" class="small-input">
+                </div>
+                <input type="submit" value="Generate BGP Configuration">
+                <input type="reset" value="Reset">
+    </form>
+</div>
+</body>
+</html>

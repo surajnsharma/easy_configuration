@@ -1,0 +1,35 @@
+2024/08/20 10:00:47.539062 github.com/openconfig/gnmic/pkg/app/app.go:226: [gnmic] version=0.38.1, commit=Homebrew, date=2024-07-22T21:19:50Z, gitURL=https://github.com/openconfig/gnmic, docs=https://gnmic.openconfig.net
+2024/08/20 10:00:47.539432 github.com/openconfig/gnmic/pkg/app/app.go:231: [gnmic] using config file "telemetry/suraj/gnmi-config.yaml"
+2024/08/20 10:00:47.539517 github.com/openconfig/gnmic/pkg/app/app.go:278: [gnmic] config='telemetry/suraj/gnmi-config.yaml'(string)
+2024/08/20 10:00:47.539536 github.com/openconfig/gnmic/pkg/app/app.go:278: [gnmic] debug='true'(bool)
+2024/08/20 10:00:47.539561 github.com/openconfig/gnmic/pkg/app/app.go:278: [gnmic] insecure='true'(bool)
+2024/08/20 10:00:47.539635 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=backoff, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539895 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=depth, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539902 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=heartbeat-interval, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539907 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=help, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539912 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=history-end, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539917 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=history-snapshot, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539922 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=history-start, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539927 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=lock-retry, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539931 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=mode, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539935 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=model, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539939 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=name, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539943 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=output, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539948 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=path, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539952 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=prefix, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539956 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=qos, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539961 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=quiet, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539966 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=sample-interval, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539970 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=set-target, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539974 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=stream-mode, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539979 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=suppress-redundant, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539983 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=target, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539987 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=updates-only, changed=false, isSetInFile=false
+2024/08/20 10:00:47.539998 github.com/openconfig/gnmic/pkg/config/config.go:402: [config] cmd=subscribe, flagName=watch-config, changed=false, isSetInFile=false
+2024/08/20 10:00:47.540028 github.com/openconfig/gnmic/pkg/config/subscriptions.go:48: [config] subscriptions map: map[string]interface {}{}
+2024/08/20 10:00:47.540086 github.com/openconfig/gnmic/pkg/config/subscriptions.go:67: [config] subscriptions: map[]
+2024/08/20 10:00:47.540112 github.com/openconfig/gnmic/pkg/config/outputs.go:61: [config] outputs: map[default-stdout:map[calculate-latency:false file-type:stdout format: type:file]]
+2024/08/20 10:00:47.540133 github.com/openconfig/gnmic/pkg/config/inputs.go:57: [config] inputs: map[]
+2024/08/20 10:00:47.540137 github.com/openconfig/gnmic/pkg/config/actions.go:49: [config] actions: map[]
+2024/08/20 10:00:47.540141 github.com/openconfig/gnmic/pkg/config/processors.go:45: [config] processors: map[]
+Error: no subscriptions or inputs configuration found

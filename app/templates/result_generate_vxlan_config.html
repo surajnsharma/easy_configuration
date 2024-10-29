@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXLAN Configuration Result</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1em;
+            margin: 20px 0 10px;
+            color: #444;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .icon-button:hover {
+            color: #0056b3;
+        }
+
+        .icon-button i {
+            font-size: 1em; /* Adjust icon size */
+            margin-right: 4px; /* Less spacing */
+        }
+
+        .icon-download {
+            color: #ffc107;
+        }
+
+        .icon-download:hover {
+            color: #e0a800;
+        }
+
+        .icon-transfer {
+            color: #28a745;
+        }
+
+        .icon-transfer:hover {
+            color: #218838;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+        }
+    </style>
+
+<script>
+    function transferConfig(event, form, configType, index) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const formData = new FormData(form);
+        console.log(`Transferring configuration for ${configType} ${index}`);
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        fetch('/transfer', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Transfer response data:', data);
+            const statusElement = document.getElementById(`${configType}_status_${index}`);
+            if (data.success) {
+                statusElement.className = 'success';
+                statusElement.innerText = data.message;
+            } else {
+                const errorMessage = typeof data.message === 'object'
+                    ? `Device: ${data.message.device}, Message: ${data.message.message}`
+                    : data.message;
+                statusElement.className = 'error';
+                statusElement.innerText = errorMessage;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const statusElement = document.getElementById(`${configType}_status_${index}`);
+            statusElement.className = 'error';
+            statusElement.innerText = 'An error occurred while transferring the configuration.';
+        });
+
+        return false; // Prevent form from submitting normally
+    }
+</script>
+
+    <div class="container">
+        <h1>Generated VXLAN Configuration</h1>
+        <a href="/">Back to Main Page</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/debug_log">Check Debug Log</a><br><br>
+        <h2>Spine Configuration</h2>
+        {% for i, spine_config in enumerate(spine_configs) %}
+            <h3>Spine {{ i + 1 }}</h3>
+            <pre>{{ spine_config|join("\n") }}</pre>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <form onsubmit="return transferConfig(event, this, 'spine', {{ i + 1 }})" method="POST" style="display: flex; align-items: center; gap: 10px;">
+                    <input type="hidden" name="filename" value="spine_{{ i + 1 }}_{{ vxlan_filename }}">
+                    <label for="router_ip_{{ i + 1 }}">Select Device:</label>
+                    <select id="router_ip_{{ i + 1 }}" name="router_ip" required>
+                        {% for device in devices %}
+                            <option value="{{ device['ip'] }}">{{ device['hostname'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" id="router_user" name="router_user">
+                    <input type="hidden" id="router_password" name="router_password">
+                    <input type="submit" value="Transfer Config to Router">
+                </form>
+                <a href="/download/spine_{{ i + 1 }}_{{ vxlan_filename }}" title="Download Spine Configuration File" style="color: inherit;">
+                    <img src="/static/icons/download-icon.svg" alt="Download" style="width: 24px; height: 24px;">
+                </a>
+            </div>
+            <p id="spine_status_{{ i + 1 }}"></p>
+        {% endfor %}
+
+
+        <h2>Leaf Configuration</h2>
+        {% for i, leaf_config in enumerate(leaf_configs) %}
+            <h3>Leaf {{ i + 1 }}</h3>
+            <pre>{{ leaf_config|join("\n") }}</pre>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <form onsubmit="return transferConfig(event, this, 'leaf', {{ i + 1 }})" method="POST" style="display: flex; align-items: center; gap: 10px;">
+                    <input type="hidden" name="filename" value="leaf_{{ i + 1 }}_{{ vxlan_filename }}">
+                    <label for="router_ip_{{ i + 1 }}">Select Device:</label>
+                    <select id="router_ip_{{ i + 1 }}" name="router_ip" required>
+                        {% for device in devices %}
+                            <option value="{{ device['ip'] }}">{{ device['hostname'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" id="router_user" name="router_user">
+                    <input type="hidden" id="router_password" name="router_password">
+                    <input type="submit" value="Transfer Config to Router">
+                </form>
+                <a href="/download/leaf_{{ i + 1 }}_{{ vxlan_filename }}" title="Download Leaf Configuration File" style="color: inherit;">
+                    <img src="/static/icons/download-icon.svg" alt="Download" style="width: 24px; height: 24px;">
+                </a>
+            </div>
+            <p id="leaf_status_{{ i + 1 }}"></p>
+        {% endfor %}
+
+
+
+        <br>
+    </div>
+
+</body>
+</html>

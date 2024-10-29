@@ -1,0 +1,26 @@
+set interfaces lo0.0 family inet address 10.0.1.9 primary preferred
+set routing-options router-id 10.0.1.9
+set routing-options autonomous-system 1001
+set protocols bgp group overlay type internal
+set protocols bgp group overlay local-address 10.0.1.9
+set protocols bgp group overlay family evpn signaling
+set protocols bgp group overlay neighbor 10.0.0.0
+set protocols bgp group overlay neighbor 10.0.0.1
+set routing-instances MACVRF100 instance-type mac-vrf
+set routing-instances MACVRF100 protocols evpn encapsulation vxlan
+set routing-instances MACVRF100 protocols evpn default-gateway no-gateway-community
+set routing-instances MACVRF100 protocols evpn extended-vni-list 30000
+set routing-instances MACVRF100 protocols evpn remote-ip-host-routes
+set routing-instances MACVRF100 vtep-source-interface lo0.0
+set routing-instances MACVRF100 service-type vlan-aware
+set routing-instances MACVRF100 route-distinguisher 10.0.1.9:100
+set routing-instances MACVRF100 vrf-target target:10.0.1.9:100
+set routing-instances MACVRF100 vlans vlan100 vlan-id 100
+set routing-instances MACVRF100 vlans vlan100 vxlan vni 30000
+set routing-instances MACVRF100 vlans vlan100 l3-interface irb.100
+set routing-instances vrf_vlan100 instance-type vrf
+set routing-instances vrf_vlan100 interface irb.100
+set routing-instances vrf_vlan100 route-distinguisher 1001:100
+set routing-instances vrf_vlan100 vrf-target target:10.0.1.9:100
+set interfaces irb.100 family inet address 192.168.0.1/24
+set interfaces irb.100 family inet6 address 2001:192:0::1/64

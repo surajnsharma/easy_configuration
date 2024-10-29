@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXLAN Configuration</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="vxlanForm" class="hidden">
+<div class="container">
+    <h2>VXLAN Configuration Form</h2>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="general-config-tab" data-bs-toggle="tab" data-bs-target="#general-config" type="button" role="tab" aria-controls="general-config" aria-selected="true">General Configuration</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="leaf-service-tab" data-bs-toggle="tab" data-bs-target="#leaf-service" type="button" role="tab" aria-controls="leaf-service" aria-selected="false">Leaf Service Interface</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="myTabContent">
+        <!-- General Configuration Tab -->
+        <div class="tab-pane fade show active" id="general-config" role="tabpanel" aria-labelledby="general-config-tab">
+            <form id="vxlanFormContent" action="/vxlan" method="post" enctype="multipart/form-data">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Number of Spines</th>
+                        <td><input type="number" id="num_spines" name="num_spines" value="0" min="0" max="4" class="form-control" required></td>
+                        <th>Number of Leafs</th>
+                        <td><input type="number" id="num_leafs" name="num_leafs" value="1" min="0" max="4" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base IP Address (e.g., 192.168.0)</th>
+                        <td><input type="text" id="base_ip_parts_vxlan" name="base_ip_parts" value="192.168.0" class="form-control" required></td>
+                        <th>Last Octet for IP Address</th>
+                        <td><input type="number" id="last_octet_vxlan" name="last_octet" value="1" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base VXLAN VNI</th>
+                        <td><input type="number" id="base_vxlan_vni" name="base_vxlan_vni" value="30000" class="form-control" required></td>
+                        <th>Base VXLAN VLAN ID</th>
+                        <td><input type="number" id="base_vxlan_vlan_id" name="base_vxlan_vlan_id" value="100" class="form-control" required></td>
+                    </tr>
+                    <!-- Newly added row for VXLAN Tunnels and Filename -->
+                    <tr class="hidden">
+                        <th>Number of VXLAN tunnels</th>
+                        <td><input type="number" id="num_vxlan_configs" name="num_vxlan_configs" value="1" class="form-control" required></td>
+                        <th>Filename</th>
+                        <td><input type="text" id="vxlan_filename" name="vxlan_filename" value="vxlan_config.txt" class="form-control" required></td>
+                    </tr>
+
+                    <!-- BGP Configuration Row -->
+                    <tr>
+                        <th>Leaf Base AS</th>
+                        <td><input type="number" id="leaf_base_as" name="leaf_base_as" value="1001" class="form-control"></td>
+                        <th>Spine Base AS</th>
+                        <td><input type="number" id="spine_base_as" name="spine_base_as" value="2001" class="form-control"></td>
+                    </tr>
+                    <!-- Overlay Service Selection -->
+                    <tr>
+                        <th>Select Overlay Service</th>
+                        <td>
+                            <select id="overlay_service_type" name="overlay_service_type" class="form-select" required>
+                                <option value="mac_vrf_vlan_aware">MAC VRF VLAN Aware</option>
+                                <option value="mac_vrf_vlan_based">MAC VRF VLAN Based</option>
+                            </select>
+                        </td>
+                        <th>Service Count</th>
+                        <td><input type="number" id="overlay_service_count" name="overlay_service_count" value="1" class="form-control" required></td>
+                    </tr>
+                </table>
+
+                <!-- Spine IPs -->
+                <div class="row" id="spineIpsRow"></div>
+
+                <!-- Leaf IPs -->
+                <div class="row mt-3" id="leafIpsRow"></div>
+
+                <!-- Submit Button -->
+                <div class="mt-3">
+                    <input type="submit" value="Generate VXLAN Configuration" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+
+        <!-- Leaf Service Interface Tab -->
+        <div class="tab-pane fade" id="leaf-service" role="tabpanel" aria-labelledby="leaf-service-tab">
+            <form id="leafServiceForm">
+                <div class="form-check mt-3">
+                    <input type="checkbox" class="form-check-input" id="leafServiceCheckbox">
+                    <label class="form-check-label" for="leafServiceCheckbox">Leaf Service Interface</label>
+                </div>
+
+                <!-- Bootstrap Table for Leaf Service Interfaces -->
+                <table class="table table-striped mt-3" id="leafServiceTable">
+                    <thead>
+                        <tr>
+                            <th>Service Intf Leaf</th>
+                            <th>Intf Style</th>
+                            <th>ESI LAG</th>
+                            <th>ESI ID</th>
+                            <th>LACP Mode</th>
+                            <th>LAG Interfaces</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Bootstrap JS (with Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const numSpinesElement = document.getElementById('num_spines');
+    const numLeafsElement = document.getElementById('num_leafs');
+    const spineIpsRow = document.getElementById('spineIpsRow');
+    const leafIpsRow = document.getElementById('leafIpsRow');
+    const leafServiceCheckbox = document.getElementById('leafServiceCheckbox');
+    const leafServiceTableBody = document.querySelector('#leafServiceTable tbody');
+
+    // Function to update Spine IP inputs horizontally
+    function updateSpineInputs(numSpines) {
+        spineIpsRow.innerHTML = ''; // Clear existing row
+
+        for (let i = 0; i < numSpines; i++) {
+            let col = `
+                <div class="col-md-3 mb-3">
+                    <input type="text" id="spine_ip_${i}" name="spine_ip_${i}" class="form-control" placeholder="Spine IP ${i + 1}">
+                </div>`;
+            spineIpsRow.innerHTML += col;
+        }
+    }
+
+    // Function to update Leaf IP inputs horizontally
+    function updateLeafInputs(numLeafs) {
+        leafIpsRow.innerHTML = ''; // Clear existing row
+
+        for (let i = 0; i < numLeafs; i++) {
+            let col = `
+                <div class="col-md-3 mb-3">
+                    <input type="text" id="leaf_ip_${i}" name="leaf_ip_${i}" class="form-control" placeholder="Leaf IP ${i + 1}">
+                </div>`;
+            leafIpsRow.innerHTML += col;
+        }
+    }
+
+    // Function to update Leaf Service Table inputs
+    function updateLeafServiceTable(numLeafs) {
+        leafServiceTableBody.innerHTML = ''; // Clear existing table
+
+        for (let i = 0; i < numLeafs; i++) {
+            let row = `
+                <tr>
+                    <td>
+                        <input type="text" id="service_int_${i}" name="service_int_${i}" class="form-control" placeholder="Comma Sep Interface for Leaf ${i + 1}">
+                    </td>
+                    <td>
+                        <select id="Intf_style_${i}" name="Intf_style_${i}" class="form-select">
+                            <option value="epStyle">EP</option>
+                            <option value="spStyle">SP</option>
+                        </select>
+                    </td>
+
+                    <td class="text-center align-middle">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <input type="checkbox" id="enable_esi_lag_${i}" class="form-check-input" onchange="toggleESILAG(${i})">
+                            <label class="ms-2" for="enable_esi_lag_${i}">Enable ESI</label>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" id="esi_id_${i}" name="esi_id_${i}" class="form-control" placeholder="0001:0001:0001:0001:0001" disabled>
+                    </td>
+                    <td>
+                        <select id="lacp_mode_${i}" name="lacp_mode_${i}" class="form-select" disabled>
+                            <option value="active">Active</option>
+                            <option value="passive">Passive</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="lag_intfs_${i}" name="lag_intfs_${i}" class="form-control" placeholder="ae0" disabled>
+                    </td>
+                </tr>`;
+            leafServiceTableBody.innerHTML += row;
+        }
+    }
+
+    // Global function to toggle ESI LAG configuration visibility (Enable or disable based on the checkbox)
+    window.toggleESILAG = function(index) {
+        const checkbox = document.getElementById(`enable_esi_lag_${index}`);
+        const esiID = document.getElementById(`esi_id_${index}`);
+        const lacpMode = document.getElementById(`lacp_mode_${index}`);
+        const lagIntfs = document.getElementById(`lag_intfs_${index}`);
+
+        if (checkbox && esiID && lacpMode && lagIntfs) {
+            if (checkbox.checked) {
+                esiID.removeAttribute('disabled');
+                lacpMode.removeAttribute('disabled');
+                lagIntfs.removeAttribute('disabled');
+            } else {
+                esiID.setAttribute('disabled', 'true');
+                lacpMode.setAttribute('disabled', 'true');
+                lagIntfs.setAttribute('disabled', 'true');
+            }
+        }
+    };
+
+    // Event listeners to dynamically generate inputs
+    numSpinesElement.addEventListener('change', function() {
+        updateSpineInputs(parseInt(numSpinesElement.value, 10));
+    });
+
+    numLeafsElement.addEventListener('change', function() {
+        updateLeafInputs(parseInt(numLeafsElement.value, 10));
+        if (leafServiceCheckbox.checked) {
+            updateLeafServiceTable(parseInt(numLeafsElement.value, 10));
+        }
+    });
+
+    leafServiceCheckbox.addEventListener('change', function() {
+        if (leafServiceCheckbox.checked) {
+            updateLeafServiceTable(parseInt(numLeafsElement.value, 10));
+        } else {
+            leafServiceTableBody.innerHTML = ''; // Clear table if unchecked
+        }
+    });
+
+    // Initialize default inputs
+    updateSpineInputs(parseInt(numSpinesElement.value, 10));
+    updateLeafInputs(parseInt(numLeafsElement.value, 10));
+});
+
+
+</script>>
+
+
+</body>
+</html>

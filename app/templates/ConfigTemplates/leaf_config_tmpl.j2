@@ -1,0 +1,43 @@
+{# leaf_config_tmpl.j2 #}
+# LEAF OVERLAY #
+{% if GenerateOverlayBtn_State == "on" %}
+{# BGP Configuration #}
+set interfaces lo0.0 family inet address {{ leaf_ip }} primary preferred
+set routing-options router-id {{ leaf_ip }}
+set routing-options autonomous-system {{ overlay_as }}
+set protocols bgp group overlay type internal
+set protocols bgp group overlay local-address {{ leaf_ip }}
+set protocols bgp group overlay family evpn signaling
+
+{# Only configure BGP neighbors where spine_tag matches leaf_tag #}
+{%- for neighbor_ip, neighbor_tag in spine_ips_with_tags %}
+    {%- if neighbor_tag == leaf_tags[leaf_index] %}
+        set protocols bgp group overlay neighbor {{ neighbor_ip }}
+    {%- endif %}
+{%- endfor %}
+{%- else %}
+# Leaf Overlay Configuration Not Selected #
+{% endif %}
+
+
+{#- Service interfaces configuration for the current leaf #}
+{%- if service_int_leaves[leaf_index] is not none %}
+    {%- set interfaces = service_int_leaves[leaf_index].split(',') %}
+    {%- if esi_lag_services[leaf_index]['esi_lag_enabled'] %}
+        # ESI LAG CONFIG #
+        set interfaces {{ esi_lag_services[leaf_index]['lag_intfs'] }} esi-id {{ esi_lag_services[leaf_index]['esi_id'] }}
+        set interfaces {{ esi_lag_services[leaf_index]['lag_intfs'] }} lacp mode {{ esi_lag_services[leaf_index]['lacp_mode'] }}
+        {#- Apply LAG ether-options to the interfaces of this leaf #}
+        {%- for intf in interfaces if intf.strip() %}
+            set interfaces {{ intf.strip() }} ether-options 802.3ad {{ esi_lag_services[leaf_index]['lag_intfs'] }}
+        {%- endfor %}
+    {% else %}
+         # Standard service interface configuration (no LAG) #
+        {%- for intf in interfaces if intf.strip() %}
+            set interfaces {{ intf.strip() }} unit 0 family ethernet-switching interface-mode trunk
+            set interfaces {{ intf.strip() }} unit 0 family ethernet-switching vlan members vlan{{ vxlan_vlan_id }}
+        {%- endfor %}
+    {% endif %}
+{%- else %}
+# Service Interfaces Not Selected #
+{% endif %}

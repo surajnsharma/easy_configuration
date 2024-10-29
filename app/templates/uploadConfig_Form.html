@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Config</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="static/upload_device_config.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-control {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <form id="uploadConfigForm" class="hidden form mt-4" action="/upload_config" method="post" enctype="multipart/form-data">
+        <h4 class="mb-4 fw-bold">Upload Config</h4>
+
+        <!-- Config File Input -->
+        <div class="form-group row">
+            <label for="file" class="col-sm-3 col-form-label">Config File (text/set/delete)</label>
+            <div class="col-sm-9">
+                <input type="file" name="file" class="form-control">
+            </div>
+        </div>
+
+        <!-- Config Textarea -->
+        <div class="form-group row">
+            <label for="config_textarea" class="col-sm-3 col-form-label">Enter Config (Text/Set/Delete)</label>
+            <div class="col-sm-9">
+                <textarea id="config_textarea" name="config_textarea" class="form-control" rows="6"></textarea>
+            </div>
+        </div>
+
+        <!-- Device CSV Input (hidden field) -->
+        <input type="file" id="device_csv" name="device_csv" class="d-none">
+
+        <!-- Router IPs -->
+        <div class="form-group row">
+            <label for="router_ips" class="col-sm-3 col-form-label">Router IPs (comma-separated)</label>
+            <div class="col-sm-9">
+                <input type="text" id="router_ips" name="router_ips" class="form-control">
+            </div>
+        </div>
+
+
+        <!-- Submit Button -->
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <input type="submit" value="Upload and Push Config" class="btn btn-primary">
+            </div>
+        </div>
+
+        <!-- Progress Container -->
+        <div id="progressContainer" class="mt-3"></div>
+    </form>
+</div>
+
+
+</body>
+</html>

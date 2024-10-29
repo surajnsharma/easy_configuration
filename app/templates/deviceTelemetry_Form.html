@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNMI Subscription</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/deviceTelemetryForm.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Add some margin between form groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <form id="deviceTelemetryForm" method="post" class="hidden mt-4"  action="/gnmi_subscription">
+            <h4 class="fw-bold">Subscribe to GNMI Paths</h4>
+
+            <!-- GNMI Server, Telemetry Device, and Device Address in one row -->
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="gnmiServerSelect" class="fw-semibold">Select GNMI Server:</label>
+                    <select id="gnmiServerSelect" name="gnmi_server" class="form-control" required>
+                        <option value="localhost">localhost</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="deviceSelect" class="fw-semibold">Select Device:</label>
+                    <select id="deviceSelect" name="device_ip" class="form-control" required>
+                        <option value="all" selected>All Devices</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="device_address" class="fw-semibold">Device IP (if not in database):</label>
+                    <input type="text" id="device_address" name="device_address" class="form-control" value="10.48.53.103" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="telemetry_port" class="fw-semibold">Telemetry Port:</label>
+                    <input type="number" id="telemetry_port" name="telemetry_port" class="form-control" value="50051" required>
+                </div>
+            </div>
+
+            <!-- Username, Password, and Subscription Mode in one row -->
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="username" class="fw-semibold">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" value="root" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="password" class="fw-semibold">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" value="Embe1mpls" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="sample_interval" class="fw-semibold">Sample Interval (in seconds):</label>
+                    <input type="number" id="sample_interval" name="sample_interval" class="form-control" value="10" required>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="subscription_mode" class="fw-semibold">Subscription Mode:</label>
+                    <select id="subscription_mode" name="subscription_mode" class="form-control" required>
+                        <option value="stream">Stream</option>
+                        <option value="on_change">On Change</option>
+                        <option value="target_defined">Target Defined</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- GNMI Paths -->
+            <div class="form-group">
+                <label for="gnmi_paths" class="fw-semibold">GNMI Paths:</label>
+                <input type="text" id="gnmi_paths" name="gnmi_paths" class="form-control" value="" readonly>
+                <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#pathsModal">Manage Paths</button>
+            </div>
+
+            <!-- Button Row -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <button type="submit" id="subscribeBtn" class="btn btn-primary">Subscribe</button>
+                <div>
+                    <button type="button" id="startStreamBtn" class="btn btn-secondary ml-2" style="display:none;">Start Stream</button>
+                    <button type="button" id="stopStreamBtn" class="btn btn-danger" style="display:none;">Stop Stream</button>
+                    <button type="button" id="queryBtn" class="btn btn-info ml-2">Query</button>
+                </div>
+            </div>
+
+            <!-- Log and download links -->
+            <div class="d-flex justify-content-end align-items-center mt-2">
+                <div id="viewLogLinkContainer" class="mr-2"></div>
+                <div id="downloadLinkContainer"></div>
+            </div>
+        </form>
+    </div>
+
+<!-- Modal for managing GNMI Paths -->
+<div class="modal fade" id="pathsModal" tabindex="-1" role="dialog" aria-labelledby="pathsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pathsModalLabel">Manage GNMI Paths</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="paths-container">
+                    <!-- Existing paths will be loaded here -->
+                </div>
+                <button type="button" id="add-path-button" class="btn btn-secondary">Add Path</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="savePathsBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

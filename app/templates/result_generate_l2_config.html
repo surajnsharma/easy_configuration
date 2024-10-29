@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Result</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1em;
+            margin: 20px 0 10px;
+            color: #444;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .icon-button:hover {
+            color: #0056b3;
+        }
+
+        .icon-button i {
+            font-size: 1em; /* Adjust icon size */
+            margin-right: 4px; /* Less spacing */
+        }
+
+        .icon-download {
+            color: #ffc107;
+        }
+
+        .icon-download:hover {
+            color: #e0a800;
+        }
+
+        .icon-transfer {
+            color: #28a745;
+        }
+
+        .icon-transfer:hover {
+            color: #218838;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+        }
+    </style>
+    <script>
+        function transferConfig(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const statusElement = document.getElementById('transfer_status');
+                if (data.success) {
+                    statusElement.className = 'success';
+                    statusElement.innerText = data.message;
+                } else {
+                    statusElement.className = 'error';
+                    statusElement.innerText = JSON.stringify(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const statusElement = document.getElementById('transfer_status');
+                statusElement.className = 'error';
+                statusElement.innerText = 'An error occurred while transferring the configuration.';
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h3>Generated Configuration</h3>
+    <a href="/">Back to Main Page</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="/debug_log">Check Debug Log</a>
+    {% if download_link %}
+        &nbsp;&nbsp;&nbsp;
+        <a href="/download/{{ filename }}">Download Configuration File</a>
+    {% endif %}
+    <p id="transfer_status" class="{{ 'success' if 'successfully' in transfer_status else 'error' }}">{{ transfer_status }}</p>
+    <br>
+    <form onsubmit="transferConfig(event)">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        <label for="router_ip">Select Device:</label>
+        <select id="router_ip" name="router_ip" required>
+            {% for device in devices %}
+                <option value="{{ device['ip'] }}">{{ device['ip'] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <input type="hidden" id="router_user" name="router_user">
+        <input type="hidden" id="router_password" name="router_password">
+        <input type="submit" value="Transfer Configuration to Router">
+            </form>
+    <pre>{{ config_lines|join("\n") }}</pre>
+</div>
+</body>
+</html>

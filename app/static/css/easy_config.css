@@ -1,0 +1,374 @@
+
+#topologyTools {
+    margin-bottom: 10px;
+}
+
+#topologyTools button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#topologyTools button:hover {
+    background-color: #0056b3;
+}
+
+
+#topologyTools {
+    position: absolute;
+    top: 10%;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#topologyTools i {
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+#topologyTools i:hover {
+    color: #007bff; /* Change to your desired hover color */
+}
+
+
+
+/* Resetting default margins and paddings for consistent styling */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Use a clean and readable font */
+}
+
+/* Navbar styling: fixed at the top */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: #343a40; /* Dark background for the navbar */
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Sidebar styling: fixed to the left, beneath the navbar */
+#sidebar {
+    position: fixed;
+    top: 56px; /* Height of the navbar */
+    left: 0;
+    width: 250px; /* Sidebar width */
+    height: calc(100% - 56px); /* Full height minus the navbar */
+    background-color: #343a40; /* Match the navbar background */
+    padding-top: 1rem;
+    z-index: 1029;
+    overflow-y: auto; /* Scrollable sidebar content */
+}
+
+/* Styling for sidebar links */
+#sidebar .nav-link {
+    color: #adb5bd;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    display: block;
+}
+
+#sidebar .nav-link:hover {
+    color: #00bcd4; /* Highlight color on hover */
+    background-color: #495057; /* Slight background change on hover */
+}
+
+/* Content area styling */
+.content {
+    margin-left: 250px; /* Sidebar width */
+    padding: 10px;
+    width: calc(100% - 250px); /* Full width minus sidebar */
+    margin-top: 10px; /* Navbar height */
+    overflow-y: auto; /* Scrollable content area */
+    background-color: #f8f9fa; /* Light background for content */
+}
+
+/* Success and error messages */
+.alert-text.success {
+    color: green;
+}
+
+.alert-text.error {
+    color: red;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #00bcd4;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0097a7; /* Darker shade on hover */
+}
+
+.small-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.xsmall-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: lightgreen;
+}
+
+/* Form container styling */
+.form-container {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px auto;
+    max-width: 1400px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    min-width: 400px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping onto multiple lines */
+    overflow: hidden; /* Hide any overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (…) if the text is too long */
+}
+
+table th {
+    background-color: lightblue;
+    color: Indigo;
+    border-bottom: 2px solid #ddd; /* Add a bottom border for separation */
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Specific table styling for onboarded devices */
+table#onboardedDevicesTable th {
+    background-color: #4CAF50; /* Green background for header */
+    color: white; /* White text color */
+    padding: 10px;
+}
+
+table#onboardedDevicesTable th, table#onboardedDevicesTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Miscellaneous styles */
+.hidden {
+    display: none;
+}
+
+.large-input {
+    width: 100%;
+}
+
+.nested-table {
+    width: 100%;
+}
+
+.input-container {
+    display: flex;
+}
+
+.cell {
+    flex: 1;
+    padding: 5px;
+}
+
+.top-right-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.small-icon {
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.small-icon:hover {
+    color: #007bff;
+}
+
+.uploaded-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.uploaded-images img {
+    max-width: 200px;
+    margin: 10px;
+    position: relative;
+}
+
+.uploaded-images button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 50%;
+}
+
+.alert {
+    margin-bottom: 15px;
+    color: white;
+    width: 12%;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.error {
+    background-color: #f44336;
+}
+
+.active-button {
+    background-color: lightgreen !important;
+}
+
+#editor {
+    height: 500px;
+    width: 100%;
+    border: 0.5px solid #ddd;
+}
+
+.topologyContainer {
+    margin: 10px auto;
+    max-width: 1350px;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* Ensure the telemetry form doesn't exceed the content width */
+.telemetry-container {
+    max-width: 100%; /* Ensure the form container does not exceed 100% of the content width */
+    width: 100%;
+    margin: 0 auto; /* Center the form within the content area */
+    padding: 20px;
+    background-color: #ffffff; /* Optional: set a background color */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+/* Form input fields */
+.telemetry-container .form-group input,
+.telemetry-container .form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+/* Form button styling */
+.telemetry-container .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #00bcd4;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.telemetry-container .btn-primary:hover {
+    background-color: #0097a7;
+}
+
+/* List group styling */
+.telemetry-container .list-group {
+    margin-bottom: 20px;
+}
+
+.telemetry-container .list-group-item {
+    font-size: 14px;
+    padding: 10px;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Default width */
+    max-width: 600px; /* Max width for larger screens */
+    min-width: 300px; /* Minimum width for smaller screens */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer; /* This makes it clickable */
+}
+
+/* Close button hover effect */
+.close:hover, .close:focus {
+    color: black; /* The color changes to black when hovered */
+    text-decoration: none; /* Ensure there is no underline */
+}
+

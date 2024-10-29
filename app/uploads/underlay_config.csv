@@ -1,0 +1,3 @@
+device1,interface1,device2,interface2
+san-q5230-05,et-0/0/8,san-q5230-06,et-0/0/8
+san-q5230-05,et-0/0/9,san-q5230-06,et-0/0/9

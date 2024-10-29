@@ -1,0 +1,101 @@
+{# spine_config.tmpl.j2 #}
+{%- if is_spine %}
+#* SPINE OVERLAY CONFIG *#
+{% if GenerateOverlayBtn_State == "on" %}
+set interfaces lo0.0 family inet address {{ spine_ip }} primary preferred
+set routing-options router-id {{ spine_ip }}
+set routing-options autonomous-system {{ spine_as }}
+set protocols bgp group overlay type internal
+set protocols bgp group overlay cluster {{ spine_ip }}
+set protocols bgp group overlay local-address {{ spine_ip }}
+set protocols bgp group overlay family evpn signaling
+{# Configure BGP neighbors only for the leaves that match the spine tag #}
+{%- for leaf_index, leaf_ip in enumerate(leaf_ips) %}
+    {%- if spine_tag == leaf_tags[leaf_index] %}
+        set protocols bgp group overlay neighbor {{ leaf_ip }}
+    {%- endif %}
+{%- endfor %}
+{% else %}
+# Spine Overlay Configuration Not Selected  #
+{% endif %}  {# End GenerateOverlayBtn_State == "on" #}
+
+{# Check if overlay_service_type is either 'vxlan_vlan_aware_t2_seamless_stitching' or 'vxlan_vlan_aware_t2_seamless_stitching_translation_vni' #}
+{%- if overlay_service_type == 'vxlan_vlan_aware_t2_seamless_stitching' %}
+#* LEAF SPECIFIC MAC VRF CONFIG (SEAMLESS STITCHING) *#
+{%- for leaf_index, leaf_ip in enumerate(leaf_ips) %}
+    {%- if spine_tag == leaf_tags[leaf_index] %}
+        {%- for i in range(service_count) %}
+            {%- if vxlan_vni_list[leaf_index] is defined and vxlan_vni_list[leaf_index][i] is defined %}
+                {%- set vxlan_vni = vxlan_vni_list[leaf_index][i] %}
+                {%- set vxlan_vlan_id = base_vxlan_vlan_id + i %}
+
+                {# ESI Logic: Only generate a common ESI if spine_tag matches with other spine_tag match #}
+                {%- if spine_tag == spine_tag[leaf_index] %}
+                    {# Extract the last two octets of the spine IP for the ESI #}
+                    {%- set spine_ip_parts = spine_ip.split('.') %}
+                    {%- set spine_ip_last_two = '%02X:%02X' % (spine_ip_parts[2]|int % 256, spine_ip_parts[3]|int % 256) %}
+                    {%- set vlan_hex = '%02X' % (vxlan_vlan_id % 256) %}
+                    {%- set esi = '00:00:' ~ spine_ip_last_two ~ ':' ~ vlan_hex ~ ':22:22:22:22:22' %}
+                {%- else %}
+                    {# Generate a unique ESI per spine-leaf combination if tags don't match #}
+                    {%- set esi = '00:00:' ~ ('%02X' % (leaf_index + i)) ~ ':22:22:22:22:22:22:22' %}
+                {%- endif %}
+
+                #* MAC VRF for Leaf {{ leaf_index + 1 }} with VXLAN VNI {{ vxlan_vni }} *#
+                set routing-instances MACVRF{{ vxlan_vlan_id }} instance-type mac-vrf
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn interconnect vrf-target target:{{vxlan_vlan_id}}:{{vxlan_vlan_id}}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn interconnect esi all-active
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn interconnect esi {{ esi }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn interconnect route-distinguisher {{ spine_ip }}:{{ vxlan_vlan_id }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn encapsulation vxlan
+                set routing-instances MACVRF{{ vxlan_vlan_id }} protocols evpn extended-vni-list {{ vxlan_vni }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} vtep-source-interface lo0.0
+                set routing-instances MACVRF{{ vxlan_vlan_id }} service-type vlan-aware
+                set routing-instances MACVRF{{ vxlan_vlan_id }} route-distinguisher {{ leaf_ip }}:{{ vxlan_vlan_id }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} vrf-target target:{{ leaf_ip }}:{{ vxlan_vlan_id }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vlan-id {{ vxlan_vlan_id }}
+                set routing-instances MACVRF{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vxlan vni {{ vxlan_vni }}
+            {%- endif %}
+        {%- endfor %}
+    {%- endif %}
+{%- endfor %}
+{%- elif overlay_service_type == 'vxlan_vlan_aware_t2_seamless_stitching_translation_vni' %}
+#* LEAF SPECIFIC MAC VRF CONFIG (TRANSLATION VNI) *#
+{%- for leaf_index, leaf_ip in enumerate(leaf_ips) %}
+    {%- if spine_tag == leaf_tags[leaf_index] %}
+        {%- for i in range(service_count) %}
+            {%- if vxlan_vni_list[leaf_index] is defined and vxlan_vni_list[leaf_index][i] is defined %}
+                {%- set vxlan_vni = vxlan_vni_list[leaf_index][i] %}
+                {%- set vxlan_vlan_id = base_vxlan_vlan_id + i %}
+                 {# ESI Logic: Only generate a common ESI if spine_tag matches with other spine_tag match #}
+                {%- if spine_tag == spine_tag[leaf_index] %}
+                    {# Extract the last two octets of the spine IP for the ESI #}
+                    {%- set spine_ip_parts = spine_ip.split('.') %}
+                    {%- set spine_ip_last_two = '%02X:%02X' % (spine_ip_parts[2]|int % 256, spine_ip_parts[3]|int % 256) %}
+                    {%- set vlan_hex = '%02X' % (vxlan_vlan_id % 256) %}
+                    {%- set esi = '00:00:' ~ spine_ip_last_two ~ ':' ~ vlan_hex ~ ':22:22:22:22:22' %}
+                {%- else %}
+                    {# Generate a unique ESI per spine-leaf combination if tags don't match #}
+                    {%- set esi = '00:00:' ~ ('%02X' % (leaf_index + i)) ~ ':22:22:22:22:22:22:22' %}
+                {%- endif %}
+                {# Translation VNI Logic: Generate translation configuration for the specific VNIs #}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} instance-type mac-vrf
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn interconnect vrf-target target:{{vxlan_vlan_id}}:{{vxlan_vlan_id}}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn interconnect esi all-active
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn interconnect esi {{ esi }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn interconnect route-distinguisher {{ spine_ip }}:{{ vxlan_vlan_id }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn interconnect interconnected-vni-list all
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn encapsulation vxlan
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} protocols evpn extended-vni-list {{ vxlan_vni }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} vtep-source-interface lo0.0
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} route-distinguisher {{ spine_ip }}:{{ vxlan_vlan_id }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} vrf-target target:{{ vxlan_vlan_id }}:{{ vxlan_vlan_id }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vlan-id {{ vxlan_vlan_id }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vxlan vni {{ vxlan_vni }}
+                set routing-instances TRANSLATION_VNI{{ vxlan_vlan_id }} vlans vlan{{ vxlan_vlan_id }} vxlan translation-vni 99{{ vxlan_vni }}
+            {%- endif %}
+        {%- endfor %}
+    {%- endif %}
+{%- endfor %}
+{% endif %}  {# End overlay_service_type check #}
+{% endif %}  {# End is_spine check #}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload CSV</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js"></script>
+    <style>
+        #progressBar {
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+        #progressBar div {
+            width: 0;
+            height: 30px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        .success {
+            color: green;
+        }
+        .failure {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload CSV and Onboard Devices</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="username">Username:</label>
+        <input type="text" name="username" style="width: 100px;" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" style="width: 100px;" required><br><br>
+        <label for="file">CSV File:</label>
+        <input type="file" name="file" required><br><br>
+        <input type="submit" value="Upload CSV and Onboard Devices">
+    </form>
+    <div id="progressBar"><div>0%</div></div>
+    <div id="progressDetails"></div>
+
+    <script>
+        const socket = io();
+
+        socket.on('progress', function(data) {
+            const progress = data.progress;
+            const progressBar = document.getElementById('progressBar').firstElementChild;
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = Math.floor(progress) + '%';
+
+            const details = document.getElementById('progressDetails');
+            const hostname = data.hostname;
+            const status = data.status;
+            const statusClass = status.includes("successfully") ? "success" : "failure";
+            details.innerHTML += `<p class="${statusClass}">${hostname}: ${status}</p>`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXLAN Configuration</title>
+
+
+</head>
+<style>
+    .btn-check:checked + .btn {
+        background-color: #007bff;  /* Bootstrap's primary blue */
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-check:not(:checked) + .btn {
+        background-color: transparent;
+        color: #007bff;  /* Bootstrap's primary blue */
+        border-color: #007bff;
+    }
+</style>
+
+<body>
+
+<div class="container mt-5">
+    <!-- Combined Form -->
+    <form id="vxlanForm" action="/vxlan" method="post" enctype="multipart/form-data" target="_blank" class="hidden" onsubmit="return validateForm()">
+            <h2>VXLAN Configuration Form</h2>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="general-config-tab" data-bs-toggle="tab" data-bs-target="#general-config" type="button" role="tab" aria-controls="general-config" aria-selected="true">General Configuration</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="leaf-service-tab" data-bs-toggle="tab" data-bs-target="#leaf-service" type="button" role="tab" aria-controls="leaf-service" aria-selected="false">Leaf Service Interface</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <!-- General Configuration Tab -->
+            <div class="tab-pane fade show active" id="general-config" role="tabpanel" aria-labelledby="general-config-tab">
+                <table class="table table-bordered mt-3">
+                    <tr>
+                        <th>Number of Spines</th>
+                        <td><input type="number" id="num_spines" name="num_spines" value="0" min="0" max="4" class="form-control" required></td>
+                        <th>Number of Leafs</th>
+                        <td><input type="number" id="num_leafs" name="num_leafs" value="1" min="0" max="4" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base IP Address (e.g., 192.168.0)</th>
+                        <td><input type="text" id="base_ip_parts_vxlan" name="base_ip_parts" value="192.168.0/2001:192::" class="form-control" required></td>
+                        <th>Last Octet for IP Address</th>
+                        <td><input type="number" id="last_octet_vxlan" name="last_octet" value="1" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <th>Base VXLAN VNI</th>
+                        <td><input type="number" id="base_vxlan_vni" name="base_vxlan_vni" value="30000" class="form-control" required></td>
+                        <th>Base VXLAN VLAN ID</th>
+                        <td><input type="number" id="base_vxlan_vlan_id" name="base_vxlan_vlan_id" value="100" class="form-control" required></td>
+                    </tr>
+                    <!-- Newly added row for VXLAN Tunnels and Filename -->
+                    <tr>
+                        <th>Number of VXLAN tunnels</th>
+                        <td><input type="number" id="num_vxlan_configs" name="num_vxlan_configs" value="1" class="form-control" required></td>
+                        <th>Filename</th>
+                        <td><input type="text" id="vxlan_filename" name="vxlan_filename" value="vxlan_config.txt" class="form-control" required></td>
+
+                    </tr>
+                    <!-- BGP Configuration Row -->
+                    <tr>
+                        <th>Leaf Base AS</th>
+                        <td><input type="number" id="leaf_base_as" name="leaf_base_as" value="1001" class="form-control"></td>
+                        <th>Spine Base AS</th>
+                        <td><input type="number" id="spine_base_as" name="spine_base_as" value="1001" class="form-control"></td>
+                    </tr>
+                    <!-- Overlay Service Selection -->
+                    <tr>
+                        <th>Select Overlay Service</th>
+                        <td>
+                            <select id="overlay_service_type" name="overlay_service_type" class="form-select" required>
+                                <option value="mac_vrf_vlan_aware">MAC VRF VLAN Aware</option>
+                                <option value="mac_vrf_vlan_based">MAC VRF VLAN Based</option>
+                                <option value="type5_vxlan">TYPE5 VXLAN</option>
+                                <option value="vxlan_type2_to_sym_type2_stitching">T2 TO SYM T2 STITCHING</option>
+                                <option value="vxlan_type2_to_sym_type5">TYPE2 TO SYM T5 STITCHING</option>
+                                <option value="vxlan_bgp_over_sym_type5">BGP OVER SYM T5 VXLAN</option>
+                                <option value="vxlan_vlan_aware_t2_seamless_stitching">T2 SEAMLESS STITCHING</option>
+                                <option value="vxlan_vlan_aware_t2_seamless_stitching_translation_vni">T2 STITCHING TRANSACTION VNI</option>
+                            </select>
+                        </td>
+                        <th>Service Count</th>
+                        <td><input type="number" id="overlay_service_count" name="overlay_service_count" value="1" class="form-control" required></td>
+                    </tr>
+                </table>
+                <!-- Spine tag inputs will be dynamically generated here -->
+                <div id="spineTagsContainer"> </div>
+                <!-- Spine IPs -->
+                <div id="spineIpsRow"></div>
+                <!-- Leaf IPs -->
+                <div id="leafTagsContainer"></div>
+                <div id="leafIpsRow"></div>
+            </div>
+
+            <!-- Leaf Service Interface Tab -->
+            <div class="tab-pane fade" id="leaf-service" role="tabpanel" aria-labelledby="leaf-service-tab">
+                <div class="form-check mt-3">
+                    <input type="checkbox" class="form-check-input" id="leafServiceCheckbox">
+                    <label class="form-check-label" for="leafServiceCheckbox">Leaf Service Interface</label>
+                </div>
+
+                <!-- Bootstrap Table for Leaf Service Interfaces -->
+                <table class="table table-striped mt-3" id="leafServiceTable">
+                    <thead>
+                        <tr>
+                            <th>Service Intf Leaf</th>
+                            <th>Intf Style</th>
+                            <th>ESI LAG</th>
+                            <th>ESI ID</th>
+                            <th>LACP Mode</th>
+                            <th>LAG Interfaces</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+       <!-- Submit Button -->
+        <div class="mt-3">
+            <input type="submit" value="Generate VXLAN Configuration" class="btn btn-primary">
+            <!-- Bootstrap Button Group (Toggle) for Bootstrap 5 -->
+            <div class="btn-group" role="group" aria-label="Toggle Buttons">
+                <input type="radio" class="btn-check" name="GenerateOverlayBtn" id="GenerateOverlayBtn" autocomplete="off">
+                <label class="btn btn-secondary" for="GenerateOverlayBtn">Click here to Generate Overlay</label>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Custom Alert Modal -->
+<div class="modal fade" id="vxlanFormAlertModal" tabindex="-1" aria-labelledby="vxlanFormAlertLabel" aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 800px;"> <!-- Adjust the width here -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="vxlanFormAlertLabel">Alert</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="vxlanFormAlertMessage">
+        <!-- Alert message goes here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="static/vxlanForm.js"></script>
+
+
+</body>
+</html>

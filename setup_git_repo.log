@@ -371,3 +371,29 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 Press Enter after adding the SSH key to GitHub...
 SSH configuration updated to use id_ed25519 for GitHub.
 Checking for files larger than 100 MB to track with Git LFS...
+[main 695b2c7] Auto-commit: updating remote repository
+ 3 files changed, 37 insertions(+), 4 deletions(-)
+To github.com:surajnsharma/easy_configuration.git
+   14db388..695b2c7  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

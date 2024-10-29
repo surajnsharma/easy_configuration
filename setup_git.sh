@@ -108,12 +108,19 @@ setup_ssh_key() {
     echo -e "\nPress Enter after adding the SSH key to GitHub..."
     read -p ""
 
-    # Add SSH configuration to use id_ed25519 for GitHub
-    if ! grep -q "github.com" ~/.ssh/config; then
-        echo -e "\nHost github.com\n  IdentityFile ~/.ssh/id_ed25519\n  IdentitiesOnly yes" >> ~/.ssh/config
-        echo "SSH configuration updated to use id_ed25519 for GitHub."
+    # Ensure SSH config file exists
+    mkdir -p ~/.ssh
+    touch ~/.ssh/config
+
+    # Update or add GitHub configuration in SSH config file
+    if grep -q "Host github.com" ~/.ssh/config; then
+        # Update existing GitHub SSH config entry
+        sed -i '' "/Host github.com/,+2d" ~/.ssh/config  # Remove any existing entry for GitHub
     fi
+    echo -e "Host github.com\n  IdentityFile ~/.ssh/id_ed25519\n  IdentitiesOnly yes" >> ~/.ssh/config
+    echo "SSH configuration updated to use id_ed25519 for GitHub."
 }
+
 # Function to track large files with Git LFS
 track_large_files_with_lfs() {
     echo "Checking for files larger than $(($LARGE_FILE_SIZE / 1000000)) MB to track with Git LFS..."

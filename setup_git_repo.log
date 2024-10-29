@@ -22,3 +22,164 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 
 Press Enter after adding the SSH key to GitHub...
 Checking for files larger than 100 MB to track with Git LFS...
+[main (root-commit) 3285207] Auto-commit: updating remote repository
+ 133 files changed, 35202 insertions(+)
+ create mode 100644 .git_config
+ create mode 100644 .idea/.gitignore
+ create mode 100644 .idea/FLASK.iml
+ create mode 100644 .idea/inspectionProfiles/Project_Default.xml
+ create mode 100644 .idea/inspectionProfiles/profiles_settings.xml
+ create mode 100644 .idea/misc.xml
+ create mode 100644 .idea/modules.xml
+ create mode 100644 .ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 .ipynb_checkpoints/Untitled1-checkpoint.ipynb
+ create mode 100644 Untitled.ipynb
+ create mode 100644 Untitled1.ipynb
+ create mode 100644 app/__init__.py
+ create mode 100644 app/config.py
+ create mode 100644 app/device_config/admin/leaf_1_vxlan_config.txt
+ create mode 100644 app/device_config/admin/leaf_2_vxlan_config.txt
+ create mode 100644 app/device_config/admin/spine_1_vxlan_config.txt
+ create mode 100644 app/device_config/admin/spine_2_vxlan_config.txt
+ create mode 100644 app/device_config/default_config.txt
+ create mode 100644 app/juniper_connectivity.py
+ create mode 100644 app/logs/admin/debug.log
+ create mode 100644 app/logs/debug.log
+ create mode 100644 app/logs/suraj/debug.log
+ create mode 100644 app/models.py
+ create mode 100644 app/routes.py
+ create mode 100644 app/static/GpuMonitor.js
+ create mode 100644 app/static/bgpForm.js
+ create mode 100644 app/static/css/easy_config.css
+ create mode 100644 app/static/css/styles.css
+ create mode 100644 app/static/deviceTelemetryForm.js
+ create mode 100644 app/static/favicon.ico
+ create mode 100644 app/static/index.js
+ create mode 100644 app/static/onboard_devices.js
+ create mode 100644 app/static/onboard_test.js
+ create mode 100644 app/static/overlay-bkp.js
+ create mode 100644 app/static/overlay.js
+ create mode 100644 app/static/pytest.js
+ create mode 100644 app/static/topology_draw.js
+ create mode 100644 app/static/trigger_events.js
+ create mode 100644 app/static/underlayConfigForm.js
+ create mode 100644 app/static/underlaytopology.js
+ create mode 100644 app/static/upload_device_config.js
+ create mode 100644 app/static/vlanConfigForm.js
+ create mode 100644 app/static/vlan_scale.js
+ create mode 100644 app/static/vxlanForm.js
+ create mode 100644 app/telemetry.py
+ create mode 100644 app/telemetry/gnmi-config.yaml
+ create mode 100644 app/telemetry/telemetry_debug.log
+ create mode 100644 app/templates/ConfigTemplates/leaf_config_tmpl.j2
+ create mode 100644 app/templates/ConfigTemplates/mac_vrf_vlan_aware_template.j2
+ create mode 100644 app/templates/ConfigTemplates/mac_vrf_vlan_based_template.j2
+ create mode 100644 app/templates/ConfigTemplates/spine_config_tmpl.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_bgp_over_sym_type5_tmpl.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_type2_to_sym_type2_stitching.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_type2_to_sym_type5_tmpl.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_type5_template.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_vlan_aware_t2_seamless_stitching.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_vlan_aware_t2_seamless_stitching_translation_vni.j2
+ create mode 100644 app/templates/bgpConfig_Form.html
+ create mode 100644 app/templates/debug_log.html
+ create mode 100644 app/templates/deviceTelemetry_Form.html
+ create mode 100644 app/templates/edit_event.html
+ create mode 100644 app/templates/index.html
+ create mode 100644 app/templates/interface_telemetry.html
+ create mode 100644 app/templates/list_users.html
+ create mode 100644 app/templates/lldp_results.html
+ create mode 100644 app/templates/login.html
+ create mode 100644 app/templates/onboardDevices_Form.html
+ create mode 100644 app/templates/onboard_devices.html
+ create mode 100644 app/templates/pytest_Form.html
+ create mode 100644 app/templates/result_generate_bgp_config.html
+ create mode 100644 app/templates/result_generate_l2_config.html
+ create mode 100644 app/templates/result_generate_vxlan_config.html
+ create mode 100644 app/templates/signup.html
+ create mode 100644 app/templates/test2.html
+ create mode 100644 app/templates/topologyCanvas_Form.html
+ create mode 100644 app/templates/triggerEvents_Form.html
+ create mode 100644 app/templates/underlayConfig_Form.html
+ create mode 100644 app/templates/underlay_config_result.html
+ create mode 100644 app/templates/upload.html
+ create mode 100644 app/templates/uploadConfig_Form.html
+ create mode 100644 app/templates/upload_config.html
+ create mode 100644 app/templates/upload_config_result.html
+ create mode 100644 app/templates/view_events.html
+ create mode 100644 app/templates/vlanConfig_Form.html
+ create mode 100644 app/templates/vxlan_form.html
+ create mode 100644 app/uploads/admin/leaf_1_vxlan_config.txt
+ create mode 100644 app/uploads/leaf_1_vxlan_config.txt
+ create mode 100644 app/uploads/san-q5230-05_config.txt
+ create mode 100644 app/uploads/san-q5230-06_config.txt
+ create mode 100644 app/uploads/underlay_config.csv
+ create mode 100644 app/utils.py
+ create mode 100644 app_database.db
+ create mode 100644 drop_users.py
+ create mode 100755 env.sh
+ create mode 100644 flask_db_cleanup.py
+ create mode 100644 flask_db_drop.py
+ create mode 100644 flask_db_manage.py
+ create mode 100644 instance/.README.md.swp
+ create mode 100644 instance/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 instance/README.md
+ create mode 100644 instance/Untitled.ipynb
+ create mode 100644 instance/app_database.db
+ create mode 100644 instance/dev_database.db
+ create mode 100644 instance/gpu_systems.db
+ create mode 100644 migrate.py
+ create mode 100755 migrate.sh
+ create mode 100644 migrations/README
+ create mode 100644 migrations/alembic.ini
+ create mode 100644 migrations/env.py
+ create mode 100644 migrations/script.py.mako
+ create mode 100644 migrations/versions/2fa4f71c4130_.py
+ create mode 100644 migrations/versions/e0e76ec9c0c2_initial.py
+ create mode 100644 requirement.txt
+ create mode 100644 run.py
+ create mode 100755 setup_git.sh
+ create mode 100644 setup_git_repo.log
+ create mode 100644 spine_1_config.txt
+ create mode 100644 telemetry/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 telemetry/README.txt
+ create mode 100644 telemetry/Untitled.ipynb
+ create mode 100644 telemetry/admin/gnmi-config.yaml
+ create mode 100644 telemetry/admin/telemetry_debug.log
+ create mode 100644 telemetry/gnmi-config.yaml
+ create mode 100755 telemetry/run_gnmic.sh
+ create mode 100644 telemetry/server_telemetry_local.py
+ create mode 100644 telemetry/server_telemetry_remote.py
+ create mode 100644 telemetry/suraj/gnmi-config.yaml
+ create mode 100644 telemetry/suraj/telemetry_debug.log
+ create mode 100644 test.py
+ create mode 100644 uploads/.DS_Store
+ create mode 100644 uploads/device.csv
+ create mode 100644 uploads/mytopology.csv
+ create mode 100644 uploads/underlay_junos.csv
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists. Key location: /Users/surajsharma/.ssh/id_rsa
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCRyFA+sGJZ26l86XNuW2+iXsAPs8LbvGnup9GFXNlgcdQuR8D6fW3wL7zk0O4SEZzVp4eQxhlY4hfcj0r3XCypHdrs+4OkGzhzSTC9OD3Rka07/GSMH30aUQ9YgAnsom+W9tw76ToowcDTIAUR27IHtr/VrXD97Aa2Uc5AhHfEcohTiNg9F1FUDPHSBXm0gPfsnwEBLtJ4HG9N+P0Oe9n4pqaMvDLGJkC8aw/PsRx81PClvyicPQ+5CszM2bYTE+C3kYX0Ye7bglcWlXrZpiFqQs+nlt2OByEgORZ3OiaHq6JHr01ReiK0X6LaqEbXs1Xu1FCyJJSny7mTojU2SRirM63xjF/Uqp/yilXtfLHhrdIY2WDBNI8x926OcMTfKnJXdtJXUuxmzCGjxA8mj/b6zo9ICszJ0a2emzYcBGm4Qf1IN+Ja5Bpeg/ZzO3BncrT9DA1VTZdiK8zrIgtiKPNSDGPb+P5Doic9mBYZPBFFKKeWLIgPsKKjgbPd2BZhp+0sfVCJ2SMlUHfdZARGAEVB2/v5UNeqIn19VymkQ8Kf5TgWTrhGvnINyHFAmg55zfi5ZoggfbBKg+t+uGJoV1kW+k3aJQrRHsr1smh9B3p0FuRGbn6FKqJFr0nx1UwjXBHnm++YbInHkVnICp4Brby/agngZ2dsuVJCOX4k8vgHw== surajsharma@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+Checking for files larger than 100 MB to track with Git LFS...

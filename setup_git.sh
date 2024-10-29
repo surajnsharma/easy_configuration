@@ -1,9 +1,9 @@
 #!/bin/bash
-
 # Enable logging to a file
 LOG_FILE="setup_git_repo.log"
-exec > >(tee -i "$LOG_FILE")
-exec 2>&1
+exec &> >(tee -a "$LOG_FILE")
+
+echo "Starting Git setup script..."
 
 # Configuration files and size threshold for large files
 CONFIG_FILE=".git_config"
@@ -28,9 +28,17 @@ set_remote_url() {
     else
         REMOTE_URL="git@github.com:$GITHUB_USER/$REPO_NAME.git"
     fi
-    git remote add origin "$REMOTE_URL" || git remote set-url origin "$REMOTE_URL"
-    echo "Remote URL set to $REMOTE_URL"
+
+    # Check if remote "origin" exists
+    if git remote get-url origin &>/dev/null; then
+        git remote set-url origin "$REMOTE_URL"
+        echo "Remote URL updated to $REMOTE_URL"
+    else
+        git remote add origin "$REMOTE_URL"
+        echo "Remote URL set to $REMOTE_URL"
+    fi
 }
+
 
 # Function to delete GitHub repository using GitHub API
 delete_github_repo() {
@@ -81,25 +89,32 @@ delete_git_repo() {
     fi
 }
 
-# Function to manage SSH keys
+# Function to manage SSH keys, using id_rsa
 setup_ssh_key() {
     # Check if SSH key exists; generate if missing
-    if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+    if [ ! -f "$HOME/.ssh/id_rsa" ]; then
         echo "Generating SSH key..."
-        ssh-keygen -t ed25519 -C "$GITHUB_EMAIL" -f "$HOME/.ssh/id_ed25519" -q -N ""
+        ssh-keygen -t rsa -b 4096 -C "$GITHUB_EMAIL" -f "$HOME/.ssh/id_rsa" -q -N ""
         if [ $? -ne 0 ]; then
             echo "Failed to generate SSH key. Please check your permissions and try again."
             exit 1
         fi
         echo "SSH key generated."
     else
-        echo "SSH key already exists. Key location: $HOME/.ssh/id_ed25519"
+        echo "SSH key already exists. Key location: $HOME/.ssh/id_rsa"
     fi
 
+    # Suggest to add SSH key to GitHub if not already added
     echo "Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:"
-    cat "$HOME/.ssh/id_ed25519.pub"
+    cat "$HOME/.ssh/id_rsa.pub"
     echo -e "\nPress Enter after adding the SSH key to GitHub..."
     read -p ""
+
+    # Add SSH configuration to use the correct key
+    if ! grep -q "github.com" ~/.ssh/config; then
+        echo -e "\nHost github.com\n  IdentityFile ~/.ssh/id_rsa\n  IdentitiesOnly yes" >> ~/.ssh/config
+        echo "SSH configuration updated to use the correct key for GitHub."
+    fi
 }
 
 # Function to track large files with Git LFS
@@ -147,7 +162,6 @@ load_or_prompt_user_info() {
     git config --global user.name "$GITHUB_USER"
     git config --global user.email "$GITHUB_EMAIL"
 }
-
 # Initialize Git repository if not already initialized
 initialize_git_repo
 load_or_prompt_user_info
@@ -180,5 +194,6 @@ else
     echo "Invalid choice. Exiting."
     exit 1
 fi
+
 
 

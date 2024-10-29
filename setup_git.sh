@@ -89,34 +89,31 @@ delete_git_repo() {
     fi
 }
 
-# Function to manage SSH keys, using id_rsa
+# Function to manage SSH keys, using id_ed25519
 setup_ssh_key() {
-    # Check if SSH key exists; generate if missing
-    if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-        echo "Generating SSH key..."
-        ssh-keygen -t rsa -b 4096 -C "$GITHUB_EMAIL" -f "$HOME/.ssh/id_rsa" -q -N ""
+    if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+        echo "Generating SSH key (id_ed25519)..."
+        ssh-keygen -t ed25519 -C "$GITHUB_EMAIL" -f "$HOME/.ssh/id_ed25519" -q -N ""
         if [ $? -ne 0 ]; then
             echo "Failed to generate SSH key. Please check your permissions and try again."
             exit 1
         fi
-        echo "SSH key generated."
+        echo "SSH key generated at ~/.ssh/id_ed25519"
     else
-        echo "SSH key already exists. Key location: $HOME/.ssh/id_rsa"
+        echo "SSH key already exists at ~/.ssh/id_ed25519"
     fi
 
-    # Suggest to add SSH key to GitHub if not already added
     echo "Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:"
-    cat "$HOME/.ssh/id_rsa.pub"
+    cat "$HOME/.ssh/id_ed25519.pub"
     echo -e "\nPress Enter after adding the SSH key to GitHub..."
     read -p ""
 
-    # Add SSH configuration to use the correct key
+    # Add SSH configuration to use id_ed25519 for GitHub
     if ! grep -q "github.com" ~/.ssh/config; then
-        echo -e "\nHost github.com\n  IdentityFile ~/.ssh/id_rsa\n  IdentitiesOnly yes" >> ~/.ssh/config
-        echo "SSH configuration updated to use the correct key for GitHub."
+        echo -e "\nHost github.com\n  IdentityFile ~/.ssh/id_ed25519\n  IdentitiesOnly yes" >> ~/.ssh/config
+        echo "SSH configuration updated to use id_ed25519 for GitHub."
     fi
 }
-
 # Function to track large files with Git LFS
 track_large_files_with_lfs() {
     echo "Checking for files larger than $(($LARGE_FILE_SIZE / 1000000)) MB to track with Git LFS..."
@@ -194,6 +191,7 @@ else
     echo "Invalid choice. Exiting."
     exit 1
 fi
+
 
 
 

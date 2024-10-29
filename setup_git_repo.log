@@ -253,3 +253,40 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 
 Press Enter after adding the SSH key to GitHub...
 Checking for files larger than 100 MB to track with Git LFS...
+[main 0c35159] Auto-commit: updating remote repository
+ 1 file changed, 35 insertions(+)
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0644 for '/Users/surajsharma/.ssh/id_rsa.pub' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "/Users/surajsharma/.ssh/id_rsa.pub": bad permissions
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+grep: /Users/surajsharma/.ssh/config: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

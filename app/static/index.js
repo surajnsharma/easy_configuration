@@ -1,16 +1,16 @@
-
+//index.js//
 
 
     document.addEventListener('DOMContentLoaded', function () {
             const forms = [
                 'vlanConfigForm', 'bgpForm', 'vxlanForm', 'underlayConfigForm', 'uploadConfigForm',
-                'onboardDevicesForm', 'generateConfigForm','telemetryForm',
+                'onboardDevicesForm', 'generateConfigForm','telemetryForm','xmlRobotDebuggerForm',
                'deviceTelemetryForm','triggerEventsForm'
             ];
             const toggleButtons = [
                 'toggleVlanFormBtn', 'toggleBgpFormBtn', 'toggleVxlanFormBtn', 'toggleunderlayConfigBtn',
                 'toggleUploadConfigFormBtn', 'toggleOnboardFormBtn', 'toggleGenerateConfigFormBtn', 'toggleTriggerEventsFormBtn',
-                'toggleTelemetryBtn'
+                'toggleTelemetryBtn','toggleXmlRobotDebuggerBtn'
             ];
 
         toggleButtons.forEach((btnId, index) => {

@@ -1,0 +1,13 @@
+=> General Failures:
+[20241104 00:27:34.056] - TypeError: Expected argument 1 to be a list or list-like, got string instead.
+[20241104 00:22:52.421] - Variable ${tv['uv-tx-tolerance']} does not exist.
+[20241104 00:22:52.519] - Variable ${tv['uv-evo-debug']} does not exist.
+[20241104 00:22:52.461] - Variable ${tv['uv-aft-debug']} does not exist.
+[20241104 00:22:52.480] - Variable ${tv['uv-evo-HAcheck']} does not exist.
+[20241104 00:22:52.442] - Variable ${tv['uv-evo-checkinfra']} does not exist.
+=> TC7 encountered the following failures:
+[TestCase Description] - JTMS Testcase: Tc Description: (Basic) wred_on_congested_queue both lossy and no-loss" "
+[20241104 00:26:32.055] - TypeError: Expected argument 1 to be a list or list-like, got string instead.
+=> TC8 encountered the following failures:
+[TestCase Description] - JTMS Testcase: Tc Description: (Basic) wred_on_congested_queue_no_loss both lossy and no-lossi and WRED threshold modification" "
+[20241104 00:27:34.056] - TypeError: Expected argument 1 to be a list or list-like, got string instead.

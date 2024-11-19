@@ -1,0 +1,788 @@
+**General Failures:
+[20241101 15:14:37.744] - Variable ${tv['r2__name']} does not exist.
+[20241101 15:15:31.539] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:15:31.550] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:15:31.611] - '200' does not contain '-'
+[20241101 15:15:31.622] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:15:31.702] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:15:31.764] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:15:32.045] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:15:32.073] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:15:32.102] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:15:32.204] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:15:32.485] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:32.506] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:15:32.577] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:32.609] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:15:32.620] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:15:32.630] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:15:32.642] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:15:32.653] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:32.664] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:15:32.675] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:15:32.687] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:15:32.697] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:15:32.708] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:15:32.719] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:15:32.730] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:15:32.741] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:15:32.753] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:15:32.855] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:15:32.866] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:15:32.897] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:15:32.908] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:15:32.957] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:15:32.975] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:15:33.004] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:15:33.042] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:15:33.070] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:15:33.098] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:15:33.126] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:15:33.158] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:15:33.187] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:15:33.641] - 'source-port' does not match 'traffic-type'
+[20241101 15:15:34.066] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:15:34.322] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:15:34.335] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:34.347] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:15:34.727] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:15:34.748] - Variable ${tv['uv-mpls-lable']} does not exist.
+[20241101 15:15:34.770] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:15:39.177] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:15:39.189] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:15:47.746] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:15:47.757] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:15:47.819] - '100' does not contain '-'
+[20241101 15:15:47.830] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:15:47.909] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:15:47.968] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:15:48.292] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:15:48.550] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:48.573] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:15:48.645] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:48.678] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:15:48.689] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:15:48.700] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:15:48.711] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:15:48.722] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:48.732] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:15:48.743] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:15:48.754] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:15:48.765] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:15:48.776] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:15:48.787] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:15:48.797] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:15:48.808] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:15:48.820] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:15:48.919] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:15:48.930] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:15:48.959] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:15:48.970] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:15:49.009] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:15:49.026] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:15:49.057] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:15:49.084] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:15:49.112] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:15:49.140] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:15:49.169] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:15:49.197] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:15:49.225] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:15:49.658] - 'source-port' does not match 'traffic-type'
+[20241101 15:15:50.077] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:15:50.329] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:15:50.341] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:50.353] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:15:50.727] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:15:50.765] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:15:53.389] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:15:53.401] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:15:55.894] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:15:55.906] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:15:55.964] - '200' does not contain '-'
+[20241101 15:15:55.974] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:15:56.048] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:15:56.106] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:15:56.348] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:15:56.374] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:15:56.399] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:15:56.498] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:15:56.748] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:56.769] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:15:56.837] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:15:56.869] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:15:56.879] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:15:56.890] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:15:56.900] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:15:56.910] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:56.921] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:15:56.932] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:15:56.942] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:15:56.953] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:15:56.963] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:15:56.974] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:15:56.984] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:15:56.995] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:15:57.005] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:15:57.103] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:15:57.113] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:15:57.140] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:15:57.151] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:15:57.189] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:15:57.205] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:15:57.232] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:15:57.259] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:15:57.286] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:15:57.313] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:15:57.340] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:15:57.368] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:15:57.395] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:15:57.818] - 'source-port' does not match 'traffic-type'
+[20241101 15:15:58.242] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:15:58.485] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:15:58.497] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:15:58.508] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:15:58.882] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:15:58.919] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:01.118] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:01.130] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:03.840] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:03.851] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:03.909] - '100' does not contain '-'
+[20241101 15:16:03.919] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:03.994] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:04.054] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:04.373] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:04.629] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:04.650] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:04.719] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:04.751] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:04.762] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:04.772] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:04.783] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:04.794] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:04.805] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:04.816] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:04.826] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:04.837] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:04.848] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:04.858] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:04.869] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:04.879] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:04.890] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:04.988] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:04.999] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:16:05.026] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:05.037] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:05.076] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:05.092] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:05.119] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:05.147] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:05.175] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:05.202] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:05.231] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:05.259] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:05.287] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:05.720] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:06.132] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:06.381] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:06.393] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:06.404] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:06.773] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:06.810] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:08.993] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:09.004] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:11.771] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:11.782] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:11.839] - '200' does not contain '-'
+[20241101 15:16:11.850] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:11.922] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:11.980] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:12.221] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:16:12.247] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:16:12.274] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:12.372] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:16:12.621] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:12.644] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:12.713] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:12.745] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:12.756] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:12.767] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:12.778] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:12.789] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:12.799] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:12.810] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:12.821] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:12.831] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:12.842] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:12.853] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:12.863] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:12.874] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:12.885] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:12.982] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:12.993] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:16:13.020] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:13.031] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:13.069] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:13.085] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:13.114] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:13.143] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:13.171] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:13.198] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:13.226] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:13.253] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:13.281] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:13.709] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:14.231] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:14.507] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:14.520] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:14.532] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:14.971] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:15.009] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:17.257] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:17.271] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:19.873] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:19.884] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:19.944] - '100' does not contain '-'
+[20241101 15:16:19.955] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:20.030] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:20.094] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:20.431] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:20.705] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:20.728] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:20.805] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:20.841] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:20.852] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:20.863] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:20.875] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:20.886] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:20.897] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:20.908] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:20.920] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:20.932] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:20.944] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:20.955] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:20.966] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:20.978] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:20.990] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:21.092] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:21.104] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:16:21.132] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:21.144] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:21.185] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:21.203] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:21.232] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:21.262] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:21.292] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:21.321] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:21.351] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:21.380] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:21.410] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:21.866] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:22.297] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:22.550] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:22.562] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:22.576] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:22.959] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:22.999] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:25.564] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:25.577] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:28.099] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:28.111] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:28.173] - '200' does not contain '-'
+[20241101 15:16:28.184] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:28.263] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:28.323] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:28.582] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:16:28.611] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:16:28.639] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:28.744] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:16:29.004] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:29.026] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:29.097] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:29.131] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:29.142] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:29.153] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:29.165] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:29.176] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:29.188] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:29.199] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:29.211] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:29.222] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:29.233] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:29.244] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:29.255] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:29.267] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:29.278] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:29.418] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:29.430] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:16:29.461] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:29.473] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:29.518] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:29.538] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:29.572] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:29.609] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:29.646] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:29.681] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:29.717] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:29.751] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:29.785] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:30.306] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:30.756] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:31.047] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:31.061] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:31.073] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:31.454] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:31.492] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:34.048] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:34.059] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:36.600] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:36.613] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:36.687] - '100' does not contain '-'
+[20241101 15:16:36.707] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:36.793] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:36.861] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:37.193] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:37.450] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:37.472] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:37.542] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:37.574] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:37.585] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:37.595] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:37.606] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:37.616] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:37.627] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:37.638] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:37.649] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:37.660] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:37.671] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:37.682] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:37.694] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:37.704] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:37.715] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:37.817] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:37.828] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:16:37.856] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:37.867] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:37.906] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:37.926] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:37.955] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:37.984] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:38.012] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:38.040] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:38.068] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:38.096] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:38.125] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:38.603] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:39.009] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:39.253] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:39.265] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:39.276] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:39.644] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:39.681] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:41.903] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:41.915] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:44.778] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:44.789] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:44.848] - '200' does not contain '-'
+[20241101 15:16:44.859] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:44.934] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:44.993] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:45.241] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:16:45.267] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:16:45.294] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:45.394] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:16:45.682] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:45.703] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:45.771] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:45.803] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:45.813] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:45.824] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:45.835] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:45.845] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:45.856] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:45.866] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:45.878] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:45.889] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:45.900] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:45.915] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:45.929] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:45.943] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:45.958] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:46.080] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:46.092] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:16:46.123] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:46.135] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:46.175] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:46.192] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:46.222] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:46.253] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:46.283] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:46.312] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:46.343] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:46.374] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:46.406] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:46.898] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:47.365] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:47.648] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:47.661] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:47.675] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:48.090] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:48.131] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:50.403] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:50.415] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:53.261] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:16:53.272] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:16:53.332] - '100' does not contain '-'
+[20241101 15:16:53.343] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:16:53.417] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:16:53.476] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:16:53.810] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:16:54.077] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:54.099] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:16:54.170] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:16:54.204] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:16:54.214] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:16:54.225] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:16:54.236] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:16:54.246] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:54.257] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:16:54.268] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:16:54.279] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:16:54.290] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:16:54.301] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:16:54.312] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:16:54.322] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:16:54.333] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:16:54.344] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:16:54.445] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:16:54.456] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:16:54.484] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:16:54.497] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:16:54.535] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:16:54.552] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:16:54.580] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:16:54.608] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:16:54.635] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:16:54.662] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:16:54.692] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:16:54.721] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:16:54.749] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:16:55.202] - 'source-port' does not match 'traffic-type'
+[20241101 15:16:55.628] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:16:55.876] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:16:55.888] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:16:55.899] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:16:56.276] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:16:56.314] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:16:58.524] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:16:58.535] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:01.137] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:01.147] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:01.204] - '200' does not contain '-'
+[20241101 15:17:01.215] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:01.291] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:01.349] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:01.598] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:17:01.624] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:17:01.652] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:01.758] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:17:02.070] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:02.092] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:02.163] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:02.196] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:02.206] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:02.217] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:02.228] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:02.238] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:02.249] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:02.260] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:02.270] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:02.281] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:02.292] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:02.303] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:02.315] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:02.328] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:02.339] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:02.438] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:02.449] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:17:02.477] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:02.488] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:02.527] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:02.544] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:02.572] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:02.601] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:02.628] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:02.656] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:02.684] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:02.712] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:02.741] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:03.176] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:03.580] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:03.827] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:03.839] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:03.851] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:04.218] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:04.255] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:06.701] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:17:06.713] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:09.271] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:09.281] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:09.339] - '100' does not contain '-'
+[20241101 15:17:09.349] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:09.423] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:09.482] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:09.798] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:10.052] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:10.073] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:10.142] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:10.174] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:10.184] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:10.195] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:10.205] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:10.216] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:10.227] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:10.238] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:10.248] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:10.259] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:10.270] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:10.280] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:10.291] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:10.302] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:10.312] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:10.411] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:10.422] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:17:10.450] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:10.460] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:10.499] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:10.515] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:10.542] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:10.570] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:10.598] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:10.626] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:10.654] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:10.682] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:10.710] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:11.138] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:11.544] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:11.791] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:11.803] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:11.814] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:12.178] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:12.215] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:14.427] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:17:14.438] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:17.198] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:17.209] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:17.266] - '200' does not contain '-'
+[20241101 15:17:17.276] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:17.350] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:17.408] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:17.652] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:17:17.679] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:17:17.706] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:17.806] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:17:18.068] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:18.090] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:18.160] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:18.196] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:18.208] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:18.218] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:18.229] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:18.240] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:18.251] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:18.262] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:18.273] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:18.285] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:18.296] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:18.306] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:18.317] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:18.328] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:18.339] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:18.443] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:18.455] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:17:18.483] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:18.494] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:18.534] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:18.551] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:18.579] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:18.607] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:18.634] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:18.662] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:18.693] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:18.721] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:18.750] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:19.192] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:19.617] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:19.870] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:19.882] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:19.895] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:20.270] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:20.307] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:22.534] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:17:22.545] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:25.353] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:25.365] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:25.423] - '100' does not contain '-'
+[20241101 15:17:25.434] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:25.511] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:25.570] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:25.893] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:26.145] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:26.167] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:26.236] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:26.267] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:26.278] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:26.288] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:26.300] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:26.310] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:26.321] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:26.331] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:26.342] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:26.353] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:26.364] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:26.374] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:26.386] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:26.396] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:26.407] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:26.506] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:26.517] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:17:26.545] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:26.556] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:26.595] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:26.611] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:26.640] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:26.667] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:26.696] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:26.724] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:26.752] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:26.780] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:26.808] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:27.243] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:27.653] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:27.901] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:27.913] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:27.925] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:28.307] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:28.345] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:30.591] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:17:30.602] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:33.260] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:33.270] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:33.328] - '200' does not contain '-'
+[20241101 15:17:33.339] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:33.417] - [ filtername | termname | then_count | source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:33.478] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:33.726] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '0'.
+[20241101 15:17:33.753] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '1'.
+[20241101 15:17:33.779] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:33.878] - [ 1 | 0 | 2 | 5 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '5'.
+[20241101 15:17:34.137] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:34.159] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:34.229] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:34.261] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:34.272] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:34.283] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:34.294] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:34.304] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:34.315] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:34.326] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:34.337] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:34.347] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:34.358] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:34.369] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:34.380] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:34.391] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:34.402] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:34.502] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:34.513] - [ 200 | 6 ] does not contain value 'list'.
+[20241101 15:17:34.540] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:34.551] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:34.590] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:34.606] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:34.634] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:34.661] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:34.689] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:34.716] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:34.744] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:34.772] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:34.799] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:35.226] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:35.635] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:35.876] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:35.888] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:35.899] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:36.260] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:36.297] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:38.725] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:17:38.737] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:17:55.963] - [ source-port | ip-protocol | then_action ] does not contain value 'destination-port'.
+[20241101 15:17:55.974] - [ source-port | ip-protocol | then_action ] does not contain value 'port_selection'.
+[20241101 15:17:56.034] - '100' does not contain '-'
+[20241101 15:17:56.045] - TypeError: argument of type 'NoneType' is not iterable
+[20241101 15:17:56.122] - [ source-port | ip-protocol | then_action ] does not contain value 'match_condition_count'.
+[20241101 15:17:56.183] - Resolving variable '${tv['uv-prefix-enable']}' failed: KeyError: 'uv-prefix-enable'
+[20241101 15:17:56.510] - [ -1 | -1 | -1 | 2 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 | -1 ] contains value '2'.
+[20241101 15:17:56.770] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:56.791] - [ source-port | ip-protocol ] does not contain value 'rate_mbps'.
+[20241101 15:17:56.861] - Resolving variable '${tv['uv-fixed_pkt_per_stream']}' failed: KeyError: 'uv-fixed_pkt_per_stream'
+[20241101 15:17:56.893] - [ source-port | ip-protocol ] does not contain value 'address'.
+[20241101 15:17:56.903] - [ source-port | ip-protocol ] does not contain value 'port'.
+[20241101 15:17:56.914] - [ source-port | ip-protocol ] does not contain value 'ip-address'.
+[20241101 15:17:56.925] - [ source-port | ip-protocol ] does not contain value 'ipv6-address'.
+[20241101 15:17:56.936] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:56.947] - [ source-port | ip-protocol ] does not contain value 'destination-address'.
+[20241101 15:17:56.958] - [ source-port | ip-protocol ] does not contain value 'source-address'.
+[20241101 15:17:56.968] - [ source-port | ip-protocol ] does not contain value 'ipv6-destination-address'.
+[20241101 15:17:56.979] - [ source-port | ip-protocol ] does not contain value 'ipv6-source-address'.
+[20241101 15:17:56.990] - [ source-port | ip-protocol ] does not contain value 'version-ip6-destination-address'.
+[20241101 15:17:57.000] - [ source-port | ip-protocol ] does not contain value 'version-ip6-source-address'.
+[20241101 15:17:57.011] - [ source-port | ip-protocol ] does not contain value 'version-ip-destination-address'.
+[20241101 15:17:57.022] - [ source-port | ip-protocol ] does not contain value 'version-ip-source-address'.
+[20241101 15:17:57.033] - Variable ${tv['uv-prefix-enable']} does not exist.
+[20241101 15:17:57.134] - [ source-port | ip-protocol ] does not contain value 'mpls_labels_mode'.
+[20241101 15:17:57.145] - [ 100 | 6 ] does not contain value 'list'.
+[20241101 15:17:57.174] - [ source-port | ip-protocol ] does not contain value 'termcount'.
+[20241101 15:17:57.185] - [ source-port | ip-protocol ] does not contain value 'filtercount'.
+[20241101 15:17:57.224] - [ source-port | ip-protocol ] does not contain value 'mac-addr-increment'.
+[20241101 15:17:57.240] - [ source-port | ip-protocol ] does not contain value 'step-source-mac'.
+[20241101 15:17:57.268] - [ source-port | ip-protocol ] does not contain value 'step-destination-mac'.
+[20241101 15:17:57.296] - [ source-port | ip-protocol ] does not contain value 'step-source-port'.
+[20241101 15:17:57.324] - [ source-port | ip-protocol ] does not contain value 'step-destination-port'.
+[20241101 15:17:57.351] - [ source-port | ip-protocol ] does not contain value 'step-destination-addr'.
+[20241101 15:17:57.380] - [ source-port | ip-protocol ] does not contain value 'step-source-addr'.
+[20241101 15:17:57.408] - [ source-port | ip-protocol ] does not contain value 'step-traffic-class'.
+[20241101 15:17:57.436] - '['source-port', 'ip-protocol']' does not contain any of 'step-source-port', 'step-destination-port', 'step-source-mac', 'step-destination-mac', 'step-source-addr', 'step-destination-addr', 'step-traffic-class' or 'mac-addr-increment'
+[20241101 15:17:57.879] - 'source-port' does not match 'traffic-type'
+[20241101 15:17:58.337] - 'ip-protocol' does not match 'traffic-type'
+[20241101 15:17:58.593] - [ source-port | ip-protocol ] does not contain value 'not_set'.
+[20241101 15:17:58.605] - [ source-port | ip-protocol ] does not contain value 'port-except'.
+[20241101 15:17:58.617] - [ source-port | ip-protocol ] does not contain value 'then_hierarchical-policer'.
+[20241101 15:17:58.988] - Variable ${tv['uv-multiple_ifl_support']} does not exist.
+[20241101 15:17:59.024] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:18:01.432] - Variable ${tv['uv-irb-vlan-style']} does not exist.
+[20241101 15:18:01.443] - Variable ${tv['uv-irb-l2l3-style']} does not exist.
+[20241101 15:18:05.452] - Variable ${tv['uv-flowlabel-enable']} does not exist.
+[20241101 15:18:41.132] - [ ptx5000 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:41.143] - [ acx710 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:41.153] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:46.696] - [ ptx5000 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:46.707] - [ acx710 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:46.718] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:52.188] - [ ptx5000 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:52.207] - [ acx710 ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:18:52.225] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5240-64qd-ao'.
+[20241101 15:19:10.402] - Resolving variable '${tv['uv-family_2']}' failed: KeyError: 'uv-family_2'
+[20241101 15:19:10.477] - [ ptx5000 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:10.489] - [ acx710 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:10.501] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:16.144] - [ ptx5000 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:16.156] - [ acx710 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:16.169] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:21.807] - [ ptx5000 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:21.818] - [ acx710 ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:21.828] - [ vjunos-ex | vjunos-evo ] does not contain value 'qfx5130-32cd-afo'.
+[20241101 15:19:54.697] - Variable ${tv['uv-lacp-enable']} does not exist.
+[20241101 15:19:59.626] - SpirentException: Invocation of SPIRENT method save_xml failed with result: {'status': '0', 'log': 'error in ::sth::Session::savexml_imp -filename /volume/testtech/fusion-smoketest/results/fusion/prod/2024/Nov/SUB_28396760/315783902/attempt_1/script-exec/firewall_bridge_mts.xml --><stc::get project1 -children-port>: RuntimeError in get: Cannot create request. SAL is not connected to a Test Session or a Server Manager.'}
+[20241101 15:21:05.197] - Variable ${r2} does not exist.
+[20241101 15:21:18.453] - Variable ${tv['uv-jti-test']} does not exist.
+

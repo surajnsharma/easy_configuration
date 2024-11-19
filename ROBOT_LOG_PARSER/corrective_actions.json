@@ -1,0 +1,290 @@
+{
+    "InfrastructureErrors": {
+        "Infra Checks Failed": "Ensure infrastructure prerequisites are met, such as proper connectivity to devices and availability of required resources.",
+        "ConnectionRefusedError": "Verify that the server is running and accessible at the specified IP address and port. Check firewall settings to ensure the connection is allowed.",
+        "SocketError": "Check if the target server is reachable and the network interface is active. Verify if the DNS resolution is correct for the target address."
+    },
+    "FileErrors": {
+        "FileNotFoundError": "Ensure the specified file path is correct and the file exists. Check permissions on the file and directory.",
+        "PermissionError": "Check file permissions and ensure that the script has the required permissions to access or modify the specified file.",
+        "EOFError": "The end of file was reached unexpectedly. Ensure the file contains sufficient data for reading or reset the file pointer.",
+        "FileExistsError": "A file creation operation failed because the file already exists. Check the file path and consider removing or renaming the existing file."
+    },
+    "SyntaxErrors": {
+        "SyntaxError": "Check for syntax errors in your script, such as typos, missing punctuation, or incorrect indentation.",
+        "IndentationError": "Check for consistent use of spaces and tabs. Python requires consistent indentation in all blocks."
+    },
+    "VariableErrors": {
+        "UnboundLocalError": "Possible STPR: A local variable is referenced before being assigned a value. Ensure all variables are initialized before use.",
+        "NameError": "Possible STPR: This error occurs when a variable or function is not defined. Check for typos or ensure the variable/function is defined before its usage.",
+        "KeyError": "Possible STPR: Dictionary key not found. Verify that the key exists or use the '.get()' method to avoid errors.",
+        "Variable \\$\\{tv\\['[^']+']\\} does not exist": "Possible SW STPR: Check that all required variables are defined in your configuration and that there are no typos in variable names.",
+        "Variable \\$\\{[^}]+} does not exist": "Possible STPR: Ensure that all required variables are defined and accessible in your configuration.",
+        "Variable '\\$\\{[^}]+}' not found": "A required variable was not found. Verify that all necessary variables are correctly defined and accessible within the configuration."
+    },
+    "ValueErrors": {
+        "ValueError": "STPR: Check the values passed to functions, especially with type conversions, to ensure they are within expected ranges.",
+        "IndexError": "STPR: List index out of range. Ensure the list or array has enough elements before accessing specific indexes.",
+        "No keyword with name '.*' found": "STPR: A required keyword was not found. Verify that all necessary keywords are defined and that there are no typographical errors.",
+        "'_NONE' contains one or more of '_NONE' or 'unix::'": "STPR: Unexpected values such as '_NONE' or 'unix::' were found. Check for default or placeholder values in the configuration and replace them with appropriate settings.",
+        ".*values were not found.*": "STPR: Some expected values were missing. Verify that all necessary values are included and correctly configured in the relevant list or configuration.",
+        "'.*' should not be true": "STPR: A value that was expected to be false was instead true. Check the logic and ensure that conditions are correctly evaluated as intended."
+    },
+    "AssertionErrors": {
+        "AssertionError": "Check the expected and actual output to ensure they align with test requirements. Validate test conditions and setup."
+    },
+    "AuthenticationErrors": {
+        "AuthenticationError": "Check the provided credentials and ensure they are correct. Verify that the user has the required permissions.",
+        "AuthorizationError": "Ensure the user or application has the correct permissions. Adjust access levels or consult with the administrator.",
+        "InvalidTokenError": "An authentication token is invalid or expired. Re-authenticate or refresh the token as needed.",
+        "InvalidSignatureError": "The digital signature of the request is invalid. Verify that signatures are correct and the secret keys match."
+    },
+    "ResourceErrors": {
+        "MemoryError": "The system ran out of memory. Try optimizing your code to use less memory or close unnecessary applications.",
+        "ResourceWarning": "Check for excessive resource usage, like file handles or network connections. Ensure all opened resources are properly closed."
+    },
+    "ImportErrors": {
+        "ImportError": "Module not found. Ensure the required module is installed in the environment. Use 'pip install <module_name>' to install it if missing.",
+        "ModuleNotFoundError": "Check if the module name is correct and the package is installed in the environment. Verify the Python path and virtual environment.",
+        "DependencyError": "Check if all required dependencies are installed and compatible. Update or install missing dependencies if necessary.",
+        "CircularImportError": "A circular dependency was detected during module imports. Refactor the code to avoid circular imports."
+    },
+    "ExecutionErrors": {
+        "KeyboardInterrupt": "The script was manually interrupted. Re-run if this was unintentional or add handling to avoid disruptions.",
+        "RecursionError": "The maximum recursion depth was exceeded, indicating possible infinite recursion or excessive function calls. Refactor to iterative logic if possible."
+    },
+    "TestSuiteErrors": {
+        "Error: Ixia/Spirent Status is not SUCCESS": "Verify the Ixia/Spirent server status and connectivity.",
+        "STCSERVER_RET_ERROR": "Reconnect to the Spirent test session or restart the session manager if the session is inactive or terminated."
+    },
+    "NetworkTrafficErrors": {
+        "Oversubscription detected": "Adjust the traffic configuration to avoid oversubscription. Verify inter-frame gap settings."
+    },
+    "VerificationErrors": {
+        "(VERIFY FAILED|CHECKS FAILED)": "Verification failed during the checks. Review the specific verification steps, confirm that the expected parameters are correctly configured, and ensure that device interfaces and states align with the required conditions.",
+        "VerifyEngineException:.*VERIFY FAILED": "Check verification logic and device states. Ensure all necessary conditions are met.",
+        ".* does not contain .*": "The expected parameter or value is missing in the configuration. Verify that all required settings, such as loopback interfaces, are correctly specified.",
+        "Expected pkts are in range .*? - .*?[\\s.,]*Obtained pkts are .*": "The observed packet count does not meet the expected range. Check device configurations, ensure proper connectivity, and verify packet flow through the interface.",
+        "([0-9a-fA-F:]+) != ([0-9a-fA-F:]+)": "The two IPv6 addresses are not equal. Verify the configuration and ensure the expected addresses are set correctly."
+    },
+    "ConfigurationErrors": {
+        "commit failed": "STPR: Review configuration commands, especially routing and interface configurations. Correct invalid next-hop or buffer settings.",
+        "duplicate VLAN-ID on interface .* conflicts with unit .*": "STPR:  Ensure each VLAN ID is unique across interface units to avoid conflicts. Verify the VLAN ID and unit settings and update them to prevent duplication.",
+        "duplicate VLAN-ID on interface .* conflicts with unit \\d+ \\(vlan \\d+\\)": "STPR: Ensure each VLAN ID is unique across interface units to avoid conflicts. Verify the VLAN ID and unit settings and update them to prevent duplication.",
+        "unit \\d+": "STPR: Verify interface units for misconfigurations or conflicts. Ensure each unit's settings align with interface configurations.",
+        "'.*' does not contain '.*'": "STPR: Ensure that required values or delimiters are present in the configuration.",
+        "'.*' does not match '.*'": "STPR: Verify that configuration values match expected patterns or types. Check for mismatches between specified values and required formats.",
+        "Interface .* with child links of mixed speed but link-speed mixed is not configured": "STPR: The interface has child links with mixed speeds, but 'link-speed mixed' is not configured. Set 'link-speed mixed' to handle links with differing speeds, or align all child links to the same speed.",
+        "Missing mandatory statement:.*": "STPR: A required configuration statement is missing. Verify the configuration syntax and ensure all mandatory parameters are included in the configuration.",
+        "error: configuration check-out failed": "STPR: Configuration check-out failed. Verify that the configuration is correctly staged and free of syntax or dependency issues before committing.",
+        "Error saving output to .*": "STPR: Failed to save configuration output. Verify the target location and ensure there are no permissions or disk space issues at the specified path.",
+        ".* not allowed in .*": "Config not permitted. Verify configurations , to ensure they meet device requirements.",
+        "Failed .* for interface": "STPR:  configuration error, for the specified interface is missing. Verify that the interface has been configured correctly",
+        "bad .* next-hop": "STPR:  configuration error, for the specified interface is missing. Verify that the interface has been configured correctly",
+        "does not match .*": "STPR:  configuration error, for the specified interface is missing. Verify that the interface has been configured correctly",
+        ".* not allowed": "STPR:  configuration error, for the specified interface is missing. Verify that the interface has been configured correctly",
+        ".* configured together.*": "STPR: Configuration conflict detected: cannot be set simultaneously. Review settings to ensure only one type is configured to avoid conflicts.",
+        ".*Should Not Match.*": "STPR: Configuration validation failed: The specified value should not match the expected pattern. Review the configuration to ensure values adhere to the required constraints.",
+        ".*cannot be used.*": "STPR: A configuration element is incompatible or not allowed in this context. Verify that each component is appropriate for the configuration and meets compatibility requirements.",
+        ".*(source|destination).*cannot .*tunnel.*": "Tunnel configuration conflict detected. Ensure that each tunnel on the device has unique source and destination addresses and distinct route tables to avoid conflicts."
+    },
+    "TimeoutErrors": {
+        "Timeout(?!.*does not exist)|Device prompt '.*' did not return within '.*' seconds.*": "The device prompt or operation did not respond within the expected time. Check device connectivity, prompt settings, and consider increasing the timeout.",
+        "TimeoutException": "An operation took too long to complete. Consider increasing the timeout or optimizing the operation to reduce execution time.",
+        "TimeoutError": "The request timed out. Increase the timeout value if necessary and verify network stability."
+       },
+    "CalculationErrors": {
+        "ZeroDivisionError": "Check calculations to avoid division by zero. Implement checks or exception handling to manage potential zero values.",
+        "OverflowError": "The result of a calculation exceeded the maximum limit. Verify input values and consider using larger data types if needed.",
+        "FloatingPointError": "A floating-point operation failed. Check for invalid calculations, such as dividing by very small numbers close to zero.",
+        "BrokenPipeError": "A process tried to write to a closed pipe. Ensure the receiving end is open and operational before sending data.",
+        "ConnectionAbortedError": "The network connection was unexpectedly aborted. Verify network stability and server status.",
+        "RemoteDisconnected": "The remote host disconnected unexpectedly. Check the network connection and the remote server availability.",
+        "OverflowError: integer": "An integer operation exceeded limits. Ensure calculations stay within the allowable range of integer values."
+    },
+    "DataErrors": {
+        "JSONDecodeError": "Ensure the JSON data is correctly formatted and complete. Verify syntax and check for missing or extra commas.",
+        "Variable not found": "Ensure all referenced variables in the test are correctly defined and initialized."
+    },
+    "EncodingErrors": {
+        "UnicodeDecodeError": "An error occurred while decoding bytes to a string. Specify the correct encoding (e.g., UTF-8) to avoid this issue.",
+        "UnicodeEncodeError": "An error occurred while encoding strings to bytes. Ensure all characters are within the target encoding set."
+    },
+    "SecurityErrors": {
+        "SSLError": "An SSL connection failed. Verify SSL certificates, encryption protocols, and ensure the server supports the required TLS version."
+    },
+    "ConnectionErrors": {
+        "RemoteDisconnected": "The remote host disconnected unexpectedly. Check the network connection and the remote server availability.",
+        "SSLCertVerificationError": "SSL certificate verification failed. Ensure certificates are valid or use appropriate flags to bypass verification if acceptable.",
+        "HTTPError": "The HTTP request failed. Verify the URL, server status, and ensure the correct method (GET, POST, etc.) is used.",
+        "URLError": "A URL request failed. Verify that the URL is correct and the network is accessible.",
+        "ProtocolError": "A protocol error occurred. Ensure that the correct protocol (e.g., HTTP/HTTPS) is used and the server supports it.",
+        "(?i).*(packets lost|fail|unsuccessful).*(ping|telnet|ssh).*": "Connectivity test failed, indicating potential network issues. Verify network configurations, ensure routes are correct, and confirm that firewall or ACL settings do not block the traffic."
+    },
+    "ResourceQuotaErrors": {
+        "QuotaExceededError": "A storage or resource quota has been exceeded. Check usage limits and free up resources if necessary."
+    },
+    "DatabaseErrors": {
+        "DatabaseError": "An error occurred with the database. Verify connectivity, database credentials, and query syntax.",
+        "IntegrityError": "A database integrity constraint was violated. Check foreign keys, unique constraints, and ensure data consistency.",
+        "DataError": "Invalid data was sent to the database. Verify that input values meet expected types and lengths.",
+        "OperationalError": "An operational error occurred in the database. Ensure the database is running and accessible, and review resource limits.",
+        "ProgrammingError": "A SQL query or command was incorrect. Check the SQL syntax and ensure the database schema matches the query structure."
+    },
+    "StateErrors": {
+        "InvalidStateError": "An operation was attempted in an invalid state. Verify conditions before proceeding, such as network connectivity or authentication.",
+        "DeadlockError": "A deadlock occurred, often in databases or multi-threaded environments. Review locking mechanisms or use timeout options.",
+        "ConcurrencyError": "A concurrency error occurred, likely due to simultaneous access. Review the code for race conditions or implement locks where necessary."
+    },
+    "NullReferenceErrors": {
+        "NullPointerException": "Attempted to access a null or undefined object. Check all variables are initialized before usage."
+    },
+    "NetworkErrors": {
+        "BGPNeighborDown": "Verify the BGP configuration and check connectivity between the router and the neighbor. Ensure both ends are configured correctly and network policies allow BGP traffic."
+    },
+    "NetworkStabilityErrors": {
+        "BGPFlapDetected": "Check for unstable network conditions or configuration changes. Investigate possible causes like route oscillation, interface instability, or MTU mismatch.",
+        "LinkFlap": "Investigate physical link quality and check for loose connections, bad cables, or hardware issues. Monitor power levels and signal strength on optical links.",
+        "RoutingLoopDetected": "Review route advertisements and ensure the proper filtering of routes. Check for overlapping IPs and correct route summarization if needed."
+    },
+    "ProtocolErrors": {
+        "OSPFNeighborLoss": "Confirm OSPF settings like area IDs, authentication, and network types. Ensure interfaces are up and reachable and that OSPF Hello and Dead timers are aligned.",
+        "RouteNotInstalled": "Check routing protocols (e.g., BGP, OSPF) for advertisements. Verify route filtering, redistribution policies, and administrative distance settings.",
+        "ProtocolViolation": "A protocol violation occurred. Ensure client and server follow the same protocol rules and version compatibility."
+    },
+    "InterfaceErrors": {
+        "InterfaceDown": "STPR: Verify physical connections and interface configurations. Check for issues like mismatched duplex settings, MTU, or cable problems.",
+        "MTUMismatch": "STPR: Ensure the MTU settings match on both ends of the connection. Mismatched MTU can cause packet drops and fragmentation issues.",
+        "PacketCorruption": "STPR: Verify interface integrity, error counters, and check cabling. Inspect packet capture logs for signs of corruption.",
+        "number of .* devices configured .* is more .*": "STPR: The number of configured devices exceeds the allowed device count. Adjust the configuration to ensure the device count aligns with the specified limits."
+    },
+    "ResourceUsageErrors": {
+        "HighCPUUsage": "Check for processes consuming excessive CPU on the router. Possible causes include route recalculations, high traffic volume, or excessive logging.",
+        "HighMemoryUsage": "Investigate memory allocation and usage. Clear unused sessions and stale routes or consider adding more memory if usage is consistently high."
+    },
+    "DataTransmissionErrors": {
+        "PacketLoss": "Analyze the network path for congested links or faulty equipment. Use traceroute and ping to identify the segment experiencing loss.",
+        "ARPFailure": "Ensure ARP is functioning correctly. Check subnet configurations, ARP timeout values, and address resolution mechanisms.",
+        "DHCPFailure": "Ensure the DHCP server is reachable. Verify scope configurations and ensure no IP conflicts exist."
+    },
+    "PolicyAndSecurityErrors": {
+        "QoSPolicyDrop": "Examine Quality of Service policies and ensure traffic is classified and prioritized correctly. Verify that traffic shaping and policing configurations match the network requirements.",
+        "FirewallBlock": "Check firewall rules and ensure that the necessary ports and protocols are allowed. Inspect ACLs and NAT settings if traffic is blocked.",
+        "ACLDrop": "Verify Access Control Lists (ACLs) for specific traffic flow. Ensure the ACL is correctly applied and does not inadvertently block desired traffic."
+    },
+    "RoutingAndTranslationErrors": {
+        "RoutingProtocolNotConverging": "Check for protocol settings consistency and network topology. Adjust timers or clear routing tables to trigger reconvergence.",
+        "NATTranslationFailure": "Check NAT rules and ensure address pools are configured correctly. Monitor translation counters and debug for failed NAT sessions."
+    },
+    "InterfaceAndTransmissionErrors": {
+        "InterfaceInputErrors": "Check for physical layer issues, such as faulty cables or SFPs. Look at input error counters for CRC errors, alignment errors, or framing issues.",
+        "InterfaceOutputDrops": "Verify QoS settings, buffer limits, and congestion handling policies. Increase buffer sizes if necessary to handle peak loads."
+    },
+    "MPLSAndLabelingErrors": {
+        "MPLSTunnelDown": "Check MPLS configurations, including LDP or RSVP settings. Verify that label distribution and paths are functioning correctly.",
+        "LabelSwitchingFailure": "Inspect MPLS label distribution and label-switched paths (LSPs). Ensure that labels are properly advertised and not conflicting."
+    },
+    "Layer2AndSTPErrors": {
+        "VLANMismatch": "Ensure VLAN IDs match on all trunked interfaces. Check encapsulation settings (dot1q or ISL) and confirm VLAN tagging.",
+        "MACAddressFlap": "Investigate for loops or misconfigured network paths. Enable STP or Loop Guard to prevent flapping.",
+        "STPTopologyChange": "Check Spanning Tree Protocol (STP) settings. Investigate port roles and root bridge election to avoid unnecessary topology changes."
+    },
+    "RedundancyAndFailoverErrors": {
+        "HSRPFailover": "Verify HSRP configurations and ensure standby routers are reachable. Check priority settings and preemption configurations.",
+        "VRRPSwitchover": "Ensure VRRP priority settings are correct and verify that VRRP groups are configured correctly on all participating routers."
+    },
+    "ISISAndNeighborErrors": {
+        "ISISAdjacencyLost": "Confirm ISIS settings, including area IDs and authentication. Ensure MTU and network type configurations are consistent."
+    },
+    "MonitoringAndExportErrors": {
+        "NetFlowExportFailure": "Check NetFlow configuration and ensure the NetFlow collector is reachable. Verify export destination IP and port settings.",
+        "SNMPPollTimeout": "Ensure the SNMP community or authentication settings are correct. Verify network connectivity to the SNMP agent.",
+        "SyslogMessageNotReceived": "Verify syslog server reachability and ensure the correct logging level is set. Check for blocked syslog traffic in firewalls."
+    },
+    "RoutingAndSessionErrors": {
+        "RoutingTableFull": "Check for excessive route advertisements. Implement route summarization or filter unnecessary routes to manage table size.",
+        "BFDSessionDown": "Ensure BFD timers match on both sides and that routing adjacency is maintained. Check BFD settings if link instability is detected."
+    },
+    "UpgradeAndConfigurationErrors": {
+        "No detailed message": "Investigate the failure logs for more context as the error did not provide detailed information. Ensure all expected outputs and prerequisites are defined correctly.",
+        "ISSU is failed for upgrade type": "Check the upgrade procedure, especially for the specified applications. Verify that each application is in the correct state before proceeding and that there is sufficient memory and CPU capacity.",
+        "kexec and for apps": "Review the ISSU (In-Service Software Upgrade) configurations and ensure applications are compatible with the kexec upgrade type. Check the status of each listed application and its dependencies.",
+        "SocketTimeoutException": "A socket timeout occurred. Check network latency and server availability.",
+        "HostUnreachable": "The specified host is unreachable. Verify network connectivity and firewall settings.",
+        "InvalidConfiguration": "A configuration setting is invalid. Review and correct the configuration file.",
+        "ServiceUnavailable": "The requested service is temporarily unavailable. Verify server status or retry later.",
+        "DNSResolutionError": "DNS resolution failed. Ensure DNS servers are reachable and configured correctly."
+    },
+    "AuthenticationAndAccessErrors": {
+        "SessionExpired": "The session has expired. Reauthenticate or start a new session.",
+        "InvalidCredentials": "Authentication failed due to invalid credentials. Verify username and password.",
+        "AccessDenied": "Access was denied. Check permissions for the user or application.",
+        "CertificateError": "An error occurred with the SSL/TLS certificate. Check validity and CA trust."
+    },
+    "StorageAndResourceErrors": {
+        "DiskSpaceError": "Insufficient disk space. Clear space or increase disk capacity to proceed."
+    },
+    "GeneralFailures": {},
+    "AttributeErrors": {
+        "AttributeError: 'NoneType' object has no attribute 'rsplit'": "Possible STPR: This error usually occurs when a variable expected to hold a string is None. Verify that the variable is assigned a valid string value before attempting operations like 'rsplit'."
+    },
+    "DataValidationErrors": {
+        "'?\\d+ <= \\d+ <= \\d+'? should be true": "Possible SW PR: Ensure values fall within the expected range.",
+        "'\".+?\" == \".+?\"' should be true": "Version mismatch , Verify version compatibility and expected outputs.",
+        ".* still not .* waiting": "Session is not fully established. Check the network or authentication configuration to ensure the binding process completes successfully.",
+        "'\\d+(<|>|<=|>=)\\d+' should be true": "STPR or Criteria not met: Verify the logic or values in the comparison."
+    },
+    "TypeErrors": {
+        "TypeError.*list or list-like": "STPR: Check for operations between incompatible data types and missing Variables. For example, ensure you are not adding a string to an integer.",
+        "TypeError: 'NoneType' object is not subscriptable": "This error typically occurs when a `NoneType` object is accessed like a list or dictionary. Ensure that the variable is properly initialized before attempting to access it with an index or key.",
+        "TypeError: argument of type 'NoneType' is not iterable": "This error occurs when `None` is used in an operation that requires an iterable, like a loop or `in` check. Verify that the variable has been assigned a list or other iterable."
+    },
+    "TrafficErrors": {
+        "Failed traffic (for Ipv4stream )?from \\d+/\\d+ to \\d+/\\d+": "Verify traffic paths and check configurations at the specified source and destination ports. Ensure there are no blocking filters and that both ends are active. Check IPv4 stream configuration if applicable.",
+        ".*(imbalanced|balanced).*traffic.*": "SW PR: Verify traffic configuration and load balancing settings. Ensure that the device configuration matches the expected traffic pattern and investigate hardware or software anomalies causing traffic imbalance."
+    },
+    "ConfigurationValidationErrors": {
+        "\\[.*\\] does not contain value '.*'": "STPR: Check configuration to ensure the specified parameters are correctly defined. Confirm that required parameters are included in the expected format.",
+        "\\[.*\\] contains value '.*'": "STPR: Ensure that configuration values meet expected requirements and do not contain extraneous values. Confirm that values in the list are within allowed constraints.",
+        "'\\[.*\\]' does not contain any of .*": "STPR: Check that required configuration steps or parameters are not missing. Ensure all necessary values are included in the configuration."
+    },
+    "FilterErrors": {
+        "\\[ source-port \\| ip-protocol \\] does not contain value .*": "STPR: This indicates a missing filter setting. Ensure that required values such as 'source-port' or 'ip-protocol' are correctly set in the filter configurations."
+    },
+    "TrafficFlowErrors": {
+        "FAILED: not able to get the expected traffic flow, please check setup": "Verify the traffic setup to ensure expected flow between nodes. Check configurations for correct routing, firewall rules, and that devices are reachable."
+    },
+    "DeviceErrors": {
+        "\"RW error seen\"": "HW issue or a SW PR: A 'Read-Write' error has occurred. Check device health, memory, and disk states, and ensure there are no hardware faults causing the issue.",
+        "DeviceTerminalUnresponsiveException:.*did not return within '.*' seconds.*": "Connection Issue: The device terminal is unresponsive. Check device connectivity, ensure CLI commands are being issued correctly, and verify that the device is not in an unexpected state.",
+        "DeviceModeSwitchException:.*Cannot switch to .* mode.*": "STPR: Device mode switch failed. Ensure the device is reachable, not in a locked state, and that there are no session conflicts. Consider restarting the session if this persists.",
+        "Sent cli command:.*": "STPR: CLI command was sent but did not receive the expected response. Verify command syntax and check for connectivity or prompt issues with the device.",
+        "Expected cli prompt:.*": "STPR: Expected CLI prompt was not received. Confirm the prompt pattern, verify that the device is accessible, and check for potential timeout issues.",
+        "Received response ending with:.*": "STPR: CLI response did not contain the expected ending. Verify that the device is returning data as expected and check for network latency or prompt handling issues.",
+        "'.*' does not match '\\(\\?i\\).*'": "STPR: Device model mismatch detected. Verify that the connected device model matches expected specifications.",
+        "Evaluating expression '.*' failed: TypeError:.*object is not subscriptable": "STPR: Evaluation error encountered. Ensure that variables and expressions are of compatible data types to avoid subscript errors.",
+        "(Failed .* load config .* with error:|Error loading the configurations)": "Configuration load failed on the device. Verify the configuration syntax, ensure all required parameters are included, and check the device connection. Retry the operation if necessary.",
+        ".*subsystem .* not running": "A subsystem service is inactive. Check the service status on the device, restart the service if necessary, and investigate any logs for startup issues.",
+        ".*LinkFail:.*interface.* (down|not found).*": "One or more interfaces are either down or not found on the device. Check device connections and interface configurations to ensure they are active and correctly defined.",
+        "'.*Model: .*' does not match '.*'": "Device model mismatch detected. Verify that the connected device model matches expected specifications and is compatible with the required configuration.",
+        "lost connection": "Connection was lost during configuration operations. Check network stability, ensure the device remains reachable, and retry the operation.",
+        ".*not[- ]?running": "A service or process is not running. Check system logs, restart the service or process, and ensure dependencies are properly configured.",
+        "DeviceException: Could not save configuration .*?(\\.|/).*": "STPR: The device could not save the configuration. Check file system permissions, available space, and the specified file path."
+    },
+    "SpirentErrors": {
+        "SpirentException: Invocation of .* method traffic_stats failed.*": "Traffic Gen Issue: An error occurred in retrieving traffic statistics. Verify the Spirent setup, ensure that all necessary tables are available, and check port mappings before retrying the operation.",
+        "SpirentException: Invocation of .* method traffic_control failed.*": "Traffic Gen Issue: Failed to execute the traffic control command on Spirent. Ensure that the Spirent SAL (Session Abstraction Layer) is connected to a Test Session or a Server Manager, and check that the session configuration is valid.",
+        "SpirentException: Invocation of .* method stop_devices failed.*": "Traffic Gen Issue: Spirent encountered an error while attempting to stop devices. Check the SAL connection status, verify session stability, and reconnect if needed.",
+        "SpirentException: Invocation of .* method save_xml failed.*": "Traffic Gen Issue: Failed to save XML results on Spirent. Ensure that the file path is accessible, the session is properly connected, and that the SAL is configured to save outputs.",
+        "SpirentException: Invocation of .* method traffic_config failed.*": "Traffic Gen Issue: Spirent encountered an error in applying traffic configuration. Verify that the SAL is connected to a Test Session or Server Manager, and check the traffic configuration for any issues before retrying.",
+        "SpirentInvalidArgValueException: Invocation of .* method interface_config failed.*Invalid value.*for \"-speed\" argument.*": "Possible STPR: Invalid argument value provided for the '-speed' parameter in Spirent interface configuration. Ensure that the value matches one of the valid options: ether10, ether100, ether1000, ether10000, ether5Gig, or ether2500."
+    },
+    "TobyErrors": {
+        "TobyException: Could not get Device object for resource:.*": "Device object retrieval failed. Verify the resource availability and connectivity configurations.",
+        "TobyException: Task .* is not defined": "Undefined task encountered. Check the test scripts for missing or misnamed tasks.",
+        "TobyException: Unable to go into custom mode successfully.*did not return within '.*' seconds.*": "Failed to enter custom mode. Ensure device is reachable and in a responsive state. Adjust timeout settings if necessary.",
+        "TobyException: Error: Failed to download .+ using .+ protocols.*": "File download failed. Verify file path, permissions, and protocol compatibility. Ensure target location is not a directory.",
+        "RunMultipleException:.*TobyException.*Cannot switch to .* mode.*did not return within '.*' seconds.*": "Device mode switch failure during multi-command execution. Check if the device is reachable and in the correct operational mode. Verify session management to avoid conflicts.",
+        "RunMultipleException:.*TobyException.*detect_core.*did not return within '.*' seconds": "Core detection failure due to unresponsive device prompt. Verify if the device is operational and responsive to core detection commands. Increase timeout or session intervals if necessary."
+    }
+}

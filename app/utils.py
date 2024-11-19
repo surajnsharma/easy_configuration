@@ -1,5 +1,5 @@
 #utils.py#
-from flask import flash, redirect, url_for
+from flask import flash, redirect, url_for,current_app
 from flask_login import current_user
 from app import socketio
 from functools import wraps
@@ -11,20 +11,579 @@ from jnpr.junos import Device
 from jnpr.junos.utils.config import Config
 import socket
 from datetime import datetime, timedelta
-from .models import GpuSystem, db
+from .models import db
 import yaml,json
-from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.write_api import SYNCHRONOUS
 import psutil
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import hashlib
 from lxml import etree
-from jnpr.junos.utils.scp import SCP
+import xml.etree.ElementTree as ET
 from jnpr.junos.utils.sw import SW
-from ncclient.transport.errors import SSHError
+import gzip
+import shutil
+from werkzeug.utils import secure_filename
+from collections import defaultdict
 
 
+
+import requests
+from io import BytesIO
 # Define the function to load and render Jinja templates from /templates/ConfigTemplates
+
+
+
+
+class DeviceConnectorClass:
+    def __init__(self, hostname, ip, username, password, port=22, timeout=10, retries=1, retry_delay=3):
+        self.hostname = hostname
+        self.ip = ip
+        self.username = username
+        self.password = password
+        self.port = port
+        self.timeout = timeout
+        self.retries = retries
+        self.retry_delay = retry_delay
+
+    def is_valid_hostname(self):
+        """ Checks if the provided hostname can be resolved. """
+        try:
+            socket.gethostbyname(self.hostname)
+            return True
+        except socket.error as e:
+            logging.error(f"Failed to resolve hostname {self.hostname}: {e}")
+            return False
+
+    def connect_to_device(self):
+        """ Attempts to connect to the device using hostname first, then IP if hostname fails. """
+        for attempt in range(self.retries):
+            try:
+                # First, attempt to connect using the hostname
+                if self.is_valid_hostname():
+                    dev = Device(host=self.hostname, user=self.username, passwd=self.password, port=self.port, timeout=self.timeout)
+                    dev.open()
+                    if dev.connected:
+                        logging.info(f"Successfully connected to {self.hostname} using hostname")
+                        return dev
+                else:
+                    logging.warning(f"Hostname {self.hostname} unreachable, attempting connection using IP {self.ip}")
+
+                # If hostname fails, attempt to connect using the IP address directly
+                dev = Device(host=self.ip, user=self.username, passwd=self.password, port=self.port, timeout=self.timeout)
+                dev.open()
+                if dev.connected:
+                    logging.info(f"Successfully connected to {self.ip} using IP after hostname failure")
+                    return dev
+
+                # If connection fails with both hostname and IP
+                logging.error(f"Failed to establish connection to {self.hostname} or IP {self.ip}")
+                return None
+
+            except (ConnectError, paramiko.ssh_exception.SSHException, EOFError) as e:
+                logging.error(f"Attempt {attempt + 1} failed for {self.hostname} or IP {self.ip}: {e}")
+                if attempt < self.retries - 1:
+                    logging.info(f"Retrying connection after {self.retry_delay} seconds...")
+                    time.sleep(self.retry_delay)
+        logging.error(f"All {self.retries} attempts to connect to {self.hostname} or IP {self.ip} failed.")
+        return None
+
+    def close_connection(self, dev):
+        """Closes the device connection if it is open."""
+        try:
+            if dev and dev.connected:
+                dev.close()
+                logging.info(f"Closed connection to {self.hostname} (or IP {self.ip})")
+        except Exception as e:
+            logging.error(f"Error closing connection to {self.hostname} or IP {self.ip}: {e}")
+
+
+class RobotXMLParserClass:
+    def __init__(self, upload_folder):
+        self.upload_folder = upload_folder
+        self.allowed_extensions = {'xml', 'gz'}
+        self.patterns_to_match = [
+            re.compile(r"\bnot running\b", re.IGNORECASE),
+            re.compile(r"process-?\bnot\b-?\brunning", re.IGNORECASE),
+            re.compile(r"error\s\d+", re.IGNORECASE),
+            re.compile(r"TypeError:.* list or list-like", re.IGNORECASE),
+            re.compile(r"'\".+?\" == \".+?\"' should be true", re.IGNORECASE),
+            re.compile(r"<doc[^>]*>.*?Description:\s*(.*?)</doc>", re.DOTALL | re.IGNORECASE)
+        ]
+        self.exclusion_patterns = [
+            re.compile(r"\bDictionary does not contain key\b", re.IGNORECASE)
+        ]
+
+    def allowed_file(self, filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in self.allowed_extensions
+
+    def save_file(self, file, username):
+        user_folder = os.path.join(self.upload_folder, username)
+        os.makedirs(user_folder, exist_ok=True)
+        file_path = os.path.join(user_folder, secure_filename(file.filename))
+        file.save(file_path)
+        return file_path
+
+    def handle_gz_file(self, file_path):
+        if file_path.endswith('.gz'):
+            unzipped_file_path = file_path[:-3]
+            with gzip.open(file_path, 'rb') as gz_file:
+                with open(unzipped_file_path, 'wb') as xml_file:
+                    shutil.copyfileobj(gz_file, xml_file)
+            os.remove(file_path)
+            return unzipped_file_path
+        return file_path
+
+
+    def get_patterns_to_match(self):
+        """
+        Expose the current patterns to match. Use this method
+        wherever patterns are required in other methods.
+        """
+        return self.patterns_to_match
+
+    '''def capture_failures_in_keywords(self, element, failure_messages=None):
+        """
+        Capture failures and matches in <msg> and <rpc-reply> elements.
+        Args:
+            element: The current XML element being processed.
+            failure_messages: A list to store unique failure messages.
+        """
+        if failure_messages is None:
+            failure_messages = []
+
+        patterns = self.get_patterns_to_match()
+        unique_messages = set()  # Ensure messages are unique within this invocation
+        namespaces = {"xnm": "http://xml.juniper.net/xnm/1.1/xnm"}
+
+        for msg in element.iter("msg"):
+            timestamp = msg.get("timestamp", "No timestamp")
+            msg_text = msg.text.strip() if msg.text else "No detailed message."
+
+            # Check for failures with "level=FAIL"
+            if msg.get("level") == "FAIL" and timestamp:
+                unique_messages.add((timestamp, msg_text))
+
+            # Check patterns within the message text
+            for pattern in patterns:
+                match = re.search(pattern, msg_text)
+                if match:
+                    unique_messages.add((timestamp, match.group(0)))
+
+            # Handle <rpc-reply> elements
+            rpc_reply_match = re.search(r"(<rpc-reply.*?>.*?</rpc-reply>)", msg_text, re.DOTALL)
+            if rpc_reply_match:
+                rpc_reply_content = re.sub(r"&[a-zA-Z]+;", "", rpc_reply_match.group(1))
+                try:
+                    rpc_reply = ET.fromstring(rpc_reply_content)
+                    for error in rpc_reply.findall(".//xnm:error", namespaces):
+                        error_msg = error.findtext("xnm:message", "No detailed message.", namespaces).strip()
+                        for pattern in patterns:
+                            if re.search(pattern, error_msg):
+                                unique_messages.add((timestamp, error_msg))
+                except ET.ParseError:
+                    continue
+
+        # Add unique messages to failure_messages
+        for timestamp, message in unique_messages:
+            if not any(f["message"] == message for f in failure_messages):  # Avoid duplicates
+                failure_messages.append({"timestamp": timestamp, "message": message})
+
+        # Recursively process child elements
+        for child in element:
+            self.capture_failures_in_keywords(child, failure_messages)
+    def parse_robot_xml(self, xml_content=None):
+        """
+        Parse XML content to capture general failures and test-specific failures.
+        Args:
+            xml_content: XML content as a string.
+        Returns:
+            str: A formatted string containing all captured failures.
+        """
+
+        def is_excluded(message):
+            return any(pattern.search(message) for pattern in self.exclusion_patterns)
+
+        try:
+            tree = ET.ElementTree(ET.fromstring(xml_content))
+        except ET.ParseError as e:
+            raise ValueError(f"Error parsing XML: {e}")
+
+        root = tree.getroot()
+        output = []
+        general_failures = []
+
+        # Capture general failures
+        self.capture_failures_in_keywords(root, failure_messages=general_failures)
+
+        if general_failures:
+            output.append("=> General Failures:")
+            for failure in general_failures:
+                if not is_excluded(failure["message"]):
+                    output.append(f"[{failure['timestamp']}] - {failure['message']}")
+
+        # Process each test case
+        for test in root.iter("test"):
+            test_name = test.get("name")
+            failure_messages = []
+            self.capture_failures_in_keywords(test, failure_messages)
+
+            if failure_messages:
+                # Fetch the <doc> content for the test case
+                doc = test.find("doc")
+                doc_description = None
+                if doc is not None:
+                    doc_text = ET.tostring(doc, encoding="unicode", method="xml")
+                    description_match = re.search(
+                        r"<doc[^>]*>\s*(.*?)\s*</doc>", doc_text, re.DOTALL | re.IGNORECASE
+                    )
+                    if description_match:
+                        doc_description = re.sub(r"\s+", " ", description_match.group(1).strip())
+
+                # Add test case header
+                output.append(f"=> {test_name} encountered the following failures:")
+                for failure in failure_messages:
+                    if not is_excluded(failure["message"]):
+                        output.append(f"[{failure['timestamp']}] - {failure['message']}")
+
+                # Replace [No timestamp] with TestCase Description if available
+                if doc_description:
+                    output.append(f"[TestCase Description] - {doc_description}")
+        if not output:
+            output.append("No errors found.")
+        return "\n".join(output)'''
+
+    def capture_failures_in_keywords(self, element, failure_messages=None):
+        """
+        Capture failures and matches in <msg> and <rpc-reply> elements.
+        Args:
+            element: The current XML element being processed.
+            failure_messages: A list to store unique failure messages.
+        """
+        if failure_messages is None:
+            failure_messages = []
+
+        patterns = self.get_patterns_to_match()
+        unique_messages = set()  # Ensure messages are unique within this invocation
+        namespaces = {"xnm": "http://xml.juniper.net/xnm/1.1/xnm"}
+
+        for msg in element.iter("msg"):
+            timestamp = msg.get("timestamp", "No timestamp")
+            msg_level = msg.get("level", "").upper()  # Check the message level
+            msg_text = msg.text.strip() if msg.text else "No detailed message."
+
+            # Skip informational messages (level=INFO)
+            if msg_level == "INFO":
+                continue
+
+            # Check for failures with specific patterns
+            if msg_level == "FAIL" or any(re.search(pattern, msg_text) for pattern in patterns):
+                unique_messages.add((timestamp, msg_text))
+
+            # Handle <rpc-reply> elements within the message
+            rpc_reply_match = re.search(r"(<rpc-reply.*?>.*?</rpc-reply>)", msg_text, re.DOTALL)
+            if rpc_reply_match:
+                rpc_reply_content = re.sub(r"&[a-zA-Z]+;", "", rpc_reply_match.group(1))
+                try:
+                    rpc_reply = ET.fromstring(rpc_reply_content)
+                    for error in rpc_reply.findall(".//xnm:error", namespaces):
+                        error_msg = error.findtext("xnm:message", "No detailed message.", namespaces).strip()
+                        if any(re.search(pattern, error_msg) for pattern in patterns):
+                            unique_messages.add((timestamp, error_msg))
+                except ET.ParseError:
+                    continue
+
+        # Add unique messages to failure_messages
+        for timestamp, message in unique_messages:
+            if not any(f["message"] == message for f in failure_messages):  # Avoid duplicates
+                failure_messages.append({"timestamp": timestamp, "message": message})
+
+        # Recursively process child elements
+        for child in element:
+            self.capture_failures_in_keywords(child, failure_messages)
+
+    def parse_robot_xml(self, xml_content=None):
+        """
+        Parse XML content to capture general failures and test-specific failures.
+        Args:
+            xml_content: XML content as a string.
+        Returns:
+            str: A formatted string containing all captured failures.
+        """
+
+        def is_excluded(message):
+            return any(pattern.search(message) for pattern in self.exclusion_patterns)
+
+        try:
+            tree = ET.ElementTree(ET.fromstring(xml_content))
+        except ET.ParseError as e:
+            raise ValueError(f"Error parsing XML: {e}")
+
+        root = tree.getroot()
+        output = []
+        general_failures = []
+
+        # Capture general failures
+        self.capture_failures_in_keywords(root, failure_messages=general_failures)
+
+        if general_failures:
+            output.append("=> General Failures:")
+            for failure in general_failures:
+                if not is_excluded(failure["message"]):
+                    output.append(f"[{failure['timestamp']}] - {failure['message']}")
+
+        # Process each test case
+        for test in root.iter("test"):
+            test_name = test.get("name")
+            failure_messages = []
+            self.capture_failures_in_keywords(test, failure_messages)
+
+            if failure_messages:
+                # Fetch the <doc> content for the test case
+                doc = test.find("doc")
+                doc_description = None
+                if doc is not None:
+                    doc_text = ET.tostring(doc, encoding="unicode", method="xml")
+                    description_match = re.search(
+                        r"<doc[^>]*>\s*(.*?)\s*</doc>", doc_text, re.DOTALL | re.IGNORECASE
+                    )
+                    if description_match:
+                        doc_description = re.sub(r"\s+", " ", description_match.group(1).strip())
+
+                # Add test case header
+                output.append(f"=> {test_name} encountered the following failures:")
+
+                # Add description only if there are failures
+                if doc_description:
+                    cleaned_description = re.sub(r"x-cmd.*", "", doc_description)
+                    output.append(f"[TestCase Description] - {cleaned_description.strip()}")
+
+                for failure in failure_messages:
+                    if not is_excluded(failure["message"]):
+                        output.append(f"[{failure['timestamp']}] - {failure['message']}")
+
+        if not output:
+            output.append("No errors found.")
+        return "\n".join(output)
+
+    def suggest_corrective_action(self, error_message, corrective_actions):
+        """Suggest corrective actions based on predefined patterns."""
+        for group_name, patterns in corrective_actions.items():
+            for pattern, suggestion in patterns.items():
+                if re.search(pattern, error_message, re.IGNORECASE):
+                    return group_name, suggestion
+        return None, "No specific corrective action available."
+
+    def load_corrective_actions(self, user_id):
+        """
+        Load corrective actions from the database for a specific user.
+        Args:
+            user_id (int): The ID of the user whose corrective actions to load.
+        Returns:
+            dict: Corrective actions organized by category.
+        """
+        corrective_actions = defaultdict(dict)
+        try:
+            training_data = TrainingData.query.filter_by(user_id=user_id).all()
+
+            # Organize data into a dictionary grouped by category
+            for data in training_data:
+                corrective_actions[data.category][data.pattern] = data.suggestion
+
+        except Exception as e:
+            current_app.logger.error(f"Error loading corrective actions from database: {e}")
+            raise ValueError("Error loading corrective actions from the database.")
+
+        return corrective_actions
+
+
+    '''def display_corrective_actions_from_file(self, file_path, training_data, user_id,log_dir):
+        """
+        Analyze failures from a file and provide corrective actions from the database.
+        Args:
+            file_path (str): Path to the log file containing failure messages.
+            user_id (int): The ID of the user whose corrective actions to use.
+        Returns:
+            str: Message indicating unmatched errors if any.
+        """
+        corrective_actions = self.load_corrective_actions(training_data, user_id)
+        suggestions_file_path = os.path.join(log_dir, "robot_failure_suggestions.txt")
+        #suggestions_file_path = "robot_failure_suggestions.txt"
+
+        error_summary = defaultdict(lambda: {"count": 0, "suggestion": "", "unique_messages": {}})
+        unmatched_errors = []
+        unmatched_count = 0
+
+        # Patterns to identify metadata lines (lines that should not be processed as errors)
+        metadata_patterns = [
+            re.compile(r"^--------.*_failure_log\.txt --------$"),
+            re.compile(r"^=> .* encountered the following failures:$"),
+            re.compile(r"^=> General Failures:$"),  # Treat "=> General Failures" as metadata
+            re.compile(r"^$")  # Empty lines
+        ]
+
+        def is_metadata_line(line):
+            """Check if a line is metadata and should be skipped."""
+            return any(pattern.match(line) for pattern in metadata_patterns)
+
+        try:
+            with open(file_path, 'r') as log_file, open(suggestions_file_path, 'w') as suggestions_file:
+                for line in log_file:
+                    line = line.strip()
+
+                    # Skip metadata lines
+                    if is_metadata_line(line):
+                        continue
+
+                    # Use suggest_corrective_action for each error line
+                    group_name, suggestion = self.suggest_corrective_action(line, corrective_actions)
+
+                    if group_name:
+                        # Only count unique error messages
+                        if line not in error_summary[(group_name, suggestion)]["unique_messages"]:
+                            error_summary[(group_name, suggestion)]["unique_messages"][line] = 1
+                        else:
+                            error_summary[(group_name, suggestion)]["unique_messages"][line] += 1
+                        error_summary[(group_name, suggestion)]["suggestion"] = suggestion
+                    else:
+                        unmatched_errors.append(line)
+                        unmatched_count += 1
+                # Write results for matched errors
+                for (group, suggestion), details in error_summary.items():
+                    count = sum(details["unique_messages"].values())
+                    suggestions_file.write(f"Failure Group: {group}\n")
+                    suggestions_file.write(f"Occurrences: {count}\n")
+                    suggestions_file.write("Failures:\n")
+                    for msg, occurrence in details["unique_messages"].items():
+                        suggestions_file.write(f" - {msg} (Occurred {occurrence} times)\n")
+                    suggestions_file.write(f"Suggested Action: {suggestion}\n")
+                    suggestions_file.write(f"{'-' * 50}\n")
+                # Write unmatched errors if any
+                if unmatched_errors:
+                    suggestions_file.write("\nUnmatched Errors:\n")
+                    for error in unmatched_errors:
+                        suggestions_file.write(f"No corrective action found for error: {error}\n")
+            print(f"Suggestions saved in '{suggestions_file_path}'.")
+
+            if unmatched_count > 0:
+                unmatched_message = f"==> No specific corrective actions found for {unmatched_count} errors. Training required!"
+                print(unmatched_message)
+                return unmatched_message
+
+            return None
+
+        except FileNotFoundError:
+            raise ValueError(f"File {file_path} not found.")'''
+
+    def display_corrective_actions_from_file(self, file_path, training_data, user_id, log_dir):
+        """
+        Analyze failures from a file and provide corrective actions from the database.
+        Args:
+            file_path (str): Path to the log file containing failure messages.
+            user_id (int): The ID of the user whose corrective actions to use.
+        Returns:
+            str: Message indicating unmatched errors if any.
+        """
+        corrective_actions = self.load_corrective_actions(training_data, user_id)
+        suggestions_file_path = os.path.join(log_dir, "robot_failure_suggestions.txt")
+
+        error_summary = defaultdict(lambda: {"count": 0, "suggestion": "", "unique_messages": {}})
+        unmatched_errors = []
+        unmatched_count = 0
+
+        # Patterns to identify lines to skip, including [TestCase Description]
+        skip_patterns = [
+            re.compile(r"^--------.*_failure_log\.txt --------$"),
+            re.compile(r"^=> .* encountered the following failures:$"),
+            re.compile(r"^=> General Failures:$"),  # Treat "=> General Failures" as metadata
+            re.compile(r"^$"),  # Empty lines
+            re.compile(r"^\[TestCase Description\].*$", re.DOTALL)  # Skip [TestCase Description] lines
+        ]
+
+        def is_skip_line(line):
+            """Check if a line matches any skip patterns."""
+            return any(pattern.match(line) for pattern in skip_patterns)
+
+        try:
+            with open(file_path, 'r') as log_file, open(suggestions_file_path, 'w') as suggestions_file:
+                for line in log_file:
+                    line = line.strip()
+
+                    # Skip lines that match the skip patterns
+                    if is_skip_line(line):
+                        continue
+
+                    # Use suggest_corrective_action for each error line
+                    group_name, suggestion = self.suggest_corrective_action(line, corrective_actions)
+
+                    if group_name:
+                        # Only count unique error messages
+                        if line not in error_summary[(group_name, suggestion)]["unique_messages"]:
+                            error_summary[(group_name, suggestion)]["unique_messages"][line] = 1
+                        else:
+                            error_summary[(group_name, suggestion)]["unique_messages"][line] += 1
+                        error_summary[(group_name, suggestion)]["suggestion"] = suggestion
+                    else:
+                        unmatched_errors.append(line)
+                        unmatched_count += 1
+
+                # Write results for matched errors
+                for (group, suggestion), details in error_summary.items():
+                    count = sum(details["unique_messages"].values())
+                    suggestions_file.write(f"Failure Group: {group}\n")
+                    suggestions_file.write(f"Occurrences: {count}\n")
+                    suggestions_file.write("Failures:\n")
+                    for msg, occurrence in details["unique_messages"].items():
+                        suggestions_file.write(f" - {msg} (Occurred {occurrence} times)\n")
+                    suggestions_file.write(f"Suggested Action: {suggestion}\n")
+                    suggestions_file.write(f"{'-' * 50}\n")
+
+                # Write unmatched errors if any
+                if unmatched_errors:
+                    suggestions_file.write("\n******** Unmatched Errors **********\n")
+                    for error in unmatched_errors:
+                        suggestions_file.write(f"No corrective action found for error: {error}\n")
+
+            print(f"Suggestions saved in '{suggestions_file_path}'.")
+
+            if unmatched_count > 0:
+                unmatched_message = f"==> No specific corrective actions found for {unmatched_count} errors. Training required!"
+                print(unmatched_message)
+                return unmatched_message
+
+            return None
+
+        except FileNotFoundError:
+            raise ValueError(f"File {file_path} not found.")
+
+    def load_corrective_actions(self, training_data,user_id):
+        """
+        Load corrective actions from the provided training data.
+        Args:
+            training_data (list): List of TrainingData objects.
+        Returns:
+            dict: Corrective actions organized by category.
+        """
+        corrective_actions = defaultdict(dict)
+        for data in training_data:
+            corrective_actions[data.category][data.pattern] = data.suggestion
+        return corrective_actions
+
+    def process_uploaded_file(self, file, username, name_suggestions=False):
+        if not self.allowed_file(file.filename):
+            raise ValueError("Unsupported file type")
+        file_path = self.save_file(file, username)
+        file_path = self.handle_gz_file(file_path)
+        with open(file_path, "r") as f:
+            xml_content = f.read()
+
+        os.remove(file_path)
+
+        failures = self.parse_robot_xml(xml_content=xml_content)
+        if name_suggestions:
+            display_corrective_actions_from_file(file_path)
+        return failures
+
+
+
 def load_and_render_template(template_name, context):
     """
     Load and render a Jinja2 template from the /templates/ConfigTemplates directory.
@@ -47,134 +606,6 @@ def load_and_render_template(template_name, context):
 
     # Render the template with the provided context
     return template.render(context)
-
-
-'''class DeviceConnectorClass:
-    def __init__(self, hostname, ip, username, password):
-        self.hostname = hostname
-        self.ip = ip
-        self.username = username
-        self.password = password
-
-    def is_valid_hostname_or_ip(self):
-        """
-        Checks if the provided hostname or IP address can be resolved.
-        :return: True if valid, False otherwise.
-        """
-        try:
-            socket.gethostbyname(self.ip)
-            return True
-        except socket.error:
-            return False
-
-    def connect_to_device(self):
-        """
-        Establishes a connection to the device using the provided credentials.
-        Handles connection authentication and general connection errors.
-        """
-        logging.info(f"Attempting to connect to device: {self.hostname} at IP: {self.ip}")
-
-        # Validate hostname or IP address
-        if not self.is_valid_hostname_or_ip():
-            logging.error(f"Invalid hostname or IP address: {self.ip}")
-            raise Exception(f"Invalid hostname or IP address: {self.ip}")
-        try:
-            dev=Device(host=self.ip, user=self.username, passwd=self.password, port=22)
-            dev.open()
-            if dev.connected:
-                logging.info(f"Successfully connected to {self.hostname} at IP: {self.ip}")
-                return dev  # Return the device object
-            else:
-                logging.error(f"Failed to establish connection to {self.hostname} (dev.connected is False)")
-                raise Exception(f"Failed to establish connection to {self.hostname} at IP: {self.ip}")
-        except ConnectAuthError as e:
-            logging.error(f"Connection authentication error for device {self.hostname}: {str(e)}")
-            raise ConnectAuthError(f"Connection authentication error for device {self.hostname}: {str(e)}")
-        except ConnectUnknownHostError as e:
-            logging.error(f"Unknown host error for device {self.hostname}: {str(e)}")
-            raise ConnectUnknownHostError(f"Unknown host: Could not resolve {self.hostname}. Please check the hostname or DNS configuration.")
-        except ConnectError as e:
-            logging.error(f"Connection error for device {self.hostname}: {str(e)}")
-            raise ConnectError(f"Connection error for device {self.hostname}: {str(e)}")
-        except Exception as e:
-            logging.error(f"Error connecting to device {self.hostname}: {str(e)}")
-            raise Exception(f"Error connecting to device {self.hostname}: {str(e)}")'''
-
-
-class DeviceConnectorClass:
-    def __init__(self, hostname, ip, username, password):
-        self.hostname = hostname
-        self.ip = ip
-        self.username = username
-        self.password = password
-
-    def is_valid_hostname_or_ip(self):
-        """
-        Checks if the provided hostname or IP address can be resolved.
-        :return: True if valid, False otherwise.
-        """
-        try:
-            socket.gethostbyname(self.ip)
-            return True
-        except socket.error:
-            return False
-
-    def connect_to_device(self):
-        """
-        Establishes a connection to the device using the provided credentials.
-        Handles connection authentication and general connection errors.
-        """
-        logging.info(f"Attempting to connect to device: {self.hostname} at IP: {self.ip}")
-
-        # Validate hostname or IP address
-        if not self.is_valid_hostname_or_ip():
-            logging.error(f"Invalid hostname or IP address: {self.ip}")
-            raise Exception(f"Invalid hostname or IP address: {self.ip}")
-
-        try:
-            dev = Device(host=self.ip, user=self.username, passwd=self.password, port=22)
-            dev.open()
-
-            if dev.connected:
-                logging.info(f"Successfully connected to {self.hostname} at IP: {self.ip}")
-                return dev  # Return the device object
-            else:
-                logging.error(f"Failed to establish connection to {self.hostname} (dev.connected is False)")
-                raise Exception(f"Failed to establish connection to {self.hostname} at IP: {self.ip}")
-
-        except ConnectAuthError as e:
-            logging.error(f"Connection authentication error for device {self.hostname}: {str(e)}")
-            raise ConnectAuthError(f"Connection authentication error for device {self.hostname}: {str(e)}")
-
-        except ConnectUnknownHostError as e:
-            logging.error(f"Unknown host error for device {self.hostname}: {str(e)}")
-            raise ConnectUnknownHostError(
-                f"Unknown host: Could not resolve {self.hostname}. Please check the hostname or DNS configuration.")
-
-        except SSHError as e:
-            logging.error(f"SSH error for device {self.hostname}: {str(e)}")
-            raise SSHError(f"SSH error while connecting to {self.hostname}: {str(e)}")
-
-        except paramiko.ssh_exception.SSHException as e:
-            logging.error(f"Paramiko SSH exception for device {self.hostname}: {str(e)}")
-            raise paramiko.ssh_exception.SSHException(f"SSH exception for device {self.hostname}: {str(e)}")
-
-        except socket.error as e:
-            logging.error(f"Socket error for device {self.hostname}: {str(e)}")
-            raise socket.error(f"Socket error for device {self.hostname}: {str(e)}")
-        except ConnectionResetError as e:
-            logging.error(f"Connection reset by peer for device {self.hostname}: {str(e)}")
-            raise ConnectionResetError(f"Connection reset by peer for device {self.hostname}: {str(e)}")
-
-        except ConnectError as e:
-            logging.error(f"General connection error for device {self.hostname}: {str(e)}")
-            raise ConnectError(f"Connection error for device {self.hostname}: {str(e)}")
-
-        except Exception as e:
-            logging.error(f"General error connecting to device {self.hostname}: {str(e)}")
-            raise Exception(f"General error connecting to device {self.hostname}: {str(e)}")
-
-
 class BuildLLDPConnectionClass:
     def __init__(self, hostname,device_in_database):
         """
@@ -245,8 +676,7 @@ class BuildLLDPConnectionClass:
                     if self.hostname not in neighbors_dict:
                         neighbors_dict[self.hostname] = []
                     neighbors_dict[self.hostname].append((remote_system_name, interface, sanitized_port_desc))
-                    print(
-                        f"Added neighbor - System: {remote_system_name}, Interface: {interface}, Port Desc: {sanitized_port_desc}")
+                    #print(f"Added neighbor - System: {remote_system_name}, Interface: {interface}, Port Desc: {sanitized_port_desc}")
         except Exception as e:
             logging.warning(f"Failed to fetch LLDP neighbors: {e}")
             raise
@@ -294,270 +724,6 @@ class BuildLLDPConnectionClass:
                 }
                 connections.append(connection)
         return connections
-
-
-
-class InfluxDBConnectionV2:
-    def __init__(self):
-        self.url = "http://localhost:8086"
-        self.token = "g84qg1Dz4GxjuAqioniTJsl1K_ln3JVPiU4FshYJ3fUjS5n38cgAMtCcLIBt_TVtmf8IWLfV_wxym-f4v85qjw=="
-        self.org = "juniper"
-        self.bucket = "telemetry" #for server telemetry
-        self.intbucket="metrics" #for interface telemetry
-        self.client = InfluxDBClient(url=self.url, token=self.token, org=self.org)
-
-    def get_measurements_for_device(self, device_name):
-        query = f'SHOW MEASUREMENTS WITH MEASUREMENT =~ /^{device_name}.*/'
-
-        curl_command = [
-            'curl', '--get', f'{self.url}/query',
-            '--header', f'Authorization: Token {self.token}',
-            '--data-urlencode', f'db={self.intbucket}',
-            '--data-urlencode', f'q={query}'
-        ]
-
-        try:
-            result = subprocess.run(curl_command, capture_output=True, text=True, check=True)
-            output = result.stdout
-            data = json.loads(output)
-
-            if 'results' in data and data['results'][0].get('series'):
-                measurements = [measurement[0] for measurement in data['results'][0]['series'][0]['values']]
-                return measurements
-            else:
-                return []
-
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing curl command: {e}")
-            return []
-        except json.JSONDecodeError as e:
-            print(f"Error parsing JSON response: {e}")
-            return []
-
-    def query_interface_counters(self, limit=10, source_filter=None, measurement_filter="interface_counters",
-                                 interfaces_filter=None):
-        influxql_query = f'SELECT * FROM "{measurement_filter}" WHERE "source" = \'{source_filter}\''
-
-        if interfaces_filter:
-            interfaces_condition = ' OR '.join(
-                [f'"interface_name" = \'{interface}\'' for interface in interfaces_filter])
-            influxql_query += f' AND ({interfaces_condition})'
-
-        influxql_query += f' ORDER BY time DESC LIMIT {limit}'
-
-        # Execute the curl command using subprocess
-        curl_command = [
-            'curl', '--get', 'http://localhost:8086/query',
-            '--header', f'Authorization: Token {self.token}',
-            '--data-urlencode', f'db={self.intbucket}',
-            '--data-urlencode', f'q={influxql_query}'
-        ]
-
-        try:
-            result = subprocess.run(curl_command, capture_output=True, text=True, check=True)
-            output = result.stdout
-            data = json.loads(output)
-            return data
-
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing curl command: {e}")
-            return None
-        except json.JSONDecodeError as e:
-            print(f"Error parsing JSON response: {e}")
-            return None
-
-    def query_interface_names(self, source_filter=None, measurement_filter=None):
-        if measurement_filter is None:
-            raise ValueError("A measurement must be selected.")
-
-        # Construct the InfluxQL query string
-        influxql_query = f'SHOW TAG VALUES FROM "{measurement_filter}" WITH KEY = "interface_name" WHERE "source" = \'{source_filter}\''
-
-        # Execute the curl command using subprocess
-        curl_command = [
-            'curl', '--get', 'http://localhost:8086/query',
-            '--header', f'Authorization: Token {self.token}',
-            '--data-urlencode', f'db={self.intbucket}',
-            '--data-urlencode', f'q={influxql_query}'
-        ]
-
-        try:
-            result = subprocess.run(curl_command, capture_output=True, text=True, check=True)
-            output = result.stdout
-
-            # Parse the output as JSON
-            data = json.loads(output)
-            return data
-
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing curl command: {e}")
-            return None
-        except json.JSONDecodeError as e:
-            print(f"Error parsing JSON response: {e}")
-            return None
-
-    def delete_measurement(self, measurement):
-        query = f'DROP MEASUREMENT "{measurement}"'
-        curl_command = [
-            'curl', '--get', 'http://localhost:8086/query',
-            '--header', f'Authorization: Token {self.token}',
-            '--data-urlencode', f'db={self.intbucket}',
-            '--data-urlencode', f'q={query}'
-        ]
-
-        try:
-            result = subprocess.run(curl_command, capture_output=True, text=True, check=True)
-            if result.returncode == 0:
-                print(f"Measurement '{measurement}' deleted successfully.")
-                return True
-            else:
-                print(f"Failed to delete measurement '{measurement}'.")
-                return False
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing curl command: {e}")
-            return False
-
-    def get_device_hosts(self):
-        query = '''
-        from(bucket: "telemetry")
-          |> range(start: -24h)
-          |> distinct(column: "host")
-        '''
-        result = self.client.query_api().query(query=query, org=self.org)
-        if result:
-            hosts = list(set([record.get_value() for table in result for record in table.records]))
-        else:
-            hosts = []
-        return hosts
-
-
-    def query_metrics(self, device_hosts, record_limit, selected_date=None):
-        formatted_hosts = "[" + ",".join([f'"{host}"' for host in device_hosts]) + "]"
-
-        try:
-            # Validate and format the date if provided
-            if selected_date:
-                try:
-                    start_date = f'{selected_date}T00:00:00Z'
-                    end_date = f'{selected_date}T23:59:59Z'
-                    date_filter = f'  |> range(start: {start_date}, stop: {end_date})'
-                except ValueError as e:
-                    raise ValueError(f"Invalid date format: {selected_date}. Expected format is YYYY-MM-DD.") from e
-            else:
-                date_filter = f'  |> range(start: -24h)'
-
-            # Construct the query
-            query = (
-                f'from(bucket: "{self.bucket}")'
-                f'{date_filter}'
-                f'  |> filter(fn: (r) => r._measurement == "server_metrics" and contains(value: r.host, set: {formatted_hosts}))'
-                f'  |> sort(columns: ["_time"], desc: true)'
-                f'  |> limit(n: {record_limit})'
-            )
-
-            # Execute the query
-            result = self.client.query_api().query(query=query, org=self.org)
-            return result if result else []
-
-        except Exception as e:
-            logging.error(f"Failed to execute query_metrics: {e}")
-            return None
-
-
-    def delete_metric(self, host, time, field):
-        try:
-            logging.info(f"Original time: {time}")
-            parsed_time = datetime.strptime(time, '%a, %d %b %Y %H:%M:%S %Z')
-            start_time = parsed_time.isoformat() + 'Z'
-            end_time = (parsed_time + timedelta(seconds=1)).isoformat() + 'Z'
-            logging.info(f"Start time: {start_time}, End time: {end_time}")
-
-            predicate = f'_measurement="server_metrics" AND host="{host}"'
-            logging.info(f"Delete predicate: {predicate}")
-
-            delete_api = self.client.delete_api()
-            delete_api.delete(
-                start=start_time,
-                stop=end_time,
-                predicate=predicate,
-                bucket=self.bucket,
-                org=self.org
-            )
-            logging.info("Metric deleted successfully.")
-            return True
-        except Exception as e:
-            logging.error(f"Error deleting metric: {str(e)}")
-            return False
-
-    def get_gpu_system_by_id(self,system_id):
-        # Query the GpuSystem model to get the system by its ID
-        system = GpuSystem.query.get(system_id)
-        if system:
-            return {
-                'node_ip': system.node_ip,
-                'user': system.user,
-                'password': system.password
-            }
-        return None
-
-
-    def server_telemetry(self, REMOTE_HOST, USERNAME, PASSWORD):
-        SSH_TIMEOUT = 10
-        logging.info(f"Starting connection to {REMOTE_HOST}...")
-
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-        try:
-            ssh.connect(REMOTE_HOST, username=USERNAME, password=PASSWORD, timeout=SSH_TIMEOUT)
-            logging.info(f"Successfully connected to {REMOTE_HOST}.")
-
-            python_script = """
-import psutil
-cpu_usage = psutil.cpu_percent(interval=1)
-memory_usage = psutil.virtual_memory().percent
-disk_usage = psutil.disk_usage('/').percent
-print(cpu_usage)
-print(memory_usage)
-print(disk_usage)
-"""
-            stdin, stdout, stderr = ssh.exec_command(f"python3 -c \"{python_script}\"")
-            output = stdout.read().decode().splitlines()
-            error_output = stderr.read().decode()
-
-            if error_output:
-                raise Exception(f"Error output from remote host {REMOTE_HOST}: {error_output.strip()}")
-
-            if len(output) != 3:
-                raise Exception(f"Unexpected output from remote host {REMOTE_HOST}: {output}")
-
-            cpu_usage = float(output[0])
-            memory_usage = float(output[1])
-            disk_usage = float(output[2])
-
-        except Exception as e:
-            logging.error(f"Exception occurred on host {REMOTE_HOST}: {e}")
-            raise Exception(f"{e} on host {REMOTE_HOST}")
-
-        finally:
-            ssh.close()
-
-        try:
-            write_api = self.client.write_api(write_options=SYNCHRONOUS)
-            point = Point("server_metrics") \
-                .tag("host", REMOTE_HOST) \
-                .field("cpu_usage", cpu_usage) \
-                .field("memory_usage", memory_usage) \
-                .field("disk_usage", disk_usage)
-
-            write_api.write(bucket=self.bucket, org=self.org, record=point)
-            logging.info(f"Data written to InfluxDB for host {REMOTE_HOST}")
-        except Exception as e:
-            logging.error(f"Failed to collect metrics or write to InfluxDB for host {REMOTE_HOST}: {e}")
-            raise Exception(f"Failed to collect metrics or write to InfluxDB on host {REMOTE_HOST}: {e}")
-        finally:
-            self.client.close()
-
 
 
 class OnboardDeviceClass:
@@ -675,8 +841,6 @@ class OnboardDeviceClass:
         # Emit progress incrementally during the copy
         self.socketio.emit('copy_progress', {'device_id': device_id, 'progress': progress, 'stage': 'copying'})
 
-
-
 class GNMIConfigBuilder:
     def __init__(self, influx_token, gnmi_server):
         self.config = {
@@ -729,55 +893,6 @@ class GNMIConfigBuilder:
         # Save the configuration YAML to a file
         with open(file_path, 'w') as file:
             yaml.dump(self.config, file, default_flow_style=False)
-
-
-"""class GNMIConfigBuilder:
-    def __init__(self, influx_token, target,port, address, username, password, gnmi_server, paths, subscription_mode, sample_interval):
-        self.config = {
-            'targets': {
-                target: {
-                    'address': f'{address}:{port}',
-                    'username': username,
-                    'password': password,
-                    'tls': {
-                        'enabled': False
-                    },
-                    'insecure': True
-                }
-            },
-            'outputs': {
-                'default': {
-                    'type': 'influxdb',
-                    'address': f'http://{gnmi_server}:8086',
-                    'bucket': 'metrics',
-                    'token': influx_token,
-                    'org': 'juniper',
-                    'precision': 'ns'
-                }
-            },
-            'subscriptions': {
-                'interface_counters': {
-                    'paths': paths,
-                    'mode': subscription_mode.lower(),
-                    'encoding': 'proto',
-                    'sample_interval': f'{sample_interval}s'
-                }
-            }
-        }
-
-    def build_config(self):
-        return yaml.dump(self.config, default_flow_style=False)
-
-    def save_to_file(self, file_path):
-        # Ensure the directory exists
-        directory = os.path.dirname(file_path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
-        # Save the configuration YAML to a file
-        with open(file_path, 'w') as file:
-            yaml.dump(self.config, file, default_flow_style=False)"""
-
 
 class TelemetryUtils:
     def __init__(self, app):
@@ -854,7 +969,6 @@ class TelemetryUtils:
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
-
 def is_reachable(ip):
     try:
         socket.gethostbyname(ip)
@@ -865,7 +979,8 @@ def is_reachable(ip):
 def get_router_details_from_db():
     router_details = []
     from app.models import DeviceInfo  # Import here to avoid circular imports
-    devices = DeviceInfo.query.all()
+    #devices = DeviceInfo.query.all()
+    devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
     for device in devices:
         router_details.append({
             'hostname': device.hostname,
@@ -1112,7 +1227,7 @@ def generate_interface_config(interface, ip_address):
     ]
 
 
-def generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6, ip_assignments=None):
+def generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6, use_dlb=False, use_glb=False, use_slb=False, ip_assignments=None):
     ip_assignments = ip_assignments or {}
     subnet_counter = 1
     configured_groups = set()  # Track which BGP groups have been configured
@@ -1159,6 +1274,32 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
             f"set protocols bgp group {group_name} local-as {local_as}"
         ]
 
+    def append_special_config(commands, use_dlb, use_glb,use_slb):
+        """
+        Appends special configuration commands for DLB and GLB if enabled.
+        Parameters:
+        - commands (list): The command list to which special configurations are added.
+        - use_dlb (bool): Whether to enable DLB-specific configurations.
+        - use_glb (bool): Whether to enable GLB-specific configurations.
+        """
+        if use_dlb:
+            commands.extend([
+                "set groups global forwarding-options enhanced-hash-key ecmp-dlb flowlet"
+            ])
+
+        if use_glb:
+            commands.extend([
+                "set protocols bgp global-load-balancing load-balancer-only",
+                "set protocols bgp global-load-balancing helper-only",
+                "set groups global forwarding-options enhanced-hash-key ecmp-dlb flowlet"
+            ])
+
+        if use_slb:
+            commands.extend([
+                "set policy-options policy-statement ecmp then load-balance per-packet",
+                "set routing-options forwarding-table export ecmp"
+            ])
+
     def remove_duplicates(commands_list):
         seen = set()
         result = []
@@ -1169,7 +1310,7 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
         return result
 
     logging.info(f"connections: {connections}")
-    print(connections)
+    #print(connections)
     # Process connections
     for connection in connections:
         subnet = subnet_counter
@@ -1258,313 +1399,217 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
                 ipv6_address = ip_data.get("ipv6") if use_ipv6 else None
                 logging.info(f"Generating config for interface {interface}: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
                 commands[device].extend(generate_interface_group_config(interface, ipv4_address, ipv6_address))
-
+        # Append special configurations if DLB or GLB is enabled
+        append_special_config(commands[device], use_dlb, use_glb, use_slb)
         # Remove duplicate commands before logging or further usage
         commands[device] = remove_duplicates(commands[device])
-        logging.info(f"commands for {device}: {commands[device]}")
-
-'''def generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6, ip_assignments=None):
-    ip_assignments = ip_assignments or {}
-    configured_groups = set()  # Track which BGP groups have been configured
-    skip_interfaces = {'re0:mgmt-0', 'em0', 'fxp0'}
-    skip_device_patterns = ['mgmt', 'management', 'hypercloud']
-    configured_interfaces = {}
-    subnet_counter = 1  # Use subnet counter at the connection level
-
-    def get_ip(subnet, host_id, ipv6=False):
-        if ipv6:
-            return f"fd00:{subnet}::{host_id}"
-        else:
-            return f"192.168.{subnet}.{host_id}"
-
-    def get_subnet(ip_address, ipv6=False):
-        if ipv6:
-            return ipaddress.ip_network(ip_address + '/64', strict=False)
-        else:
-            return ipaddress.ip_network(ip_address + '/30', strict=False)
-
-    def generate_bgp_group_config(group_name, use_ipv4=True, use_ipv6=False):
-        commands = []
-        # Add family inet unicast for IPv4 group
-        if use_ipv4 and group_name == "underlay_v4":
-            commands.append(f"set protocols bgp group {group_name} family inet unicast")
-
-        # Add family inet6 unicast for IPv6 group
-        if use_ipv6 and group_name == "underlay_v6":
-            commands.append(f"set protocols bgp group {group_name} family inet6 unicast")
-
-        return commands
-
-    def generate_interface_group_config(interface, ipv4_address=None, ipv6_address=None):
-        config_commands = [f"delete interfaces {interface}"]
-        logging.info(f"Configuring interface {interface} with addresses: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
-
-        # For IPv4, use /30 prefix length
-        if ipv4_address:
-            config_commands.append(f"set interfaces {interface} unit 0 family inet address {ipv4_address}/30")
-
-        # For IPv6, use /64 prefix length
-        if ipv6_address:
-            config_commands.append(f"set interfaces {interface} unit 0 family inet6 address {ipv6_address}/64")
-
-        return config_commands
-
-    def generate_bgp_neighbor_config(local_ip, neighbor_ip, local_as, remote_as, group_name):
-        return [
-            "## BGP Neighbor Config ##",
-            f"set protocols bgp group {group_name} neighbor {neighbor_ip} peer-as {remote_as}",
-            f"set protocols bgp group {group_name} neighbor {neighbor_ip} local-address {local_ip}",
-            f"set protocols bgp group {group_name} local-as {local_as}"
-        ]
-
-    def remove_duplicates(commands_list):
-        seen = set()
-        result = []
-        for command in commands_list:
-            if command not in seen:
-                seen.add(command)
-                result.append(command)
-        return result
-
-    logging.info(f"connections: {connections}")
-
-    # Process each connection and assign the same subnet for all devices in the connection
-    for connection in connections:
-        print(f"CSV Connection: {connection}")
-        subnet = subnet_counter  # Use a single subnet per connection
-        subnet_counter += 1
-        host_id = 1  # Reset host_id for each connection
-        neighbor_ip_mapping = {}
-
-        # First loop: Assign IP addresses to devices and populate neighbor_ip_mapping
-        if isinstance(connection, dict):
-            for device, interface in connection.items():
-                if any(pattern in device.lower() for pattern in skip_device_patterns) or interface in skip_interfaces:
-                    continue
-                if device not in ip_assignments:
-                    ip_assignments[device] = {}
-                if device not in configured_interfaces:
-                    configured_interfaces[device] = set()
-                if interface not in ip_assignments[device]:
-                    ip_assignments[device][interface] = {}
-                if interface not in configured_interfaces[device]:
-                    # Assign IP addresses from the same subnet for devices in the connection
-                    ipv4_address, ipv6_address = None, None
-                    if use_ipv4:
-                        ipv4_address = get_ip(subnet, host_id, ipv6=False)
-                        ip_assignments[device][interface] = {"ipv4": ipv4_address}
-                        neighbor_ip_mapping[f"{device}-{interface}-ipv4"] = ipv4_address
-                    if use_ipv6:
-                        ipv6_address = get_ip(subnet, host_id, ipv6=True)
-                        ip_assignments[device][interface]["ipv6"] = ipv6_address
-                        neighbor_ip_mapping[f"{device}-{interface}-ipv6"] = ipv6_address
-
-                    configured_interfaces[device].add(interface)
-
-                    # Increment host_id for each device in the connection
-                    host_id += 1
-
-            # Debugging: Print neighbor_ip_mapping only if it's not empty
-            if neighbor_ip_mapping:
-                print(f"Neighbor IP mapping after first loop: {neighbor_ip_mapping}")
-                logging.info(f"Neighbor IP mapping after first loop: {neighbor_ip_mapping}")
-
-        logging.info(f"Neighbor IP Mapping: {neighbor_ip_mapping}")
-
-        # Second loop: Use the populated neighbor_ip_mapping to create BGP configurations
-        for device, interface in connection.items():
-            for ip_version in ["ipv4", "ipv6"]:
-                if ip_version == "ipv4" and not use_ipv4:
-                    continue
-                if ip_version == "ipv6" and not use_ipv6:
-                    continue
-
-                if f"{device}-{interface}-{ip_version}" not in neighbor_ip_mapping:
-                    # Skip if the interface was not assigned an IP address in the first loop
-                    continue
-
-                local_subnet = get_subnet(neighbor_ip_mapping[f"{device}-{interface}-{ip_version}"], ipv6=(ip_version == "ipv6"))
-
-                for remote_device, remote_interface in connection.items():
-                    if remote_device != device and f"{remote_device}-{remote_interface}-{ip_version}" in neighbor_ip_mapping:
-                        remote_subnet = get_subnet(neighbor_ip_mapping[f"{remote_device}-{remote_interface}-{ip_version}"], ipv6=(ip_version == "ipv6"))
-                        if local_subnet == remote_subnet:
-                            local_as = local_as_mapping.get(device)
-                            remote_as = local_as_mapping.get(remote_device)
-
-                            if local_as is not None and remote_as is not None:
-                                neighbor_ip = neighbor_ip_mapping[f"{remote_device}-{remote_interface}-{ip_version}"]
-                                local_ip = neighbor_ip_mapping[f"{device}-{interface}-{ip_version}"]
-
-                                # Select BGP group name based on IP version
-                                group_name = "underlay_v4" if ip_version == "ipv4" else "underlay_v6"
-
-                                # Configure BGP group if not already done
-                                if group_name not in configured_groups:
-                                    group_commands = generate_bgp_group_config(group_name,
-                                                                               use_ipv4=(ip_version == "ipv4"),
-                                                                               use_ipv6=(ip_version == "ipv6"))
-                                    commands[device].extend(group_commands)
-                                    configured_groups.add(group_name)
-
-                                # Generate BGP neighbor configuration for the device
-                                bgp_commands = generate_bgp_neighbor_config(local_ip, neighbor_ip, local_as, remote_as, group_name)
-                                commands[device].extend(bgp_commands)
-
-    # Add common and interface configurations
-    for device, interfaces in ip_assignments.items():
-        if any(pattern in device.lower() for pattern in skip_device_patterns):
-            continue
-        if device not in commands:
-            commands[device] = []
-        if delete_underlay_group:
-            if use_ipv4:
-                commands[device].insert(0, f"delete protocols bgp group underlay_v4")
-            if use_ipv6:
-                commands[device].insert(1, f"delete protocols bgp group underlay_v6")
-
-        # Add common config and interface configs
-        commands[device].extend(generate_common_config(use_ipv4, use_ipv6))
-        for interface, ip_data in interfaces.items():
-            if use_ipv4:
-                ipv4_address = ip_data.get("ipv4")
-            if use_ipv6:
-                ipv6_address = ip_data.get("ipv6")
-            logging.info(f"Generating config for interface {interface}: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
-            commands[device].extend(generate_interface_group_config(interface, ipv4_address, ipv6_address))
-
-        # Remove duplicate commands before logging or further usage
-        commands[device] = remove_duplicates(commands[device])
-        logging.info(f"commands: {device}: {commands[device]}")
-'''
-
-"""def check_device_health(router_details, devices):
-    health_status = {}
-    for device in devices:
-        device_id = device['id']
-        device_ip = device['label']  # Assuming the label contains the IP address
-
-        # Find the corresponding router details
-        router_detail = next((rd for rd in router_details if rd['hostname'] == device_id), None)
-        if not router_detail:
-            health_status[device_id] = 'unknown'
-            continue
-        try:
-            with Device(host=device_ip, user=router_detail['username'], passwd=router_detail['password'],
-                        port=22) as dev:
-                if dev.connected:
-                    health_status[device_id] = 'reachable'
-                else:
-                    health_status[device_id] = 'unreachable'
-        except ConnectAuthError as e:
-            health_status[device_id] = 'auth_error'
-            logging.info(f"Authentication error connecting to {device_ip}: {e}")
-        except ConnectError as e:
-            health_status[device_id] = 'connect_error'
-            logging.info(f"Connection error to {device_ip}: {e}")
-        except Exception as e:
-            health_status[device_id] = 'unreachable'
-            logging.info(f"Error connecting to {device_ip}: {e}")
-
-    return health_status
-
-    # Function to check link health"""
-
-
-def check_device_health(router_details, devices, use_hostname_as_label=False):
-    health_status = {}
-
-    for device in devices:
-        if use_hostname_as_label:
-            device_id = device['ip']  # Use IP as device_id
-            device_ip = device['hostname']  # Use hostname as the label
-        else:
-            device_id = device['id']  # Default behavior: Use device id
-            device_ip = device['label']  # Use the label as IP address
-
-        # Find the corresponding router details
-        if use_hostname_as_label:
-            router_detail = next((rd for rd in router_details if rd['hostname'] == device['hostname']), None)
-        else:
-            router_detail = next((rd for rd in router_details if rd['hostname'] == device_id), None)
-
-        if not router_detail:
-            health_status[device_id] = 'unknown'
-            continue
-
-        try:
-            with Device(host=device_ip, user=router_detail['username'], passwd=router_detail['password'],
-                        port=22) as dev:
-                if dev.connected:
-                    health_status[device_id] = 'reachable'
-                else:
-                    health_status[device_id] = 'unreachable'
-        except ConnectAuthError as e:
-            health_status[device_id] = 'auth_error'
-            logging.info(f"Authentication error connecting to {device_ip}: {e}")
-        except ConnectError as e:
-            health_status[device_id] = 'connect_error'
-            logging.info(f"Connection error to {device_ip}: {e}")
-        except Exception as e:
-            health_status[device_id] = 'unreachable'
-            logging.info(f"Error connecting to {device_ip}: {e}")
-
-    return health_status
+        #logging.warning(f"commands for {device}: {commands[device]}")
 
 
 def check_link_health(router_details, edges):
-    health_status = {}
-    for edge in edges:
-        edge_id = edge['data']['id']
-        logging.info(f"Processing edge: {edge_id}")
-
+    def get_interface_status(device, interface_name):
+        """ Use RPC to retrieve interface status for a given interface on a connected device. """
         try:
-            source_device, source_interface, target_device, target_interface = edge_id.split('--')
-        except ValueError as e:
-            logging.error(f"Invalid edge_id format: {edge_id}, error: {e}")
-            health_status[edge_id] = 'unknown'
-            continue
+            interface_info = device.rpc.get_interface_information(terse=True, interface_name=interface_name)
+            interface_status = interface_info.find('.//oper-status').text.lower()
+            return interface_status == "up"
+        except Exception as e:
+            logging.error(f"Error retrieving RPC interface status for {interface_name}: {e}")
+            return False
 
-        # Find the corresponding router details
-        source_detail = next((rd for rd in router_details if rd['hostname'] == source_device), None)
-        target_detail = next((rd for rd in router_details if rd['hostname'] == target_device), None)
+    # Pre-check reachability for all devices in router_details
+    reachable_devices = {}
+    for device in router_details:
+        connector = DeviceConnectorClass(
+            hostname=device['hostname'],
+            ip=device['ip'],
+            username=device['username'],
+            password=device['password']
+        )
+        dev = connector.connect_to_device()
+        if dev:
+            reachable_devices[device['hostname']] = device
+            connector.close_connection(dev)
+        else:
+            logging.warning(f"Skipping unreachable device: {device['hostname']}")
+
+    # Skip link processing if no devices are reachable
+    if not reachable_devices:
+        logging.warning("No reachable devices found. Skipping link processing.")
+        return {}
+
+    link_health_status = {}
+
+    def find_device_detail(device_name):
+        """ Finds a device in reachable_devices by either matching hostname prefix or IP address. """
+        for rd in reachable_devices.values():
+            if rd['hostname'].startswith(device_name) or rd['ip'] == device_name:
+                return rd
+        logging.warning(f"No match found for device {device_name} in reachable devices.")
+        return None
+
+    # Process each link only if we have reachable devices
+    for edge in edges:
+        source_device = edge['data']['source']
+        target_device = edge['data']['target']
+        source_interface = edge['data']['id'].split('--')[1]
+        target_interface = edge['data']['id'].split('--')[3]
+
+        source_detail = find_device_detail(source_device)
+        target_detail = find_device_detail(target_device)
 
         if not source_detail or not target_detail:
-            health_status[edge_id] = 'unknown'
+            link_health_status[edge['data']['id']] = 'unknown'
+            logging.warning(f"Details missing for source {source_device} or target {target_device}")
+            continue
+
+        source_connector = DeviceConnectorClass(
+            hostname=source_detail['hostname'],
+            ip=source_detail['ip'],
+            username=source_detail['username'],
+            password=source_detail['password']
+        )
+        target_connector = DeviceConnectorClass(
+            hostname=target_detail['hostname'],
+            ip=target_detail['ip'],
+            username=target_detail['username'],
+            password=target_detail['password']
+        )
+
+        try:
+            # Attempt to connect to both devices
+            source_dev = source_connector.connect_to_device()
+            target_dev = target_connector.connect_to_device()
+
+            if source_dev is None or target_dev is None:
+                link_health_status[edge['data']['id']] = 'unreachable'
+                logging.info(
+                    f"Link {edge['data']['id']} between {source_device} and {target_device} is unreachable due to connection failure.")
+                continue
+
+            # Check interface status on both devices
+            source_status = get_interface_status(source_dev, source_interface)
+            target_status = get_interface_status(target_dev, target_interface)
+
+            if source_status and target_status:
+                link_health_status[edge['data']['id']] = 'reachable'
+                logging.info(f"Link {edge['data']['id']} between {source_device} and {target_device} is reachable.")
+            else:
+                link_health_status[edge['data']['id']] = 'unreachable'
+                logging.info(f"Link {edge['data']['id']} between {source_device} and {target_device} is unreachable.")
+
+        except Exception as e:
+            logging.error(
+                f"Error checking link {edge['data']['id']} between {source_device} and {target_device}: {str(e)}")
+            link_health_status[edge['data']['id']] = 'unreachable'
+
+        finally:
+            # Ensure connections are closed after each check
+            if source_dev:
+                source_connector.close_connection(source_dev)
+            if target_dev:
+                target_connector.close_connection(target_dev)
+
+    return link_health_status
+
+
+'''def check_device_health(router_details, devices):
+    def is_port_open(hostname, port=22):
+        """
+        Use `nc` (netcat) to check if a port is open on the specified hostname.
+        """
+        try:
+            # Use `nc` to attempt a connection to the specified port with a 3-second timeout
+            result = subprocess.run(
+                ['nc', '-z', '-w', '3', hostname, str(port)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            # Return True if the exit code is 0 (indicating the port is open)
+            return result.returncode == 0
+        except subprocess.CalledProcessError as e:
+            logging.info(f"nc command failed for {hostname}:{port}: {e}")
+            return False
+        except Exception as e:
+            logging.error(f"Unexpected error with nc on {hostname}:{port}: {e}")
+            return False
+
+    health_status = {}
+    logging.info(f"check_device_health, router_details: {router_details}")
+    logging.info(f"check_device_health , devices: {router_details}")
+
+    for device in devices:
+        device_id = device.get('id')  # Assuming device_id is the hostname
+        logging.info(f"Checking device_id (hostname): {device_id}")
+
+        if not device_id:
+            health_status[device_id] = 'unknown'
             continue
 
         try:
-            with Device(host=source_detail['ip'], user=source_detail['username'], passwd=source_detail['password'],
-                        port=22) as dev:
-                interface_statuses = dev.rpc.get_interface_information()
-                interfaces = interface_statuses.findall('.//physical-interface')
-                for interface in interfaces:
-                    interface_name = interface.find('name').text.strip()
-                    operational_status = interface.find('oper-status').text.strip()
-                    if interface_name == source_interface:
-                        # logging.info(f"{source_detail['ip']}: {interface_name} - {operational_status}")
-                        if operational_status == 'up':
-                            health_status[edge_id] = 'reachable'
-                        else:
-                            health_status[edge_id] = 'unreachable'
-                        break
-        except ConnectAuthError as e:
-            health_status[edge_id] = 'auth_error'
-            logging.info(f"Authentication error connecting to {source_detail['ip']} for edge {edge_id}: {e}")
-        except ConnectError as e:
-            health_status[edge_id] = 'connect_error'
-            logging.info(f"Connection error to {source_detail['ip']} for edge {edge_id}: {e}")
+            # Check device reachability using `nc` on port 22 with hostname
+            reachable = is_port_open(device_id)
+            health_status[device_id] = 'reachable' if reachable else 'unreachable'
         except Exception as e:
-            health_status[edge_id] = 'unreachable'
-            logging.info(f"Error checking link {edge_id}: {e}")
+            health_status[device_id] = 'unreachable'
+            logging.info(f"Error connecting to {device_id}: {e}")
 
-    logging.info(health_status)
+    return health_status'''
+
+def check_device_health(router_details, devices):
+    def is_port_open(hostname_or_ip, port=22):
+        """
+        Use `nc` (netcat) to check if a port is open on the specified hostname or IP.
+        """
+        try:
+            result = subprocess.run(
+                ['nc', '-z', '-w', '3', hostname_or_ip, str(port)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            return result.returncode == 0  # True if the port is open
+        except subprocess.CalledProcessError as e:
+            logging.info(f"nc command failed for {hostname_or_ip}:{port}: {e}")
+            return False
+        except Exception as e:
+            logging.error(f"Unexpected error with nc on {hostname_or_ip}:{port}: {e}")
+            return False
+
+    health_status = {}
+    logging.info(f"router_details: {router_details}")
+    logging.info(f"devices: {devices}")
+
+    for device in devices:
+        device_id = device.get('id')  # Use 'id' key for device_id
+        logging.info(f"Checking device_id: {device_id}")
+
+        # Construct the full hostname to match router_details
+        full_hostname = next((d['hostname'] for d in router_details if d['hostname'].startswith(device_id)), None)
+
+        if not full_hostname:
+            health_status[device_id] = 'unknown'
+            logging.warning(f"No matching details found for device {device_id} in router details.")
+            continue
+
+        # Get IP from the device details
+        device_detail = next((d for d in router_details if d['hostname'] == full_hostname), None)
+        device_ip = device_detail.get('ip')
+        reachable = False
+
+        try:
+            # First try using hostname
+            reachable = is_port_open(full_hostname)
+            if not reachable:
+                logging.warning(f"Hostname {full_hostname} unreachable, attempting connection using IP {device_ip}")
+                # If hostname fails, try using the IP address
+                reachable = is_port_open(device_ip)
+
+            health_status[device_id] = 'reachable' if reachable else 'unreachable'
+        except Exception as e:
+            health_status[device_id] = 'unreachable'
+            logging.info(f"Error connecting to {full_hostname} (or IP {device_ip}): {e}")
+
     return health_status
-
-
-
-
-
 
 def generate_bgp_scale_config(initial_local_as, initial_peer_as, neighbor_count, as_type,
                               bgp_neighbor_ip_parts, bgp_versions, bgp_type, bgp_interface_name):

@@ -51,24 +51,31 @@ html, body {
 .navbar {
     position: fixed;
     top: 0;
+    left: 0; /* Ensures alignment from the left edge */
     width: 100%;
+    height: 30px; /* Fixed height to align with sidebar offset */
     z-index: 1030;
     background-color: #343a40; /* Dark background for the navbar */
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 0; /* Remove padding to avoid unintended gaps */
+    display: flex; /* Ensure content stays inline */
+    align-items: center; /* Center content vertically */
 }
 
 /* Sidebar styling: fixed to the left, beneath the navbar */
 #sidebar {
     position: fixed;
-    top: 56px; /* Height of the navbar */
+    top: 10px; /* Align with navbar height */
     left: 0;
-    width: 250px; /* Sidebar width */
-    height: calc(100% - 56px); /* Full height minus the navbar */
-    background-color: #343a40; /* Match the navbar background */
-    padding-top: 1rem;
-    z-index: 1029;
-    overflow-y: auto; /* Scrollable sidebar content */
+    bottom: 0;
+    width: 200px; /* Adjust width as needed */
+    overflow-y: auto;
+    background-color: #343a40; /* Same background as navbar */
+    color: white;
+    z-index: 1029; /* Ensure sidebar sits below navbar */
+    padding-top: 1rem; /* Padding for inner content */
+    border-right: 1px solid #444; /* Optional: add border for separation */
 }
 
 /* Styling for sidebar links */
@@ -84,14 +91,25 @@ html, body {
     background-color: #495057; /* Slight background change on hover */
 }
 
+
+
 /* Content area styling */
 .content {
-    margin-left: 250px; /* Sidebar width */
-    padding: 10px;
-    width: calc(100% - 250px); /* Full width minus sidebar */
-    margin-top: 10px; /* Navbar height */
-    overflow-y: auto; /* Scrollable content area */
-    background-color: #f8f9fa; /* Light background for content */
+    flex-grow: 2;  /* Take up all remaining space in the container */
+    margin-top: 20px; /* Match navbar height */
+    margin-left: 200px;
+    padding: 20px;
+    height: calc(100vh - 70px); /* Adjust height to account for top margin */
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+
+.custom-navbar {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 0.85rem; /* Adjust font size for a compact look */
+    min-height: 20px; /* Set a specific height if needed */
 }
 
 /* Success and error messages */
@@ -130,42 +148,16 @@ html, body {
     background-color: lightgreen;
 }
 
-/* Form container styling */
+/* Form container to ensure full width */
 .form-container {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 10px auto;
-    max-width: 1400px;
-}
-
-/* Table styling */
-table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 1rem;
-    min-width: 400px;
-}
-
-table th, table td {
-    padding: 12px 15px;
-    border: 1px solid #dee2e6;
-    text-align: left;
-    white-space: nowrap; /* Prevent text from wrapping onto multiple lines */
-    overflow: hidden; /* Hide any overflowing content */
-    text-overflow: ellipsis; /* Add ellipsis (…) if the text is too long */
-}
-
-table th {
-    background-color: lightblue;
-    color: Indigo;
-    border-bottom: 2px solid #ddd; /* Add a bottom border for separation */
-}
-
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    max-width: 100%; /* Ensures the form container doesn’t exceed available space */
+    overflow-x: auto; /* Enable horizontal scroll if content overflows */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 table tr:hover {
@@ -372,3 +364,576 @@ table#onboardedDevicesTable th, table#onboardedDevicesTable td {
     text-decoration: none; /* Ensure there is no underline */
 }
 
+
+/* Container for the onboardedDevicesTable to enable horizontal scrolling if needed */
+#onboardedDevicesTableContainer {
+    overflow-x: auto; /* Enables horizontal scroll if table exceeds container width */
+    width: 100%; /* Ensures container takes the full width */
+}
+
+/* Styles specifically for onboardedDevicesTable */
+#onboardedDevicesTable {
+    width: 100%; /* Full width within the container */
+    table-layout: auto; /* Let columns adjust to content */
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+#onboardedDevicesTable th, #onboardedDevicesTable td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping in cells */
+    overflow: hidden; /* Prevent overflow from extending table size */
+    text-overflow: ellipsis; /* Add ellipsis if content is too long */
+}
+
+#onboardedDevicesTable th {
+    background-color: #343a40; /* Dark header background */
+    color: white;
+    font-weight: bold;
+}
+
+#onboardedDevicesTable tr:nth-child(even) {
+    background-color: #f8f9fa; /* Alternating row background color */
+}
+
+#onboardedDevicesTable tr:hover {
+    background-color: #e9ecef; /* Light gray background on hover */
+}
+
+/* Button style adjustments for icon buttons inside onboardedDevicesTable */
+#onboardedDevicesTable .small-btn {
+    background-color: transparent; /* Transparent for icon-focused look */
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1.2rem; /* Size adjustment for icons */
+    color: #343a40;
+    transition: color 0.3s;
+}
+
+#onboardedDevicesTable .small-btn:hover {
+    color: #007bff; /* Highlight color on hover */
+}
+
+/* Additional styling for actions cell to center align buttons in onboardedDevicesTable */
+#onboardedDevicesTable .actions-cell {
+    display: flex;
+    gap: 5px; /* Space between buttons */
+    justify-content: center;
+}
+
+/* Responsive container for #generalConfigTable */
+#generalConfigTable {
+    width: 100%; /* Full width within the container */
+    table-layout: auto; /* Columns adjust based on content */
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+#generalConfigTable th, #generalConfigTable td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    vertical-align: middle; /* Aligns content vertically centered */
+    background-color: #f8f9fa; /* Light background for cells */
+}
+
+#generalConfigTable th {
+    background-color: #343a40; /* Dark background for headers */
+    color: white;
+    font-weight: bold;
+    text-align: left;
+}
+
+#generalConfigTable input[type="number"],
+#generalConfigTable input[type="text"],
+#generalConfigTable select {
+    width: 100%; /* Full width for input/select controls */
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333; /* Dark text for readability */
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#generalConfigTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternating row color for better readability */
+}
+
+#generalConfigTable tr:hover {
+    background-color: #e9ecef; /* Light gray background on hover */
+}
+
+/* Main container styling for vlanConfigForm */
+#vlanConfigForm {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Table styling within vlanConfigForm */
+#vlanConfigForm .table {
+    width: 100%; /* Full width within the container */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+#vlanConfigForm th, #vlanConfigForm td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#vlanConfigForm th {
+    background-color: #696969; /* Dark background for headers */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#vlanConfigForm td input[type="number"],
+#vlanConfigForm td input[type="text"] {
+    width: 100%; /* Full width within the cell */
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Checkbox group styling for vlanConfigForm */
+#vlanConfigForm .form-check-inline {
+    margin-right: 10px;
+}
+
+#vlanConfigForm .form-check-label {
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+/* Native VLAN ID input styling */
+#native_vlanid_input {
+    display: none; /* Hidden by default */
+    width: 120px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+/* Submit and Reset Buttons styling */
+#vlanConfigForm .btn-primary, #vlanConfigForm .btn-secondary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+}
+
+#vlanConfigForm .d-flex.gap-2 {
+    gap: 10px; /* Spacing between buttons */
+}
+
+/* Container styling for bgpForm */
+#bgpForm {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Table styling within bgpForm */
+#bgpForm table {
+    width: 100%; /* Full width within the container */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+#bgpForm th, #bgpForm td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#bgpForm th {
+    background-color: #696969; /* Dark background for headers */
+    color: white;
+    font-weight: bold;
+}
+
+/* Input fields styling within the table cells */
+#bgpForm input[type="text"],
+#bgpForm input[type="number"],
+#bgpForm select {
+    width: 100%; /* Full width within the cell */
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Inline form elements for checkboxes, radios, and labels */
+#bgpForm input[type="checkbox"],
+#bgpForm input[type="radio"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+#bgpForm label {
+    font-weight: normal;
+    margin-right: 15px; /* Space between checkboxes/radios and labels */
+}
+
+/* Additional input styling for specific elements */
+#bgpForm .small-input {
+    width: 120px; /* Specific width for smaller inputs */
+    margin-left: 10px;
+}
+
+/* Styling for Submit and Reset buttons */
+#bgpForm input[type="submit"],
+#bgpForm input[type="reset"] {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#bgpForm input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#bgpForm input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#bgpForm input[type="reset"] {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#bgpForm input[type="reset"]:hover {
+    background-color: #5a6268;
+}
+
+/* Container styling for underlayConfigForm */
+#underlayConfigForm {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Label and input alignment */
+#underlayConfigForm .row {
+    margin-bottom: 15px;
+}
+
+#underlayConfigForm label {
+    font-weight: 500;
+}
+
+/* Styling for select dropdown */
+#underlayConfigForm .form-select,
+#underlayConfigForm input[type="file"],
+#underlayConfigForm input[type="text"] {
+    width: 100%; /* Full width within the row */
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Link styling for Sample CSV */
+#UnderlaySampleCSVBtn {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#UnderlaySampleCSVBtn:hover {
+    text-decoration: none; /* Remove underline on hover */
+}
+
+/* Inline form elements for checkboxes and radios */
+#underlayConfigForm .form-check-inline {
+    margin-right: 10px; /* Space between inline elements */
+}
+
+#underlayConfigForm .form-check-input {
+    margin-right: 5px;
+}
+
+#underlayConfigForm .form-check-label {
+    font-weight: normal;
+}
+
+/* Button styling for action buttons */
+#underlayConfigForm .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#underlayConfigForm .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+#underlayConfigForm .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Modal styling for Sample CSV */
+#underlaySampleCSVModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+}
+
+#underlaySampleCSVModal .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+#underlaySampleCSVModal pre {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+
+
+/* Container styling for uploadConfigForm */
+#uploadConfigForm {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Label and input alignment within form groups */
+#uploadConfigForm .form-group {
+    margin-bottom: 15px;
+}
+
+#uploadConfigForm label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* Input and textarea styling */
+#uploadConfigForm input[type="file"],
+#uploadConfigForm input[type="text"],
+#uploadConfigForm textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#uploadConfigForm textarea {
+    resize: vertical; /* Allows vertical resizing of the textarea */
+}
+
+/* Button styling for submit button */
+#uploadConfigForm .btn-primary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#uploadConfigForm .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Center-align the submit button */
+#uploadConfigForm .text-center {
+    text-align: center;
+}
+
+/* Progress container styling */
+#progressContainer {
+    margin-top: 15px;
+}
+
+/* Container styling for vxlanForm */
+#vxlanForm {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Heading styling */
+#vxlanForm h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Nav Tabs styling */
+#vxlanForm .nav-tabs .nav-link {
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #dee2e6;
+    border-radius: 4px 4px 0 0;
+}
+
+#vxlanForm .nav-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+    border-bottom: 0;
+}
+
+#vxlanForm .tab-content {
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #f8f9fa;
+}
+
+/* General Configuration Table styling */
+#vxlanForm table.table {
+    width: 100%; /* Full width within the container */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+#vxlanForm th, #vxlanForm td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#vxlanForm th {
+    background-color: #696969; /* Dark background for headers */
+    color: white;
+    font-weight: bold;
+}
+
+#vxlanForm input[type="text"],
+#vxlanForm input[type="number"],
+#vxlanForm select {
+    width: 100%; /* Full width within the cell */
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Leaf Service Interface Table styling */
+#vxlanForm #leafServiceTable {
+    width: 100%; /* Full width within the container */
+    font-size: 0.9rem;
+}
+
+#vxlanForm #leafServiceTable th, #vxlanForm #leafServiceTable td {
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+#vxlanForm #leafServiceTable th {
+    background-color: #6c757d; /* Different shade for the leaf service table header */
+    color: white;
+    font-weight: bold;
+}
+
+#vxlanForm #leafServiceTable tbody tr:hover {
+    background-color: #e9ecef; /* Row hover effect */
+}
+
+/* Checkboxes */
+#vxlanForm .form-check-input {
+    margin-right: 5px;
+}
+
+#vxlanForm .form-check-label {
+    font-weight: normal;
+}
+
+/* Submit Button and Toggle Group styling */
+#vxlanForm .btn-primary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#vxlanForm .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+#vxlanForm .btn-group .btn-check + .btn-secondary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#vxlanForm .btn-group .btn-check:checked + .btn-secondary {
+    background-color: #5a6268;
+}

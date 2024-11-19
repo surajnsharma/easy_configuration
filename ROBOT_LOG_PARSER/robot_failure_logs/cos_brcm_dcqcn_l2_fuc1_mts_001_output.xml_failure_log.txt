@@ -1,0 +1,5 @@
+-------- cos_brcm_dcqcn_l2_fuc1_mts_001_output.xml_failure_log.txt --------
+
+**General Failures:
+[20241102 05:22:15.380] - SpirentInvalidArgValueException: Invocation of SPIRENT method interface_config failed with result: {'log': 'error in ::sth::Session::interface_config_imp -speed ether100Gig -priority0 0 -priority1 0 -priority2 0 -priority3 0 -priority4 0 -priority5 0 -priority6 0 -priority7 0 -mode modify -port_handle port2 --> parse_dashed_args: Invalid value "ether100Gig" for "-speed" argument.  Valid values are: "ether10|ether100|ether1000|ether10000|ether5Gig|ether2500"', 'status': '0'}
+

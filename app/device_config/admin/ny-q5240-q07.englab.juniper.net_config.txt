@@ -1,0 +1,19 @@
+delete protocols bgp group underlay_v4
+set protocols lldp interface all
+set policy-options policy-statement export_v4_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v4_lo0 term 1 then accept
+set protocols bgp group underlay_v4 export export_v4_lo0
+set protocols bgp group underlay_v4 type external
+delete interfaces et-0/0/62:0
+set interfaces et-0/0/62:0 unit 0 family inet address 192.168.14.1/30
+delete interfaces et-0/0/62:1
+set interfaces et-0/0/62:1 unit 0 family inet address 192.168.15.1/30
+delete interfaces et-0/0/63:0
+set interfaces et-0/0/63:0 unit 0 family inet address 192.168.16.1/30
+delete interfaces et-0/0/63:1
+set interfaces et-0/0/63:1 unit 0 family inet address 192.168.17.1/30
+delete interfaces et-0/0/59:1
+set interfaces et-0/0/59:1 unit 0 family inet address 192.168.18.1/30
+set protocols bgp global-load-balancing load-balancer-only
+set protocols bgp global-load-balancing helper-only
+set groups global forwarding-options enhanced-hash-key ecmp-dlb flowlet

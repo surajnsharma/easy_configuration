@@ -7,6 +7,29 @@
     <title>Generated Configuration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+    /* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -116,7 +139,8 @@
             border: 1px solid #ddd;
         }
     </style>
-    <script>
+    <!--script>
+        const socket = io();
         async function transferConfig(filename, router_ip, hostname) {
             const formData = new FormData();
             formData.append('filename', filename);
@@ -143,7 +167,77 @@
                 alert('Error transferring configuration: ' + error.message);
             }
         }
-    </script>
+        // Listen for real-time transfer progress updates
+        socket.on('transfer_progress', function(data) {
+            const { hostname, progress, message, status } = data;
+
+            // Display progress and message to user
+            console.log(`[${hostname}] ${message} (${progress}%)`);
+
+            // Optionally, you can use the status field to change the display color or show success/failure icons.
+            if (status === 'success') {
+                alert(`${hostname}: Transfer completed successfully!`);
+            } else if (status === 'failure' || status === 'error') {
+                alert(`${hostname}: Transfer failed. ${message}`);
+            }
+        });
+    </script-->
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+<script>
+    const socket = io();
+
+    function openTransferProgressModal() {
+        document.getElementById('transferProgressModal').style.display = 'block';
+        document.getElementById('transferProgressBar').value = 0;
+        document.getElementById('transferProgressText').textContent = '0% Complete';
+    }
+
+    function closeTransferProgressModal() {
+        document.getElementById('transferProgressModal').style.display = 'none';
+    }
+
+    async function transferConfig(filename, router_ip, hostname) {
+        const formData = new FormData();
+        formData.append('filename', filename);
+        formData.append('router_ip', router_ip);
+
+        openTransferProgressModal(); // Open the progress modal before starting
+
+        try {
+            const response = await fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            const progressText = document.getElementById('transferProgressText');
+
+            // Display final message in the modal
+            if (result.success) {
+                progressText.textContent = "Transfer completed successfully.";
+            } else {
+                progressText.textContent = "Transfer failed: " + result.message;
+            }
+        } catch (error) {
+            // Display error in modal
+            document.getElementById('transferProgressText').textContent = "Error transferring configuration: " + error.message;
+        } finally {
+            // Optionally close modal here, or keep it open for the user to close manually
+            setTimeout(closeTransferProgressModal, 3000); // Close modal after a delay if desired
+        }
+    }
+
+
+    socket.on('transfer_progress', function(data) {
+        const progressBar = document.getElementById('transferProgressBar');
+        const progressText = document.getElementById('transferProgressText');
+
+        progressBar.value = data.progress;
+        progressText.textContent = `${data.progress}% Complete - ${data.message}`;
+    });
+</script>
+
+
 </head>
 
 <body>
@@ -189,11 +283,25 @@
                 <button class="icon-button icon-transfer" onclick="transferConfig('{{ host }}_config.txt', '{{ device.ip }}', '{{ host }}')">
                     <i class="fas fa-paper-plane"></i> Transfer Config to {{ host }}
                 </button>
+            {% else %}
+                <!-- Debug message for missing transfer link -->
+                <p style="color: red;">Transfer link not generated for {{ host }} (no matching device in 'database')</p>
             {% endif %}
             <pre>{{ cmds | join('\n') }}</pre>
         {% endfor %}
 
+
     </div>
+<!-- Transfer Progress Modal -->
+<div id="transferProgressModal" class="modal">
+    <div class="modal-content">
+        <h4>Transfer Progress</h4>
+        <progress id="transferProgressBar" value="0" max="100"></progress>
+        <p id="transferProgressText">0% Complete</p>
+        <button onclick="closeTransferProgressModal()">Close</button>
+    </div>
+</div>
+
 </body>
 
 </html>

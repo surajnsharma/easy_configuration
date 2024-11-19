@@ -1,0 +1,6 @@
+=> General Failures:
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+=> TC-1 encountered the following failures:
+[TestCase Description] - | Verify ISSU with Loop Protect | MTP INFO | JTMS LINK : https://systest.juniper.net/feature_testplan/93654 | Test Case No : Tc6.1-5 | Procedure: | 1. Configure RSTP both the devices with R2 as root. | 2. Configure the alternate root port with loop protect | 3. Start the unidirectional traffic | 4. Delete RSTP config from the peer box r1. | 5. Check if the alternate port is still in Blocked state | 6. Perform ISSU | 7. Check if the alternate port is still in BLK state and other port is still in FWD state.
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']

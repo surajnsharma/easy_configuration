@@ -1,0 +1,45 @@
+=> General Failures:
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 13:50:43.642] - '"""24.2-202410061828.0-EVO""" == """23.4R2.14-EVO"""' should be true.
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+=> TC-1 encountered the following failures:
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running
+[20241011 14:08:04.245] - VerifyEngineException: + VERIFY FAILED: show_xstp_interface:['port_state', 'port_role'] On Devices: ['r0']
+[20241011 14:08:03.217] - the l2cpd-service subsystem is not running
+[20241011 14:08:02.091] - the l2cpd-service subsystem is not running

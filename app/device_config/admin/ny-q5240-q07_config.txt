@@ -1,0 +1,31 @@
+delete protocols bgp group underlay_v4
+## BGP Neighbor Config ##
+set protocols bgp group underlay_v4 neighbor 192.168.1.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.1.1 local-address 192.168.1.2
+set protocols bgp group underlay_v4 local-as 65003
+set protocols bgp group underlay_v4 neighbor 192.168.2.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.2.1 local-address 192.168.2.2
+set protocols lldp interface all
+set policy-options policy-statement export_v4_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v4_lo0 term 1 then accept
+set protocols bgp group underlay_v4 export export_v4_lo0
+set protocols bgp group underlay_v4 type external
+delete interfaces et-0/0/62:0
+set interfaces et-0/0/62:0 unit 0 family inet address 192.168.1.2/30
+delete interfaces et-0/0/62:1
+set interfaces et-0/0/62:1 unit 0 family inet address 192.168.2.2/30
+set protocols bgp global-load-balancing load-balancer-only
+set protocols bgp global-load-balancing helper-only
+set groups global forwarding-options enhanced-hash-key ecmp-dlb flowlet
+set protocols bgp group underlay_v4 neighbor 192.168.9.1 peer-as 65001
+set protocols bgp group underlay_v4 neighbor 192.168.9.1 local-address 192.168.9.2
+delete interfaces et-0/0/59:1
+set interfaces et-0/0/59:1 unit 0 family inet address 192.168.9.2/30
+set protocols bgp group underlay_v4 neighbor 192.168.12.1 peer-as 65002
+set protocols bgp group underlay_v4 neighbor 192.168.12.1 local-address 192.168.12.2
+set protocols bgp group underlay_v4 neighbor 192.168.13.1 peer-as 65002
+set protocols bgp group underlay_v4 neighbor 192.168.13.1 local-address 192.168.13.2
+delete interfaces et-0/0/63:0
+set interfaces et-0/0/63:0 unit 0 family inet address 192.168.12.2/30
+delete interfaces et-0/0/63:1
+set interfaces et-0/0/63:1 unit 0 family inet address 192.168.13.2/30

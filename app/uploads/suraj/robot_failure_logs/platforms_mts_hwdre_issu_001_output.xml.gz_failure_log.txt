@@ -1,0 +1,13 @@
+=> General Failures:
+[20241113 13:50:48.053] - KeyError: 'software-install'
+[20241113 13:50:48.071] - ISSU is failed for upgrade type : kexec and for apps : {'picd': {'/usr/sbin/evo-pfemand': 'modify'}, 'evo-pfemand': {'/usr/sbin/picd': 'modify'}, 'hwdre': {'/usr/sbin/hwdre': 'modify'}, 'ifmand': {'/usr/sbin/ifmand': 'modify'}}
+[20241113 13:41:03.161] - Variable ${tv['uv-skip_process_restart']} does not exist.
+[20241113 13:41:03.099] - Variable ${tv['uv-skip-ipv4']} does not exist.
+[20241113 13:41:03.145] - Variable ${tv['uv-skip_snmp_check']} does not exist.
+[20241113 13:41:03.130] - Variable ${tv['uv-skip-traffic-loss-check']} does not exist.
+[20241113 13:47:42.934] - Variable ${t['framework_variables']['software-install']['package']['from']} does not exist.
+[20241113 13:41:03.114] - Variable ${tv['uv-skip-ipv6']} does not exist.
+=> Testcase-1 encountered the following failures:
+[TestCase Description] - | To verify no traffic loss and no Interface flap with ISSU | To Verify show chassis hardware, fpc,pic and interface status after ISSU | Test Case No : 7-3.2-7,7.4-2,7.3.5-1,7.3.15-1,7.4-1,7.21-7,7.3.3-1 | JTMS Testcase: 7-3.2-7,7.4-2,7.3.5-1,7.3.15-1,7.4-1,7.21-7,7.3.3-1 | Procedure: | ========== | 1) Send continuous traffic across the DUT with Maimum MTU settings on interface. | 2) Generate a ISSU Image with changes in evo-pfemand,hwdre,picd. using the below tool: | /volume/evo/files/share/buildtools/release-tools/bin/evo-iso-duplicate -m &lt;absolutepath&gt;/changedApps -i /volume/evoimages/ci/master/pub-202107262322.0/junos-evo-install-qfx-ms-x86-64-21.4-202107262322.0-EVO.iso | 3) Initiate ISSU using | "request system software add &lt;file&gt; restart" command.. | 4) Verify that there is no traffic loss after issu | 5) After ISSU validate MTU is retained | 6) Validate FPC and PIC is same before and after ISSU | 7) Verify show chassis hardware info is same after ISSU | Expected Result: | =============== | 1) Traffic should run without drops | 2) verify interfaces have not flapped after ISSU | 3) validate the changed MTU is reflected. | 4) Validate FPC and PIC is same before and after ISSU | 5) Verify show chassis hardware info is same after ISSU | 6) No core dumps seen.
+[20241113 13:50:48.053] - KeyError: 'software-install'
+[20241113 13:50:48.071] - ISSU is failed for upgrade type : kexec and for apps : {'picd': {'/usr/sbin/evo-pfemand': 'modify'}, 'evo-pfemand': {'/usr/sbin/picd': 'modify'}, 'hwdre': {'/usr/sbin/hwdre': 'modify'}, 'ifmand': {'/usr/sbin/ifmand': 'modify'}}

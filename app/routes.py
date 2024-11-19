@@ -1,12 +1,13 @@
 #routes.py#
 from app import login_manager, socketio
-from .models import User,DeviceInfo,Topology,GpuSystem,TriggerEvent,GNMIPath,InfluxQuery
-from .utils import OnboardDeviceClass, TelemetryUtils, InfluxDBConnectionV2,GNMIConfigBuilder,is_reachable,get_router_details_from_db, admin_required, create_user_folders, setup_user_logging,transfer_file_to_router,get_router_ips_from_csv,get_router_details_from_csv,get_lldp_neighbors,get_next_available_ip,generate_common_config,generate_interface_config,generate_bgp_config,generate_config,check_device_health,check_link_health,generate_bgp_scale_config,generate_vlan_config
-from .utils import DeviceConnectorClass, BuildLLDPConnectionClass, VxlanConfigGeneratorClass
+from .models import DeviceInfo,TriggerEvent,TrainingData
+from .utils import check_link_health, OnboardDeviceClass,get_router_details_from_db,transfer_file_to_router,generate_config,check_device_health,generate_bgp_scale_config,generate_vlan_config
+from .utils import DeviceConnectorClass, BuildLLDPConnectionClass, VxlanConfigGeneratorClass,RobotXMLParserClass
+from .utils import is_reachable, get_router_ips_from_csv,get_router_details_from_csv,get_lldp_neighbors,get_next_available_ip,generate_common_config,generate_interface_config,generate_bgp_config
 from app.config import config
 from app.models import User
 from . import db
-from flask import Flask, render_template, request, send_file, redirect, url_for, flash, current_app, jsonify, send_from_directory,abort
+from flask import Flask, render_template, request, send_file, redirect, url_for, flash, current_app, jsonify, send_from_directory,abort,make_response
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import session
 from jnpr.junos import Device
@@ -23,11 +24,12 @@ import psutil, re, paramiko
 from flask_cors import CORS
 from ncclient.transport.errors import SSHError
 import paramiko,traceback,socket
+import json, gzip
 
 
 
+#print(f"current_app.config:: {current_app.config}")
 
-logging.info(f"current_app.config:: {current_app.config}")
 def create_routes(app):
     CORS(app)
     @socketio.on('connect')
@@ -87,11 +89,7 @@ def create_routes(app):
 
         return redirect(url_for('list_users'))
 
-    '''@app.route('/logout')
-    @login_required
-    def logout():
-        logout_user()
-        return redirect(url_for('login'))'''
+
 
     @app.route('/logout')
     @login_required
@@ -102,67 +100,29 @@ def create_routes(app):
         flash('You have been logged out.', 'success')
         return redirect(url_for('index'))
 
-    '''@app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))  # Redirect if already logged in
-        if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['password']
-            user = User.query.filter_by(username=username).first()
-            if user and user.check_password(password):
-                login_user(user)  # Log in the user
-                # Dynamically create user-specific folders after login
-                config_name = os.getenv('FLASK_CONFIG') or 'development'
-                config_class = config[config_name]
-                user_folder, log_folder, telemetry_folder, device_config = config_class().create_user_folders(username)
-                # Update app configuration with user-specific folders
-                current_app.config['UPLOAD_FOLDER'] = user_folder
-                current_app.config['LOG_FOLDER'] = log_folder
-                current_app.config['TELEMETRY_FOLDER'] = telemetry_folder
-                current_app.config['DEVICE_FOLDER'] = device_config
-                # Log the folder setup for the user
-                logging.info(f"User-specific folders set up for {username}")
-                setup_user_logging(log_folder)  # Set up user-specific logging if required
-                #config_class_name.setup_logging(log_folder)
-                flash('Login successful!', 'success')
-                return redirect(url_for('index'))  # Redirect to main page after login
-            else:
-                flash('Invalid username or password', 'error')
-                return redirect(url_for('index'))
-
-        return render_template('login.html')'''
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         if current_user.is_authenticated:
-            return redirect(url_for('index'))  # Redirect if already logged in
-
+            return redirect(url_for('index'))
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
             user = User.query.filter_by(username=username).first()
             if user and user.check_password(password):
                 login_user(user)  # Log in the user
-
-                # Dynamically create user-specific folders after login
-                config_class_name = os.getenv(
-                    'FLASK_CONFIG') or 'development'  # Ensure config_class_name is set correctly
-                config_class = config[config_class_name]()  # Correctly instantiate the config class
-
-                # Create user-specific folders and set up logging
+                # Set up user-specific folders and logging
+                config_class_name = os.getenv('FLASK_CONFIG') or 'development'
+                config_class = config[config_class_name]()
                 user_folder, log_folder, telemetry_folder, device_config = config_class.create_user_folders(username)
-
                 # Update app configuration with user-specific folders
                 current_app.config['UPLOAD_FOLDER'] = user_folder
                 current_app.config['LOG_FOLDER'] = log_folder
                 current_app.config['TELEMETRY_FOLDER'] = telemetry_folder
                 current_app.config['DEVICE_FOLDER'] = device_config
-
-                # Set up user-specific logging
+                # Set up user-specific logging and obtain the logger
                 config_class.setup_logging(log_folder)
-
-                flash('Login successful!', 'success')
+                print(f"User-specific log folder set up at: {log_folder}")
                 return redirect(url_for('index'))
             else:
                 flash('Invalid username or password', 'error')
@@ -270,1060 +230,366 @@ def create_routes(app):
         events = TriggerEvent.query.filter_by(user_id=current_user.id).all()
         return render_template('triggerEvents_Form.html', events=events)
 
-    @app.route('/start_telemetry_stream', methods=['POST'])
-    @login_required
-    def start_telemetry_stream():
-        gnmi_utility = TelemetryUtils(current_app)
 
-        # Determine selected devices
-        selected_device = request.form.get('device_ip')
-        devices = []
-
-        if selected_device == 'all':
-            # Query the database for all devices for the current user
-            devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-            devices = [{'hostname': device.hostname, 'ip': device.ip, 'username': device.username,
-                        'password': device.password} for device in devices]
-        else:
-            # Query the database for the specific selected device for the current user
-            device = DeviceInfo.query.filter_by(user_id=current_user.id, hostname=selected_device).first()
-            if device:
-                devices = [{'hostname': device.hostname, 'ip': device.ip, 'username': device.username,
-                            'password': device.password}]
-            else:
-                return jsonify({"status": "error", "message": "Selected device not found."})
-
-        telemetry_port = request.form.get('telemetry_port')
-        response = gnmi_utility.start_telemetry_stream(devices, telemetry_port)
-        return jsonify(response)
+    ### XML Robot Debugger ####
+    @app.route('/xml_robot_debugger')
+    def xml_robot_debugger():
+        return render_template('xmlRobot_debugger.html')
 
 
-
-    @app.route('/stop_telemetry_stream', methods=['POST'])
-    @login_required
-    def stop_telemetry_stream():
-        gnmi_utility = TelemetryUtils(current_app)
-        response = gnmi_utility.stop_stream()
-        return jsonify(response)
-
-    @app.route('/check_telemetry_status', methods=['GET'])
-    @login_required
-    def check_telemetry_status():
-        logging.debug("Checking telemetry status...")
-        pid = current_user.telemetry_pid
-        if pid:
-            try:
-                process = psutil.Process(pid)
-                if process.is_running():
-                    logging.debug("Telemetry process is running.")
-                    return jsonify({"status": "running"})
-                else:
-                    logging.debug("Telemetry process is not running.")
-                    logging.debug("Telemetry process is not running.")
-                    return jsonify({"status": "stopped"})
-            except psutil.NoSuchProcess:
-                logging.debug("No such process, cleaning up.")
-                current_user.telemetry_pid = None
-                db.session.commit()
-                return jsonify({"status": "stopped"})
-        logging.debug("No telemetry PID found.")
-        return jsonify({"status": "stopped"})
-
-    @app.route('/check_files_exist', methods=['GET'])
-    @login_required
-    def check_files_exist():
-        telemetry_folder = current_app.config['TELEMETRY_FOLDER']
-        user_folder = os.path.join(telemetry_folder)  # Ensure this is correct
-        gnmi_config_path = os.path.join(user_folder, 'gnmi-config.yaml')
-        logging.info(f"check_files_exist -routes.py- {gnmi_config_path}")
-        telemetry_log_path = os.path.join(user_folder, 'telemetry_debug.log')
-        logging.info(f"check_files_exist -routes.py- {telemetry_log_path}")
-        gnmi_config_exists = os.path.exists(gnmi_config_path)
-        telemetry_log_exists = os.path.exists(telemetry_log_path)
-
-        files_exist = {
-            "gnmi_config_exists": gnmi_config_exists,
-            "gnmi_config_path": f"/files/{current_user.username}/{os.path.basename(gnmi_config_path)}" if gnmi_config_exists else None,
-            "telemetry_log_exists": telemetry_log_exists,
-            "telemetry_log_path": f"/files/{current_user.username}/{os.path.basename(telemetry_log_path)}" if telemetry_log_exists else None,
-        }
-
-        logging.info(f"Files exist response-routes.py: {files_exist}")
-        return jsonify(files_exist)
-
-    @app.route('/files/<username>/<filename>', methods=['GET'])
-    @login_required
-    def serve_file(username, filename):
-        # Ensure that the requested username matches the logged-in user's username
-        if username != current_user.username:
-            abort(403, description="Access forbidden: You cannot access files from another user.")
-
-        # Construct the telemetry folder path
-        telemetry_folder = current_app.config['TELEMETRY_FOLDER']
-        user_folder = os.path.join(telemetry_folder)  # Use telemetry_folder directly
-
-        # Construct the full file path
-        file_path = os.path.join(user_folder, filename)
-        logging.info(f"file_path: routep.py-serve_file: Attempting to serve file from: {file_path}")
-        # Log the absolute path and directory contents
-        absolute_file_path = os.path.abspath(file_path)
-        logging.info(f"absolute_file_path: routep.py-serve_file: Attempting to serve file from: {absolute_file_path}")
-        if os.path.exists(user_folder):
-            logging.info(f"Contents of directory : serve_file-routep.py:{user_folder}: {os.listdir(user_folder)}")
-        else:
-            logging.error(f"Contents of directory- serve_file-routep.py:: Directory does not exist: {user_folder}")
-            abort(404, description="User directory not found")
-
-        # Double-check the file exists where expected
-        if not os.path.exists(file_path):
-            logging.error(f"File not found:serve_file-routep.py{file_path}")
-            abort(404, description="Resource not found")
-
+    @app.route('/api/uploadRobotDebugFile', methods=['POST'])
+    def upload_robot_debug_file():
+        """
+        Route for uploading and processing Robot Framework debug files.
+        """
         try:
-            # Serve the file using the absolute path
-            return send_file(absolute_file_path, as_attachment=(filename != 'telemetry_debug.log'))
-        except Exception as e:
-            logging.error(f"Error sending file: {e}")
-            abort(500, description="Internal server error")
+            # Initialize parser
+            parser = RobotXMLParserClass(upload_folder=current_app.config['UPLOAD_FOLDER'])
 
+            # Check if the file is part of the request
+            if 'file' not in request.files:
+                current_app.logger.error("No file part in the request.")
+                return jsonify({"status": "error", "message": "No file part in the request"}), 400
 
+            file = request.files['file']
+            if file.filename == '':
+                current_app.logger.error("No file selected for upload.")
+                return jsonify({"status": "error", "message": "No file selected for upload"}), 400
 
-    @app.route('/view_telemetry_log', methods=['GET'])
-    @login_required
-    def view_telemetry_log():
-        try:
-            telemetry_folder = os.path.abspath(current_app.config['TELEMETRY_FOLDER'])  # Ensure absolute path
-            # Ensure that the log file is in the base telemetry directory, without adding username
-            log_file_path = os.path.join(telemetry_folder, "telemetry_debug.log")
-            logging.info(f"view_telemetry_log: {log_file_path}")
-            absolute_log_path = os.path.abspath(log_file_path)
-            logging.info(f"Absolute log file path: {absolute_log_path}")
-            if os.path.exists(log_file_path):
-                return send_file(log_file_path, as_attachment=False)
-            else:
-                logging.error(f"Log file not found at: {absolute_log_path}")
-                abort(404, description="Log file not found")
-        except Exception as e:
-            logging.error(f"Error serving log file: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
+            if not parser.allowed_file(file.filename):
+                current_app.logger.error(f"Unsupported file type: {file.filename}")
+                return jsonify({"status": "error", "message": "Unsupported file type"}), 400
 
-    @app.route('/get_measurements')
-    def get_measurements():
-        source = request.args.get('source')
-        # Fetch measurements based on the source
-        influx_connection = InfluxDBConnectionV2()
-        measurements = influx_connection.get_measurements_for_device(source)
-        # Return the measurements as JSON
-        return jsonify({'measurements': measurements})
+            # Retrieve nameSuggestions flag
+            name_suggestions = request.form.get('nameSuggestions', 'true').lower() == 'true'
+            current_app.logger.info(f"nameSuggestions flag: {name_suggestions}")
 
-    @app.route('/get_columns_and_interfaces')
-    def get_columns_and_interfaces():
-        source = request.args.get('source')
+            username = current_user.username
+            user_id = current_user.id
 
-        influx_connection = InfluxDBConnectionV2()
+            # Save file to user-specific folder
+            file_path = parser.save_file(file, username)
 
-        # Query to get columns for the source
-        columns_query = influx_connection.query_columns_for_source(source_filter=source)
-
-        # Query to get interfaces for the source
-        interface_names_query = influx_connection.query_interface_names(source_filter=source)
-
-        columns = []
-        interfaces = []
-
-        if columns_query:
-            try:
-                series = columns_query['results'][0]['series'][0]
-                columns = [col.split('/')[-1] for col in series['columns']]
-            except (KeyError, IndexError):
-                columns = []
-
-        if interface_names_query:
-            try:
-                series = interface_names_query['results'][0]['series'][0]
-                interfaces = [row[1] for row in series['values']]
-            except (KeyError, IndexError):
-                interfaces = []
-
-        return jsonify({'columns': columns, 'interfaces': interfaces})
-
-    @app.route('/delete_measurement', methods=['POST'])
-    @login_required
-    def delete_measurement():
-        try:
-            data = request.get_json()
-            measurement = data.get('measurement')
-
-            if not measurement:
-                return jsonify({"status": "error", "message": "No measurement provided"}), 400
-
-            influx_connection = InfluxDBConnectionV2()
-            success = influx_connection.delete_measurement(measurement)
-
-            if success:
-                return jsonify({"status": "success", "message": f"Measurement '{measurement}' deleted successfully"})
-            else:
-                return jsonify({"status": "error", "message": f"Failed to delete measurement '{measurement}'"})
-
-        except Exception as e:
-            logging.error(f"Error deleting measurement: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
-
-    @app.route('/save_seclected_influx_query', methods=['POST'])
-    @login_required
-    def save_influx_query():
-        try:
-            data = request.get_json()
-            logging.info(f"data: save_seclected_influx_query-routes.py- {data}")
-            measurement = data.get('measurement')
-            columns = ','.join(data.get('selected_columns', []))
-            interface_columns = ','.join(data.get('selected_interface_columns', []))  # Interface columns
-
-            # Check if a query already exists for this user and measurement
-            existing_query = InfluxQuery.query.filter_by(user_id=current_user.id, measurement=measurement).first()
-
-            if existing_query:
-                # Update the existing query
-                logging.info(f"Updating existing query for measurement: {measurement}")
-                existing_query.columns = columns
-                existing_query.interface_columns = interface_columns  # Update interface query
-            else:
-                # Save a new query
-                logging.info(f"Creating new query for measurement: {measurement}")
-                influx_query = InfluxQuery(
-                    user_id=current_user.id,
-                    measurement=measurement,
-                    columns=columns,
-                    interface_columns=interface_columns  # Store interface query
-                )
-                db.session.add(influx_query)
-
-            db.session.commit()
-
-            logging.info(f"Confirmed saved columns: {columns} and interface columns: {interface_columns}")
-            return jsonify({"status": "success", "message": "Query saved successfully!"})
-        except Exception as e:
-            logging.error(f"Error saving query: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
-
-    """@app.route('/save_seclected_influx_query', methods=['POST'])
-    @login_required
-    def save_influx_query():
-        try:
-            data = request.get_json()
-            logging.info(f"data: save_seclected_influx_query-routes.py- {data}")
-            measurement = data.get('measurement')
-            columns = ','.join(data.get('selected_columns', []))
-
-            # Check if a query already exists for this user and measurement
-            existing_query = InfluxQuery.query.filter_by(user_id=current_user.id, measurement=measurement).first()
-
-            if existing_query:
-                # Update the existing query
-                logging.info(f"Updating existing query for measurement: {measurement}")
-                existing_query.columns = columns
-            else:
-                # Save a new query
-                logging.info(f"Creating new query for measurement: {measurement}")
-                influx_query = InfluxQuery(
-                    user_id=current_user.id,
-                    measurement=measurement,
-                    columns=columns
-                )
-                db.session.add(influx_query)
-
-            db.session.commit()
-
-            logging.info(f"Confirmed saved columns: {columns}")
-            return jsonify({"status": "success", "message": "Query saved successfully!"})
-        except Exception as e:
-            logging.error(f"Error saving query: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500"""
-    """@app.route('/interface_counters', methods=['GET', 'POST'])
-    @login_required
-    def interface_counters():
-        influx_connection = InfluxDBConnectionV2()
-
-        # Fetch unique sources (IP addresses) from the DeviceInfo table
-        sources = [device.ip for device in DeviceInfo.query.with_entities(DeviceInfo.ip).distinct()]
-
-        # Retrieve the user's selected source, measurement, interfaces, and columns
-        selected_source = request.json.get('source') if request.is_json else request.form.get('source', sources[
-            0] if sources else '')
-        selected_measurement = request.json.get('measurement') if request.is_json else request.form.get('measurement',
-                                                                                                        '')
-        selected_interfaces = request.json.get('interfaces') if request.is_json else request.form.getlist('interfaces')
-        selected_columns = request.json.get('selectedquery', []) if request.is_json else request.form.getlist(
-            'selectedquery[]')
-        selected_Interface_columns = request.json.get('selected_Interface_columns', []) if request.is_json else request.form.getlist(
-            'selectedInterfaces_query[]')
-
-        # Initialize the limit variable safely
-        if request.is_json:
-            limit = int(request.json.get('limit', 10))
-        else:
-            try:
-                limit = int(request.form.get('limit', 10))
-            except ValueError:
-                limit = 10
-
-        # Debugging: Log the selected data
-        logging.info(f"Selected Source: {selected_source}")
-        logging.info(f"Selected Measurement: {selected_measurement}")
-        logging.info(f"Selected Interfaces: {selected_interfaces}")
-        logging.info(f"Selected Columns: {selected_columns}")
-        logging.info(f"Selected Interface Columns: {selected_Interface_columns}")
-        logging.info(
-            f"Querying InfluxDB with limit: {limit}, source: {selected_source}, interfaces: {selected_interfaces}, measurement: {selected_measurement}, columns: {selected_columns}, selected_Interface_columns: {selected_Interface_columns}")
-
-        if request.method == 'POST':
-            if request.is_json:
-                # Query InfluxDB for the actual interface counter data using the selected measurement and columns
-                result = influx_connection.query_interface_counters(
-                    limit=limit,
-                    source_filter=selected_source,
-                    interfaces_filter=selected_interfaces,  # Use the selected interfaces as the filter
-                    measurement_filter=selected_measurement
-                )
-
-                logging.info(f"Influx Query Result: {result}")
-                if not result or len(result) == 0 or not result.get('results', []) or 'series' not in result['results'][
-                    0]:
-                    return jsonify({"columns": [], "values": []})
-
+            # Handle .gz files
+            if file_path.endswith('.gz'):
+                decompressed_file_path = file_path[:-3]  # Remove '.gz' extension
                 try:
-                    series = result['results'][0]['series'][0]
-                    all_columns = series['columns']
-                    values = series['values']
+                    with gzip.open(file_path, 'rb') as gz_file:
+                        with open(decompressed_file_path, 'wb') as out_file:
+                            out_file.write(gz_file.read())
+                    os.remove(file_path)  # Remove the original .gz file
+                    file_path = decompressed_file_path
+                    current_app.logger.info(f"Decompressed .gz file to: {file_path}")
+                except Exception as e:
+                    current_app.logger.error(f"Error decompressing .gz file: {e}", exc_info=True)
+                    return jsonify({"status": "error", "message": "Error decompressing .gz file"}), 500
 
-                    # Filter the columns based on selected columns if necessary
-                    filtered_indices = [i for i, col in enumerate(all_columns) if
-                                        col.split('/')[-1] in selected_columns]
-                    # Always include 'source' and 'interface_name' columns if they exist
-                    if 'source' in all_columns:
-                        source_index = all_columns.index('source')
-                        if source_index not in filtered_indices:
-                            filtered_indices.insert(0, source_index)
-                    if 'interface_name' in all_columns:
-                        interface_name_index = all_columns.index('interface_name')
-                        if interface_name_index not in filtered_indices:
-                            filtered_indices.insert(1, interface_name_index)
-
-                    filtered_columns = [all_columns[i].split('/')[-1] for i in filtered_indices]
-                    filtered_values = [[row[i] for i in filtered_indices] for row in values]
-
-                    return jsonify({"columns": filtered_columns, "values": filtered_values})
-                except (KeyError, IndexError, ValueError) as e:
-                    logging.error(f"Error processing data: {e}")
-                    return jsonify({"columns": [], "values": []})
-
-            # Handle deletion of the selected measurement
-            if 'delete_measurement' in request.form:
-                if selected_measurement:
-                    success = influx_connection.delete_measurement(selected_measurement)
-                    message = f"Measurement '{selected_measurement}' deleted successfully." if success else f"Failed to delete measurement '{selected_measurement}'."
-                    return render_template('interface_telemetry.html', columns=[], values=[], message=message,
-                                           sources=sources, selected_source=selected_source,
-                                           measurement_types=[selected_measurement],
-                                           selected_measurement=selected_measurement,
-                                           all_interfaces=[], selected_query_columns=[], limit=10)
-
-            # Check if a measurement is selected
-            if not selected_measurement:
-                return render_template('interface_telemetry.html', columns=[], values=[],
-                                       message="A measurement must be selected.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=[], selected_query_columns=[], limit=10)
-
-            # Query InfluxDB to get distinct interface names for the selected source and measurement
-            interface_names_query = influx_connection.query_interface_names(
-                source_filter=selected_source,
-                measurement_filter=selected_measurement
-            )
-
-            # Initialize interface_names to an empty list in case the query fails or returns no results
-            interface_names = []
-            if interface_names_query and 'results' in interface_names_query and 'series' in \
-                    interface_names_query['results'][0]:
-                try:
-                    series = interface_names_query['results'][0]['series'][0]
-                    interface_names = [row[1] for row in series['values']]
-                except (KeyError, IndexError):
-                    interface_names = []
-
-            # Query InfluxDB for the actual interface counter data using the selected measurement
-            result = influx_connection.query_interface_counters(
-                limit=limit,
-                source_filter=selected_source,
-                interfaces_filter=selected_interfaces,
-                measurement_filter=selected_measurement
-            )
-            logging.info(f"Query Result: {result}")
-
-            if not result or len(result) == 0 or not result.get('results', []) or 'series' not in result['results'][0]:
-                return render_template('interface_telemetry.html', columns=[], values=[], message="No data available.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=interface_names, selected_query_columns=[], limit=limit)
-
+            # Read XML content
             try:
-                series = result['results'][0]['series'][0]
-                all_columns = series['columns']
-                values = series['values']
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    xml_content = f.read()
+            except Exception as e:
+                current_app.logger.error(f"Error reading file {file_path}: {e}", exc_info=True)
+                return jsonify({"status": "error", "message": "Error reading file"}), 500
 
-                # Extract the last part after the '/' in each column name
-                processed_columns = [col.split('/')[-1] for col in all_columns]
+            # Parse failures from the XML content
+            failures = parser.parse_robot_xml(xml_content=xml_content)
 
-                # Ensure 'source' is the first column and 'interface_name' is the second column
-                source_index = all_columns.index('source') if 'source' in all_columns else None
-                interface_name_index = all_columns.index('interface_name') if 'interface_name' in all_columns else None
-
-                # Reorder columns: first 'source', then 'interface_name', then the selected columns
-                new_columns_order = []
-                if source_index is not None:
-                    new_columns_order.append(processed_columns[source_index])
-                if (interface_name_index is not None and interface_name_index not in new_columns_order):
-                    new_columns_order.append(processed_columns[interface_name_index])
-
-                new_columns_order += [col for col in processed_columns if col not in new_columns_order and (
-                        not selected_columns or col in selected_columns)]
-
-                columns = new_columns_order
-
-                # Reorder values according to the new column order
-                reordered_values = []
-                for value_row in values:
-                    reordered_row = []
-                    for column in columns:
-                        column_index = processed_columns.index(column) if column in processed_columns else None
-                        reordered_row.append(value_row[column_index] if column_index is not None else None)
-                    reordered_values.append(reordered_row)
-                values = reordered_values
-
-            except (KeyError, IndexError, ValueError) as e:
-                logging.error(f"Error processing data: {e}")
-                return render_template('interface_telemetry.html', columns=[], values=[], message="No data available.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=interface_names, selected_query_columns=[], limit=limit)
-
-            # Load the most recent saved query for the selected measurement from InfluxQuery table
-            saved_query = InfluxQuery.query.filter_by(user_id=current_user.id,
-                                                      measurement=selected_measurement).order_by(
-                InfluxQuery.id.desc()).first()
-
-            logging.info(f"saved_query: interface_counters-routes.py - {saved_query}")
-            selected_query_columns = saved_query.columns.split(',') if saved_query else []
-            logging.info(f"selected_query_columns: interface_counters-routes.py - {selected_query_columns}")
-
-            return render_template('interface_telemetry.html', columns=columns, values=values, message=None,
-                                   sources=sources, selected_source=selected_source,
-                                   measurement_types=[selected_measurement],
-                                   selected_measurement=selected_measurement, all_columns=processed_columns,
-                                   all_interfaces=interface_names, selected_interfaces=selected_interfaces,
-                                   selected_query_columns=selected_query_columns, limit=limit)
-
-        # Handle GET request (load the initial form)
-        return render_template(
-            'interface_telemetry.html',
-            columns=[],
-            values=[],
-            message=None,
-            sources=sources,
-            selected_source=selected_source,
-            measurement_types=[selected_measurement],
-            selected_measurement=selected_measurement,
-            all_interfaces=[],
-            selected_query_columns=[],
-            limit=10
-        )"""
-
-    @app.route('/interface_counters', methods=['GET', 'POST'])
-    @login_required
-    def interface_counters():
-        influx_connection = InfluxDBConnectionV2()
-
-        # Fetch unique sources (IP addresses) from the DeviceInfo table
-        sources = [device.ip for device in DeviceInfo.query.with_entities(DeviceInfo.ip).distinct()]
-
-        # Retrieve the user's selected source, measurement, interfaces, and columns
-        selected_source = request.json.get('source') if request.is_json else request.form.get('source', sources[
-            0] if sources else '')
-        selected_measurement = request.json.get('measurement') if request.is_json else request.form.get('measurement',
-                                                                                                        '')
-        selected_interfaces = request.json.get('interfaces') if request.is_json else request.form.getlist('interfaces')
-        selected_columns = request.json.get('selectedquery', []) if request.is_json else request.form.getlist(
-            'selectedquery[]')
-        selected_Interface_columns = request.json.get('selected_Interface_columns',
-                                                      []) if request.is_json else request.form.getlist(
-            'selectedInterfacequery[]')
-
-        # Initialize the limit variable safely
-        if request.is_json:
-            limit = int(request.json.get('limit', 10))
-        else:
+            # Save failures to a log file
+            log_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], username, "robot_failure_logs")
+            os.makedirs(log_dir, exist_ok=True)
+            failure_log_path = os.path.join(log_dir, f"{file.filename}_failure_log.txt")
             try:
-                limit = int(request.form.get('limit', 10))
-            except ValueError:
-                limit = 10
+                with open(failure_log_path, 'w', encoding='utf-8') as log_file:
+                    log_file.write(failures)
+            except Exception as e:
+                current_app.logger.error(f"Error writing failure log: {e}", exc_info=True)
+                return jsonify({"status": "error", "message": "Error saving failure log"}), 500
 
-        # Debugging: Log the selected data
-        logging.info(f"Selected Source: {selected_source}")
-        logging.info(f"Selected Measurement: {selected_measurement}")
-        logging.info(f"Selected Interfaces: {selected_interfaces}")
-        logging.info(f"Selected Columns: {selected_columns}")
-        logging.info(f"Selected Interface Columns: {selected_Interface_columns}")
-        logging.info(
-            f"Querying InfluxDB with limit: {limit}, source: {selected_source}, interfaces: {selected_interfaces}, measurement: {selected_measurement}, columns: {selected_columns}, selected_Interface_columns: {selected_Interface_columns}")
+            suggestions = None
+            unmatched_message = None
 
-        if request.method == 'POST':
-            if request.is_json:
-                # Query InfluxDB for the actual interface counter data using the selected measurement and columns
-                result = influx_connection.query_interface_counters(
-                    limit=limit,
-                    source_filter=selected_source,
-                    interfaces_filter=selected_interfaces,  # Use the selected interfaces as the filter
-                    measurement_filter=selected_measurement
-                )
-
-                logging.info(f"Influx Query Result: {result}")
-                if not result or len(result) == 0 or not result.get('results', []) or 'series' not in result['results'][
-                    0]:
-                    return jsonify({"columns": [], "values": []})
-
+            if name_suggestions:
                 try:
-                    series = result['results'][0]['series'][0]
-                    all_columns = series['columns']
-                    values = series['values']
+                    # Query TrainingData from the database
+                    training_data = TrainingData.query.filter_by(user_id=user_id).all()
 
-                    # Filter the columns based on selected columns if necessary
-                    filtered_indices = [i for i, col in enumerate(all_columns) if
-                                        col.split('/')[-1] in selected_columns]
-                    # Always include 'source' and 'interface_name' columns if they exist
-                    if 'source' in all_columns:
-                        source_index = all_columns.index('source')
-                        if source_index not in filtered_indices:
-                            filtered_indices.insert(0, source_index)
-                    if 'interface_name' in all_columns:
-                        interface_name_index = all_columns.index('interface_name')
-                        if interface_name_index not in filtered_indices:
-                            filtered_indices.insert(1, interface_name_index)
-
-                    filtered_columns = [all_columns[i].split('/')[-1] for i in filtered_indices]
-                    filtered_values = [[row[i] for i in filtered_indices] for row in values]
-
-                    #return jsonify({"columns": filtered_columns, "values": filtered_values})
-                    # Return filtered columns, values, and the selected interface columns
-                    return jsonify({
-                        "columns": filtered_columns,
-                        "values": filtered_values,
-                        "selected_Interface_columns": selected_Interface_columns
-                    })
-                except (KeyError, IndexError, ValueError) as e:
-                    logging.error(f"Error processing data: {e}")
-                    return jsonify({"columns": [], "values": []})
-
-            # Handle deletion of the selected measurement
-            if 'delete_measurement' in request.form:
-                if selected_measurement:
-                    success = influx_connection.delete_measurement(selected_measurement)
-                    message = f"Measurement '{selected_measurement}' deleted successfully." if success else f"Failed to delete measurement '{selected_measurement}'."
-                    return render_template('interface_telemetry.html', columns=[], values=[], message=message,
-                                           sources=sources, selected_source=selected_source,
-                                           measurement_types=[selected_measurement],
-                                           selected_measurement=selected_measurement,
-                                           all_interfaces=[], selected_query_columns=[], limit=10)
-
-            # Check if a measurement is selected
-            if not selected_measurement:
-                return render_template('interface_telemetry.html', columns=[], values=[],
-                                       message="A measurement must be selected.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=[], selected_query_columns=[], limit=10)
-
-            # Query InfluxDB to get distinct interface names for the selected source and measurement
-            interface_names_query = influx_connection.query_interface_names(
-                source_filter=selected_source,
-                measurement_filter=selected_measurement
-            )
-
-            # Initialize interface_names to an empty list in case the query fails or returns no results
-            interface_names = []
-            if interface_names_query and 'results' in interface_names_query and 'series' in \
-                    interface_names_query['results'][0]:
-                try:
-                    series = interface_names_query['results'][0]['series'][0]
-                    interface_names = [row[1] for row in series['values']]
-                except (KeyError, IndexError):
-                    interface_names = []
-
-            # Query InfluxDB for the actual interface counter data using the selected measurement
-            result = influx_connection.query_interface_counters(
-                limit=limit,
-                source_filter=selected_source,
-                interfaces_filter=selected_interfaces,
-                measurement_filter=selected_measurement
-            )
-            logging.info(f"Query Result: {result}")
-
-            if not result or len(result) == 0 or not result.get('results', []) or 'series' not in result['results'][0]:
-                return render_template('interface_telemetry.html', columns=[], values=[], message="No data available.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=interface_names, selected_query_columns=[], limit=limit)
-
-            try:
-                series = result['results'][0]['series'][0]
-                all_columns = series['columns']
-                values = series['values']
-
-                # Extract the last part after the '/' in each column name
-                processed_columns = [col.split('/')[-1] for col in all_columns]
-
-                # Ensure 'source' is the first column and 'interface_name' is the second column
-                source_index = all_columns.index('source') if 'source' in all_columns else None
-                interface_name_index = all_columns.index('interface_name') if 'interface_name' in all_columns else None
-
-                # Reorder columns: first 'source', then 'interface_name', then the selected columns
-                new_columns_order = []
-                if source_index is not None:
-                    new_columns_order.append(processed_columns[source_index])
-                if (interface_name_index is not None and interface_name_index not in new_columns_order):
-                    new_columns_order.append(processed_columns[interface_name_index])
-
-                new_columns_order += [col for col in processed_columns if col not in new_columns_order and (
-                        not selected_columns or col in selected_columns)]
-
-                columns = new_columns_order
-
-                # Reorder values according to the new column order
-                reordered_values = []
-                for value_row in values:
-                    reordered_row = []
-                    for column in columns:
-                        column_index = processed_columns.index(column) if column in processed_columns else None
-                        reordered_row.append(value_row[column_index] if column_index is not None else None)
-                    reordered_values.append(reordered_row)
-                values = reordered_values
-
-            except (KeyError, IndexError, ValueError) as e:
-                logging.error(f"Error processing data: {e}")
-                return render_template('interface_telemetry.html', columns=[], values=[], message="No data available.",
-                                       sources=sources, selected_source=selected_source,
-                                       measurement_types=[selected_measurement],
-                                       selected_measurement=selected_measurement,
-                                       all_interfaces=interface_names, selected_query_columns=[], limit=limit)
-
-            # Load the most recent saved query for the selected measurement from InfluxQuery table
-            saved_query = InfluxQuery.query.filter_by(user_id=current_user.id,
-                                                      measurement=selected_measurement).order_by(
-                InfluxQuery.id.desc()).first()
-
-
-            selected_query_columns = saved_query.columns.split(',') if saved_query else []
-            logging.info(f"selected_query_columns: interface_counters-routes.py - {selected_query_columns}")
-            selected_Interface_columns = saved_query.interface_columns.split(
-                ',') if saved_query and saved_query.interface_columns else []
-            logging.info(f"selected_query_columns: interface_counters-routes.py - {selected_Interface_columns}")
-
-            return render_template('interface_telemetry.html', columns=columns, values=values, message=None,
-                                   sources=sources, selected_source=selected_source,
-                                   measurement_types=[selected_measurement],
-                                   selected_measurement=selected_measurement, all_columns=processed_columns,
-                                   all_interfaces=interface_names, selected_interfaces=selected_interfaces,
-                                   selected_query_columns=selected_query_columns,  selectedInterface_columns=selected_Interface_columns,limit=limit)
-
-        # Handle GET request (load the initial form)
-        return render_template(
-            'interface_telemetry.html',
-            columns=[],
-            values=[],
-            message=None,
-            sources=sources,
-            selected_source=selected_source,
-            measurement_types=[selected_measurement],
-            selected_measurement=selected_measurement,
-            all_interfaces=[],
-            selected_query_columns=[],
-            selectedInterface_columns=[],
-            limit=10
-        )
-
-    @app.route('/save_gnmi_paths', methods=['POST'])
-    @login_required
-    def save_gnmi_paths():
-        try:
-            data = request.get_json()
-            gnmi_paths_str = data.get('gnmi_paths', '')
-            gnmi_paths = gnmi_paths_str.split(',')
-
-            # Clear existing paths for the user
-            GNMIPath.query.filter_by(user_id=current_user.id).delete()
-
-            # Save new paths
-            for path in gnmi_paths:
-                if path.strip():  # Avoid saving empty paths
-                    new_path = GNMIPath(user_id=current_user.id, path=path.strip())
-                    db.session.add(new_path)
-
-            db.session.commit()
-            return jsonify({"status": "success", "message": "GNMI paths saved successfully"})
-        except Exception as e:
-            logging.error(f"Error saving GNMI paths: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
-
-    @app.route('/get_gnmi_paths')
-    @login_required
-    def get_gnmi_paths():
-        try:
-            # Retrieve paths from the database
-            gnmi_paths = GNMIPath.query.filter_by(user_id=current_user.id).all()
-            paths_list = [path.path for path in gnmi_paths]
-            return jsonify({"status": "success", "paths": paths_list})
-        except Exception as e:
-            return jsonify({"status": "error", "message": str(e)}), 500
-
-
-
-    @app.route('/gnmi_subscription_form')
-    @login_required
-    def gnmi_subscription_form():
-        user_id = current_user.id
-        existing_paths = [path.path for path in GNMIPath.query.filter_by(user_id=user_id).all()]
-        gnmi_paths_str = ','.join(existing_paths)
-
-        return render_template('index.html', existing_paths=gnmi_paths_str)
-
-
-
-    @app.route('/gnmi_subscription', methods=['POST'])
-    @login_required
-    def gnmi_subscription():
-        try:
-            # Retrieve form data
-            gnmi_server = request.form.get('gnmi_server')
-            device_ip = request.form.get('device_ip') or request.form.get('device_address')
-            gnmi_paths = request.form.get('gnmi_paths', '').split(',')  # Split the comma-separated paths
-            subscription_mode = request.form.get('subscription_mode')
-            sample_interval = request.form.get('sample_interval')
-            telemetry_port = request.form.get('telemetry_port')
-            influx_connection = InfluxDBConnectionV2()
-
-            # Initialize the GNMIConfigBuilder
-            config_builder = GNMIConfigBuilder(
-                influx_token=influx_connection.token,
-                gnmi_server=gnmi_server
-            )
-
-            # Get devices and add to the config builder
-            if device_ip.lower() == 'all':
-                devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-                for device in devices:
-                    config_builder.add_device(
-                        target=device.hostname,
-                        port=telemetry_port,
-                        address=device.ip,
-                        username=device.username,
-                        password=device.password,
-                        paths=gnmi_paths,
-                        subscription_mode=subscription_mode,
-                        sample_interval=sample_interval
+                    # Display corrective actions
+                    unmatched_message = parser.display_corrective_actions_from_file(
+                        failure_log_path, training_data, user_id, log_dir
                     )
-            else:
-                config_builder.add_device(
-                    target=device_ip,
-                    port=telemetry_port,
-                    address=device_ip,
-                    username=request.form.get('username'),
-                    password=request.form.get('password'),
-                    paths=gnmi_paths,
-                    subscription_mode=subscription_mode,
-                    sample_interval=sample_interval
-                )
 
-            # Build the GNMI config YAML
-            gnmi_config_yaml = config_builder.build_config()
+                    # Read the generated suggestions
+                    suggestions_file_path = os.path.join(log_dir, "robot_failure_suggestions.txt")
+                    if os.path.exists(suggestions_file_path):
+                        with open(suggestions_file_path, 'r', encoding='utf-8') as suggestion_file:
+                            suggestions = suggestion_file.read()
+                except ValueError as ve:
+                    unmatched_message = str(ve)
+                    current_app.logger.warning(f"ValueError during corrective actions: {ve}")
+                except Exception as e:
+                    unmatched_message = "An error occurred while generating suggestions."
+                    current_app.logger.error(f"Error during corrective actions: {e}", exc_info=True)
 
-            # Save the configuration to a file in the user's specific folder
-            #user_folder = os.path.join(current_app.config['TELEMETRY_FOLDER'], current_user.username)
-            user_folder = os.path.join(current_app.config['TELEMETRY_FOLDER'])
-            os.makedirs(user_folder, exist_ok=True)
-            config_file_name = 'gnmi-config.yaml'
-            config_file_path = os.path.join(user_folder, config_file_name)
-            logging.info(f"Saving GNMI config to {config_file_path}")
+            # Clean up uploaded file
+            os.remove(file_path)
 
-            config_builder.save_to_file(config_file_path)
+            # Prepare response data
+            response_data = {
+                "status": "success",
+                "message": "File uploaded and parsed successfully",
+                "failures": failures,
+                "filename": file.filename,  # Track filename in the response
+            }
 
-            # Generate the download link
-            download_link = url_for('download_gnmi_config', filename=config_file_name, _external=True)
-            logging.info(f"Generated download link: {download_link}")
+            if name_suggestions and suggestions:
+                response_data["suggestions"] = suggestions
 
-            # Return success response with the configuration and download link
+            if unmatched_message:
+                response_data["unmatched_message"] = unmatched_message
+
+            current_app.logger.info("Upload and processing completed successfully.")
+            return jsonify(response_data), 200
+
+        except ValueError as ve:
+            current_app.logger.error(f"ValueError: {ve}")
+            return jsonify({"status": "error", "message": str(ve)}), 400
+        except Exception as e:
+            current_app.logger.error(f"Exception: {e}", exc_info=True)
+            return jsonify({"status": "error", "message": "An unexpected error occurred."}), 500
+
+    @app.route('/fetchXML', methods=['POST'])
+    def fetch_xml():
+        """
+        Route for fetching XML from a URL and parsing it.
+        """
+        from utils import RobotLogParser
+        import requests
+        from io import BytesIO
+
+        parser = RobotLogParser(current_app.config['UPLOAD_FOLDER'])
+        data = request.json
+
+        url = data.get('url')
+        jsessionid = data.get('jsessionid')
+
+        if not url:
+            return jsonify({"status": "error", "message": "URL is required"}), 400
+
+        try:
+            # Fetch the XML content
+            headers = {"User-Agent": "Mozilla/5.0"}
+            cookies = {"JSESSIONID": jsessionid} if jsessionid else None
+            response = requests.get(url, headers=headers, cookies=cookies)
+
+            if response.status_code != 200:
+                return jsonify({"status": "error", "message": "Failed to fetch XML"}), response.status_code
+
+            tree = ET.parse(BytesIO(response.content))
+            failures = parser.parse_robot_xml(tree=tree)
+
             return jsonify({
                 "status": "success",
-                "message": "GNMI configuration generated successfully",
-                "config": gnmi_config_yaml,
-                "download_link": download_link
-            })
+                "message": "XML fetched and parsed successfully",
+                "failures": failures
+            }), 200
         except Exception as e:
-            logging.error(f"Error during GNMI subscription: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
-
-    @app.route('/download_gnmi_config/<filename>', methods=['GET'])
-    @login_required
-    def download_gnmi_config(filename):
-        try:
-            # Construct the correct path using the user's specific directory
-            #telemetry_folder = current_app.config['TELEMETRY_FOLDER']
-            telemetry_folder = os.path.abspath(current_app.config['TELEMETRY_FOLDER'])
-            # Ensure that the username is appended only once
-            #user_folder = os.path.join(telemetry_folder, current_user.username)
-            user_folder = os.path.join(telemetry_folder)
-            file_path = os.path.join(user_folder, filename)
-            #file_path = os.path.join(user_folder, filename)
-            logging.info(f"Attempting to send file from: {file_path}")
-            # Check if the file actually exists at the constructed path
-            if not os.path.isfile(file_path):
-                logging.error(f"File not found: {file_path}")
-                return jsonify({"status": "error", "message": "File not found"}), 404
-            # Serve the file from the user's directory
-            #return send_from_directory(user_folder, filename, as_attachment=True)
-            return send_file(file_path, as_attachment=True)
-        except Exception as e:
-            logging.error(f"Error during file download: {str(e)}")
             return jsonify({"status": "error", "message": str(e)}), 500
 
 
-
-    @app.route('/get_gpu_systems', methods=['GET'])
-    def get_gpu_systems():
+    @app.route('/api/downloadTrainingData', methods=['GET'])
+    @login_required  # Ensure the user is logged in
+    def download_training_data():
+        """
+        Route to allow downloading training data in JSON format. Only admin-saved data is allowed.
+        """
         try:
-            gpu_systems = GpuSystem.query.all()
-            systems_data = []
-            for system in gpu_systems:
-                # Check if the system is reachable
-                if not is_reachable(system.node_ip):
-                    system.color = 'red'  # Set color to red if not reachable
-                    db.session.commit()  # Save the change to the database
-                else:
-                    system.color = 'green'  # Set color to green if reachable
-                    db.session.commit()  # Save the change to the database
+            # Assuming admin has a specific user_id (e.g., 1) or role
+            admin_user_id = 1  # Replace with the actual ID or role check for the admin user
 
-                systems_data.append({
-                    'id': system.id,
-                    'node_ip': system.node_ip,
-                    'user': system.user,
-                    'password': system.password,
-                    'color': system.color  # Ensure the color is sent in the response
-                })
-            return jsonify({'status': 'success', 'gpu_systems': systems_data})
+            # Query training data saved by the admin
+            training_data = TrainingData.query.filter_by(user_id=admin_user_id).all()
+
+            # Prepare data for download in the desired format
+            data = {}
+            for td in training_data:
+                if td.category not in data:
+                    data[td.category] = {}
+                data[td.category][td.pattern] = td.suggestion
+
+            # Create a JSON response
+            response = make_response(json.dumps(data, indent=4))
+            response.headers['Content-Type'] = 'application/json'
+            response.headers['Content-Disposition'] = 'attachment; filename=training_data.json'
+
+            return response
+
         except Exception as e:
-            return jsonify({'status': 'error', 'message': str(e)})
+            current_app.logger.error(f"Error while preparing training data for download: {e}")
+            return jsonify({"status": "error", "message": "Unable to download training data."}), 500
 
-    # Endpoint to onboard a GPU node and store it in the database
-    @app.route('/gpu_onboarding', methods=['POST'])
-    def gpu_onboarding():
-        node_ip = request.form['node_ip']
-        user = request.form['user']
-        password = request.form['password']
-        # Check if the system already exists
-        existing_system = GpuSystem.query.filter_by(node_ip=node_ip, user=user).first()
-        if existing_system:
-            return jsonify({"status": "error", "message": f"Node {node_ip} with user {user} is already onboarded."})
+    @app.route('/getCategories', methods=['GET'])
+    def get_categories():
         try:
-            new_system = GpuSystem(node_ip=node_ip, user=user, password=password)
-            db.session.add(new_system)
-            db.session.commit()
-            return jsonify(
-                {"status": "success", "message": f"Node {node_ip} onboarded successfully.", "system_id": new_system.id})
-        except Exception as e:
-            return jsonify({"status": "error", "message": str(e)})
-
-
-
-    @app.route('/update_gpu_system', methods=['POST'])
-    def update_gpu_system():
-        try:
-            system_id = request.form.get('system_id')
-            node_ip = request.form.get('node_ip')
-            user = request.form.get('user')
-            password = request.form.get('password')
-            # Update the GPU system in the database
-            gpu_system = GpuSystem.query.get(system_id)
-            gpu_system.node_ip = node_ip
-            gpu_system.user = user
-            gpu_system.password = password
-            db.session.commit()
-            return jsonify({'status': 'success'})
-        except Exception as e:
-            return jsonify({'status': 'error', 'message': str(e)})
-
-    @app.route('/delete_gpu_system/<int:id>', methods=['DELETE'])
-    def delete_gpu_system(id):
-        try:
-            gpu_system = GpuSystem.query.get(id)
-            if gpu_system:
-                db.session.delete(gpu_system)
-                db.session.commit()
-                return jsonify({'status': 'success'})
-            else:
-                return jsonify({'status': 'error', 'message': 'GPU system not found'})
-        except Exception as e:
-            return jsonify({'status': 'error', 'message': str(e)})
-
-    @app.route('/gpu_monitoring', methods=['POST'])
-    def gpu_monitoring():
-        logging.info("gpu_monitoring endpoint was called")
-        try:
-            # Create an instance of the InfluxDB v2 connection class
-            influx_connection = InfluxDBConnectionV2()
-            logging.info("InfluxDBConnectionV2 initialized successfully")
-
-            # Retrieve JSON data from the request
-            data = request.get_json()
-            logging.info(f"Received data: {data}")
-            if not data:
-                logging.error("No data provided in the request")
-                return jsonify({"status": "error", "message": "No data provided"}), 400
-
-            # Get the record limit from the request data or default to 10
-            record_limit = data.get('limit', 10)
-            logging.info(f"Record limit: {record_limit}")
-            selected_date = data.get('date')
-
-            # Get the list of device hosts from InfluxDB
-            device_hosts = influx_connection.get_device_hosts()
-            logging.info(f"Device hosts: {device_hosts}")
-            if not device_hosts:
-                logging.info("No device hosts found")
-                return jsonify({"status": "success", "metrics": [], "message": "No device hosts found"}), 200
-
-            # Query the metrics
-            result = influx_connection.query_metrics(device_hosts, record_limit, selected_date)
-            logging.info(f"Query result: {result}")
-
-            # Convert the results to a list
-            metrics = []
-            for table in result:
-                for record in table.records:
-                    metrics.append(record.values)
-
-            if not metrics:
-                logging.info("No metrics found")
-                return jsonify({"status": "success", "metrics": [], "message": "No metrics found"}), 200
-
-            # Return the metrics as a JSON response
-            logging.info(f"Returning metrics: {metrics}")
-            return jsonify({"status": "success", "metrics": metrics})
+            # Query distinct categories from the TrainingData table
+            categories = TrainingData.query.with_entities(TrainingData.category).distinct().all()
+            # Extract category names from the query result
+            category_list = [category[0] for category in categories]
+            return jsonify({"categories": category_list}), 200
 
         except Exception as e:
             # Log the error for debugging
-            logging.error(f"Error occurred: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
+            print(f"Error loading categories: {e}")
+            return jsonify({"message": f"Failed to load categories: {str(e)}"}), 500
 
+    @app.route('/getTrainingData', methods=['GET'])
+    @login_required
+    def get_training_data():
+        category = request.args.get('category')
+        if not category:
+            return jsonify({"message": "Category is required."}), 400
 
-
-    @app.route('/delete_metric', methods=['POST'])
-    def delete_metric():
         try:
-            # Create an instance of the InfluxDB v2 connection class
-            influx_connection = InfluxDBConnectionV2()
-            # Retrieve JSON data from the request
+            training_data = TrainingData.query.filter_by(user_id=current_user.id, category=category).all()
+            result = [
+                {"pattern": data.pattern, "suggestion": data.suggestion}
+                for data in training_data
+            ]
+            return jsonify(result), 200
+        except Exception as e:
+            return jsonify({"message": f"Failed to fetch training data: {str(e)}"}), 500
+
+
+    @app.route('/uploadJsonTrainingFile', methods=['POST'])
+    def uploadJsonTrainingFile():
+        if 'file' not in request.files:
+            return jsonify({"message": "No file part"}), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"message": "No selected file"}), 400
+        if file and file.filename.endswith('.json'):
+            try:
+                # Parse the JSON data from the file
+                data = json.load(file)
+
+                # Assuming JSON structure is { "Category": { "Pattern": "Suggestion", ... }, ... }
+                for category, patterns in data.items():
+                    if not isinstance(patterns, dict):
+                        return jsonify({"message": f"Invalid structure for category '{category}'"}), 400
+
+                    for pattern, suggestion in patterns.items():
+                        # Validate fields
+                        if not pattern or not suggestion:
+                            return jsonify({"message": f"Pattern or suggestion missing for category '{category}'"}), 400
+
+                        # Check for duplicates
+                        existing_entry = TrainingData.query.filter_by(user_id=current_user.id, pattern=pattern).first()
+                        if existing_entry:
+                            # Optionally, update the suggestion for existing patterns
+                            existing_entry.suggestion = suggestion
+                        else:
+                            # Add a new entry to the database
+                            new_entry = TrainingData(
+                                user_id=current_user.id,  # Assumes user is authenticated
+                                category=category,
+                                pattern=pattern,
+                                suggestion=suggestion
+                            )
+                            db.session.add(new_entry)
+                # Commit the changes
+                db.session.commit()
+                return jsonify({"message": "Data loaded successfully"}), 200
+            except json.JSONDecodeError:
+                return jsonify({"message": "Invalid JSON format"}), 400
+            except Exception as e:
+                db.session.rollback()
+                return jsonify({"message": f"Failed to load data: {str(e)}"}), 500
+        return jsonify({"message": "Unsupported file type"}), 400
+
+    # Route for direct text submission
+    @app.route('/addPattern', methods=['POST'])
+    @login_required
+    def add_pattern():
+        data = request.get_json()
+        category = data.get('category')
+        pattern = data.get('pattern')
+        suggestion = data.get('suggestion')
+        if not category or not pattern or not suggestion:
+            return jsonify({"message": "All fields are required."}), 400
+        if TrainingData.query.filter_by(pattern=pattern, user_id=current_user.id).first():
+            return jsonify({"message": "Pattern already exists."}), 400
+        new_entry = TrainingData(
+            user_id=current_user.id,
+            category=category,
+            pattern=pattern,
+            suggestion=suggestion
+        )
+        db.session.add(new_entry)
+        db.session.commit()
+        return jsonify({"message": "New pattern added successfully."})
+    @app.route('/getCategoriesAndPatterns', methods=['GET'])
+    def get_categories_and_patterns():
+        categories = TrainingData.query.with_entities(TrainingData.category.distinct()).all()
+        return jsonify({"categories": [c[0] for c in categories]})
+
+    @app.route('/getPatterns', methods=['GET'])
+    def get_patterns():
+        category = request.args.get('category')
+        if not category:
+            return jsonify({"patterns": []}), 400
+        patterns = TrainingData.query.filter_by(category=category, user_id=current_user.id).with_entities(
+            TrainingData.pattern).all()
+        return jsonify({"patterns": [p[0] for p in patterns]})
+
+    @app.route('/getSuggestion', methods=['GET'])
+    def get_suggestion():
+        pattern = request.args.get('pattern')
+        if not pattern:
+            return jsonify({"suggestion": ""}), 400
+        suggestion = TrainingData.query.filter_by(pattern=pattern, user_id=current_user.id).with_entities(
+            TrainingData.suggestion).first()
+        return jsonify({"suggestion": suggestion[0] if suggestion else ""})
+
+    @app.route('/updatePattern', methods=['POST'])
+    def update_pattern():
+        data = request.get_json()
+        pattern = data.get('pattern')
+        suggestion = data.get('suggestion')
+        if not pattern or not suggestion:
+            return jsonify({"message": "Pattern and suggestion are required."}), 400
+        record = TrainingData.query.filter_by(pattern=pattern, user_id=current_user.id).first()
+        if not record:
+            return jsonify({"message": "Pattern not found."}), 404
+        record.suggestion = suggestion
+        db.session.commit()
+        return jsonify({"message": "Pattern updated successfully."})
+
+    @app.route('/deletePattern', methods=['POST'])
+    @login_required
+    def delete_pattern():
+        try:
             data = request.get_json()
-            if not data:
-                return jsonify({"status": "error", "message": "No data provided"}), 400
+            pattern = data.get('pattern')
+            if not pattern:
+                return jsonify({"message": "Pattern is required."}), 400
 
-            host = data.get('host')
-            time = data.get('time')
-            field = data.get('field')
+            # Find and delete the pattern
+            record = TrainingData.query.filter_by(pattern=pattern, user_id=current_user.id).first()
+            if not record:
+                return jsonify({"message": "Pattern not found."}), 404
 
-            if not host or not time or not field:
-                return jsonify({"status": "error", "message": "Invalid data provided"}), 400
-
-            # Delete the metric from InfluxDB
-            success = influx_connection.delete_metric(host, time, field)
-
-            if success:
-                return jsonify({"status": "success"})
-            else:
-                return jsonify({"status": "error", "message": "Failed to delete the metric"}), 500
-
+            db.session.delete(record)
+            db.session.commit()
+            return jsonify({"message": "Pattern deleted successfully."}), 200
         except Exception as e:
-            logging.error(f"Error occurred: {str(e)}")
-            return jsonify({"status": "error", "message": str(e)}), 500
+            db.session.rollback()
+            return jsonify({"message": f"Failed to delete pattern: {str(e)}"}), 500
 
 
-    # Endpoint to monitor GPU metrics
-    @app.route('/gpu_metrics', methods=['GET'])
-    def gpu_metrics():
-        initialize_nvidia_smi()
-        try:
-            device_count = nvidia_smi.nvmlDeviceGetCount()
-            gpus = []
-
-            for i in range(device_count):
-                handle = nvidia_smi.nvmlDeviceGetHandleByIndex(i)
-                name = nvidia_smi.nvmlDeviceGetName(handle)
-                mem_info = nvidia_smi.nvmlDeviceGetMemoryInfo(handle)
-                utilization = nvidia_smi.nvmlDeviceGetUtilizationRates(handle)
-                temp = nvidia_smi.nvmlDeviceGetTemperature(handle, nvidia_smi.NVML_TEMPERATURE_GPU)
-
-                gpus.append({
-                    'index': i,
-                    'name': name.decode('utf-8'),
-                    'memory_total': mem_info.total / 1024 ** 2,  # Convert bytes to MB
-                    'memory_used': mem_info.used / 1024 ** 2,
-                    'memory_free': mem_info.free / 1024 ** 2,
-                    'utilization_gpu': utilization.gpu,
-                    'utilization_memory': utilization.memory,
-                    'temperature': temp
-                })
-
-            return jsonify(gpus)
-        finally:
-            shutdown_nvidia_smi()
-
-    @app.route('/startAllSystemTelemetry/<system_id>', methods=['POST'])
-    def start_all_system_telemetry(system_id):
-        try:
-            influx_connection = InfluxDBConnectionV2()
-            # Retrieve GPU system details based on the system_id from your database or data source
-            gpu_system = influx_connection.get_gpu_system_by_id(system_id)
-            if not gpu_system:
-                return jsonify({"status": "error", "message": "GPU system not found"}), 404
-
-            REMOTE_HOST = gpu_system['node_ip']
-            USERNAME = gpu_system['user']
-            PASSWORD = gpu_system['password']
-
-            influx_connection = InfluxDBConnectionV2()
-            influx_connection.server_telemetry(REMOTE_HOST, USERNAME, PASSWORD)
-
-            return jsonify({"status": "success"})
-        except Exception as e:
-            return jsonify({"status": "error", "message": str(e)}), 500
 
 
-    """@app.route('/check_connectivity', methods=['POST'])
-    def check_connectivity():
-        data = request.form
-        host = data.get('host')
-        username = data.get('username', 'root')
-        password = data.get('password', 'Embe1mpls')
-        port = int(data.get('port', 830))
+    ### XML Robot Parser END ###
 
-        if not host:
-            return jsonify({'error': 'Host is required'}), 400
-
-        is_connected = check_juniper_connectivity(host, port, username, password)
-        return jsonify({'host': host, 'connected': is_connected})"""
 
     @app.route('/get_my_topology', methods=['GET'])
     @login_required
@@ -1366,24 +632,58 @@ def create_routes(app):
         else:
             return jsonify({'success': False, 'error': 'Device not found'}), 404
 
-
-
     # Flask route to check device and link health
 
     @app.route('/check_device_health', methods=['POST'])
     @login_required
-    def check_health_route():
+    def check_device_health_route():
+        def remove_none_values(d):
+            """Recursively remove None values from dictionaries or lists."""
+            if isinstance(d, dict):
+                return {k: remove_none_values(v) for k, v in d.items() if k is not None and v is not None}
+            elif isinstance(d, list):
+                return [remove_none_values(item) for item in d if item is not None]
+            else:
+                return d
         data = request.get_json()
         devices = data.get('devices', [])
+
+        try:
+            router_details = get_router_details_from_db()
+            device_health_status = check_device_health(router_details, devices)
+            cleaned_device_health_status = remove_none_values(device_health_status)
+        except Exception as e:
+            logging.error(f"Error in device health check: {e}", exc_info=True)
+            return jsonify({"error": "Server error during device health check"}), 500
+
+        return jsonify({
+            'device_health_status': cleaned_device_health_status
+        })
+
+    @app.route('/check_link_health', methods=['POST'])
+    @login_required
+    def check_link_health_route():
+        def remove_none_values(d):
+            """Recursively remove None values from dictionaries or lists."""
+            if isinstance(d, dict):
+                return {k: remove_none_values(v) for k, v in d.items() if k is not None and v is not None}
+            elif isinstance(d, list):
+                return [remove_none_values(item) for item in d if item is not None]
+            else:
+                return d
+        data = request.get_json()
         edges = data.get('edges', [])
-        router_details = get_router_details_from_db()
-        # Determine the format of the device data
-        use_hostname_as_label = all('hostname' in device for device in devices)
-        device_health_status = check_device_health(router_details, devices, use_hostname_as_label)
-        link_health_status = check_link_health(router_details, edges)
-        health_status = {**device_health_status, **link_health_status}
-        logging.info(f"check_health_route:health_status: {health_status}")
-        return jsonify({'health_status': health_status})
+        try:
+            router_details = get_router_details_from_db()
+            link_health_status = check_link_health(router_details, edges)
+            cleaned_link_health_status = remove_none_values(link_health_status)
+        except Exception as e:
+            logging.error(f"Error in link health check: {e}", exc_info=True)
+            return jsonify({"error": "Server error during link health check"}), 500
+
+        return jsonify({
+            'link_health_status': cleaned_link_health_status
+        })
 
     # END
 
@@ -1401,9 +701,6 @@ def create_routes(app):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return jsonify({'success': True})
         return jsonify({'success': False, 'error': 'File upload failed'})
-
-
-
 
 
     @app.route('/install_image', methods=['POST'])
@@ -1438,7 +735,6 @@ def create_routes(app):
             if not os.path.exists(image_path):
                 logging.error('Image file not found')
                 return jsonify(success=False, error="Image file not found"), 404
-
             image_size = os.path.getsize(image_path)
             lock = threading.Lock()
             stop_events = {}
@@ -1448,7 +744,6 @@ def create_routes(app):
             logging.info('Performing Install operation on devices.')
             threads = []
             app_context = current_app._get_current_object()
-
             # Progress for SCP
             def scp_progress(filename, size, sent, device_id):
                 progress = int((sent / size) * 100)
@@ -1458,7 +753,6 @@ def create_routes(app):
                     'stage': 'copying'
                 })
                 #logging.info(f"Copying progress for {device_id}: {progress}%")
-
             # Installation progress handler
             def myprogress(report,device_id):
                 """
@@ -1471,313 +765,7 @@ def create_routes(app):
                     'stage': 'installing'
                 })
 
-
-            '''def install_image_on_device(dev, remote_image_path, device_id):
-                try:
-                    sw = SW(dev)
-                    logging.info(f"Starting installation on device {device_id} with image {remote_image_path}")
-
-                    # Emit that installation is starting with a valid device_id
-                    if not device_id:
-                        logging.error("device_id is missing or undefined")
-                        return False
-
-                    socketio.emit('install_progress', {
-                        'device_id': device_id,
-                        'progress': 10,
-                        'stage': 'installing',
-                        'message': 'Starting installation'  # Always include a message
-                    })
-
-                    # Get current software version from the device
-                    device_version_info = dev.rpc.get_software_information()
-                    device_version = device_version_info.xpath('//software-information/junos-version')
-
-                    if not device_version:
-                        logging.error(f"Could not retrieve version for device {device_id}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 0,
-                            'stage': 'error',
-                            'message': f"Failed to retrieve version for {device_id}"  # Include a message here
-                        })
-                        return False
-
-                    device_version_name = device_version[0].text.split('-')[-2]
-                    logging.info(f"Current software version on {device_id}: {device_version_name}")
-                    image_install_version = remote_image_path.split('-')[-2]
-                    logging.info(f"Image version to install on {device_id}: {image_install_version}")
-
-                    # Check if the version to install matches the current version
-                    if image_install_version == device_version_name:
-                        message = f"Device {device_id} is already running version {image_install_version}. Skipping installation."
-                        logging.info(message)
-                        #errors.append("DupVersion")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'DupVersion',  # Duplicate version stage
-                            'message': "DupVersion,skiping.!"  # Pass the message argument here
-                        })
-                        return False
-
-                    # Check if a pending upgrade exists
-                    upgrade_status = dev.rpc.get_software_information()
-                    if "upgrade_in_progress" in upgrade_status.xpath('//software-information'):
-                        error_message = "There is a pending upgrade. Please reboot the device to complete the installation or rollback."
-                        logging.error(error_message)
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 0,
-                            'stage': 'error',
-                            'message': error_message  # Always pass a message
-                        })
-                        return False
-
-                    # Proceed with the installation
-                    ok, msg = sw.install(package=remote_image_path, validate=True, progress=myprogress,
-                                         checksum_timeout=400, no_copy=True)
-
-                    if ok:
-                        # Emit install complete, then emit reboot stage
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'install_complete',
-                            'message': 'Installation complete'  # Include a success message
-                        })
-                        logging.info(f"Image installed successfully on {device_id}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'rebooting',
-                            'message': 'Rebooting device'  # Provide a reboot message
-                        })
-                        sw.reboot()
-                        return True
-                    else:
-                        # Handle errors during installation
-                        if "Another package installation in progress" in msg:
-                            logging.error(f"Another package installation is already in progress on {device_id}.")
-                            socketio.emit('install_progress', {
-                                'device_id': device_id,
-                                'progress': 0,
-                                'stage': 'error',
-                                'message': 'Another installation is already in progress.'  # Include error message
-                            })
-                        else:
-                            logging.error(f'Failed to install image on {device_id}: {msg}')
-                        return False
-                except Exception as e:
-                    logging.error(f"Error installing image on {device_id}: {str(e)}")
-                    socketio.emit('install_progress', {
-                        'device_id': device_id,
-                        'progress': 0,
-                        'stage': 'error',
-                        'message': f"Install Error: {str(e)}"  # Include the exception in the message
-                    })
-                    return False'''
-            '''def install_image_on_device(dev, remote_image_path, device_id):
-                try:
-                    sw = SW(dev)
-                    logging.info(f"Starting installation on device {device_id} with image {remote_image_path}")
-
-                    # Emit that installation is starting with a valid device_id
-                    if not device_id:
-                        logging.error("device_id is missing or undefined")
-                        return False
-
-                    socketio.emit('install_progress', {
-                        'device_id': device_id,
-                        'progress': 10,
-                        'stage': 'installing',
-                        'message': 'Starting installation'  # Always include a message
-                    })
-
-                    # Get current software version from the device
-                    device_version_info = dev.rpc.get_software_information()
-                    device_version = device_version_info.xpath('//software-information/junos-version')
-
-                    if not device_version:
-                        logging.error(f"Could not retrieve version for device {device_id}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 0,
-                            'stage': 'error',
-                            'message': f"Failed to retrieve version for {device_id}"  # Include a message here
-                        })
-                        return False
-
-                    device_version_name = device_version[0].text.split('-')[-2]
-                    logging.info(f"Current software version on {device_id}: {device_version_name}")
-                    image_install_version = remote_image_path.split('-')[-2]
-                    logging.info(f"Image version to install on {device_id}: {image_install_version}")
-
-                    # Check if the version to install matches the current version
-                    if image_install_version == device_version_name:
-                        message = f"Device {device_id} is already running version {image_install_version}. Skipping installation."
-                        logging.info(message)
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'DupVersion',  # Duplicate version stage
-                            'message': "DupVersion, skipping.!"  # Pass the message argument here
-                        })
-                        return False
-
-                    # Check if a pending upgrade exists
-                    upgrade_status = dev.rpc.get_software_information()
-                    if "upgrade_in_progress" in upgrade_status.xpath('//software-information'):
-                        error_message = "There is a pending upgrade. Please reboot the device to complete the installation or rollback."
-                        logging.error(error_message)
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 0,
-                            'stage': 'error',
-                            'message': error_message  # Always pass a message
-                        })
-                        return False
-
-                    # Proceed with the installation
-                    ok, msg = sw.install(package=remote_image_path, validate=True, progress=myprogress,
-                                         checksum_timeout=400, no_copy=True)
-
-                    if ok:
-                        # Emit install complete, then emit reboot stage
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'install_complete',
-                            'message': 'Installation complete'  # Include a success message
-                        })
-                        logging.info(f"Image installed successfully on {device_id}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 100,
-                            'stage': 'rebooting',
-                            'message': 'Rebooting device'  # Provide a reboot message
-                        })
-                        sw.reboot()
-
-                        # Wait for the device to come back online
-                        time.sleep(60)  # Wait for 60 seconds (this can be adjusted based on typical reboot times)
-
-                        for attempt in range(12):  # Try for 12 iterations (about 10-12 minutes)
-                            try:
-                                dev.open()  # Re-establish the connection
-                                logging.info(f"Device {device_id} is back online after reboot.")
-                                socketio.emit('install_progress', {
-                                    'device_id': device_id,
-                                    'progress': 90,
-                                    'stage': 'device_online',
-                                    'message': 'Device online'
-                                })
-
-                                # Check if the installed version matches the target version
-                                device_version_info = dev.rpc.get_software_information()
-                                device_version = device_version_info.xpath('//software-information/junos-version')
-                                if device_version and device_version[0].text.split('-')[-2] == image_install_version:
-                                    logging.info(f"Version verification successful for device {device_id}.")
-                                    socketio.emit('install_progress', {
-                                        'device_id': device_id,
-                                        'progress': 100,
-                                        'stage': 'version_check',
-                                        'message': 'Success!.'
-                                    })
-                                    return True
-                                else:
-                                    logging.error(f"Version mismatch after reboot on device {device_id}.")
-                                    socketio.emit('install_progress', {
-                                        'device_id': device_id,
-                                        'progress': 0,
-                                        'stage': 'error',
-                                        'message': 'Version mismatch after reboot.'
-                                    })
-                                    return False
-                            except ConnectError:
-                                logging.warning(
-                                    f"Device {device_id} is not reachable. Retrying... Attempt {attempt + 1}")
-                                time.sleep(30)  # Wait for 30 seconds before retrying
-                        # If the device is not reachable after 12 attempts, emit error
-                        logging.error(f"Device {device_id} did not come back online after reboot.")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'progress': 0,
-                            'stage': 'error',
-                            'message': f"Device {device_id} did not come back online after reboot."
-                        })
-                        return False
-                    else:
-                        # Handle errors during installation
-                        if "Another package installation in progress" in msg:
-                            logging.error(f"Another package installation is already in progress on {device_id}.")
-                            socketio.emit('install_progress', {
-                                'device_id': device_id,
-                                'progress': 0,
-                                'stage': 'error',
-                                'message': 'Another installation is already in progress.'  # Include error message
-                            })
-                        else:
-                            logging.error(f'Failed to install image on {device_id}: {msg}')
-                            socketio.emit('install_progress', {
-                                'device_id': device_id,
-                                'progress': 0,
-                                'stage': 'error',
-                                'message': "Install Failed."  # Provide a failure message
-                            })
-                        return False
-                except Exception as e:
-                    logging.error(f"Error installing image on {device_id}: {str(e)}")
-                    socketio.emit('install_progress', {
-                        'device_id': device_id,
-                        'progress': 0,
-                        'stage': 'error',
-                        'message': f"Install Error: {str(e)}"  # Include the exception in the message
-                    })
-                    return False'''
-
-            '''def reboot_and_check(dev, device_id):
-                """Helper function to reboot the device and verify if the device comes back online."""
-                sw.reboot()
-                # Wait for the device to come back online
-                time.sleep(60)  # Adjust based on typical reboot times
-                for attempt in range(12):  # Try for 12 iterations (about 10-12 minutes)
-                    try:
-                        dev.open(timeout=120)  # Re-establish the connection with increased timeout
-                        logging.info(f"Device {device_id} is back online after reboot.")
-                        if dev.connected:
-                            socketio.emit('install_progress', {
-                                'device_id': device_id,
-                                'progress': 90,
-                                'stage': 'device_online',
-                                'message': 'Device online'
-                            })
-                            return True
-                    except ConnectError as e:
-                        logging.warning(
-                            f"SSH connection failed for device {device_id}. Retrying... Attempt {attempt + 1}: {e}")
-                        time.sleep(60)  # Wait for 60 seconds before retrying
-                    except Exception as e:
-                        logging.warning(f"SSH timeout for device {device_id}. Retrying... Attempt {attempt + 1}: {e}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id,
-                            'stage': 'message',
-                            'message': f'Connect Retry{attempt + 1}'
-                        })
-                        time.sleep(60)  # Wait for 60 seconds before retrying
-
-                # If the device is not reachable after 12 attempts, emit an error
-                logging.error(f"Device {device_id} did not come back online after reboot.")
-                socketio.emit('install_progress', {
-                    'device_id': device_id,
-                    'progress': 0,
-                    'stage': 'error',
-                    'message': f"Device {device_id} did not come back online after reboot."
-                })
-                return False'''
-
             def check_versions_and_rollback(dev, package_name, device_id, sw):
-
                 def reboot_and_check(dev, device_id):
                     """Helper function to reboot the device and verify if the device comes back online."""
                     sw.reboot()
@@ -2982,253 +1970,70 @@ def create_routes(app):
 
     ## generate underlay configuration for Discover topology useing lldp and  Configure network ##
 
-    '''@app.route('/show_underlay_lldp_config', methods=['POST'])
+    @app.route('/view_underlay_csv_config', methods=['GET'])
     @login_required
-    def show_underlay_lldp_config():
-        if not current_user.is_authenticated:
-            flash('Please login again', 'error')
-            return jsonify({'success': False, 'error': 'Please login again'}), 401
-        config_method = request.form.get('config_method')
-        delete_underlay_group = request.form.get('delete_group') == "on"
-        use_ipv4 = request.form.get('ipv4_underlay') == "on"
-        use_ipv6 = request.form.get('ipv6_underlay') == "on"
-        commands = defaultdict(list)
-        local_as_mapping = {}
-        ip_assignments = {}
-        neighbors_dict = defaultdict(list)
-        as_counter = 65000
-        success_hosts = []
-        device_list=[]
-        failed_hosts = set()
-        logging.info(f"Configuration method selected: {config_method}")
-        logging.info(f"Current user ID: {current_user.id}")
-        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-        if not devices:
-            logging.info(f"No devices found for user {current_user.id}")
-            flash('No devices found for the current user.', 'error')
+    def view_underlay_csv_config():
+        # Define the path to the user-specific commands file for CSV config
+        user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
+        commands_file = os.path.join(user_folder, 'commands_csv.json')
+
+        # Check if the commands file exists
+        if os.path.exists(commands_file):
+            with open(commands_file, 'r') as f:
+                commands = json.load(f)
+        else:
+            flash('No configuration data available. Please generate it first.', 'error')
             return redirect(url_for('index'))
 
-        # Prepare the local AS mapping
-        for device in devices:
-            device_list.append(device.hostname)
-            if device.hostname not in local_as_mapping:
-                local_as_mapping[device.hostname] = as_counter
-                as_counter += 1
-        logging.info(f"**fetching lldp connections for {device_list}")
-        # Fetch LLDP neighbors for each device with exception handling
-
-        for device in devices:
-            try:
-                dev_connector = DeviceConnectorClass(device.hostname, device.ip, device.username,device.password)
-                dev = dev_connector.connect_to_device()
-                lldp_builder = BuildLLDPConnectionClass(device.hostname,device_list)
-                neighbors = lldp_builder.get_lldp_neighbors(dev)
-                logging.info(f"**lldp neighbors: {neighbors}")
-                # Combine neighbors into the global dictionary
-                for host, data in neighbors.items():
-                    neighbors_dict[host].extend(data)
-                success_hosts.append(device.hostname)
-                # Simplify neighbors dict (remove domain from hostnames)
-                simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
-                logging.info(f"simplified_neighbors: {simplified_neighbors}")
-                # Build connections from the neighbor data
-                connections = lldp_builder.build_connections(simplified_neighbors)
-                logging.info(f"**lldp connections: {connections}")
-                # Generate the configuration
-                generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,ip_assignments)
-            except ConnectAuthError as e:
-                logging.error(f"Connection authentication error for device {device.hostname}: {str(e)}")
-                failed_hosts.add((device.hostname, f"Connection authentication error: {str(e)}"))
-            except ConnectError as e:
-                logging.error(f"Connection error for device {device.hostname}: {str(e)}")
-                failed_hosts.add((device.hostname, f"Connection error: {str(e)}"))
-            except Exception as e:
-                logging.error(f"Error fetching LLDP neighbors for device {device.hostname}: {str(e)}")
-                failed_hosts.add((device.hostname, f"Error: {str(e)}"))
-        # Save each device's configuration to a file
-        #user_folder = os.path.join(current_app.config['UPLOAD_FOLDER'])
-        user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
-        os.makedirs(user_folder, exist_ok=True)
-        for hostname, cmds in commands.items():
-            config_filename = f"{hostname}_config.txt"
-            config_filepath = os.path.join(user_folder, config_filename)
-            with open(config_filepath, 'w') as config_file:
-                config_file.write("\n".join(cmds))
-        session['generated_config'] = commands
-        devices = get_router_details_from_db()
-        return render_template('underlay_config_result.html', success_hosts=success_hosts,failed_hosts=list(failed_hosts), commands=commands, devices=devices)'''
-
-    '''@app.route('/show_underlay_lldp_config', methods=['POST'])
-    @login_required
-    def show_underlay_lldp_config():
-        if not current_user.is_authenticated:
-            flash('Please login again', 'error')
-            return jsonify({'success': False, 'error': 'Please login again'}), 401
-
-        config_method = request.form.get('config_method')
-        delete_underlay_group = request.form.get('delete_group') == "on"
-        use_ipv4 = request.form.get('ipv4_underlay') == "on"
-        use_ipv6 = request.form.get('ipv6_underlay') == "on"
-        commands = defaultdict(list)
-        local_as_mapping = {}
-        ip_assignments = {}
-        neighbors_dict = defaultdict(list)
-        as_counter = 65000
-        success_hosts = []
-        failed_hosts = set()
-        device_list = []
-
         devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-        if not devices:
-            flash('No devices found for the current user.', 'error')
-            return redirect(url_for('index'))
-
-        total_devices = len(devices)
-        progress_increment = 100 // total_devices
-        current_progress = 0
-        # Prepare the local AS mapping and ensure device has a valid hostname
-        for device in devices:
-            if device and device.hostname:  # Ensure device and hostname are valid
-                device_name = device.hostname.strip()
-                if device_name:
-                    device_list.append(device_name)
-                    if device_name not in local_as_mapping:
-                        local_as_mapping[device_name] = as_counter
-                        as_counter += 1
-                else:
-                    logging.error(f"Skipping device with empty hostname: {device.ip}")
-                    continue
-            else:
-                logging.error(f"Skipping device due to missing hostname or invalid device object: {device}")
-                continue
-        for index, device in enumerate(devices):
-            device_name = device.hostname.strip() if device and device.hostname else None  # Ensure device name is defined
-            if not device_name:
-                logging.error(f"Skipping device with undefined hostname at index {index}")
-                continue  # Skip further processing for undefined devices
-            try:
-                dev_connector = DeviceConnectorClass(device.hostname, device.ip, device.username, device.password)
-                dev = dev_connector.connect_to_device()
-                lldp_builder = BuildLLDPConnectionClass(device.hostname, device_list)
-
-                # Emit progress for simplified_neighbors
-                neighbors = lldp_builder.get_lldp_neighbors(dev)
-                current_progress += progress_increment // 3  # Increment by one-third for each step
-                socketio.emit('overall_progress', {
-                    'device': device.hostname,
-                    'progress': current_progress,
-                    'stage': 'simplified_neighbors'
-                })
-
-                # Combine neighbors into the global dictionary
-                for host, data in neighbors.items():
-                    neighbors_dict[host].extend(data)
-                success_hosts.append(device.hostname)
-
-                # Simplify neighbors dict (remove domain from hostnames)
-                simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
-
-                # Emit progress for lldp_builder
-                current_progress += progress_increment // 3  # Another third for this stage
-                socketio.emit('overall_progress', {
-                    'device': device.hostname,
-                    'progress': current_progress,
-                    'stage': 'lldp_builder'
-                })
-
-                # Build connections from the neighbor data
-                connections = lldp_builder.build_connections(simplified_neighbors)
-
-                # Generate the configuration
-                generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,
-                                ip_assignments)
-
-                # Emit progress for generate_config
-                current_progress += progress_increment // 3  # Final third for generating config
-                socketio.emit('overall_progress', {
-                    'device': device.hostname,
-                    'progress': current_progress,
-                    'stage': 'generate_config'
-                })
-
-            except (ConnectAuthError,ConnectUnknownHostError, SSHError, paramiko.SSHException, socket.error,ConnectError,ConnectionResetError) as e:
-                # Handle connection errors and notify the progress bar
-                error_message = f"Connection failed: {str(e)}"
-                failed_hosts.add((device_name, error_message))
-
-                socketio.emit('overall_progress', {
-                    'device': device_name,
-                    'progress': current_progress,
-                    'stage': 'Error',
-                    'fail': error_message
-                })
-                logging.error(f"Connection error for device {device_name}: {str(e)}")
-                continue  # Skip further processing for this device
-
-            except Exception as e:
-                # Handle any other exceptions and notify the progress bar
-                error_message = f"Unexpected error: {str(e)}"
-                failed_hosts.add((device_name, error_message))
-                socketio.emit('overall_progress', {
-                    'device': device_name,
-                    'progress': current_progress,
-                    'stage': 'Error',
-                    'fail': error_message
-                })
-                logging.error(f"Unexpected error during LLDP configuration for device {device_name}: {str(e)}")
-                continue  # Skip further processing for this device
-
-
-        # Save each device's configuration to a file
-        user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
-        os.makedirs(user_folder, exist_ok=True)
-        for hostname, cmds in commands.items():
-            config_filename = f"{hostname}_config.txt"
-            config_filepath = os.path.join(user_folder, config_filename)
-            with open(config_filepath, 'w') as config_file:
-                config_file.write("\n".join(cmds))
-
-        # Emit final progress update for get_router_details_from_db
-        devices = get_router_details_from_db()
-        socketio.emit('overall_progress', {
-            'progress': 100,
-            'stage': 'Completed'
-        })
-        time.sleep(5)
-
-        return render_template('underlay_config_result.html', success_hosts=success_hosts,
-                               failed_hosts=list(failed_hosts), commands=commands, devices=devices)'''
-
-
-
-    @app.route('/show_configs_underlay_lldp')
-    @login_required
-    def show_configs_underlay_lldp():
-        # Retrieve the commands from the session
-        commands = session.get('commands', {})
-
-        if not commands:
-            flash('No configuration data available. Please try again.', 'error')
-            return redirect(url_for('show_underlay_lldp_config'))
-
-        # Retrieve devices for the user
-        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-
-        # Pass the commands to the template instead of config_data
         return render_template('underlay_config_result.html', commands=commands, devices=devices)
+
+    @app.route('/view_underlay_lldp_config', methods=['GET'])
+    @login_required
+    def view_underlay_lldp_config():
+        def normalize_hostname(hostname):
+            """Remove the domain suffix from the hostname if it exists."""
+            return hostname.split('.')[0]  # Only keep the part before the first dot
+        # Define the path to the user-specific commands file for LLDP config
+        user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
+        commands_file = os.path.join(user_folder, 'commands_lldp.json')
+        # Check if the commands file exists
+        if os.path.exists(commands_file):
+            with open(commands_file, 'r') as f:
+                commands = json.load(f)
+            # Normalize hostnames in the commands data
+            normalized_commands = {normalize_hostname(host): cmds for host, cmds in commands.items()}
+        else:
+            flash('No LLDP configuration data available. Please generate it first.', 'error')
+            return redirect(url_for('index'))
+
+        # Retrieve devices from the database and normalize their hostnames
+        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+        normalized_devices = [{**device.__dict__, 'hostname': normalize_hostname(device.hostname)} for device in
+                              devices]
+
+        return render_template('underlay_config_result.html', commands=normalized_commands, devices=normalized_devices)
 
     @app.route('/show_underlay_lldp_config', methods=['POST'])
     @login_required
     def show_underlay_lldp_config():
+        def normalize_hostname(hostname):
+            """Remove the domain suffix from the hostname, if it exists."""
+            return hostname.split('.')[0]
         try:
             if not current_user.is_authenticated:
                 flash('Please login again', 'error')
                 return jsonify({'success': False, 'error': 'Please login again'}), 401
 
+            # Existing config flags
             config_method = request.form.get('config_method')
             delete_underlay_group = request.form.get('delete_group') == "on"
             use_ipv4 = request.form.get('ipv4_underlay') == "on"
             use_ipv6 = request.form.get('ipv6_underlay') == "on"
+            selected_load_balancer = request.form.get('load_balancer')
+            use_dlb = selected_load_balancer == "dlb"
+            use_glb = selected_load_balancer == "glb"
+            use_slb = selected_load_balancer == "slb"
             commands = defaultdict(list)
             local_as_mapping = {}
             ip_assignments = {}
@@ -3247,10 +2052,10 @@ def create_routes(app):
             progress_increment = 100 // total_devices if total_devices > 0 else 0
             current_progress = 0
 
-            # Prepare the local AS mapping and ensure device has a valid hostname
+            # Normalize device hostnames and prepare the local AS mapping
             for device in devices:
-                if device and device.hostname:  # Ensure device and hostname are valid
-                    device_name = device.hostname.strip()
+                if device and device.hostname:
+                    device_name = normalize_hostname(device.hostname.strip())
                     if device_name:
                         device_list.append(device_name)
                         if device_name not in local_as_mapping:
@@ -3264,13 +2069,12 @@ def create_routes(app):
                     continue
 
             for index, device in enumerate(devices):
-                device_name = device.hostname.strip() if device and device.hostname else None  # Ensure device name is defined
+                #device_name = normalize_hostname(device.hostname.strip()) if device and device.hostname else None
+                device_name = device.hostname.strip() if device and device.hostname else None
                 if not device_name:
                     logging.error(f"Skipping device with undefined hostname at index {index}")
-                    continue  # Skip further processing for undefined devices
-
+                    continue
                 try:
-                    # Attempt to connect to the device
                     dev_connector = DeviceConnectorClass(device_name, device.ip, device.username, device.password)
                     dev = dev_connector.connect_to_device()
                     logging.info(f"Connected to {device_name}")
@@ -3279,7 +2083,6 @@ def create_routes(app):
                     lldp_builder = BuildLLDPConnectionClass(device_name, device_list)
                     neighbors = lldp_builder.get_lldp_neighbors(dev)
 
-                    # Emit progress after getting neighbors
                     current_progress += progress_increment // 3
                     socketio.emit('overall_progress', {
                         'device': device_name,
@@ -3287,15 +2090,14 @@ def create_routes(app):
                         'stage': 'simplified_neighbors'
                     })
 
-                    # Combine neighbors into the global dictionary
+                    # Normalize neighbors and update neighbors_dict
                     for host, data in neighbors.items():
-                        neighbors_dict[host].extend(data)
+                        normalized_host = normalize_hostname(host)
+                        neighbors_dict[normalized_host].extend(data)
                     success_hosts.append(device_name)
 
-                    # Simplify neighbors dictionary
                     simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
 
-                    # Emit progress after simplifying neighbors
                     current_progress += progress_increment // 3
                     socketio.emit('overall_progress', {
                         'device': device_name,
@@ -3303,12 +2105,14 @@ def create_routes(app):
                         'stage': 'lldp_builder'
                     })
 
-                    # Build connections from neighbors and generate configuration
-                    connections = lldp_builder.build_connections(simplified_neighbors)
+                    # Normalize connections
+                    connections = [
+                        {normalize_hostname(device): interface for device, interface in conn.items()}
+                        for conn in lldp_builder.build_connections(simplified_neighbors)
+                    ]
+                    #logging.warning(connections)
                     generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,
-                                    ip_assignments)
-
-                    # Emit progress after generating configuration
+                                    use_dlb, use_glb, use_slb, ip_assignments)
                     current_progress += progress_increment // 3
                     socketio.emit('overall_progress', {
                         'device': device_name,
@@ -3316,13 +2120,10 @@ def create_routes(app):
                         'stage': 'generate_config'
                     })
 
-
                 except (ConnectAuthError, ConnectUnknownHostError, SSHError, paramiko.SSHException, socket.error,
                         ConnectionResetError) as e:
-                    # Handle connection errors and notify the progress bar
                     error_message = f"Connection failed: {str(e)}"
                     failed_hosts.add((device_name, error_message))
-
                     socketio.emit('overall_progress', {
                         'device': device_name,
                         'progress': current_progress,
@@ -3330,10 +2131,9 @@ def create_routes(app):
                         'fail': error_message
                     })
                     logging.error(f"Connection error for device {device_name}: {str(e)}")
-                    continue  # Skip further processing for this device
+                    continue
 
                 except Exception as e:
-                    # Handle any other exceptions and notify the progress bar
                     error_message = f"Unexpected error: {str(e)}"
                     failed_hosts.add((device_name, error_message))
                     socketio.emit('overall_progress', {
@@ -3343,12 +2143,25 @@ def create_routes(app):
                         'fail': error_message
                     })
                     logging.error(f"Unexpected error during LLDP configuration for device {device_name}: {str(e)}")
-                    continue  # Skip further processing for this device
+                    continue
 
-            session['commands'] = commands
-            # Emit final progress update to report status
+            # Save commands to user-specific JSON file
+            user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
+            os.makedirs(user_folder, exist_ok=True)
+            # Save each device's configuration to a JSON file
+            for hostname, cmds in commands.items():
+                config_filename = f"{hostname}_config.txt"
+                config_filepath = os.path.join(user_folder, config_filename)
+                with open(config_filepath, 'w') as config_file:
+                    config_file.write("\n".join(cmds))
+            commands_file = os.path.join(user_folder, 'commands_lldp.json')
+
+            with open(commands_file, 'w') as f:
+                json.dump(commands, f)
+
             final_message = "Configuration complete with some errors" if failed_hosts else "Configuration completed successfully"
-            #print(f"commands: {commands}")
+
+            # Emit final progress update to report status
             socketio.emit('overall_progress', {
                 'progress': 100,
                 'stage': 'Completed',
@@ -3357,8 +2170,7 @@ def create_routes(app):
                 'success_hosts': success_hosts
             })
 
-
-            return '', 200  # Return an empty response so that AJAX call does not expect any redirect
+            return jsonify({'status': 'Configuration completed successfully'}), 200
 
         except Exception as main_error:
             error_traceback = traceback.format_exc()
@@ -3371,42 +2183,66 @@ def create_routes(app):
                 'fail': f"Unexpected error: {error_traceback}"
             })
 
-            return '', 500
+            return jsonify({'error': 'Unexpected error occurred.'}), 500
 
     @app.route('/show_underlay_csv_config', methods=['POST'])
     @login_required
     def show_underlay_csv_config():
-        csv_file = request.files.get('csv_file')  # Changed to .get to handle missing file
+        csv_file = request.files.get('csv_file')
         delete_underlay_group = request.form.get('delete_group') == "on"
         use_ipv4 = request.form.get('ipv4_underlay') == "on"
         use_ipv6 = request.form.get('ipv6_underlay') == "on"
+        selected_load_balancer = request.form.get('load_balancer')
+        use_dlb = selected_load_balancer == "dlb"
+        use_glb = selected_load_balancer == "glb"
+        use_slb = selected_load_balancer == "slb"
         as_counter = 65000
+        unique_devices = set()
         # Check if file is uploaded
         if not csv_file or csv_file.filename == '':
-            flash('No selected file', 'error')
-            return redirect(url_for('index'))
+            return jsonify({'error': 'No file selected. Please upload a CSV file.'}), 400
+        # Check file format
+        if not csv_file.filename.endswith('.csv'):
+            return jsonify({'error': 'Invalid file format. Please upload a CSV file.'}), 400
+        # Save the file
+        filename = secure_filename(csv_file.filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        csv_file.save(filepath)
 
-        # Check file type
-        if csv_file and csv_file.filename.endswith('.csv'):
-            filename = secure_filename(csv_file.filename)
-            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            csv_file.save(filepath)
-
-            # Process CSV file
+        try:
             with open(filepath, mode='r') as file:
                 csv_reader = csv.DictReader(file)
                 connections = []
                 local_as_mapping = {}
-                remote_as_mapping = {}
-                ip_assignments = {}
                 seen = set()
                 duplicates = []
                 duplicate_device_interfaces = []
+
+                # Track rows processed for progress calculation
+                row_count = sum(1 for _ in csv_reader)
+                file.seek(0)  # Reset file read position
+                progress_increment = 100 // row_count if row_count > 0 else 0
+                current_progress = 0
+
                 for row in csv_reader:
-                    # Create a tuple to represent the device-interface pairs for both sides of the connection
+                    # Skip rows where device names are headers or placeholders ("device1", "device2")
+                    if row['device1'].strip().lower() in {'device1', 'device2'} or row['device2'].strip().lower() in {
+                        'device1', 'device2'}:
+                        continue  # Skip this row
+
+                    # Track unique devices
+                    unique_devices.add(row['device1'])
+                    unique_devices.add(row['device2'])
+
+                    # Verify expected keys are present
+                    if not {'device1', 'interface1', 'device2', 'interface2'}.issubset(row.keys()):
+                        return jsonify({'error': 'CSV file format is incorrect. Missing required headers.'}), 400
+
+                    # Create tuples for both sides of the connection
                     connection_tuple_1 = (row['device1'], row['interface1'])
                     connection_tuple_2 = (row['device2'], row['interface2'])
-                    # Check for duplicates based on either side of the connection
+
+                    # Check for duplicates
                     if connection_tuple_1 in seen or connection_tuple_2 in seen:
                         duplicates.append({row['device1']: row['interface1'], row['device2']: row['interface2']})
                         if connection_tuple_1 in seen:
@@ -3416,148 +2252,75 @@ def create_routes(app):
                             duplicate_device_interfaces.append(
                                 f"Duplicate device/interface found: {row['device2']} using {row['interface2']}")
                     else:
-                        # Add both sides of the connection to the seen set
+                        # Add unique connections
                         seen.add(connection_tuple_1)
                         seen.add(connection_tuple_2)
-                        # Add the unique connection
                         connections.append({row['device1']: row['interface1'], row['device2']: row['interface2']})
 
+                    # Emit real-time progress update
+                    current_progress += progress_increment
+                    socketio.emit('overall_progress', {
+                        'progress': min(current_progress, 100),
+                        'stage': 'Processing CSV',
+                        'message': 'Parsing connections'
+                    })
+
                 if duplicates:
-                    logging.warning("Duplicate data found")
-                    return render_template('underlay_config_result.html',
-                                           duplicate_error={
-                                               'message': 'Duplicate data found: same device/interface used multiple times.',
-                                               'details': duplicate_device_interfaces},
-                                           success_hosts=[], failed_hosts=[], commands={}), 400
+                    return jsonify({
+                        'error': 'Duplicate data found: same device/interface used multiple times.',
+                        'duplicates': duplicates,
+                        'duplicate_interfaces': duplicate_device_interfaces
+                    }), 400
 
                 devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-                #logging.info(f"Devices found: {devices}")
                 if not devices:
-                    logging.info(f"No devices found for user {current_user.id}")
-                    flash('No devices found for the current user.', 'error')
-                    return redirect(url_for('index'))
+                    return jsonify({'error': f"No devices found for user {current_user.id}"}), 400
+
+                # Map AS numbers to devices
                 for device in devices:
-                    logging.info(f"Devices found: {devices}")
                     if device.hostname not in local_as_mapping:
                         local_as_mapping[device.hostname] = as_counter
                         as_counter += 1
-                # Log connections and AS mappings for debugging
-                logging.info(f"Connections: {connections}")
-                logging.info(f"Local AS Mapping: {local_as_mapping}")
-                logging.info(f"Remote AS Mapping: {remote_as_mapping}")
-                logging.info(f"IP Assignments: {ip_assignments}")
 
-                # Generate configuration based on the CSV data
+                # Generate configuration based on CSV data
                 commands = defaultdict(list)
-                generate_config(commands, connections, local_as_mapping, delete_underlay_group,use_ipv4, use_ipv6, ip_assignments)
-                # generate_config(commands, connections, local_as_mapping, remote_as_mapping, delete_underlay_group,use_ipv4, use_ipv6, ip_assignments)
-                # Save each device's configuration to a file
-                user_folder = os.path.join(current_app.config['UPLOAD_FOLDER'])
-                os.makedirs(user_folder, exist_ok=True)
 
+                generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,use_dlb, use_glb,use_slb)
+
+                # Remove any configurations generated for placeholder names
+                commands = {host: cmds for host, cmds in commands.items() if host not in {"device1", "device2"}}
+
+                # Save each device's configuration to a JSON file
+                user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
+                os.makedirs(user_folder, exist_ok=True)
                 for hostname, cmds in commands.items():
                     config_filename = f"{hostname}_config.txt"
                     config_filepath = os.path.join(user_folder, config_filename)
                     with open(config_filepath, 'w') as config_file:
                         config_file.write("\n".join(cmds))
 
-                # Log generated commands for debugging
-                logging.info(f"Generated Commands: {commands}")
-                # Flash success message and return
-                flash('Configuration generated from CSV.', 'success')
-                devices = get_router_details_from_db()
-                return render_template('underlay_config_result.html', connections=connections, commands=commands, devices=devices)
-        flash('Invalid file format. Please upload a CSV file.', 'error')
-        return redirect(url_for('index'))
+                commands_file = os.path.join(user_folder, 'commands_csv.json')
 
-    '''@app.route('/save_underlay_topology_lldp', methods=['POST'])
-    def save_underlay_topology_lldp():
-        if not current_user.is_authenticated:
-            flash('Please login again', 'error')
-            return jsonify({'success': False, 'error': 'Please login again'}), 401
-        local_as_mapping = {}
-        neighbors_dict = defaultdict(list)
-        as_counter = 65000
-        success_hosts = []
-        device_list = []
-        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-        unique_connections=[]
-        if not devices:
-            flash('No devices found for the current user.', 'error')
-            return redirect(url_for('index'))
+                with open(commands_file, 'w') as f:
+                    json.dump(commands, f)
 
-        total_devices = len(devices)
-        progress_increment = 100 // total_devices
-        current_progress = 0
-        seen = set()
-        # Prepare the local AS mapping
-        for device in devices:
-            device_list.append(device.hostname)
-            if device.hostname not in local_as_mapping:
-                local_as_mapping[device.hostname] = as_counter
-                as_counter += 1
+                # Prepare the list of success messages
+                success_hosts = [f"{device}: Success" for device in unique_devices if
+                                 device not in {"device1", "device2"}]
 
-        for index, device in enumerate(devices):
-            try:
-                dev_connector = DeviceConnectorClass(device.hostname, device.ip, device.username, device.password)
-                dev = dev_connector.connect_to_device()
-                lldp_builder = BuildLLDPConnectionClass(device.hostname, device_list)
-                # Emit progress for simplified_neighbors
-                neighbors = lldp_builder.get_lldp_neighbors(dev)
-                # Combine neighbors into the global dictionary
-                for host, data in neighbors.items():
-                    neighbors_dict[host].extend(data)
-                success_hosts.append(device.hostname)
-                # Simplify neighbors dict (remove domain from hostnames)
-                simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
-                # Build connections from the neighbor data
-                connections = lldp_builder.build_connections(simplified_neighbors)
-                for connection in connections:
-                    # Convert each connection to a tuple of sorted items to handle bidirectional connections
-                    sorted_connection = tuple(sorted(connection.items()))
-                    if sorted_connection not in seen:
-                        seen.add(sorted_connection)
-                        unique_connections.append(connection)
-            except Exception as e:
-                print(f"Error: {str(e)}")
-        print(f"unique_connections: {unique_connections}")
-        csv_content = "device1,interface1,device2,interface2\n"
-        skip_interfaces = {'re0:mgmt-0', 'em0', 'fxp0'}
-        skip_device_patterns = ['mgmt', 'management', 'hypercloud']
-        interface_pattern = r"^(et|ge|xe|em|re|fxp)\-[0-9]+\/[0-9]+\/[0-9]+(:[0-9]+)?$"
-        for connection in unique_connections:
-            # Get the device and interface keys dynamically
-            keys = list(connection.keys())
-            # Ensure the connection has at least two devices
-            if len(keys) < 2:
-                print(f"Skipping connection with only one device: {connection}")
-                continue
-            device1 = keys[0]
-            device2 = keys[1]
-            interface1 = connection[device1]
-            interface2 = connection[device2]
-            # Skip connections with interfaces in skip_interfaces
-            if interface1 in skip_interfaces or interface2 in skip_interfaces:
-                print(
-                    f"Skipping connection with ignored interfaces: {device1} ({interface1}), {device2} ({interface2})")
-                continue
-            # Skip connections if devices match skip_device_patterns
-            if any(pattern in device1.lower() for pattern in skip_device_patterns) or \
-                    any(pattern in device2.lower() for pattern in skip_device_patterns):
-                print(f"Skipping connection with ignored device patterns: {device1}, {device2}")
-                continue
-            # Validate interfaces using the regex pattern
-            if not re.match(interface_pattern, interface1) or not re.match(interface_pattern, interface2):
-                print(
-                    f"Skipping connection due to invalid interface format: {device1} ({interface1}), {device2} ({interface2})")
-                continue
-            csv_content += f"{device1},{interface1},{device2},{interface2}\n"
-        logging.info(f"Saviing LLDP neighbors to user database: {csv_content}")
-        topology = Topology(user_id=current_user.id, csv_data=str(csv_content))
-        db.session.add(topology)
-        db.session.commit()
-        logging.info('Saved topology to database for user: %s', current_user.username)
-        return jsonify({'success': True, 'connections': unique_connections})'''
+                # Emit final progress update with success hosts
+                socketio.emit('overall_progress', {
+                    'progress': 100,
+                    'stage': 'Completed',
+                    'message': "Configuration completed successfully",
+                    'success_hosts': success_hosts
+                })
+
+                return jsonify({'status': 'Configuration completed successfully'}), 200
+
+        except csv.Error as e:
+            logging.info(f"Error processing CSV file in function show_underlay_csv_config: {e}")
+            return jsonify({'error': f"Error processing CSV file: {e}"}), 400
 
     @app.route('/save_underlay_topology_lldp', methods=['POST'])
     def save_underlay_topology_lldp():
@@ -3572,6 +2335,7 @@ def create_routes(app):
         device_list = []
         devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
         unique_connections = []
+        unique_connections_set = set()
 
         if not devices:
             flash('No devices found for the current user.', 'error')
@@ -3580,7 +2344,6 @@ def create_routes(app):
         total_devices = len(devices)
         progress_increment = 100 // total_devices
         current_progress = 0
-        seen = set()
 
         # Prepare the local AS mapping
         for device in devices:
@@ -3589,6 +2352,11 @@ def create_routes(app):
                 local_as_mapping[device.hostname] = as_counter
                 as_counter += 1
 
+        def strip_domain(hostname):
+            """Strip the domain from a hostname."""
+            return hostname.split('.')[0]
+
+        # Process each device and collect unique connections
         for index, device in enumerate(devices):
             try:
                 dev_connector = DeviceConnectorClass(device.hostname, device.ip, device.username, device.password)
@@ -3596,6 +2364,7 @@ def create_routes(app):
 
                 lldp_builder = BuildLLDPConnectionClass(device.hostname, device_list)
                 neighbors = lldp_builder.get_lldp_neighbors(dev)
+                logging.info(f"get_lldp_neighbors= {neighbors}")
 
                 # Combine neighbors into the global dictionary
                 for host, data in neighbors.items():
@@ -3607,9 +2376,12 @@ def create_routes(app):
                 connections = lldp_builder.build_connections(simplified_neighbors)
 
                 for connection in connections:
-                    sorted_connection = tuple(sorted(connection.items()))
-                    if sorted_connection not in seen:
-                        seen.add(sorted_connection)
+                    # Remove domains and sort to create unique, domain-free connection tuples
+                    stripped_connection = {strip_domain(k): v for k, v in connection.items()}
+                    sorted_connection = tuple(sorted(stripped_connection.items()))
+
+                    if sorted_connection not in unique_connections_set:
+                        unique_connections_set.add(sorted_connection)
                         unique_connections.append(connection)
 
                 # Emit progress increment via SocketIO
@@ -3634,21 +2406,21 @@ def create_routes(app):
                 return jsonify({'success': False, 'error': f"Error processing device {device.hostname}: {str(e)}"}), 500
 
         logging.info(f"Unique connections: {unique_connections}")
-
         csv_content = "device1,interface1,device2,interface2\n"
         skip_interfaces = {'re0:mgmt-0', 'em0', 'fxp0'}
         skip_device_patterns = ['mgmt', 'management', 'hypercloud']
         interface_pattern = r"^(et|ge|xe|em|re|fxp)\-[0-9]+\/[0-9]+\/[0-9]+(:[0-9]+)?$"
 
+        # Generate CSV content
         for connection in unique_connections:
             keys = list(connection.keys())
             if len(keys) < 2:
                 logging.warning(f"Skipping connection with only one device: {connection}")
                 continue
-            device1 = keys[0]
-            device2 = keys[1]
-            interface1 = connection[device1]
-            interface2 = connection[device2]
+            device1 = strip_domain(keys[0])
+            device2 = strip_domain(keys[1])
+            interface1 = connection[keys[0]]
+            interface2 = connection[keys[1]]
 
             if interface1 in skip_interfaces or interface2 in skip_interfaces:
                 logging.info(
@@ -3741,10 +2513,7 @@ def create_routes(app):
 
 
 
-
-
-
-    @app.route('/upload_config', methods=['GET', 'POST'])
+    '''@app.route('/upload_config', methods=['GET', 'POST'])
     @login_required
     def upload_config():
         if request.method == 'POST':
@@ -3753,7 +2522,7 @@ def create_routes(app):
             router_ips = request.form['router_ips'].split(',')  # IPs still provided in form
             # Query device information from the database based on the logged-in user
             devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-            device_credentials = {device.ip: {'username': device.username, 'password': device.password} for device in
+            device_credentials = {device.hostname: {'username': device.username, 'password': device.password} for device in
                                   devices}
             def emit_progress(router_ip, progress, error=None):
                 socketio.emit('progress', {'ip': router_ip, 'progress': progress, 'error': error}, namespace='/')
@@ -3763,11 +2532,9 @@ def create_routes(app):
                 while attempt <= max_retries:
                     try:
                         emit_progress(router_ip, 0)
-
                         # Retrieve device credentials from the database
                         if router_ip not in device_credentials:
                             raise ValueError(f"Credentials not found for device {router_ip}")
-
                         router_user = device_credentials[router_ip]['username']
                         router_password = device_credentials[router_ip]['password']
 
@@ -3868,8 +2635,232 @@ def create_routes(app):
 
             success = all(result['success'] for result in results.values())
             return jsonify(success=success, results=results)
-        return render_template('upload_config.html')
+        return render_template('upload_config.html')'''
 
+    '''@app.route('/upload_config', methods=['GET', 'POST'])
+    @login_required
+    def upload_config():
+        if request.method == 'POST':
+            config_file = request.files.get('file')
+            config_text = request.form.get('config_textarea')
+            router_ips = request.form['router_ips'].split(',')
+            # Query device information from the database based on the logged-in user
+            devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            device_credentials = {
+                device.hostname: {
+                    'ip': device.ip,
+                    'username': device.username,
+                    'password': device.password
+                } for device in devices
+            }
+            def is_operational_command(line):
+                return line.strip().lower().startswith(("show", "clear"))
+            def emit_progress(router_ip, progress, error=None):
+                socketio.emit('progress', {'ip': router_ip, 'progress': progress, 'error': error}, namespace='/')
+            def handle_device(router_ip, config_to_load, config_format, results, max_retries=3, retry_delay=5):
+                if router_ip not in device_credentials:
+                    emit_progress(router_ip, 0, error=f"Credentials not found for device {router_ip}")
+                    results[router_ip] = {'success': False, 'message': f"Credentials not found for {router_ip}"}
+                    return
+                # Set up device connection using DeviceConnectorClass
+                device_info = device_credentials[router_ip]
+                connector = DeviceConnectorClass(
+                    hostname=router_ip,
+                    ip=device_info['ip'],
+                    username=device_info['username'],
+                    password=device_info['password']
+                )
+                attempt = 1
+                while attempt <= max_retries:
+                    try:
+                        emit_progress(router_ip, 0)
+                        dev = connector.connect_to_device()
+                        if not dev:
+                            raise ValueError("Device connection failed")
+                        emit_progress(router_ip, 25)
+                        cu = Config(dev)
+                        cu.lock()
+                        emit_progress(router_ip, 50)
+                        cu.load(config_to_load, format=config_format, ignore_warning=True)
+                        emit_progress(router_ip, 75)
+                        cu.commit()
+                        cu.unlock()
+                        connector.close_connection(dev)
+                        emit_progress(router_ip, 100)
+                        results[router_ip] = {'success': True, 'message': 'Configuration loaded successfully'}
+                        break  # Success, exit loop
+                    except LockError:
+                        emit_progress(router_ip, 0, error="Configuration database locked. Retrying after rollback...")
+                        cu.rollback()  # Rollback to the previous state
+                        cu.unlock()
+                        if attempt < max_retries:
+                            time.sleep(retry_delay)
+                        else:
+                            results[router_ip] = {'success': False,
+                                                  'message': "Max retries reached. Could not lock config."}
+                            emit_progress(router_ip, 0, error="Max retries reached. Could not lock config.")
+                        attempt += 1
+                    except (ConnectAuthError, ConnectError, ConfigLoadError, CommitError) as e:
+                        emit_progress(router_ip, 0, error=str(e))
+                        results[router_ip] = {'success': False, 'message': str(e)}
+                        break
+                    except Exception as e:
+                        emit_progress(router_ip, 0, error=str(e))
+                        results[router_ip] = {'success': False, 'message': str(e)}
+                        break
+                connector.close_connection(dev)
+            if config_file:
+                #config_file_path = os.path.join(app.config['UPLOAD_FOLDER'], config_file.filename)
+                config_file_path = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username),filename)
+                config_file.save(config_file_path)
+                with open(config_file_path, 'r') as file:
+                    config_lines = file.readlines()
+                    logging.info(config_lines)
+            elif config_text:
+                config_lines = config_text.splitlines()
+                logging.info(config_lines)
+            else:
+                return 'No configuration provided', 400
+            # Determine the format to use
+            if any(line.startswith(("set", "delete")) for line in config_lines):
+                config_format = 'set'
+            else:
+                config_format = 'text'
+            # Filter out lines starting with ## and empty lines
+            clean_config_lines = [line for line in config_lines if line.strip() and not line.startswith("#")]
+            config_to_load = "\n".join(clean_config_lines)
+            results = {}
+            threads = []
+            for router_ip in router_ips:
+                thread = threading.Thread(target=handle_device,
+                                          args=(router_ip.strip(), config_to_load, config_format, results))
+                threads.append(thread)
+                thread.start()
+            for thread in threads:
+                thread.join()
+            success = all(result['success'] for result in results.values())
+            return jsonify(success=success, results=results)
+        return render_template('upload_config.html')'''
+
+    @app.route('/upload_config', methods=['GET', 'POST'])
+    @login_required
+    def upload_config():
+        if request.method == 'POST':
+            config_file = request.files.get('file')
+            config_text = request.form.get('config_textarea')
+            router_ips = request.form['router_ips'].split(',')
+            devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            device_credentials = {device.hostname: {'username': device.username, 'password': device.password} for device
+                                  in devices}
+
+            def emit_progress(router_ip, progress, error=None):
+                socketio.emit('progress', {'ip': router_ip, 'progress': progress, 'error': error}, namespace='/')
+
+            def handle_device(router_ip, config_commands, operational_commands, config_format, results, max_retries=3,
+                              retry_delay=5):
+                attempt = 1
+                while attempt <= max_retries:
+                    try:
+                        emit_progress(router_ip, 0)
+                        if router_ip not in device_credentials:
+                            raise ValueError(f"Credentials not found for device {router_ip}")
+                        router_user = device_credentials[router_ip]['username']
+                        router_password = device_credentials[router_ip]['password']
+
+                        connector = DeviceConnectorClass(router_ip, router_ip, router_user, router_password)
+                        dev = connector.connect_to_device()
+                        if dev is None:
+                            raise ConnectError(f"Failed to connect to {router_ip}")
+
+                        # Execute operational commands
+                        for command in operational_commands:
+                            result = dev.rpc.cli(command, format='text')
+                            logging.info(f"Operational Command Result on {router_ip}: {result}")
+
+                        # If there are config commands, handle configuration
+                        if config_commands:
+                            emit_progress(router_ip, 25)
+                            cu = Config(dev)
+                            cu.lock()
+                            emit_progress(router_ip, 50)
+                            cu.load("\n".join(config_commands), format=config_format, ignore_warning=True)
+                            emit_progress(router_ip, 75)
+                            cu.commit()
+                            cu.unlock()
+
+                        connector.close_connection(dev)
+                        emit_progress(router_ip, 100)
+                        results[router_ip] = {'success': True,
+                                              'message': 'Configuration and operational commands executed successfully'}
+                        break
+
+                    except LockError as e:
+                        logging.warning(
+                            f"LockError on {router_ip}. Retrying after rollback (Attempt {attempt}/{max_retries})")
+                        emit_progress(router_ip, 0, error="Configuration database locked. Retrying after rollback...")
+                        try:
+                            cu.rollback()
+                            cu.unlock()
+                        except UnlockError:
+                            logging.warning(f"UnlockError on {router_ip}. Could not unlock after rollback.")
+                        except Exception as rollback_error:
+                            logging.error(f"Error during rollback on {router_ip}: {str(rollback_error)}")
+                        if attempt < max_retries:
+                            time.sleep(retry_delay)
+                        else:
+                            results[router_ip] = {'success': False,
+                                                  'message': f"LockError on {router_ip}. Max retries reached."}
+                            emit_progress(router_ip, 0,
+                                          error=f"Max retries reached on {router_ip}. Could not lock config.")
+                        attempt += 1
+
+                    except (ConnectAuthError, ConnectError, ConfigLoadError, CommitError) as e:
+                        logging.error(f"Error loading configuration on {router_ip}: {str(e)}")
+                        emit_progress(router_ip, 0, error=str(e))
+                        results[router_ip] = {'success': False, 'message': str(e)}
+                        break
+
+                    except Exception as e:
+                        logging.error(f"Unexpected error on {router_ip}: {str(e)}")
+                        emit_progress(router_ip, 0, error=str(e))
+                        results[router_ip] = {'success': False, 'message': str(e)}
+                        break
+
+            def is_operational_command(line):
+                return line.strip().lower().startswith(("show", "clear"))
+
+            if config_file:
+                config_file_path = os.path.join(app.config['UPLOAD_FOLDER'], config_file.filename)
+                config_file.save(config_file_path)
+                with open(config_file_path, 'r') as file:
+                    config_lines = file.readlines()
+            elif config_text:
+                config_lines = config_text.splitlines()
+            else:
+                return 'No configuration provided', 400
+
+            # Separate operational and configuration commands
+            clean_config_lines = [line for line in config_lines if line.strip() and not line.startswith("#")]
+            config_commands = [line for line in clean_config_lines if not is_operational_command(line)]
+            operational_commands = [line for line in clean_config_lines if is_operational_command(line)]
+            config_format = 'set' if any(line.startswith(("set", "delete")) for line in config_commands) else 'text'
+
+            results = {}
+            threads = []
+            print(config_commands)
+            print(operational_commands)
+            for router_ip in router_ips:
+                thread = threading.Thread(target=handle_device,
+                                args=(router_ip.strip(), config_commands, operational_commands, config_format, results))
+                threads.append(thread)
+                thread.start()
+
+            for thread in threads:
+                thread.join()
+
+            success = all(result['success'] for result in results.values())
+            return jsonify(success=success, results=results)
+        return render_template('upload_config.html')
 
     @app.route('/', methods=['GET', 'POST'])
     @login_required
@@ -4047,7 +3038,7 @@ def create_routes(app):
 
     ## Transfer config to Device ##
 
-    @app.route('/transfer', methods=['POST'])
+    '''@app.route('/transfer', methods=['POST'])
     @login_required
     def transfer():
         if 'UPLOAD_FOLDER' not in current_app.config:
@@ -4092,8 +3083,90 @@ def create_routes(app):
                 'message': str(e)
             }
         logging.info(f"Transfer response: {response}")  # Log the response
-        return jsonify(response)
+        return jsonify(response)'''
 
+    @app.route('/transfer', methods=['POST'])
+    @login_required
+    def transfer():
+        if 'UPLOAD_FOLDER' not in current_app.config:
+            flash('Please login again', 'error')
+            return redirect(url_for('index'))
+
+        filename = request.form['filename']
+        router_ip = request.form['router_ip']
+        device_name = None
+
+        # Fetch device details from the database
+        devices = get_router_details_from_db()
+        for device in devices:
+            if device['ip'] == router_ip:
+                router_user = device['username']
+                router_password = device['password']
+                device_name = device['hostname']
+                break
+
+        config_file_path = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username),
+                                        filename)
+        try:
+            with open(config_file_path, 'r') as config_file:
+                config_lines = config_file.readlines()
+
+            config_format = "set"
+
+            # Emit progress: Transfer started
+            socketio.emit('transfer_progress', {
+                'hostname': device_name,
+                'progress': 10,
+                'message': f"Starting transfer to {device_name} ({router_ip})..."
+            })
+
+            # Simulate transfer process
+            transfer_status = transfer_file_to_router(config_lines, router_ip, router_user, router_password,
+                                                      device_name, config_format)
+
+            # Emit progress: Transfer in progress
+            socketio.emit('transfer_progress', {
+                'hostname': device_name,
+                'progress': 70,
+                'message': f"Transferring configuration to {device_name}..."
+            })
+
+            # Check transfer status and emit final progress
+            if 'successfully' in transfer_status:
+                socketio.emit('transfer_progress', {
+                    'hostname': device_name,
+                    'progress': 100,
+                    'message': f"Transfer to {device_name} completed successfully!",
+                    'status': 'success'
+                })
+                response = {
+                    'success': True,
+                    'message': transfer_status
+                }
+            else:
+                socketio.emit('transfer_progress', {
+                    'hostname': device_name,
+                    'progress': 100,
+                    'message': f"Transfer to {device_name} failed: {transfer_status}",
+                    'status': 'failure'
+                })
+                response = {
+                    'success': False,
+                    'message': transfer_status
+                }
+        except Exception as e:
+            # Emit progress: Transfer error
+            socketio.emit('transfer_progress', {
+                'hostname': device_name,
+                'progress': 100,
+                'message': f"Error transferring to {device_name}: {str(e)}",
+                'status': 'error'
+            })
+            response = {
+                'success': False,
+                'message': str(e)
+            }
+        return jsonify(response)
 
     @app.route('/vxlan', methods=['POST'])
     @login_required

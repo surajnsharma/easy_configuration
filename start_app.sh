@@ -72,7 +72,7 @@ restart_app() {
     echo "Restarting $APP_NAME service..."
     sudo systemctl restart "$APP_NAME"
     sudo systemctl status "$APP_NAME"
-    check_status()
+
 }
 
 

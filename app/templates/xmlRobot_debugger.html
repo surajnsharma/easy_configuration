@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot XML Parser</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+<style>
+/* Style for action icons (Save, Add, Delete) */
+.action-icon {
+    display: inline-block;
+    margin-right: 15px;
+    color: #007bff; /* Default blue color */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    font-size: 1.5rem; /* Adjust icon size */
+}
+
+.action-icon:hover {
+    color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.2); /* Slight zoom effect on hover */
+}
+
+/* Specific styles for individual icons if needed */
+#deleteIcon {
+    color: #dc3545; /* Red for delete */
+}
+
+#deleteIcon:hover {
+    color: #bd2130; /* Darker red on hover */
+}
+
+#openAddPatternModel {
+    color: #28a745; /* Green for save */
+}
+
+#saveIcon:hover {
+    color: #218838; /* Darker green on hover */
+}
+
+#addIcon {
+    color: #17a2b8; /* Teal for add */
+}
+
+#addIcon:hover {
+    color: #117a8b; /* Darker teal on hover */
+}
+
+</style>
+<body>
+<div class="container mt-5">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab" aria-controls="upload" aria-selected="true">Upload</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="false">Training</a>
+            </li>
+        </ul>
+        <!-- Tab Content -->
+    <div class="tab-content" id="myTabContent">
+        <!-- Upload Tab Pane -->
+        <div class="tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+        <div id="xmlRobotDebuggerForm" class="mt-4">
+        <h4 class="text-center mb-4">Robot Framework XML Parser</h4>
+
+        <!-- File Upload Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Upload XML File</h5>
+            </div>
+            <div class="card-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="file" id="fileInput" class="form-control" accept=".xml,.xml.gz,.gz" required aria-label="Upload XML or XML.GZ file">
+                    </div>
+                    <div class="form-group form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="nameSuggestions" name="nameSuggestions" checked>
+                        <label class="form-check-label" for="nameSuggestions">Corrective Action</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Debug</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- URL Fetch Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Fetch XML from URL</h5>
+            </div>
+            <div class="card-body">
+                <form id="urlForm">
+                    <div class="form-group">
+                        <input type="url" name="url" id="urlInput" class="form-control" placeholder="Enter XML URL" required aria-label="Enter XML URL">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="jsessionid" id="jsessionidInput" class="form-control" placeholder="Enter JSESSIONID (if required)" aria-label="Enter JSESSIONID">
+                    </div>
+                    <div class="form-group form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="nameSuggestionsUrl" name="nameSuggestionsUrl">
+                        <label class="form-check-label" for="nameSuggestionsUrl">Enable Name Suggestions</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Fetch</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Display -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Parse Results</h5>
+            </div>
+            <div class="card-body">
+                <pre class="result" id="result" style="white-space: pre-wrap;"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Training Tab Pane -->
+    <div class="tab-pane fade" id="training" role="tabpanel" aria-labelledby="training-tab">
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="text-center">Training</h4>
+                <a href="/api/downloadTrainingData" class="btn btn-secondary btn-sm" id="downloadTrainingLink" download>
+                    Download Training Data
+                </a>
+            </div>
+            <!-- Training Form -->
+            <form id="trainingForm">
+                <!-- Input Method Selector -->
+                <div class="form-group">
+                    <label>Choose Training Data Input Method</label>
+                    <select class="form-control" id="inputMethodSelect" aria-label="Select training data input method">
+                        <option value="text">Text Input</option>
+                        <option value="json">Upload JSON</option>
+                    </select>
+                </div>
+
+                <!-- JSON File Input -->
+                <div class="form-group" id="jsonInputGroup" style="display: none;">
+                    <label for="jsonDataFile">Upload JSON Data File</label>
+                    <input type="file" id="jsonDataFile" class="form-control" accept=".json" aria-label="Upload JSON data file">
+                </div>
+
+                <!-- Text Input Fields -->
+                <div id="textInputGroup" style="display: none;">
+                    <div class="form-group">
+                        <label for="categoryInput">Select Error Category</label>
+                        <select id="categoryInput" class="form-control" aria-label="Select category">
+                            <option value="">Select a category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="patternInput">Modify or Add Suggestion Patterns</label>
+                        <select id="patternInput" class="form-control" aria-label="Select Patterns">
+                            <option value="">Select a match pattern</option>
+                        </select>
+                        <span id="deleteIcon" class="delete-icon" title="Delete Pattern">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                        <span>
+                            <i class="fas fa-plus-circle" id="openAddPatternModel" title="Add New Pattern"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="suggestionInput">Suggestion</label>
+                        <textarea id="suggestionInput" class="form-control" rows="5" placeholder="Edit or view suggestion here"></textarea>
+                    </div>
+
+                    <div class="form-group d-flex">
+                        <span id="updatePatternIcon" class="action-icon mr-3" title="Save Changes">
+                            <i class="fas fa-save"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <div class="form-group text-left  mt-4">
+                    <button type="submit" id="submitButtonGroup" class="btn btn-primary">Submit Training Data</button>
+                </div>
+            </form>
+
+            <!-- Modal for Adding New Pattern -->
+            <div id="addPatternModal" class="modal" tabindex="-1" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Pattern</h5>
+                            <button type="button" class="btn-close" onclick="closeAddPatternModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="newPatternInput" class="form-label">Pattern</label>
+                                <input type="text" id="newPatternInput" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="newSuggestionInput" class="form-label">Suggestion</label>
+                                <textarea id="newSuggestionInput" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="addNewPatternModalSave">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="closeAddPatternModal()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+    <!-- JavaScript Section -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/xmlRobotDebugger.js"></script>
+</body>
+</html>

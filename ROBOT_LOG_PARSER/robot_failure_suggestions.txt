@@ -1,0 +1,8 @@
+Failure Group: DataValidationErrors
+Occurrences: 6
+Failures:
+ - [20240921 00:27:20.519] - '850 <= 0 <= 1150' should be true. (Occurred 2 times)
+ - [20240921 00:39:27.550] - '850 <= 2003 <= 1150' should be true. (Occurred 2 times)
+ - [20240921 00:51:56.002] - '850 <= 3004 <= 1150' should be true. (Occurred 2 times)
+Suggested Action: Possible SW PR: Ensure values fall within the expected range.
+--------------------------------------------------

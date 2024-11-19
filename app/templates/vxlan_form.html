@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VXLAN Configuration</title>
-
-
 </head>
 <style>
     .btn-check:checked + .btn {
@@ -23,10 +21,10 @@
 
 <body>
 
-<div class="container mt-5">
+<div class="btn-container">
     <!-- Combined Form -->
     <form id="vxlanForm" action="/vxlan" method="post" enctype="multipart/form-data" target="_blank" class="hidden" onsubmit="return validateForm()">
-            <h2>VXLAN Configuration Form</h2>
+            <h4>VXLAN Configuration Form</h4>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -137,26 +135,28 @@
             </div>
         </div>
 
-    </form>
-</div>
 
-<!-- Custom Alert Modal -->
-<div class="modal fade" id="vxlanFormAlertModal" tabindex="-1" aria-labelledby="vxlanFormAlertLabel" aria-hidden="true">
-  <div class="modal-dialog" style="max-width: 800px;"> <!-- Adjust the width here -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="vxlanFormAlertLabel">Alert</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="vxlanFormAlertMessage">
-        <!-- Alert message goes here -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+    </form>
+
+
+        <!-- Custom Alert Modal -->
+        <div class="modal fade" id="vxlanFormAlertModal" tabindex="-1" aria-labelledby="vxlanFormAlertLabel" aria-hidden="true">
+          <div class="modal-dialog" style="max-width: 800px;"> <!-- Adjust the width here -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="vxlanFormAlertLabel">Alert</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="vxlanFormAlertMessage">
+                <!-- Alert message goes here -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 <script src="static/vxlanForm.js"></script>
 

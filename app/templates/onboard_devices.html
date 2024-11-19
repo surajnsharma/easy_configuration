@@ -4,54 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboard Devices</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .hidden {
-            display: none;
-        }
-        .form-container {
-            margin: 20px;
-            max-width: 1200px;
-        }
-        .form-container table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .form-container th, .form-container td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-        .form-container th {
-            background-color: #f2f2f2;
-        }
-        .form-container input[type="text"], .form-container input[type="file"] {
-            width: 100%;
-            padding: 5px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-        .form-container button, .form-container input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            margin: 5px 0;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .form-container button:hover, .form-container input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <!-- Link to your CSS file -->
 </head>
 <body>
+
     <nav>
         {% if current_user.is_authenticated %}
-            <a href="{{ url_for('logout') }}"> Logout </a> &nbsp;&nbsp;&nbsp;  <a href="/" class="back-link">Back to Main Page</a>{% with messages = get_flashed_messages(with_categories=true) %}
+            <a href="{{ url_for('logout') }}">Logout</a> &nbsp;&nbsp;&nbsp;
+            <a href="/" class="back-link">Back to Main Page</a>
+            {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
                         <div class="alert {{ category }}">{{ message }}</div>
@@ -63,19 +24,21 @@
             <a href="{{ url_for('signup') }}">Signup</a>
         {% endif %}
     </nav>
-    <div class="form-container">
+
         <button id="toggleOnboardFormBtn" class="small-btn">Onboard Devices</button>
+        <!-- Onboard Form -->
         <form id="onboardForm" class="hidden" action="/onboard_devices" method="post" enctype="multipart/form-data">
-            <table>
-                <tr>
-                    <th>CSV File</th>
-                    <td><input type="file" name="file" required></td>
-                </tr>
-            </table>
-            <input type="submit" value="Save">
+            <div class="form-group">
+                <label for="file">CSV File</label>
+                <input type="file" name="file" id="file" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
+
+
+        <!-- Devices List Table -->
         <h2>Devices List</h2>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Hostname</th>
@@ -96,12 +59,15 @@
             </tbody>
         </table>
 
-        <h2>CSV File Example for device Onboard</h2>
-        <p>hostname,ip,username,password</p>
-        <p>device1,192.168.1.1,admin,password1</p>
-        <p>device2,192.168.1.2,admin,password2</p>
+        <!-- CSV File Example -->
+        <h2>CSV File Example for Device Onboarding</h2>
+        <p><strong>Format:</strong> hostname, ip, username, password</p>
+        <p>Example:</p>
+        <p>device1, 192.168.1.1, admin, password1</p>
+        <p>device2, 192.168.1.2, admin, password2</p>
 
-    </div>
+
+
     <script>
         document.getElementById('toggleOnboardFormBtn').addEventListener('click', function() {
             const onboardForm = document.getElementById('onboardForm');

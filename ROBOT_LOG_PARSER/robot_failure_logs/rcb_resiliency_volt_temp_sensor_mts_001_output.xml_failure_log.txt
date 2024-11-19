@@ -1,0 +1,19 @@
+-------- rcb_resiliency_volt_temp_sensor_mts_001_output.xml_failure_log.txt --------
+
+=> TC_01 encountered the following failures:
+[20241102 03:26:32.811] - 'QFX5240-64QD' does not match '(?i)acx7024'
+
+=> TC_03 encountered the following failures:
+[20241102 03:30:08.705] - 'QFX5240-64QD' does not match '(?i)acx7024'
+
+**General Failures:
+[20241102 03:21:48.684] - Resolving variable '${tv['uv-enable_traffic']}' failed: KeyError: 'uv-enable_traffic'
+[20241102 03:21:58.231] - Variable ${tv['uv-task_replication_check']} does not exist.
+[20241102 03:21:59.962] - Evaluating expression '0 [0]' failed: TypeError: 'int' object is not subscriptable
+[20241102 03:22:17.512] - Variable ${tv['uv-upgrade_expected_msgs_to_check']} does not exist.
+[20241102 03:22:17.535] - Variable ${tv['uv-upgrade_error_msgs_to_check']} does not exist.
+[20241102 03:22:17.557] - Variable ${tv['uv-upgrade_timeout']} does not exist.
+[20241102 03:22:17.577] - Variable ${tv['uv-messages_to_check']} does not exist.
+[20241102 03:22:17.598] - Variable ${tv['uv-linux_messages_to_check']} does not exist.
+[20241102 03:26:32.811] - 'QFX5240-64QD' does not match '(?i)acx7024'
+[20241102 03:30:08.705] - 'QFX5240-64QD' does not match '(?i)acx7024'

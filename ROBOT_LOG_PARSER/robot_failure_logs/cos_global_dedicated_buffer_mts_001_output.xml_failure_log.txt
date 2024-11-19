@@ -1,0 +1,137 @@
+=> Testcase-001 encountered the following failures:
+[20241101 20:00:40.052] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+
+=> Testcase-002 encountered the following failures:
+[20241101 20:02:58.630] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+
+=> Testcase-003 encountered the following failures:
+[20241101 20:05:46.302] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+
+=> Testcase-004 encountered the following failures:
+[20241101 20:07:55.006] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+
+**General Failures:
+[20241101 20:00:40.052] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+[20241101 20:02:58.630] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+[20241101 20:05:46.302] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+[20241101 20:07:55.006] - VerifyEngineException: + VERIFY FAILED: verify interface ifd queue stats:['tail-drop-packets-rate', 'tail-drop-packets-rate-operator'] On Devices: ['r0']
+[20241101 20:27:00.881] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis fpc detail| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:31:10.174] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show system uptime | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:35:19.496] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show system users | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:39:28.799] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis routing-engine | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:43:38.105] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis pic pic-slot 0 fpc-slot 0
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:47:47.486] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show configuration interfaces | display set
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:51:56.803] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show configuration class-of-service | display set
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 20:56:06.112] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show interface terse | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:00:15.428] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis fpc pic-status| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:04:24.732] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis fpc| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:08:33.999] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show chassis alarms| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:12:43.288] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show system core-dumps| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:16:52.605] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show log messages | match error | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:21:01.894] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show configuration | no-more | display set | except group
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:25:11.236] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show trace application evo-pfemand | match "dedicated buffer"
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:29:20.561] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show vlans| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:33:29.885] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show ethernet-switching table| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:37:39.185] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service classifier | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:41:48.500] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service scheduler-map | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:45:57.820] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service dedicated-buffer-profile| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:50:07.119] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service forwarding-class| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:54:16.418] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service shared-buffer| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 21:56:29.938] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show class-of-service interface et-0/0/20:2| no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120
+[20241101 22:00:39.210] - DeviceTerminalUnresponsiveException: Device prompt '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--' did not return within '120' seconds after issuing command on device
+Sent cli command:                       show interfaces et-0/0/20:2 extensive | no-more
+Expected cli prompt:                    '(\{.*\}\r\n)?Toby-1121226-10.48.53.33>,---\(more\s*\d{0,}%?\)--'
+Received response ending with:          ''
+Timeout:                                120

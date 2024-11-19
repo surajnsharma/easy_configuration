@@ -1,0 +1,25 @@
+set policy-options policy-statement export-policy term 1 from interface lo0.0
+set policy-options policy-statement export-policy term 1 then accept
+set routing-options autonomous-system 100 
+set protocols bgp group external family ipv4 unicast
+set protocols bgp group external family ipv6 unicast
+set protocols bgp group external type external
+set protocols bgp group external multipath 
+set protocols bgp group external export export-policy
+set interfaces et-0/0/0 vlan-tagging
+set protocols bgp group external neighbor 192.168.1.1 peer-as 200
+set protocols bgp group external neighbor 192.168.1.1 local-as 100
+set interfaces et-0/0/0.1 family inet address 192.168.1.2/30
+set interfaces et-0/0/0.1 vlan-id 1
+set protocols bgp group external neighbor 192.168.2.1 peer-as 201
+set protocols bgp group external neighbor 192.168.2.1 local-as 100
+set interfaces et-0/0/0.2 family inet address 192.168.2.2/30
+set interfaces et-0/0/0.2 vlan-id 2
+set protocols bgp group external neighbor 2001:192:169::1 peer-as 200
+set protocols bgp group external neighbor 2001:192:169::1 local-as 100
+set interfaces et-0/0/0.1 family inet6 address 2001:192:169::2/64
+set interfaces et-0/0/0.1 vlan-id 1
+set protocols bgp group external neighbor 2001:192:16a::1 peer-as 201
+set protocols bgp group external neighbor 2001:192:16a::1 local-as 100
+set interfaces et-0/0/0.2 family inet6 address 2001:192:16a::2/64
+set interfaces et-0/0/0.2 vlan-id 2

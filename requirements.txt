@@ -17,4 +17,5 @@ wheel
 influxdb
 flask_migrate
 gunicorn
-eventlet=="0.37.0"
+eve
+eventlet==0.37.0

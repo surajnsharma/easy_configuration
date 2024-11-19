@@ -1,0 +1,244 @@
+2024-11-06 16:33:23,323 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/suraj/debug.log
+2024-11-06 16:33:23,325 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[32mPOST /login HTTP/1.1[0m" 302 -
+2024-11-06 16:33:23,331 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET / HTTP/1.1" 200 -
+2024-11-06 16:33:23,346 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/deviceTelemetryForm.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,347 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,348 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,349 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,350 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,352 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/upload_device_config.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,352 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/index.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,353 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,354 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/css/easy_config.css HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,356 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+2024-11-06 16:33:23,414 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /get_gpu_systems HTTP/1.1" 200 -
+2024-11-06 16:33:23,415 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:33:23,417 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/gnmi-config.yaml
+2024-11-06 16:33:23,417 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/telemetry_debug.log
+2024-11-06 16:33:23,416 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /check_telemetry_status HTTP/1.1" 200 -
+2024-11-06 16:33:23,420 [INFO] Files exist response-routes.py: {'gnmi_config_exists': False, 'gnmi_config_path': None, 'telemetry_log_exists': False, 'telemetry_log_path': None}
+2024-11-06 16:33:23,420 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adH HTTP/1.1" 200 -
+2024-11-06 16:33:23,420 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /check_files_exist HTTP/1.1" 200 -
+2024-11-06 16:33:23,421 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /get_gnmi_paths HTTP/1.1" 200 -
+2024-11-06 16:33:23,421 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adI HTTP/1.1" 200 -
+2024-11-06 16:33:23,422 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adI.0 HTTP/1.1" 200 -
+2024-11-06 16:33:23,428 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:33:23,429 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /api/images HTTP/1.1" 200 -
+2024-11-06 16:33:23,430 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /list_uploaded_images HTTP/1.1" 200 -
+2024-11-06 16:33:23,431 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "POST /socket.io/?EIO=4&transport=polling&t=PC42adW&sid=CRQ-FgpkX8fCwdo3AAAG HTTP/1.1" 200 -
+2024-11-06 16:33:23,432 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adW.0&sid=CRQ-FgpkX8fCwdo3AAAG HTTP/1.1" 200 -
+2024-11-06 16:33:23,433 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:33:23,435 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "POST /socket.io/?EIO=4&transport=polling&t=PC42adZ&sid=bVfugc4WUkRZkRILAAAH HTTP/1.1" 200 -
+2024-11-06 16:33:23,435 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adZ.0&sid=bVfugc4WUkRZkRILAAAH HTTP/1.1" 200 -
+2024-11-06 16:33:23,436 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "POST /socket.io/?EIO=4&transport=polling&t=PC42ada&sid=xgb1NbTmANZVgTKGAAAI HTTP/1.1" 200 -
+2024-11-06 16:33:23,437 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42ada.0&sid=xgb1NbTmANZVgTKGAAAI HTTP/1.1" 200 -
+2024-11-06 16:33:23,438 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adg&sid=CRQ-FgpkX8fCwdo3AAAG HTTP/1.1" 200 -
+2024-11-06 16:33:23,440 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adk&sid=bVfugc4WUkRZkRILAAAH HTTP/1.1" 200 -
+2024-11-06 16:33:23,441 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42adl&sid=xgb1NbTmANZVgTKGAAAI HTTP/1.1" 200 -
+2024-11-06 16:33:23,443 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:23] "GET /socket.io/?EIO=4&transport=polling&t=PC42ado&sid=xgb1NbTmANZVgTKGAAAI HTTP/1.1" 200 -
+2024-11-06 16:33:50,871 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:50] "POST /add_device HTTP/1.1" 200 -
+2024-11-06 16:33:52,314 [INFO] 127.0.0.1 - - [06/Nov/2024 16:33:52] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:34:08,010 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:08] "POST /add_device HTTP/1.1" 200 -
+2024-11-06 16:34:09,118 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:09] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:34:16,455 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:16] "POST /add_device HTTP/1.1" 200 -
+2024-11-06 16:34:17,589 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:17] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:34:28,343 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:28] "POST /add_device HTTP/1.1" 200 -
+2024-11-06 16:34:29,433 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:29] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:34:46,253 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:46] "POST /add_device HTTP/1.1" 200 -
+2024-11-06 16:34:47,253 [INFO] 127.0.0.1 - - [06/Nov/2024 16:34:47] "GET /api/devices HTTP/1.1" 200 -
+2024-11-06 16:46:14,887 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:14] "GET /socket.io/?EIO=4&transport=websocket&sid=bVfugc4WUkRZkRILAAAH HTTP/1.1" 200 -
+2024-11-06 16:46:14,889 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:14] "GET /socket.io/?EIO=4&transport=websocket&sid=CRQ-FgpkX8fCwdo3AAAG HTTP/1.1" 200 -
+2024-11-06 16:46:14,891 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:14] "GET /socket.io/?EIO=4&transport=websocket&sid=xgb1NbTmANZVgTKGAAAI HTTP/1.1" 200 -
+2024-11-06 16:46:15,877 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:15] "GET /socket.io/?EIO=4&transport=polling&t=PC45XCv HTTP/1.1" 200 -
+2024-11-06 16:46:15,901 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:15] "POST /socket.io/?EIO=4&transport=polling&t=PC45XDC&sid=5L0pvZ2GdapiEMJTAAAM HTTP/1.1" 200 -
+2024-11-06 16:46:15,908 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:15] "GET /socket.io/?EIO=4&transport=polling&t=PC45XDM&sid=5L0pvZ2GdapiEMJTAAAM HTTP/1.1" 200 -
+2024-11-06 16:46:16,924 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XTD HTTP/1.1" 200 -
+2024-11-06 16:46:16,937 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XTE HTTP/1.1" 200 -
+2024-11-06 16:46:16,946 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "POST /socket.io/?EIO=4&transport=polling&t=PC45XTg&sid=jyge8FC7576YkxgDAAAO HTTP/1.1" 200 -
+2024-11-06 16:46:16,954 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XTg.0&sid=jyge8FC7576YkxgDAAAO HTTP/1.1" 200 -
+2024-11-06 16:46:16,959 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "POST /socket.io/?EIO=4&transport=polling&t=PC45XTh&sid=4ylpIO02fDXJsHruAAAP HTTP/1.1" 200 -
+2024-11-06 16:46:16,959 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XTh.0&sid=4ylpIO02fDXJsHruAAAP HTTP/1.1" 200 -
+2024-11-06 16:46:16,960 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XTy&sid=jyge8FC7576YkxgDAAAO HTTP/1.1" 200 -
+2024-11-06 16:46:16,962 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XU1&sid=4ylpIO02fDXJsHruAAAP HTTP/1.1" 200 -
+2024-11-06 16:46:16,963 [INFO] 127.0.0.1 - - [06/Nov/2024 16:46:16] "GET /socket.io/?EIO=4&transport=polling&t=PC45XU2&sid=jyge8FC7576YkxgDAAAO HTTP/1.1" 200 -
+2024-11-06 19:01:38,218 [INFO]  * Detected change in '/Users/surajsharma/FLASK/ROBOT_LOG_PARSER/test.py', reloading
+2024-11-07 11:40:42,729 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/suraj/debug.log
+2024-11-07 11:40:42,730 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+2024-11-07 11:40:42,738 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET / HTTP/1.1" 200 -
+2024-11-07 11:40:42,755 [INFO] [host stqc-q5240-05.englab.juniper.net session 0x169831be0] Received message from host
+2024-11-07 11:40:42,755 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] initialized: session-id=5893 | server_capabilities=<dict_keyiterator object at 0x169745900>
+2024-11-07 11:40:42,755 [INFO] Successfully connected to stqc-q5240-05.englab.juniper.net using hostname
+2024-11-07 11:40:42,759 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/deviceTelemetryForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,761 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,762 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,764 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,764 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,765 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/upload_device_config.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,768 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,768 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/index.js HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,769 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/css/easy_config.css HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,771 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+2024-11-07 11:40:42,829 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /check_telemetry_status HTTP/1.1" 200 -
+2024-11-07 11:40:42,829 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:40:42,831 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /get_gpu_systems HTTP/1.1" 200 -
+2024-11-07 11:40:42,833 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/gnmi-config.yaml
+2024-11-07 11:40:42,834 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/telemetry_debug.log
+2024-11-07 11:40:42,834 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7B HTTP/1.1" 200 -
+2024-11-07 11:40:42,835 [INFO] Files exist response-routes.py: {'gnmi_config_exists': False, 'gnmi_config_path': None, 'telemetry_log_exists': False, 'telemetry_log_path': None}
+2024-11-07 11:40:42,835 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /check_files_exist HTTP/1.1" 200 -
+2024-11-07 11:40:42,835 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /get_gnmi_paths HTTP/1.1" 200 -
+2024-11-07 11:40:42,836 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7B.0 HTTP/1.1" 200 -
+2024-11-07 11:40:42,837 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7B.1 HTTP/1.1" 200 -
+2024-11-07 11:40:42,839 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /list_uploaded_images HTTP/1.1" 200 -
+2024-11-07 11:40:42,845 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "POST /socket.io/?EIO=4&transport=polling&t=PC89B7M&sid=iuz8dsnxovkHDDwAAAAe HTTP/1.1" 200 -
+2024-11-07 11:40:42,846 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7M.0&sid=iuz8dsnxovkHDDwAAAAe HTTP/1.1" 200 -
+2024-11-07 11:40:42,846 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /api/images HTTP/1.1" 200 -
+2024-11-07 11:40:42,847 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "POST /socket.io/?EIO=4&transport=polling&t=PC89B7N&sid=9TaUGeG-vEfUQjqrAAAf HTTP/1.1" 200 -
+2024-11-07 11:40:42,847 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:40:42,848 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:40:42,849 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7N.0&sid=9TaUGeG-vEfUQjqrAAAf HTTP/1.1" 200 -
+2024-11-07 11:40:42,850 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "POST /socket.io/?EIO=4&transport=polling&t=PC89B7N.1&sid=NJtvh6PZWHaSX2F8AAAg HTTP/1.1" 200 -
+2024-11-07 11:40:42,852 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7N.2&sid=NJtvh6PZWHaSX2F8AAAg HTTP/1.1" 200 -
+2024-11-07 11:40:42,854 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7a&sid=iuz8dsnxovkHDDwAAAAe HTTP/1.1" 200 -
+2024-11-07 11:40:42,855 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7a.0&sid=9TaUGeG-vEfUQjqrAAAf HTTP/1.1" 200 -
+2024-11-07 11:40:42,857 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7e&sid=9TaUGeG-vEfUQjqrAAAf HTTP/1.1" 200 -
+2024-11-07 11:40:42,858 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:42] "GET /socket.io/?EIO=4&transport=polling&t=PC89B7c&sid=NJtvh6PZWHaSX2F8AAAg HTTP/1.1" 200 -
+2024-11-07 11:40:42,937 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2024-11-07 11:40:43,701 [INFO] Authentication (publickey) failed.
+2024-11-07 11:40:43,828 [INFO] Authentication (password) successful!
+2024-11-07 11:40:44,287 [INFO] [host stqc-q5240-06.englab.juniper.net session 0x1698688b0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2024-11-07 11:40:44,398 [INFO] [host stqc-q5240-06.englab.juniper.net session 0x1698688b0] Received message from host
+2024-11-07 11:40:44,402 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] initialized: session-id=28264 | server_capabilities=<dict_keyiterator object at 0x16967b180>
+2024-11-07 11:40:44,403 [INFO] Successfully connected to stqc-q5240-06.englab.juniper.net using hostname
+2024-11-07 11:40:44,403 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Requesting 'ExecuteRpc'
+2024-11-07 11:40:44,450 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:35138bd0-efd2-4028-b93e-82ef0882635f"><get-interface-information><terse/><interface-name>et-0/0/1:0</interface-name></get-interface-information></nc:rpc>]]>]]>'
+2024-11-07 11:40:44,570 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Received message from host
+2024-11-07 11:40:44,574 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Requesting 'ExecuteRpc'
+2024-11-07 11:40:44,604 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:c1e0d4ea-9eaa-4565-8823-171bd5939881"><get-interface-information><terse/><interface-name>et-0/0/6:0</interface-name></get-interface-information></nc:rpc>]]>]]>'
+2024-11-07 11:40:44,754 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Received message from host
+2024-11-07 11:40:44,757 [INFO] Link stqc-q5240-05--et-0/0/1:0--stqc-q5240-06--et-0/0/6:0 between stqc-q5240-05 and stqc-q5240-06 is reachable.
+2024-11-07 11:40:44,758 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Requesting 'CloseSession'
+2024-11-07 11:40:44,773 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:28aeb00d-85be-4573-9a15-b541f29e16f5"><nc:close-session/></nc:rpc>]]>]]>'
+2024-11-07 11:40:44,853 [INFO] [host stqc-q5240-05.englab.juniper.net session-id 5893] Received message from host
+2024-11-07 11:40:44,854 [INFO] Closed connection to stqc-q5240-05.englab.juniper.net (or IP stqc-q5240-05)
+2024-11-07 11:40:44,854 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Requesting 'CloseSession'
+2024-11-07 11:40:44,856 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:3b7facd6-34cc-4762-803e-411838108248"><nc:close-session/></nc:rpc>]]>]]>'
+2024-11-07 11:40:44,961 [INFO] [host stqc-q5240-06.englab.juniper.net session-id 28264] Received message from host
+2024-11-07 11:40:44,963 [INFO] Closed connection to stqc-q5240-06.englab.juniper.net (or IP stqc-q5240-06)
+2024-11-07 11:40:44,964 [INFO] 127.0.0.1 - - [07/Nov/2024 11:40:44] "POST /check_link_health HTTP/1.1" 200 -
+2024-11-07 11:41:01,410 [INFO] ['set system services netconf ssh', 'set system services ssh root-login allow', 'set system services extension-service request-response grpc clear-text port 57400', 'set system services extension-service request-response grpc skip-authentication']
+2024-11-07 11:41:06,421 [ERROR] Error loading configuration on stqc-q5240-06: ConnectUnknownHostError(stqc-q5240-06)
+2024-11-07 11:41:06,422 [ERROR] Error loading configuration on stqc-q5240-05: ConnectUnknownHostError(stqc-q5240-05)
+2024-11-07 11:41:06,425 [ERROR] Error loading configuration on stqc-q5240-q01: ConnectUnknownHostError(stqc-q5240-q01)
+2024-11-07 11:41:06,426 [ERROR] Error loading configuration on stqc-q5240-03: ConnectUnknownHostError(stqc-q5240-03)
+2024-11-07 11:41:06,427 [ERROR] Error loading configuration on stqc-q5240-04: ConnectUnknownHostError(stqc-q5240-04)
+2024-11-07 11:41:06,431 [INFO] 127.0.0.1 - - [07/Nov/2024 11:41:06] "POST /upload_config HTTP/1.1" 200 -
+2024-11-07 11:44:57,213 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=websocket&sid=iuz8dsnxovkHDDwAAAAe HTTP/1.1" 200 -
+2024-11-07 11:44:57,229 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=websocket&sid=9TaUGeG-vEfUQjqrAAAf HTTP/1.1" 200 -
+2024-11-07 11:44:57,232 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=websocket&sid=NJtvh6PZWHaSX2F8AAAg HTTP/1.1" 200 -
+2024-11-07 11:44:57,235 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET / HTTP/1.1" 200 -
+2024-11-07 11:44:57,269 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/css/easy_config.css HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,269 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/deviceTelemetryForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,270 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,271 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,274 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,274 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /static/index.js HTTP/1.1" 200 -
+2024-11-07 11:44:57,275 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,278 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /static/upload_device_config.js HTTP/1.1" 200 -
+2024-11-07 11:44:57,281 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2024-11-07 11:44:57,281 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /static/favicon.ico HTTP/1.1" 200 -
+2024-11-07 11:44:57,367 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GG HTTP/1.1" 200 -
+2024-11-07 11:44:57,368 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GH HTTP/1.1" 200 -
+2024-11-07 11:44:57,370 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /get_gpu_systems HTTP/1.1" 200 -
+2024-11-07 11:44:57,372 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:44:57,372 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GH.0 HTTP/1.1" 200 -
+2024-11-07 11:44:57,376 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "POST /socket.io/?EIO=4&transport=polling&t=PC8A9GP&sid=BAZaPtL8TDVLL907AAAk HTTP/1.1" 200 -
+2024-11-07 11:44:57,376 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GQ&sid=BAZaPtL8TDVLL907AAAk HTTP/1.1" 200 -
+2024-11-07 11:44:57,377 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /check_telemetry_status HTTP/1.1" 200 -
+2024-11-07 11:44:57,378 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /list_uploaded_images HTTP/1.1" 200 -
+2024-11-07 11:44:57,379 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "POST /socket.io/?EIO=4&transport=polling&t=PC8A9GR&sid=JXiZQXRLJ-iz5F9sAAAl HTTP/1.1" 200 -
+2024-11-07 11:44:57,380 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GR.0&sid=JXiZQXRLJ-iz5F9sAAAl HTTP/1.1" 200 -
+2024-11-07 11:44:57,381 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "POST /socket.io/?EIO=4&transport=polling&t=PC8A9GW&sid=2uh2mc9VkYWn6n-XAAAm HTTP/1.1" 200 -
+2024-11-07 11:44:57,382 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GW.0&sid=2uh2mc9VkYWn6n-XAAAm HTTP/1.1" 200 -
+2024-11-07 11:44:57,384 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9GZ&sid=BAZaPtL8TDVLL907AAAk HTTP/1.1" 200 -
+2024-11-07 11:44:57,385 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/gnmi-config.yaml
+2024-11-07 11:44:57,385 [INFO] check_files_exist -routes.py- /Users/surajsharma/FLASK/app/telemetry/suraj/telemetry_debug.log
+2024-11-07 11:44:57,387 [INFO] Files exist response-routes.py: {'gnmi_config_exists': False, 'gnmi_config_path': None, 'telemetry_log_exists': False, 'telemetry_log_path': None}
+2024-11-07 11:44:57,387 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /get_gnmi_paths HTTP/1.1" 200 -
+2024-11-07 11:44:57,387 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /check_files_exist HTTP/1.1" 200 -
+2024-11-07 11:44:57,387 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9Gc&sid=JXiZQXRLJ-iz5F9sAAAl HTTP/1.1" 200 -
+2024-11-07 11:44:57,389 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /socket.io/?EIO=4&transport=polling&t=PC8A9Ge&sid=2uh2mc9VkYWn6n-XAAAm HTTP/1.1" 200 -
+2024-11-07 11:44:57,394 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /api/images HTTP/1.1" 200 -
+2024-11-07 11:44:57,395 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:44:57,395 [INFO] 127.0.0.1 - - [07/Nov/2024 11:44:57] "GET /api/devices HTTP/1.1" 200 -
+2024-11-07 11:45:18,928 [INFO] ['set system services netconf ssh', 'set system services ssh root-login allow', 'set system services extension-service request-response grpc clear-text port 57400', 'set system services extension-service request-response grpc skip-authentication']
+2024-11-07 11:45:18,930 [ERROR] Unexpected error on stqc-q5240-03.englab.juniper.net: Credentials not found for device stqc-q5240-03.englab.juniper.net
+2024-11-07 11:45:18,931 [ERROR] Unexpected error on stqc-q5240-04.englab.juniper.net: Credentials not found for device stqc-q5240-04.englab.juniper.net
+2024-11-07 11:45:18,932 [ERROR] Unexpected error on stqc-q5240-05.englab.juniper.net: Credentials not found for device stqc-q5240-05.englab.juniper.net
+2024-11-07 11:45:18,933 [ERROR] Unexpected error on stqc-q5240-06.englab.juniper.net: Credentials not found for device stqc-q5240-06.englab.juniper.net
+2024-11-07 11:45:18,933 [ERROR] Unexpected error on stqc-q5240-q01.englab.juniper.net: Credentials not found for device stqc-q5240-q01.englab.juniper.net
+2024-11-07 11:45:18,938 [INFO] 127.0.0.1 - - [07/Nov/2024 11:45:18] "POST /upload_config HTTP/1.1" 200 -
+2024-11-07 11:46:28,537 [INFO] 127.0.0.1 - - [07/Nov/2024 11:46:28] "GET /debug_log HTTP/1.1" 200 -
+2024-11-07 11:46:28,564 [INFO] 127.0.0.1 - - [07/Nov/2024 11:46:28] "GET /static/css/styles.css HTTP/1.1" 200 -
+2024-11-07 11:48:00,541 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading
+2024-11-15 13:51:45,682 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/suraj/debug.log
+2024-11-15 13:51:45,683 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[32mPOST /login HTTP/1.1[0m" 302 -
+2024-11-15 13:51:45,689 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET / HTTP/1.1" 200 -
+2024-11-15 13:51:45,729 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/deviceTelemetryForm.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,729 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,731 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,733 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/upload_device_config.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,734 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,735 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,735 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,737 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/xmlRobotDebugger.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,737 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/css/easy_config.css HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,738 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/index.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,739 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+2024-11-15 13:51:45,805 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[33mGET /get_gpu_systems HTTP/1.1[0m" 404 -
+2024-11-15 13:51:45,807 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[33mGET /check_telemetry_status HTTP/1.1[0m" 404 -
+2024-11-15 13:51:45,808 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[33mGET /check_files_exist HTTP/1.1[0m" 404 -
+2024-11-15 13:51:45,809 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "[33mGET /get_gnmi_paths HTTP/1.1[0m" 404 -
+2024-11-15 13:51:45,809 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /api/devices HTTP/1.1" 200 -
+2024-11-15 13:51:45,811 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoC HTTP/1.1" 200 -
+2024-11-15 13:51:45,811 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoC.0 HTTP/1.1" 200 -
+2024-11-15 13:51:45,812 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoC.1 HTTP/1.1" 200 -
+2024-11-15 13:51:45,815 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /api/images HTTP/1.1" 200 -
+2024-11-15 13:51:45,816 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /api/devices HTTP/1.1" 200 -
+2024-11-15 13:51:45,817 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:45,820 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /list_uploaded_images HTTP/1.1" 200 -
+2024-11-15 13:51:45,822 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /api/devices HTTP/1.1" 200 -
+2024-11-15 13:51:45,823 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "POST /socket.io/?EIO=4&transport=polling&t=PCnpuoM&sid=1rOWpHmxeFFreHeXAAAS HTTP/1.1" 200 -
+2024-11-15 13:51:45,825 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoM.0&sid=1rOWpHmxeFFreHeXAAAS HTTP/1.1" 200 -
+2024-11-15 13:51:45,826 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "POST /socket.io/?EIO=4&transport=polling&t=PCnpuoN&sid=YzXjDU7kQQszIxjuAAAT HTTP/1.1" 200 -
+2024-11-15 13:51:45,826 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoN.0&sid=YzXjDU7kQQszIxjuAAAT HTTP/1.1" 200 -
+2024-11-15 13:51:45,827 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "POST /socket.io/?EIO=4&transport=polling&t=PCnpuoQ&sid=6xq4ShGEtsw7IhSSAAAU HTTP/1.1" 200 -
+2024-11-15 13:51:45,828 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:45,829 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoQ.0&sid=6xq4ShGEtsw7IhSSAAAU HTTP/1.1" 200 -
+2024-11-15 13:51:45,835 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:45,835 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuob&sid=1rOWpHmxeFFreHeXAAAS HTTP/1.1" 200 -
+2024-11-15 13:51:45,837 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoh&sid=6xq4ShGEtsw7IhSSAAAU HTTP/1.1" 200 -
+2024-11-15 13:51:45,838 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:45] "GET /socket.io/?EIO=4&transport=polling&t=PCnpuoc&sid=YzXjDU7kQQszIxjuAAAT HTTP/1.1" 200 -
+2024-11-15 13:51:50,863 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:50] "GET /xml_robot_debugger HTTP/1.1" 200 -
+2024-11-15 13:51:50,904 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:50] "[36mGET /static/xmlRobotDebugger.js HTTP/1.1[0m" 304 -
+2024-11-15 13:51:50,948 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:50] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:50,957 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:50] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:50,960 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:50] "GET /getCategories HTTP/1.1" 200 -
+2024-11-15 13:51:55,662 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:55] "GET /getTrainingData?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:51:55,672 [INFO] 127.0.0.1 - - [15/Nov/2024 13:51:55] "GET /getPatterns?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:52:00,656 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:00] "GET /getTrainingData?category=FileErrors HTTP/1.1" 200 -
+2024-11-15 13:52:00,658 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:00] "GET /getPatterns?category=FileErrors HTTP/1.1" 200 -
+2024-11-15 13:52:07,004 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:07] "GET /getPatterns?category=VariableErrors HTTP/1.1" 200 -
+2024-11-15 13:52:07,005 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:07] "GET /getTrainingData?category=VariableErrors HTTP/1.1" 200 -
+2024-11-15 13:52:31,250 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:31] "GET /getTrainingData?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:52:31,254 [INFO] 127.0.0.1 - - [15/Nov/2024 13:52:31] "GET /getPatterns?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:53:05,108 [INFO] 127.0.0.1 - - [15/Nov/2024 13:53:05] "POST /addPattern HTTP/1.1" 200 -
+2024-11-15 13:53:06,485 [INFO] 127.0.0.1 - - [15/Nov/2024 13:53:06] "GET /getPatterns?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:53:08,606 [INFO] 127.0.0.1 - - [15/Nov/2024 13:53:08] "GET /getTrainingData?category=InfrastructureErrors HTTP/1.1" 200 -
+2024-11-15 13:53:08,612 [INFO] 127.0.0.1 - - [15/Nov/2024 13:53:08] "GET /getSuggestion?pattern=Infra%20pattern%201 HTTP/1.1" 200 -
+2024-11-15 14:06:45,829 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading

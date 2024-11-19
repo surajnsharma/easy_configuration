@@ -1,0 +1,11 @@
+=> Testcase-2 encountered the following failures:
+[20241102 07:09:21.995] - == Config Engine: commit failed on r0: commit failed [edit interfaces et-0/0/2:0]
+  'unit 2'
+    duplicate VLAN-ID on interface et-0/0/2:0.2: conflicts with unit 1 (vlan 2)
+error: commit failed: (validation hook evaluation failed)
+
+**General Failures:
+[20241102 07:09:21.995] - == Config Engine: commit failed on r0: commit failed [edit interfaces et-0/0/2:0]
+  'unit 2'
+    duplicate VLAN-ID on interface et-0/0/2:0.2: conflicts with unit 1 (vlan 2)
+error: commit failed: (validation hook evaluation failed)

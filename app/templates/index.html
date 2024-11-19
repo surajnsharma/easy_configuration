@@ -11,47 +11,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cytoscape-context-menus/cytoscape-context-menus.css">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <title>Easy Configuration</title>
+    <title>EZ Configuration</title>
 </head>
 <style>
 
-    body, html {
-    height: 100%;
-    overflow: hidden; /* Prevent body from scrolling */
-}
-
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-#sidebar {
-    position: fixed;
-    top: 56px; /* Adjust to match navbar height */
-    left: 0;
-    bottom: 0;
-    width: 200px; /* Adjust width as needed */
-    overflow-y: auto;
-    background-color: #343a40;
-    color: white;
-    z-index: 999; /* Ensure sidebar sits above content */
-}
-
-.content {
-    margin-top: 56px; /* Match navbar height */
-    margin-left: 200px; /* Match sidebar width */
-    height: calc(100vh - 56px); /* Full viewport height minus navbar */
-    overflow-y: auto; /* Allow content to scroll independently */
-    padding: 20px;
-    background-color: #f8f9fa;
-}
-
 </style>
 <body>
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Easy Configuration</a>
+        <a class="navbar-brand" href="#">EZ Configuration</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -62,14 +31,15 @@
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('view_events') }}">View Events</a>
+                    <a class="nav-link" href="{{ url_for('view_events') }}",target="_blank">View Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/debug_log">Check Debug Log</a>
+                    <a class="nav-link" href="/debug_log" target="_blank">Check Debug Log</a>
                 </li>
+
                 {% if current_user.role == 'admin' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('list_users') }}">List Users</a>
+                    <a class="nav-link" href="{{ url_for('list_users') }}", target="_blank">List Users</a>
                 </li>
                 {% endif %}
                 {% else %}
@@ -96,10 +66,11 @@
                 <a class="nav-link" href="#generateConfigForm" id="toggleGenerateConfigFormBtn">Generate Config</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#deviceTelemetryForm" id="toggleTelemetryBtn">Telemetry</a>
+                <a class="nav-link" href="#xmlRobotDebuggerForm" id="toggleXmlRobotDebuggerBtn">Robot Debugger</a>
             </li>
         </ul>
     </div>
+
 
     <div class="content">
         <div class="form-container">
@@ -122,7 +93,8 @@
             {% include 'underlayConfig_Form.html' %}
             {% include 'uploadConfig_Form.html' %}
             {% include 'onboardDevices_Form.html' %}
-            {% include 'triggerEvents_Form.html' %}
+            {% include 'xmlRobot_debugger.html' %}
+            {# include 'triggerEvents_Form.html' #}
         </div>
     </div>
 

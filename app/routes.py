@@ -1,6 +1,6 @@
 #routes.py#
 from app import login_manager, socketio
-from .models import DeviceInfo,TriggerEvent,TrainingData
+from .models import DeviceInfo,TriggerEvent,TrainingData,Topology
 from .utils import check_link_health, OnboardDeviceClass,get_router_details_from_db,transfer_file_to_router,generate_config,check_device_health,generate_bgp_scale_config,generate_vlan_config
 from .utils import DeviceConnectorClass, BuildLLDPConnectionClass, VxlanConfigGeneratorClass,RobotXMLParserClass
 from .utils import is_reachable, get_router_ips_from_csv,get_router_details_from_csv,get_lldp_neighbors,get_next_available_ip,generate_common_config,generate_interface_config,generate_bgp_config

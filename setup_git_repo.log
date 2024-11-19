@@ -516,3 +516,121 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 Press Enter after adding the SSH key to GitHub...
 SSH configuration updated to use id_ed25519 for GitHub.
 Checking for files larger than 100 MB to track with Git LFS...
+[main 338e6c9] Auto-commit: updating remote repository
+ 124 files changed, 1555075 insertions(+), 10833 deletions(-)
+ create mode 100644 .DS_Store
+ create mode 100644 ROBOT_LOG_PARSER/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 ROBOT_LOG_PARSER/.ipynb_checkpoints/Untitled1-checkpoint.ipynb
+ create mode 100644 ROBOT_LOG_PARSER/Untitled.ipynb
+ create mode 100644 ROBOT_LOG_PARSER/Untitled1.ipynb
+ create mode 100644 ROBOT_LOG_PARSER/corrective_actions.json
+ create mode 100644 ROBOT_LOG_PARSER/cos_brcm_dcqcn_l2_fuc2_mts_002_output.xml
+ create mode 100755 ROBOT_LOG_PARSER/debug_robot_log.py
+ create mode 100644 ROBOT_LOG_PARSER/evpn_vxlan_mts_ar_oism_ssm_001_output.xml
+ create mode 100644 ROBOT_LOG_PARSER/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz
+ create mode 100644 ROBOT_LOG_PARSER/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml
+ create mode 100644 ROBOT_LOG_PARSER/platforms_mts_hwdre_issu_001_output.xml
+ create mode 100644 ROBOT_LOG_PARSER/protocols_xSTP_issu_mts_007_output.xml
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/cos_brcm_dcqcn_l2_fuc1_mts_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/cos_brcm_dcqcn_l2_fuc2_mts_002_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/cos_global_dedicated_buffer_mts_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/deactivate_activate_interfaces_mts_002_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/firewall_bridge_mts_010_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/platforms_mts_hwdre_issu_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/protocols_xSTP_issu_mts_007_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/rcb_resiliency_volt_temp_sensor_mts_001_output.xml_failure_log.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_logs/robot_failure_summary.txt
+ create mode 100644 ROBOT_LOG_PARSER/robot_failure_suggestions.txt
+ create mode 100644 ROBOT_LOG_PARSER/test.log
+ create mode 100755 ROBOT_LOG_PARSER/test.py
+ create mode 100644 app/.DS_Store
+ create mode 100644 app/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 app/.ipynb_checkpoints/Untitled1-checkpoint.ipynb
+ create mode 100644 app/Untitled.ipynb
+ create mode 100644 app/Untitled1.ipynb
+ create mode 100644 app/device_config/admin/commands_csv.json
+ create mode 100644 app/device_config/admin/commands_lldp.json
+ delete mode 100644 app/device_config/admin/leaf_2_vxlan_config.txt
+ create mode 100644 app/device_config/admin/ny-q5230-01.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/admin/ny-q5230-01_config.txt
+ create mode 100644 app/device_config/admin/ny-q5230-02.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/admin/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/admin/ny-q5230-04_config.txt
+ create mode 100644 app/device_config/admin/ny-q5240-13.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/admin/ny-q5240-13_config.txt
+ create mode 100644 app/device_config/admin/ny-q5240-q07.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/admin/ny-q5240-q07_config.txt
+ delete mode 100644 app/device_config/admin/spine_2_vxlan_config.txt
+ delete mode 100644 app/logs/debug.log
+ create mode 100644 app/static/xmlRobotDebugger.js
+ create mode 100644 app/telemetry/.DS_Store
+ create mode 100644 app/templates/xmlRobot_debugger.html
+ create mode 100644 app/uploads/admin/bgp_config.txt
+ create mode 100644 app/uploads/admin/config.txt
+ create mode 100644 app/uploads/admin/ny-q5230-01.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/admin/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/admin/san-q5230-05_config.txt
+ create mode 100644 app/uploads/admin/san-q5230-06_config.txt
+ create mode 100644 app/uploads/admin/test2.log
+ create mode 100644 app/uploads/admin/underlay_config.csv
+ create mode 100644 app/uploads/admin/underlay_junos.csv
+ create mode 100644 app/uploads/config.txt
+ create mode 100644 app/uploads/ny-q5230-01.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/suraj/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz
+ create mode 100644 app/uploads/suraj/platforms_mts_hwdre_issu_001.log
+ create mode 100644 app/uploads/suraj/robot_failure_logs/cos_brcm_dcqcn_l2_fuc2_mts_002_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/platforms_mts_hwdre_issu_001_output.xml.gz_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/platforms_mts_hwdre_issu_001_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/protocols_xSTP_issu_mts_007_output.xml.gz_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/protocols_xSTP_issu_mts_007_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/robot_failure_logs/robot_failure_suggestions.txt
+ create mode 100644 app/uploads/user_1/ny-q5230-01.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/user_1/ny-q5230-02.englab.juniper.net_config.txt
+ create mode 100644 app/uploads/user_1/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 install.sh
+ create mode 100644 instance/app_database_backup.db
+ delete mode 100644 migrations/versions/2fa4f71c4130_.py
+ create mode 100644 migrations/versions/af65ad16c790_initial_migration.py
+ create mode 100644 migrations/versions/cc9518ba4cad_add_unique_constraint_to_user_id_and_.py
+ delete mode 100644 migrations/versions/e0e76ec9c0c2_initial.py
+ delete mode 100644 spine_1_config.txt
+ delete mode 100644 telemetry/README.txt
+ delete mode 100644 telemetry/Untitled.ipynb
+ delete mode 100644 telemetry/admin/gnmi-config.yaml
+ delete mode 100644 telemetry/admin/telemetry_debug.log
+ delete mode 100644 telemetry/gnmi-config.yaml
+ delete mode 100755 telemetry/run_gnmic.sh
+ delete mode 100644 telemetry/server_telemetry_local.py
+ delete mode 100644 telemetry/server_telemetry_remote.py
+ delete mode 100644 telemetry/suraj/gnmi-config.yaml
+ delete mode 100644 telemetry/suraj/telemetry_debug.log
+To github.com:surajnsharma/easy_configuration.git
+   2e57fee..338e6c9  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

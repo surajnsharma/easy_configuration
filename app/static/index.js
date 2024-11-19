@@ -4,8 +4,8 @@
     document.addEventListener('DOMContentLoaded', function () {
             const forms = [
                 'vlanConfigForm', 'bgpForm', 'vxlanForm', 'underlayConfigForm', 'uploadConfigForm',
-                'onboardDevicesForm', 'generateConfigForm','telemetryForm','xmlRobotDebuggerForm',
-               'deviceTelemetryForm','triggerEventsForm'
+                'onboardDevicesForm', 'generateConfigForm','telemetryForm',
+               'deviceTelemetryForm','triggerEventsForm','RobotDebuggerForm'
             ];
             const toggleButtons = [
                 'toggleVlanFormBtn', 'toggleBgpFormBtn', 'toggleVxlanFormBtn', 'toggleunderlayConfigBtn',

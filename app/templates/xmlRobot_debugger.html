@@ -50,7 +50,7 @@
 
 </style>
 <body>
-<div class="container mt-5">
+<div class="container mt-5 hidden" id="RobotDebuggerForm">
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -61,77 +61,74 @@
             </li>
         </ul>
         <!-- Tab Content -->
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContentRobotDebugger">
         <!-- Upload Tab Pane -->
         <div class="tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
-        <div id="xmlRobotDebuggerForm" class="mt-4">
-        <h4 class="text-center mb-4">Robot Framework XML Parser</h4>
-
-        <!-- File Upload Form -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">Upload XML File</h5>
+            <div id="xmlRobotDebuggerForm" class="mt-4">
+            <h4 class="text-center mb-4">Robot Framework XML Parser</h4>
+                <!-- File Upload Form -->
+                <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Upload XML File</h5>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" name="file" id="fileInput" class="form-control" accept=".xml,.xml.gz,.gz" required aria-label="Upload XML or XML.GZ file">
+                        </div>
+                        <div class="form-group form-check mt-3">
+                            <input type="checkbox" class="form-check-input" id="nameSuggestions" name="nameSuggestions" checked>
+                            <label class="form-check-label" for="nameSuggestions">Corrective Action</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Debug</button>
+                    </form>
+                </div>
             </div>
-            <div class="card-body">
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="file" name="file" id="fileInput" class="form-control" accept=".xml,.xml.gz,.gz" required aria-label="Upload XML or XML.GZ file">
-                    </div>
-                    <div class="form-group form-check mt-3">
-                        <input type="checkbox" class="form-check-input" id="nameSuggestions" name="nameSuggestions" checked>
-                        <label class="form-check-label" for="nameSuggestions">Corrective Action</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Debug</button>
-                </form>
+
+                <!-- URL Fetch Form -->
+                <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Fetch XML from URL</h5>
+                </div>
+                <div class="card-body">
+                    <form id="urlForm">
+                        <div class="form-group">
+                            <input type="url" name="url" id="urlInput" class="form-control" placeholder="Enter XML URL" required aria-label="Enter XML URL">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="jsessionid" id="jsessionidInput" class="form-control" placeholder="Enter JSESSIONID (if required)" aria-label="Enter JSESSIONID">
+                        </div>
+                        <div class="form-group form-check mt-3">
+                            <input type="checkbox" class="form-check-input" id="nameSuggestionsUrl" name="nameSuggestionsUrl">
+                            <label class="form-check-label" for="nameSuggestionsUrl">Enable Name Suggestions</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Fetch</button>
+                    </form>
+                </div>
+            </div>
+
+                <!-- Results Display -->
+                <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Parse Results</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="result" id="result" style="white-space: pre-wrap;"></pre>
+                </div>
+            </div>
             </div>
         </div>
-
-        <!-- URL Fetch Form -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">Fetch XML from URL</h5>
-            </div>
-            <div class="card-body">
-                <form id="urlForm">
-                    <div class="form-group">
-                        <input type="url" name="url" id="urlInput" class="form-control" placeholder="Enter XML URL" required aria-label="Enter XML URL">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="jsessionid" id="jsessionidInput" class="form-control" placeholder="Enter JSESSIONID (if required)" aria-label="Enter JSESSIONID">
-                    </div>
-                    <div class="form-group form-check mt-3">
-                        <input type="checkbox" class="form-check-input" id="nameSuggestionsUrl" name="nameSuggestionsUrl">
-                        <label class="form-check-label" for="nameSuggestionsUrl">Enable Name Suggestions</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Fetch</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Results Display -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Parse Results</h5>
-            </div>
-            <div class="card-body">
-                <pre class="result" id="result" style="white-space: pre-wrap;"></pre>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Training Tab Pane -->
-    <div class="tab-pane fade" id="training" role="tabpanel" aria-labelledby="training-tab">
-        <div class="mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Training Tab Pane -->
+        <div class="tab-pane fade" id="training" role="tabpanel" aria-labelledby="training-tab">
+            <div class="mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="text-center">Training</h4>
                 <a href="/api/downloadTrainingData" class="btn btn-secondary btn-sm" id="downloadTrainingLink" download>
                     Download Training Data
                 </a>
             </div>
-            <!-- Training Form -->
-            <form id="trainingForm">
+                <!-- Training Form -->
+                <form id="trainingForm">
                 <!-- Input Method Selector -->
                 <div class="form-group">
                     <label>Choose Training Data Input Method</label>
@@ -184,8 +181,8 @@
                 </div>
             </form>
 
-            <!-- Modal for Adding New Pattern -->
-            <div id="addPatternModal" class="modal" tabindex="-1" style="display: none;">
+                <!-- Modal for Adding New Pattern -->
+                <div id="addPatternModal" class="modal" tabindex="-1" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -209,8 +206,8 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
     </div>
 
 </div>

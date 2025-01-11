@@ -1,0 +1,61 @@
+{
+    "intents": {
+        "disable_interface": {
+            "description": "Disables a network interface on the specified device.",
+            "function": "disable_interface",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": [""],
+            "devices": ["Router1"],
+            "parameters": {}
+        },
+        "enable_interface": {
+            "description": "Enables a network interface on the specified device.",
+            "function": "enable_interface",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": ["leaf", "spine"],
+            "devices": [],
+            "parameters": {}
+        },
+        "generate_alarm": {
+            "description": "Generates an alarm by simulating a high power optics insert.",
+            "function": "generate_alarm",
+            "supported_device_types": ["Router","Switch"],
+            "tags": ["alarm", "optics","spine","leaf"],
+            "devices": [],
+            "parameters": {}
+        },
+        "snapshot_device_state": {
+            "description": "Takes a snapshot of the current state of the device for specific commands.",
+            "function": "snapshot_device_state",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": ["snapshot", "monitoring"],
+            "devices": [],
+            "parameters": {
+                "save_to_file": false,
+                "output_dir": "/var/tmp"
+            }
+        },
+        "execute_custom_commands": {
+            "description": "Executes a list of custom commands provided by the user.",
+            "function": "execute_custom_commands",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": ["custom", "commands"],
+            "devices": [],
+            "parameters": {
+                "commands": []
+            }
+        },
+        "state_comparison": {
+        "description": "Compares the pre-event and post-event states to detect differences.",
+        "function": "compare_pre_post_event_states",
+        "supported_device_types": ["Router", "Switch"],
+        "tags": ["state", "comparison"],
+        "devices": [],
+        "parameters": {
+            "pre_event_file": "Path to the pre-event state file.",
+            "post_event_file": "Path to the post-event state file.",
+            "format": "xml or text (default: xml)"
+        }
+    }
+    }
+}

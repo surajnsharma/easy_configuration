@@ -1,0 +1,8 @@
+global:
+  username: "root"
+  password: "Embe1mpls"
+
+devices:
+    - host: "svla-q5240-03.englab.juniper.net"
+    - host: "svla-q5240-08.englab.juniper.net"
+

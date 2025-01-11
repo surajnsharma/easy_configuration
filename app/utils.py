@@ -1028,7 +1028,7 @@ def setup_user_logging(log_folder):
     return logger
 
 
-def transfer_file_to_router(config_lines, router_ip, router_user, router_password, device_name, config_format):
+'''def transfer_file_to_router(config_lines, router_ip, router_user, router_password, device_name, config_format):
     cu = None
     dev = None
 
@@ -1047,11 +1047,6 @@ def transfer_file_to_router(config_lines, router_ip, router_user, router_passwor
         logging.info(f"Connection established to {router_ip}")
         emit_progress(router_ip, 25, 'Connected')
         cu = Config(dev)
-
-        '''try:
-            cu.unlock()
-        except UnlockError as unlock_error:
-            logging.warning(f"UnlockError: {str(unlock_error)}. Proceeding to lock the configuration.")'''
 
         cu.lock()
         logging.info("Loading configuration...")
@@ -1098,7 +1093,86 @@ def transfer_file_to_router(config_lines, router_ip, router_user, router_passwor
         return f"** Error..!! {str(e)} on {device_name} **"
     finally:
         if dev:
-            dev.close()
+            dev.close()'''
+
+
+def transfer_file_to_router(config_lines, router_ip, router_user, router_password, device_name, config_format):
+    cu = None
+    dev = None
+
+    def emit_progress(router_ip, progress, stage, error=None):
+        message = {'ip': router_ip, 'progress': progress, 'stage': stage}
+        if error:
+            message['error'] = error
+        logging.info(f"Emitting progress: {message}")
+        socketio.emit('progress', message)
+
+    try:
+        logging.info(f"Attempting to connect to {device_name} using DeviceConnectorClass.")
+        emit_progress(router_ip, 0, 'Connecting')
+
+        # Use DeviceConnectorClass to establish the connection
+        device_connector = DeviceConnectorClass(hostname=device_name, ip=router_ip, username=router_user,
+                                                password=router_password)
+        dev = device_connector.connect_to_device()
+        if not dev:
+            raise ConnectionError(f"Unable to connect to {device_name} using hostname or IP.")
+
+        logging.info(f"Connection established to {device_name}")
+        emit_progress(router_ip, 25, 'Connected')
+        cu = Config(dev)
+
+        # Lock the configuration
+        cu.lock()
+        logging.info("Configuration locked for editing.")
+        emit_progress(router_ip, 50, 'Locked configuration')
+
+        # Prepare and load configuration
+        if isinstance(config_lines, str):
+            config_lines = config_lines.split('\n')
+        elif not isinstance(config_lines, list):
+            raise ValueError("config_lines should be a list of strings")
+        clean_config_lines = [line for line in config_lines if not line.startswith("##")]
+        config_to_load = "\n".join(clean_config_lines)
+        cu.load(config_to_load, format=config_format, ignore_warning=True)
+        emit_progress(router_ip, 75, 'Loaded configuration')
+
+        # Commit the configuration
+        cu.commit()
+        logging.info("Configuration committed successfully.")
+        emit_progress(router_ip, 100, 'Completed')
+
+        return f"** Configuration loaded successfully on {device_name} **"
+    except (LockError, UnlockError) as lock_error:
+        logging.error(f"LockError on {router_ip}: {str(lock_error)}")
+        emit_progress(router_ip, 0, 'Error', str(lock_error))
+        return f"** Error..!! {str(lock_error)} on {device_name} **"
+    except ConnectAuthError as e:
+        logging.error(f"Connection authentication error for device {router_ip}: {str(e)}")
+        return {"device": router_ip, "message": str(e)}
+    except ConnectError as e:
+        logging.error(f"Connection error for device {router_ip}: {str(e)}")
+        return {"device": router_ip, "message": str(e)}
+    except Exception as e:
+        logging.error(f"Error loading configuration on {router_ip}: {str(e)}")
+        emit_progress(router_ip, 0, 'Error', str(e))
+        if cu:
+            try:
+                cu.rollback()
+                cu.commit()
+                cu.unlock()
+                logging.info("Configuration rollback successfully.")
+                return f"** Error..!! {str(e)} Rolled back configuration on {device_name} **"
+            except Exception as rollback_error:
+                logging.error(f"Error during rollback: {str(rollback_error)}")
+                return f"** Error..!! {str(e)} Rollback failed on {device_name}: {str(rollback_error)} **"
+        return f"** Error..!! {str(e)} on {device_name} **"
+    finally:
+        if dev:
+            device_connector.close_connection(dev)
+
+
+
 def get_router_ips_from_csv(file_path):
     router_ips = []
     if os.path.exists(file_path):
@@ -1226,7 +1300,6 @@ def generate_interface_config(interface, ip_address):
         f"set interfaces {interface} unit 0 family inet address {ip_address}/30"
     ]
 
-
 def generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6, use_dlb=False, use_glb=False, use_slb=False, ip_assignments=None):
     ip_assignments = ip_assignments or {}
     subnet_counter = 1
@@ -1239,13 +1312,19 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
         if ipv6:
             return f"fd00:{subnet_counter}::{host_id}"
         else:
-            return f"192.168.{subnet_counter}.{host_id}"
+            third_octet = subnet_counter % 256  # Keep the third octet in the valid range
+            second_octet = subnet_counter // 256  # Increment second octet for overflow
+            return f"192.{168 + second_octet}.{third_octet}.{host_id}"  # Adjust ranges if needed
 
     def get_subnet(ip_address, ipv6=False):
-        if ipv6:
-            return ipaddress.ip_network(ip_address + '/64', strict=False)
-        else:
-            return ipaddress.ip_network(ip_address + '/30', strict=False)
+        try:
+            if ipv6:
+                return ipaddress.ip_network(ip_address + '/64', strict=False)
+            else:
+                return ipaddress.ip_network(ip_address + '/30', strict=False)
+        except ValueError as e:
+            logging.error(f"Invalid IP address: {ip_address}. Error: {e}")
+            raise
 
     def generate_bgp_group_config(group_name, use_ipv4=True, use_ipv6=False):
         commands = []
@@ -1257,13 +1336,12 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
 
     def generate_interface_group_config(interface, ipv4_address=None, ipv6_address=None):
         config_commands = [f"delete interfaces {interface}"]
-        logging.info(f"Configuring interface {interface} with addresses: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
-
+        #logging.info(f"Configuring interface {interface} with addresses: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
         if ipv4_address:
             config_commands.append(f"set interfaces {interface} unit 0 family inet address {ipv4_address}/30")
         if ipv6_address:
             config_commands.append(f"set interfaces {interface} unit 0 family inet6 address {ipv6_address}/64")
-
+        logging.info(config_commands)
         return config_commands
 
     def generate_bgp_neighbor_config(local_ip, neighbor_ip, local_as, remote_as, group_name):
@@ -1397,14 +1475,13 @@ def generate_config(commands, connections, local_as_mapping, delete_underlay_gro
             if interface not in skip_interfaces:  # Ensure "Unknown" and other skipped interfaces are not configured
                 ipv4_address = ip_data.get("ipv4") if use_ipv4 else None
                 ipv6_address = ip_data.get("ipv6") if use_ipv6 else None
-                logging.info(f"Generating config for interface {interface}: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
+                #logging.info(f"Generating config for interface {interface}: IPv4: {ipv4_address}, IPv6: {ipv6_address}")
                 commands[device].extend(generate_interface_group_config(interface, ipv4_address, ipv6_address))
         # Append special configurations if DLB or GLB is enabled
         append_special_config(commands[device], use_dlb, use_glb, use_slb)
         # Remove duplicate commands before logging or further usage
         commands[device] = remove_duplicates(commands[device])
         #logging.warning(f"commands for {device}: {commands[device]}")
-
 
 def check_link_health(router_details, edges):
     def get_interface_status(device, interface_name):

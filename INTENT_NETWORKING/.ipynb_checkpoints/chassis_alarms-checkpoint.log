@@ -1,0 +1,110 @@
+2024-11-22 11:24:14,555 - INFO - Connecting to device svla-q5240-08.englab.juniper.net...
+2024-11-22 11:24:14,712 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:24:15,160 - INFO - Authentication (publickey) failed.
+2024-11-22 11:24:17,617 - INFO - Authentication (password) failed.
+2024-11-22 11:24:17,618 - ERROR - Connection failed for svla-q5240-08.englab.juniper.net: ConnectAuthError(svla-q5240-08.englab.juniper.net)
+2024-11-22 11:24:17,618 - ERROR - Skipping device svla-q5240-08.englab.juniper.net due to connection issues.
+2024-11-22 11:24:43,257 - INFO - Connecting to device svla-q5240-08.englab.juniper.net...
+2024-11-22 11:24:43,332 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:24:43,821 - INFO - Authentication (publickey) failed.
+2024-11-22 11:24:43,862 - INFO - Authentication (password) successful!
+2024-11-22 11:24:44,051 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044c6fa0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2024-11-22 11:24:44,350 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044c6fa0] Received message from host
+2024-11-22 11:24:44,352 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] initialized: session-id=8886 | server_capabilities=<dict_keyiterator object at 0x104779f90>
+2024-11-22 11:24:44,353 - INFO - Successfully connected to svla-q5240-08.englab.juniper.net.
+2024-11-22 11:24:44,353 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Requesting 'ExecuteRpc'
+2024-11-22 11:24:44,453 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:4962e72d-5f42-4330-a477-8f2ad76bed9a"><get-chassis-alarms/></nc:rpc>]]>]]>'
+2024-11-22 11:24:44,477 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Received message from host
+2024-11-22 11:24:44,480 - ERROR - Failed to retrieve chassis alarms from svla-q5240-08.englab.juniper.net: RpcError(severity: error, bad_element: get-chassis-alarms, message: syntax error)
+2024-11-22 11:24:44,481 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Requesting 'CloseSession'
+2024-11-22 11:24:44,578 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:b519555c-1ea9-4061-9167-0d5f8ae8d788"><nc:close-session/></nc:rpc>]]>]]>'
+2024-11-22 11:24:44,601 - INFO - [host svla-q5240-08.englab.juniper.net session-id 8886] Received message from host
+2024-11-22 11:24:44,604 - INFO - Connection to svla-q5240-08.englab.juniper.net closed.
+2024-11-22 11:26:03,747 - INFO - Connecting to device svla-q5240-08.englab.juniper.net...
+2024-11-22 11:26:03,790 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:26:04,239 - INFO - Authentication (publickey) failed.
+2024-11-22 11:26:06,335 - INFO - Authentication (password) failed.
+2024-11-22 11:26:06,335 - ERROR - Connection failed for svla-q5240-08.englab.juniper.net: ConnectAuthError(svla-q5240-08.englab.juniper.net)
+2024-11-22 11:26:06,335 - ERROR - Skipping device svla-q5240-08.englab.juniper.net due to connection issues.
+2024-11-22 11:28:02,417 - INFO - Connecting to device svla-q5240-08.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:28:02,471 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:28:02,926 - INFO - Authentication (publickey) failed.
+2024-11-22 11:28:05,367 - INFO - Authentication (password) failed.
+2024-11-22 11:28:05,368 - ERROR - Connection failed for svla-q5240-08.englab.juniper.net: ConnectAuthError(svla-q5240-08.englab.juniper.net)
+2024-11-22 11:28:05,368 - ERROR - Skipping device svla-q5240-08.englab.juniper.net due to connection issues.
+2024-11-22 11:28:05,369 - INFO - Connecting to device svla-q5240-09.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:28:05,566 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:28:06,044 - INFO - Authentication (publickey) failed.
+2024-11-22 11:28:07,948 - INFO - Authentication (password) failed.
+2024-11-22 11:28:07,950 - ERROR - Connection failed for svla-q5240-09.englab.juniper.net: ConnectAuthError(svla-q5240-09.englab.juniper.net)
+2024-11-22 11:28:07,950 - ERROR - Skipping device svla-q5240-09.englab.juniper.net due to connection issues.
+2024-11-22 11:28:19,214 - INFO - Connecting to device svla-q5240-08.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:28:19,253 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:28:19,721 - INFO - Authentication (publickey) failed.
+2024-11-22 11:28:19,763 - INFO - Authentication (password) successful!
+2024-11-22 11:28:19,946 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044920d0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2024-11-22 11:28:20,228 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044920d0] Received message from host
+2024-11-22 11:28:20,232 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] initialized: session-id=16716 | server_capabilities=<dict_keyiterator object at 0x10478c8b0>
+2024-11-22 11:28:20,232 - INFO - Successfully connected to svla-q5240-08.englab.juniper.net.
+2024-11-22 11:28:20,233 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Requesting 'ExecuteRpc'
+2024-11-22 11:28:20,333 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:62eb4c55-168b-49d7-a88c-1c012fdc7794"><get-alarm-information/></nc:rpc>]]>]]>'
+2024-11-22 11:28:20,369 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Received message from host
+2024-11-22 11:28:20,372 - WARNING - Chassis alarms detected on svla-q5240-08.englab.juniper.net:
+2024-11-22 11:28:20,373 - WARNING - Time: None, Severity: None, Description: None
+2024-11-22 11:28:20,374 - ERROR - Unexpected error while checking alarms on svla-q5240-08.englab.juniper.net: expected string or bytes-like object
+2024-11-22 11:28:20,376 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Requesting 'CloseSession'
+2024-11-22 11:28:20,472 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:545dfbbc-3f58-4e5f-9a41-e325564d20d6"><nc:close-session/></nc:rpc>]]>]]>'
+2024-11-22 11:28:20,491 - INFO - [host svla-q5240-08.englab.juniper.net session-id 16716] Received message from host
+2024-11-22 11:28:20,494 - INFO - Connection to svla-q5240-08.englab.juniper.net closed.
+2024-11-22 11:28:20,495 - INFO - Connecting to device svla-q5240-09.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:28:20,551 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:28:21,019 - INFO - Authentication (publickey) failed.
+2024-11-22 11:28:23,617 - INFO - Authentication (password) failed.
+2024-11-22 11:28:23,618 - ERROR - Connection failed for svla-q5240-09.englab.juniper.net: ConnectAuthError(svla-q5240-09.englab.juniper.net)
+2024-11-22 11:28:23,619 - ERROR - Skipping device svla-q5240-09.englab.juniper.net due to connection issues.
+2024-11-22 11:29:55,582 - INFO - Connecting to device svla-q5240-08.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:29:55,642 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:29:56,104 - INFO - Authentication (publickey) failed.
+2024-11-22 11:29:58,701 - INFO - Authentication (password) failed.
+2024-11-22 11:29:58,701 - ERROR - Connection failed for svla-q5240-08.englab.juniper.net: ConnectAuthError(svla-q5240-08.englab.juniper.net)
+2024-11-22 11:29:58,702 - ERROR - Skipping device svla-q5240-08.englab.juniper.net due to connection issues.
+2024-11-22 11:29:58,702 - INFO - Connecting to device svla-q5240-09.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:29:58,759 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:29:59,245 - INFO - Authentication (publickey) failed.
+2024-11-22 11:30:00,693 - INFO - Authentication (password) failed.
+2024-11-22 11:30:00,694 - ERROR - Connection failed for svla-q5240-09.englab.juniper.net: ConnectAuthError(svla-q5240-09.englab.juniper.net)
+2024-11-22 11:30:00,695 - ERROR - Skipping device svla-q5240-09.englab.juniper.net due to connection issues.
+2024-11-22 11:30:13,001 - INFO - Connecting to device svla-q5240-08.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:30:13,048 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:30:13,550 - INFO - Authentication (publickey) failed.
+2024-11-22 11:30:13,589 - INFO - Authentication (password) successful!
+2024-11-22 11:30:13,774 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044ad490] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2024-11-22 11:30:14,065 - INFO - [host svla-q5240-08.englab.juniper.net session 0x1044ad490] Received message from host
+2024-11-22 11:30:14,067 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] initialized: session-id=20481 | server_capabilities=<dict_keyiterator object at 0x1047e35e0>
+2024-11-22 11:30:14,067 - INFO - Successfully connected to svla-q5240-08.englab.juniper.net.
+2024-11-22 11:30:14,068 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Requesting 'ExecuteRpc'
+2024-11-22 11:30:14,168 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:9b47a018-b6b6-4080-89f1-6d668b1640db"><get-alarm-information/></nc:rpc>]]>]]>'
+2024-11-22 11:30:14,190 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Received message from host
+2024-11-22 11:30:14,192 - WARNING - Chassis alarms detected on svla-q5240-08.englab.juniper.net:
+2024-11-22 11:30:14,193 - WARNING - Incomplete alarm data detected. Skipping alarm.
+2024-11-22 11:30:14,193 - WARNING - Incomplete alarm data detected. Skipping alarm.
+2024-11-22 11:30:14,193 - WARNING - Incomplete alarm data detected. Skipping alarm.
+2024-11-22 11:30:14,193 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Requesting 'CloseSession'
+2024-11-22 11:30:14,292 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:49d4deb0-5271-4400-b405-781d67a5a42a"><nc:close-session/></nc:rpc>]]>]]>'
+2024-11-22 11:30:14,312 - INFO - [host svla-q5240-08.englab.juniper.net session-id 20481] Received message from host
+2024-11-22 11:30:14,315 - INFO - Connection to svla-q5240-08.englab.juniper.net closed.
+2024-11-22 11:30:14,315 - INFO - Connecting to device svla-q5240-09.englab.juniper.net with a 3-second timeout...
+2024-11-22 11:30:14,378 - INFO - Connected (version 2.0, client OpenSSH_7.5)
+2024-11-22 11:30:14,846 - INFO - Authentication (publickey) failed.
+2024-11-22 11:30:16,583 - INFO - Authentication (password) failed.
+2024-11-22 11:30:16,584 - ERROR - Connection failed for svla-q5240-09.englab.juniper.net: ConnectAuthError(svla-q5240-09.englab.juniper.net)
+2024-11-22 11:30:16,585 - ERROR - Skipping device svla-q5240-09.englab.juniper.net due to connection issues.

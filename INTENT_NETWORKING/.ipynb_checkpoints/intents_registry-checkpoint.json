@@ -1,0 +1,34 @@
+{
+    "intents": {
+        "disable_interface": {
+            "description": "Disables a network interface on the specified device.",
+            "function": "disable_interface",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": ["leaf"],
+            "devices": ["Router2"],
+            "parameters": {
+                "interface_name": "ge-0/0/1"
+            }
+        },
+        "enable_interface": {
+            "description": "Enables a network interface on the specified device.",
+            "function": "enable_interface",
+            "supported_device_types": ["Router", "Switch"],
+            "tags": ["leaf","spine"],
+            "devices": [""],
+            "parameters": {
+                "interface_name": ["ge-0/0/1", "ge-0/0/2"]
+            }
+        }
+    },
+    "intent_sequence": {
+        "Router1": [
+            { "intent": "disable_interface", "iterations": 2, "sleep_timer": 1  },
+            { "intent": "enable_interface", "iterations": 2, "sleep_timer": 1 }
+        ],
+        "Router2": [
+            { "intent": "disable_interface", "iterations": 2, "sleep_timer": 1 },
+            { "intent": "enable_interface", "iterations": 2, "sleep_timer": 1 }
+        ]
+    }
+}

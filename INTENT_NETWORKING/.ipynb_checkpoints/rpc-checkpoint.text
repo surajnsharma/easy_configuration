@@ -1,0 +1,4 @@
+request pfe execute command "test picd optics fpc_slot 0 pic_slot 0 port 1 cmd oir_enable" target fpc0
+request pfe execute command "test picd optics fpc_slot 0 pic_slot 0 port 1 cmd remove" target fpc0
+request pfe execute command "test picd optics fpc_slot 0 pic_slot 0 port 1 cmd insert" target fpc0
+request pfe execute command "test picd optics fpc_slot 0 pic_slot 0 port 1 cmd oir_disable" target fpc0

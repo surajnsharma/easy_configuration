@@ -1,0 +1,49 @@
+#device_intent.yaml
+intent_sequence:
+  Router1:
+    - intent: snapshot_device_state
+      iterations: 1
+      active: "no"
+      parameters:
+        snapshot_type: "pre"
+        format: "text"
+        save_to_file: true
+        output_dir: "./snapshots"
+    - intent: disable_interface
+      iterations: 2
+      active: "yes"
+      sleep_timer: 1
+      parameters:
+        interface_name:
+          - "et-0/0/1:0"
+          - "et-0/0/1:1"
+    - intent: enable_interface
+      iterations: 2
+      active: "yes"
+      sleep_timer: 1
+      parameters:
+        fpc_slot: 0
+        pic_slot: 0
+        ports: [1:0, 1:1 ]
+    - intent: generate_alarm
+      iterations: 1
+      active: "yes"
+      sleep_timer: 1
+      parameters:
+        fpc_slot: 0
+        pic_slot: 0
+        ports: [ 0, 1 ]
+    - intent: snapshot_device_state
+      iterations: 1
+      active: "no"
+      parameters:
+        format: "text"
+        snapshot_type: "post"
+        save_to_file: true
+        output_dir: "./snapshots"
+    - intent: state_comparison
+      iterations: 1
+      active: "no"
+      parameters:
+        format: "xml"
+

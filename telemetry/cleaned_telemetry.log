@@ -1,0 +1,4186 @@
+[
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942643291
+  "time": "2024-10-30T02:26:24.942643291Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 81296
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIKAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942907557
+  "time": "2024-10-30T02:26:24.942907557Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-10270]/thread[threadName=mgd-10270]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQImAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942568973
+  "time": "2024-10-30T02:26:24.942568973Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-7566]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 49196
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQICAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942746380
+  "time": "2024-10-30T02:26:24.94274638Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]/thread[threadName=aft-sysin+-10243]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIWAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942614871
+  "time": "2024-10-30T02:26:24.942614871Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-7566]/thread[threadName=mgd-7566]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIGAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942815207
+  "time": "2024-10-30T02:26:24.942815207Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]/thread[threadName=AftTimer-0-10325]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIeAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942797483
+  "time": "2024-10-30T02:26:24.942797483Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]/thread[threadName=aft-sysin+-10244]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIaAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942728305
+  "time": "2024-10-30T02:26:24.942728305Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]/thread[threadName=aft-sysin+-10196]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQISAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942659205
+  "time": "2024-10-30T02:26:24.942659205Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=aft-sysin+-9946]/thread[threadName=aft-sysin+-9946]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIOAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942890929
+  "time": "2024-10-30T02:26:24.942890929Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-10270]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 103340
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIiAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942939310
+  "time": "2024-10-30T02:26:24.94293931Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=imgd-10667]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 5224
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIqAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942956528
+  "time": "2024-10-30T02:26:24.942956528Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=imgd-10667]/thread[threadName=imgd-10667]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIuAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943050728
+  "time": "2024-10-30T02:26:24.943050728Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=evoaft-jv+-10913]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJCAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943033568
+  "time": "2024-10-30T02:26:24.943033568Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=evoaft-jv+-10892]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQI+AgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943016389
+  "time": "2024-10-30T02:26:24.943016389Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=evoaft-jv+-10670]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQI6AgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184942973870
+  "time": "2024-10-30T02:26:24.94297387Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=imgd-10667]/thread[threadName=imgd-13425]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQIyAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943000380
+  "time": "2024-10-30T02:26:24.94300038Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 120912
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQI2AgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943117284
+  "time": "2024-10-30T02:26:24.943117284Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=evoaft-jv+-10914]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJGAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943179967
+  "time": "2024-10-30T02:26:24.943179967Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 296748
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJSAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943228983
+  "time": "2024-10-30T02:26:24.943228983Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=PktIoClns-15765]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJeAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943154803
+  "time": "2024-10-30T02:26:24.943154803Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=AftCliMan+-10988]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJOAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943136308
+  "time": "2024-10-30T02:26:24.943136308Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=evoaft-jv+-10670]/thread[threadName=DC-evoaft+-10958]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJKAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943195117
+  "time": "2024-10-30T02:26:24.943195117Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=packetio-10770]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJWAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943212039
+  "time": "2024-10-30T02:26:24.943212039Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=JunosInfo+-15764]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJaAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943367798
+  "time": "2024-10-30T02:26:24.943367798Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Resolver-15771]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJ2AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943333044
+  "time": "2024-10-30T02:26:24.943333044Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Trace-App+-15769]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJuAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943351136
+  "time": "2024-10-30T02:26:24.943351136Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Default-A+-15770]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJyAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943245522
+  "time": "2024-10-30T02:26:24.943245522Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=packetio-15766]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJiAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943296810
+  "time": "2024-10-30T02:26:24.94329681Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Jnpr-rpc-+-15767]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJmAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943315948
+  "time": "2024-10-30T02:26:24.943315948Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=pktio-app+-15768]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJqAgAFgsMj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943521787
+  "time": "2024-10-30T02:26:24.943521787Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Rpm-15777]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKOAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943384718
+  "time": "2024-10-30T02:26:24.943384718Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Wedge-Det+-15772]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJ6AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943401318
+  "time": "2024-10-30T02:26:24.943401318Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Maf-15773]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQJ+AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943418072
+  "time": "2024-10-30T02:26:24.943418072Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=l3-options-15774]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKCAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943452456
+  "time": "2024-10-30T02:26:24.943452456Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Timestamp-15775]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKGAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943486933
+  "time": "2024-10-30T02:26:24.943486933Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=PktHookUp+-15776]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKKAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943607526
+  "time": "2024-10-30T02:26:24.943607526Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=TtlExpiry-15779]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKWAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943658423
+  "time": "2024-10-30T02:26:24.943658423Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Txfp0-15796]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKmAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943556425
+  "time": "2024-10-30T02:26:24.943556425Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Rfc2544-15778]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKSAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943622650
+  "time": "2024-10-30T02:26:24.94362265Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=MacSecSvt+-15780]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKaAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943681016
+  "time": "2024-10-30T02:26:24.943681016Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Txam0-15798]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKuAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943647182
+  "time": "2024-10-30T02:26:24.943647182Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Txcp0-15782]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKiAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943669778
+  "time": "2024-10-30T02:26:24.943669778Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Txsflow0-15797]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKqAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943635819
+  "time": "2024-10-30T02:26:24.943635819Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=tunnel-15781]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKeAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943692149
+  "time": "2024-10-30T02:26:24.943692149Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=Txppm0-15799]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQKyAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943705543
+  "time": "2024-10-30T02:26:24.943705543Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=AftCliMan+-15801]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQK2AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943728665
+  "time": "2024-10-30T02:26:24.943728665Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=fp-if-pool-15803]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQK+AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943766826
+  "time": "2024-10-30T02:26:24.943766826Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-api-12098]/thread[threadName=mgd-api-12098]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLKAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943740247
+  "time": "2024-10-30T02:26:24.943740247Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=PortStats+-15804]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLCAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943717136
+  "time": "2024-10-30T02:26:24.943717136Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=packetio-10770]/thread[threadName=cp-if-pool-15802]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQK6AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943756570
+  "time": "2024-10-30T02:26:24.94375657Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-api-12098]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 76016
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLGAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943829563
+  "time": "2024-10-30T02:26:24.943829563Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-12140]/thread[threadName=mgd-12140]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLeAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943780366
+  "time": "2024-10-30T02:26:24.943780366Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-api-12098]/thread[threadName=mgd-api-t+-12333]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLOAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943791938
+  "time": "2024-10-30T02:26:24.943791938Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-api-12098]/thread[threadName=mgd-api-12370]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLSAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943803219
+  "time": "2024-10-30T02:26:24.943803219Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-api-12098]/thread[threadName=mgd-api-12371]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLWAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943819426
+  "time": "2024-10-30T02:26:24.943819426Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-12140]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 15272
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLaAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943845634
+  "time": "2024-10-30T02:26:24.943845634Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-13909]"
+  "updates": [
+    {
+      "Path": "processCpu"
+      "values": {
+        "processCpu": 0
+    {
+      "Path": "processMem"
+      "values": {
+        "processMem": 106444
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLiAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943904180
+  "time": "2024-10-30T02:26:24.94390418Z"
+  "prefix": "system-process/cpu-usage[cpuName=1]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 22
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLuAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943952151
+  "time": "2024-10-30T02:26:24.943952151Z"
+  "prefix": "system-process/cpu-usage[cpuName=5]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 8
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQL+AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943856034
+  "time": "2024-10-30T02:26:24.943856034Z"
+  "prefix": "system-process/component[name=FPC0:CPU0]/process[processName=mgd-13909]/thread[threadName=mgd-13909]"
+  "updates": [
+    {
+      "Path": "threadCpu"
+      "values": {
+        "threadCpu": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLmAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943893708
+  "time": "2024-10-30T02:26:24.943893708Z"
+  "prefix": "system-process/cpu-usage[cpuName=0]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 27
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLqAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943915501
+  "time": "2024-10-30T02:26:24.943915501Z"
+  "prefix": "system-process/cpu-usage[cpuName=2]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 5
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQLyAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943932793
+  "time": "2024-10-30T02:26:24.943932793Z"
+  "prefix": "system-process/cpu-usage[cpuName=3]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 6
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQL2AgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943962123
+  "time": "2024-10-30T02:26:24.943962123Z"
+  "prefix": "system-process/cpu-usage[cpuName=6]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 13
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQMCAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943971738
+  "time": "2024-10-30T02:26:24.943971738Z"
+  "prefix": "system-process/cpu-usage[cpuName=7]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 4
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQMGAgAFgscj72a0y"
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255371"
+  "timestamp": 1730255184943942635
+  "time": "2024-10-30T02:26:24.943942635Z"
+  "prefix": "system-process/cpu-usage[cpuName=4]"
+  "updates": [
+    {
+      "Path": "cpuUsage"
+      "values": {
+        "cpuUsage": 9
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyILc2Vuc29yXzEwMDcqIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS8yIi9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvY3B1L21lbW9yeS86C2FmdC1zeXNpbmZvQL6AgAFgscj72a0y"
+{
+  "sync-response": true
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267464654
+  "time": "2024-10-30T02:29:27.267464654Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 187206
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 24410559
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 43
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 149870
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 36876
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 460
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 187236
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 24381547
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 34
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 149844
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 36906
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 486
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {
+      "Path": "if_out_ipv4_pkts"
+      "values": {
+        "if_out_ipv4_pkts": 0
+    {
+      "Path": "if_out_ipv4_1sec_pkts"
+      "values": {
+        "if_out_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv4_bytes"
+      "values": {
+        "if_out_ipv4_bytes": 0
+    {
+      "Path": "if_out_ipv4_1sec_octets"
+      "values": {
+        "if_out_ipv4_1sec_octets": 0
+    {
+      "Path": "if_out_ipv6_pkts"
+      "values": {
+        "if_out_ipv6_pkts": 0
+    {
+      "Path": "if_out_ipv6_1sec_pkts"
+      "values": {
+        "if_out_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv6_bytes"
+      "values": {
+        "if_out_ipv6_bytes": 0
+    {
+      "Path": "if_out_ipv6_1sec_octets"
+      "values": {
+        "if_out_ipv6_1sec_octets": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAgYCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268177827
+  "time": "2024-10-30T02:29:27.268177827Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 0
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAiICAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267510624
+  "time": "2024-10-30T02:29:27.267510624Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/error-counters"
+  "updates": [
+    {
+      "Path": "if_in_errors"
+      "values": {
+        "if_in_errors": 0
+    {
+      "Path": "if_in_qdrops"
+      "values": {
+        "if_in_qdrops": 0
+    {
+      "Path": "if_in_frame_errors"
+      "values": {
+        "if_in_frame_errors": 0
+    {
+      "Path": "if_in_discards"
+      "values": {
+        "if_in_discards": 0
+    {
+      "Path": "if_in_runts"
+      "values": {
+        "if_in_runts": 0
+    {
+      "Path": "if_in_l3_incompletes"
+      "values": {
+        "if_in_l3_incompletes": 0
+    {
+      "Path": "if_in_l2chan_errors"
+      "values": {
+        "if_in_l2chan_errors": 0
+    {
+      "Path": "if_in_l2_mismatch_timeouts"
+      "values": {
+        "if_in_l2_mismatch_timeouts": 0
+    {
+      "Path": "if_in_fifo_errors"
+      "values": {
+        "if_in_fifo_errors": 0
+    {
+      "Path": "if_in_resource_errors"
+      "values": {
+        "if_in_resource_errors": 0
+    {
+      "Path": "if_out_errors"
+      "values": {
+        "if_out_errors": 0
+    {
+      "Path": "if_out_discards"
+      "values": {
+        "if_out_discards": 0
+    {
+      "Path": "ecn_ce_marked_pkts"
+      "values": {
+        "ecn_ce_marked_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAgoCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267928061
+  "time": "2024-10-30T02:29:27.267928061Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 7
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 19363
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 1543123
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAhoCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267746005
+  "time": "2024-10-30T02:29:27.267746005Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 48
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 7144
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAhICAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268022725
+  "time": "2024-10-30T02:29:27.268022725Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 8
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAh4CAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267833180
+  "time": "2024-10-30T02:29:27.26783318Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 4
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAhYCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268247456
+  "time": "2024-10-30T02:29:27.268247456Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 1
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAiYCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367267653761
+  "time": "2024-10-30T02:29:27.267653761Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 167825
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 22831280
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAg4CAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268385239
+  "time": "2024-10-30T02:29:27.268385239Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 4
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAjICAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268310895
+  "time": "2024-10-30T02:29:27.268310895Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 2
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAioCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268350203
+  "time": "2024-10-30T02:29:27.268350203Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 3
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAi4CAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268419366
+  "time": "2024-10-30T02:29:27.268419366Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 5
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAjYCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268452869
+  "time": "2024-10-30T02:29:27.268452869Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 6
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAjoCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268486672
+  "time": "2024-10-30T02:29:27.268486672Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/59:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 7
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAj4CAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268704956
+  "time": "2024-10-30T02:29:27.268704956Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/error-counters"
+  "updates": [
+    {
+      "Path": "if_in_errors"
+      "values": {
+        "if_in_errors": 0
+    {
+      "Path": "if_in_qdrops"
+      "values": {
+        "if_in_qdrops": 0
+    {
+      "Path": "if_in_frame_errors"
+      "values": {
+        "if_in_frame_errors": 0
+    {
+      "Path": "if_in_discards"
+      "values": {
+        "if_in_discards": 0
+    {
+      "Path": "if_in_runts"
+      "values": {
+        "if_in_runts": 0
+    {
+      "Path": "if_in_l3_incompletes"
+      "values": {
+        "if_in_l3_incompletes": 0
+    {
+      "Path": "if_in_l2chan_errors"
+      "values": {
+        "if_in_l2chan_errors": 0
+    {
+      "Path": "if_in_l2_mismatch_timeouts"
+      "values": {
+        "if_in_l2_mismatch_timeouts": 0
+    {
+      "Path": "if_in_fifo_errors"
+      "values": {
+        "if_in_fifo_errors": 0
+    {
+      "Path": "if_in_resource_errors"
+      "values": {
+        "if_in_resource_errors": 0
+    {
+      "Path": "if_out_errors"
+      "values": {
+        "if_out_errors": 0
+    {
+      "Path": "if_out_discards"
+      "values": {
+        "if_out_discards": 0
+    {
+      "Path": "ecn_ce_marked_pkts"
+      "values": {
+        "ecn_ce_marked_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAkoCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268662692
+  "time": "2024-10-30T02:29:27.268662692Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 0
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 0
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 0
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 0
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 0
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 0
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 0
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 0
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 0
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 0
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 0
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 0
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {
+      "Path": "if_out_ipv4_pkts"
+      "values": {
+        "if_out_ipv4_pkts": 0
+    {
+      "Path": "if_out_ipv4_1sec_pkts"
+      "values": {
+        "if_out_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv4_bytes"
+      "values": {
+        "if_out_ipv4_bytes": 0
+    {
+      "Path": "if_out_ipv4_1sec_octets"
+      "values": {
+        "if_out_ipv4_1sec_octets": 0
+    {
+      "Path": "if_out_ipv6_pkts"
+      "values": {
+        "if_out_ipv6_pkts": 0
+    {
+      "Path": "if_out_ipv6_1sec_pkts"
+      "values": {
+        "if_out_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv6_bytes"
+      "values": {
+        "if_out_ipv6_bytes": 0
+    {
+      "Path": "if_out_ipv6_1sec_octets"
+      "values": {
+        "if_out_ipv6_1sec_octets": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAkYCAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268779610
+  "time": "2024-10-30T02:29:27.26877961Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAk4CAAWDn2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269079692
+  "time": "2024-10-30T02:29:27.269079692Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 0
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAmICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268968368
+  "time": "2024-10-30T02:29:27.268968368Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 7
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAloCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268841523
+  "time": "2024-10-30T02:29:27.268841523Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAlICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269027122
+  "time": "2024-10-30T02:29:27.269027122Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 8
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAl4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367268899879
+  "time": "2024-10-30T02:29:27.268899879Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 4
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAlYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269152504
+  "time": "2024-10-30T02:29:27.269152504Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 2
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAmoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269114463
+  "time": "2024-10-30T02:29:27.269114463Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 1
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAmYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269292353
+  "time": "2024-10-30T02:29:27.269292353Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 6
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAnoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269187605
+  "time": "2024-10-30T02:29:27.269187605Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 3
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAm4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269221690
+  "time": "2024-10-30T02:29:27.26922169Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 4
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAnICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269255328
+  "time": "2024-10-30T02:29:27.269255328Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 5
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAnYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269326348
+  "time": "2024-10-30T02:29:27.269326348Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/24]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 7
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAn4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269579845
+  "time": "2024-10-30T02:29:27.269579845Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAo4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269527222
+  "time": "2024-10-30T02:29:27.269527222Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/error-counters"
+  "updates": [
+    {
+      "Path": "if_in_errors"
+      "values": {
+        "if_in_errors": 0
+    {
+      "Path": "if_in_qdrops"
+      "values": {
+        "if_in_qdrops": 0
+    {
+      "Path": "if_in_frame_errors"
+      "values": {
+        "if_in_frame_errors": 0
+    {
+      "Path": "if_in_discards"
+      "values": {
+        "if_in_discards": 0
+    {
+      "Path": "if_in_runts"
+      "values": {
+        "if_in_runts": 0
+    {
+      "Path": "if_in_l3_incompletes"
+      "values": {
+        "if_in_l3_incompletes": 0
+    {
+      "Path": "if_in_l2chan_errors"
+      "values": {
+        "if_in_l2chan_errors": 0
+    {
+      "Path": "if_in_l2_mismatch_timeouts"
+      "values": {
+        "if_in_l2_mismatch_timeouts": 0
+    {
+      "Path": "if_in_fifo_errors"
+      "values": {
+        "if_in_fifo_errors": 0
+    {
+      "Path": "if_in_resource_errors"
+      "values": {
+        "if_in_resource_errors": 0
+    {
+      "Path": "if_out_errors"
+      "values": {
+        "if_out_errors": 0
+    {
+      "Path": "if_out_discards"
+      "values": {
+        "if_out_discards": 0
+    {
+      "Path": "ecn_ce_marked_pkts"
+      "values": {
+        "ecn_ce_marked_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAooCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269489009
+  "time": "2024-10-30T02:29:27.269489009Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 0
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 0
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 0
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 0
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 0
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 0
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 0
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 0
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 0
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 0
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 0
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 0
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {
+      "Path": "if_out_ipv4_pkts"
+      "values": {
+        "if_out_ipv4_pkts": 0
+    {
+      "Path": "if_out_ipv4_1sec_pkts"
+      "values": {
+        "if_out_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv4_bytes"
+      "values": {
+        "if_out_ipv4_bytes": 0
+    {
+      "Path": "if_out_ipv4_1sec_octets"
+      "values": {
+        "if_out_ipv4_1sec_octets": 0
+    {
+      "Path": "if_out_ipv6_pkts"
+      "values": {
+        "if_out_ipv6_pkts": 0
+    {
+      "Path": "if_out_ipv6_1sec_pkts"
+      "values": {
+        "if_out_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv6_bytes"
+      "values": {
+        "if_out_ipv6_bytes": 0
+    {
+      "Path": "if_out_ipv6_1sec_octets"
+      "values": {
+        "if_out_ipv6_1sec_octets": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAoYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269725024
+  "time": "2024-10-30T02:29:27.269725024Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 7
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRApoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269628271
+  "time": "2024-10-30T02:29:27.269628271Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRApICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269673944
+  "time": "2024-10-30T02:29:27.269673944Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 4
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRApYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269940037
+  "time": "2024-10-30T02:29:27.269940037Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 3
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAq4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269864685
+  "time": "2024-10-30T02:29:27.269864685Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 1
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAqYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269825650
+  "time": "2024-10-30T02:29:27.26982565Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 0
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAqICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269898559
+  "time": "2024-10-30T02:29:27.269898559Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 2
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAqoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269771070
+  "time": "2024-10-30T02:29:27.26977107Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 8
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAp4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270010023
+  "time": "2024-10-30T02:29:27.270010023Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 5
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRArYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367269976365
+  "time": "2024-10-30T02:29:27.269976365Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 4
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRArICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270043317
+  "time": "2024-10-30T02:29:27.270043317Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 6
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAroCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270076447
+  "time": "2024-10-30T02:29:27.270076447Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:0]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 7
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAr4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270236940
+  "time": "2024-10-30T02:29:27.27023694Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 0
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 0
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 0
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 0
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 0
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 0
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 0
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 0
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 0
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 0
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 0
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 0
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {
+      "Path": "if_out_ipv4_pkts"
+      "values": {
+        "if_out_ipv4_pkts": 0
+    {
+      "Path": "if_out_ipv4_1sec_pkts"
+      "values": {
+        "if_out_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv4_bytes"
+      "values": {
+        "if_out_ipv4_bytes": 0
+    {
+      "Path": "if_out_ipv4_1sec_octets"
+      "values": {
+        "if_out_ipv4_1sec_octets": 0
+    {
+      "Path": "if_out_ipv6_pkts"
+      "values": {
+        "if_out_ipv6_pkts": 0
+    {
+      "Path": "if_out_ipv6_1sec_pkts"
+      "values": {
+        "if_out_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv6_bytes"
+      "values": {
+        "if_out_ipv6_bytes": 0
+    {
+      "Path": "if_out_ipv6_1sec_octets"
+      "values": {
+        "if_out_ipv6_1sec_octets": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAsYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270277513
+  "time": "2024-10-30T02:29:27.270277513Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/error-counters"
+  "updates": [
+    {
+      "Path": "if_in_errors"
+      "values": {
+        "if_in_errors": 0
+    {
+      "Path": "if_in_qdrops"
+      "values": {
+        "if_in_qdrops": 0
+    {
+      "Path": "if_in_frame_errors"
+      "values": {
+        "if_in_frame_errors": 0
+    {
+      "Path": "if_in_discards"
+      "values": {
+        "if_in_discards": 0
+    {
+      "Path": "if_in_runts"
+      "values": {
+        "if_in_runts": 0
+    {
+      "Path": "if_in_l3_incompletes"
+      "values": {
+        "if_in_l3_incompletes": 0
+    {
+      "Path": "if_in_l2chan_errors"
+      "values": {
+        "if_in_l2chan_errors": 0
+    {
+      "Path": "if_in_l2_mismatch_timeouts"
+      "values": {
+        "if_in_l2_mismatch_timeouts": 0
+    {
+      "Path": "if_in_fifo_errors"
+      "values": {
+        "if_in_fifo_errors": 0
+    {
+      "Path": "if_in_resource_errors"
+      "values": {
+        "if_in_resource_errors": 0
+    {
+      "Path": "if_out_errors"
+      "values": {
+        "if_out_errors": 0
+    {
+      "Path": "if_out_discards"
+      "values": {
+        "if_out_discards": 0
+    {
+      "Path": "ecn_ce_marked_pkts"
+      "values": {
+        "ecn_ce_marked_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAsoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270353302
+  "time": "2024-10-30T02:29:27.270353302Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAs4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270485987
+  "time": "2024-10-30T02:29:27.270485987Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 4
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAtYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270421025
+  "time": "2024-10-30T02:29:27.270421025Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAtICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270737289
+  "time": "2024-10-30T02:29:27.270737289Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 2
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAuoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270618529
+  "time": "2024-10-30T02:29:27.270618529Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 8
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAt4CAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270552620
+  "time": "2024-10-30T02:29:27.27055262Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 7
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAtoCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270669005
+  "time": "2024-10-30T02:29:27.270669005Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 0
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAuICAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270704333
+  "time": "2024-10-30T02:29:27.270704333Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 1
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAuYCAAWDo2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270770603
+  "time": "2024-10-30T02:29:27.270770603Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 3
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAu4CAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270840962
+  "time": "2024-10-30T02:29:27.270840962Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 5
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAvYCAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270806881
+  "time": "2024-10-30T02:29:27.270806881Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 4
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAvICAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270908180
+  "time": "2024-10-30T02:29:27.27090818Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 7
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAv4CAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367270874384
+  "time": "2024-10-30T02:29:27.270874384Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/32]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 6
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAvoCAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367371642960
+  "time": "2024-10-30T02:29:27.37164296Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAw4CAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367271067588
+  "time": "2024-10-30T02:29:27.271067588Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 0
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 0
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 0
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 0
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 0
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 0
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 0
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 0
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 0
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 0
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 0
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 0
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {
+      "Path": "if_out_ipv4_pkts"
+      "values": {
+        "if_out_ipv4_pkts": 0
+    {
+      "Path": "if_out_ipv4_1sec_pkts"
+      "values": {
+        "if_out_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv4_bytes"
+      "values": {
+        "if_out_ipv4_bytes": 0
+    {
+      "Path": "if_out_ipv4_1sec_octets"
+      "values": {
+        "if_out_ipv4_1sec_octets": 0
+    {
+      "Path": "if_out_ipv6_pkts"
+      "values": {
+        "if_out_ipv6_pkts": 0
+    {
+      "Path": "if_out_ipv6_1sec_pkts"
+      "values": {
+        "if_out_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_out_ipv6_bytes"
+      "values": {
+        "if_out_ipv6_bytes": 0
+    {
+      "Path": "if_out_ipv6_1sec_octets"
+      "values": {
+        "if_out_ipv6_1sec_octets": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAwYCAAWDp2IbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367371359261
+  "time": "2024-10-30T02:29:27.371359261Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/error-counters"
+  "updates": [
+    {
+      "Path": "if_in_errors"
+      "values": {
+        "if_in_errors": 0
+    {
+      "Path": "if_in_qdrops"
+      "values": {
+        "if_in_qdrops": 0
+    {
+      "Path": "if_in_frame_errors"
+      "values": {
+        "if_in_frame_errors": 0
+    {
+      "Path": "if_in_discards"
+      "values": {
+        "if_in_discards": 0
+    {
+      "Path": "if_in_runts"
+      "values": {
+        "if_in_runts": 0
+    {
+      "Path": "if_in_l3_incompletes"
+      "values": {
+        "if_in_l3_incompletes": 0
+    {
+      "Path": "if_in_l2chan_errors"
+      "values": {
+        "if_in_l2chan_errors": 0
+    {
+      "Path": "if_in_l2_mismatch_timeouts"
+      "values": {
+        "if_in_l2_mismatch_timeouts": 0
+    {
+      "Path": "if_in_fifo_errors"
+      "values": {
+        "if_in_fifo_errors": 0
+    {
+      "Path": "if_in_resource_errors"
+      "values": {
+        "if_in_resource_errors": 0
+    {
+      "Path": "if_out_errors"
+      "values": {
+        "if_out_errors": 0
+    {
+      "Path": "if_out_discards"
+      "values": {
+        "if_out_discards": 0
+    {
+      "Path": "ecn_ce_marked_pkts"
+      "values": {
+        "ecn_ce_marked_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAwoCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367371814120
+  "time": "2024-10-30T02:29:27.37181412Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAxICAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372295731
+  "time": "2024-10-30T02:29:27.372295731Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 0
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAyICAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367371947083
+  "time": "2024-10-30T02:29:27.371947083Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 4
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAxYCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372070667
+  "time": "2024-10-30T02:29:27.372070667Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 7
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAxoCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372220315
+  "time": "2024-10-30T02:29:27.372220315Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 8
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAx4CAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372332471
+  "time": "2024-10-30T02:29:27.372332471Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 1
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAyYCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372366856
+  "time": "2024-10-30T02:29:27.372366856Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 2
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAyoCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372468215
+  "time": "2024-10-30T02:29:27.372468215Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 5
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAzYCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372534601
+  "time": "2024-10-30T02:29:27.372534601Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 7
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAz4CAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372501524
+  "time": "2024-10-30T02:29:27.372501524Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 6
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAzoCAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372400867
+  "time": "2024-10-30T02:29:27.372400867Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 3
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAy4CAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372434688
+  "time": "2024-10-30T02:29:27.372434688Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/8:4]/state/pfc-counter"
+  "updates": [
+    {
+      "Path": "priority"
+      "values": {
+        "priority": 4
+    {
+      "Path": "rx_pkts"
+      "values": {
+        "rx_pkts": 0
+    {
+      "Path": "tx_pkts"
+      "values": {
+        "tx_pkts": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRAzICAAWDP2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372802178
+  "time": "2024-10-30T02:29:27.372802178Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/21]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 0
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRA04CAAWDQ2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372860436
+  "time": "2024-10-30T02:29:27.372860436Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/21]/state/queue-counters"
+  "updates": [
+    {
+      "Path": "queue"
+      "values": {
+        "queue": 3
+    {
+      "Path": "txPkts"
+      "values": {
+        "txPkts": 0
+    {
+      "Path": "txBytes"
+      "values": {
+        "txBytes": 0
+    {
+      "Path": "tailDropPkts"
+      "values": {
+        "tailDropPkts": 0
+    {
+      "Path": "tailDropBytes"
+      "values": {
+        "tailDropBytes": 0
+  "extensions": [
+    {
+      "Ext": {
+        "RegisteredExt": {
+          "id": 1
+          "msg": "CgtueS1xNTI0MC0xMyIPc2Vuc29yXzEwMDdfMV8xKiEvanVub3Mvc3lzdGVtL2xpbmVjYXJkL2ludGVyZmFjZS8yIS9qdW5vcy9zeXN0ZW0vbGluZWNhcmQvaW50ZXJmYWNlLzoLZXZvLXBmZW1hbmRA1ICAAWDQ2YbarTI="
+{
+  "source": "10.155.0.53:57400"
+  "subscription-name": "default-1730255553"
+  "timestamp": 1730255367372701489
+  "time": "2024-10-30T02:29:27.372701489Z"
+  "prefix": "interfaces/interface[if_name=et-0/0/21]/state/counters"
+  "updates": [
+    {
+      "Path": "if_in_pkts"
+      "values": {
+        "if_in_pkts": 0
+    {
+      "Path": "if_in_octets"
+      "values": {
+        "if_in_octets": 0
+    {
+      "Path": "if_in_1sec_pkts"
+      "values": {
+        "if_in_1sec_pkts": 0
+    {
+      "Path": "if_in_1sec_octets"
+      "values": {
+        "if_in_1sec_octets": 0
+    {
+      "Path": "if_in_uc_pkts"
+      "values": {
+        "if_in_uc_pkts": 0
+    {
+      "Path": "if_in_mc_pkts"
+      "values": {
+        "if_in_mc_pkts": 0
+    {
+      "Path": "if_in_bc_pkts"
+      "values": {
+        "if_in_bc_pkts": 0
+    {
+      "Path": "if_in_pause_pkts"
+      "values": {
+        "if_in_pause_pkts": 0
+    {
+      "Path": "if_in_ipv4_pkts"
+      "values": {
+        "if_in_ipv4_pkts": 0
+    {
+      "Path": "if_in_ipv4_1sec_pkts"
+      "values": {
+        "if_in_ipv4_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv4_bytes"
+      "values": {
+        "if_in_ipv4_bytes": 0
+    {
+      "Path": "if_in_ipv4_1sec_octets"
+      "values": {
+        "if_in_ipv4_1sec_octets": 0
+    {
+      "Path": "if_in_ipv6_pkts"
+      "values": {
+        "if_in_ipv6_pkts": 0
+    {
+      "Path": "if_in_ipv6_1sec_pkts"
+      "values": {
+        "if_in_ipv6_1sec_pkts": 0
+    {
+      "Path": "if_in_ipv6_bytes"
+      "values": {
+        "if_in_ipv6_bytes": 0
+    {
+      "Path": "if_in_ipv6_1sec_octets"
+      "values": {
+        "if_in_ipv6_1sec_octets": 0
+    {
+      "Path": "if_out_pkts"
+      "values": {
+        "if_out_pkts": 0
+    {
+      "Path": "if_out_octets"
+      "values": {
+        "if_out_octets": 0
+    {
+      "Path": "if_out_1sec_pkts"
+      "values": {
+        "if_out_1sec_pkts": 0
+    {
+      "Path": "if_out_1sec_octets"
+      "values": {
+        "if_out_1sec_octets": 0
+    {
+      "Path": "if_out_uc_pkts"
+      "values": {
+        "if_out_uc_pkts": 0
+    {
+      "Path": "if_out_mc_pkts"
+      "values": {
+        "if_out_mc_pkts": 0
+    {
+      "Path": "if_out_bc_pkts"
+      "values": {
+        "if_out_bc_pkts": 0
+    {
+      "Path": "if_out_pause_pkts"
+      "values": {
+        "if_out_pause_pkts": 0
+    {

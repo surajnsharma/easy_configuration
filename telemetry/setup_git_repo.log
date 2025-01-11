@@ -1,0 +1,218 @@
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+Enter your choice (1 for update, 2 for push): SSH key already exists. Key location: /root/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+Testing SSH connection to GitHub...
+SSH connection to GitHub was successful.
+Checking for files larger than 100 MB to track with Git LFS...
+Staging and committing changes...
+[main ae28563] Auto-commit: updating remote repository
+ 1 file changed, 12 insertions(+), 64 deletions(-)
+To github.com:surajnsharma/telemetry.git
+   1e4c78c..ae28563  main -> main
+Changes successfully pushed to the remote repository.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+[main 8099ae9] Auto-commit: updating remote repository
+ 3 files changed, 166 insertions(+), 103 deletions(-)
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+[main f99374e] Auto-commit: updating remote repository
+ 1 file changed, 30 insertions(+)
+To github.com:surajnsharma/telemetry.git
+   ae28563..f99374e  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+[main dc4cc27] Auto-commit: updating remote repository
+ 2 files changed, 72 insertions(+)
+ create mode 100644 how
+To github.com:surajnsharma/telemetry.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:surajnsharma/telemetry.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...
+[main d179fac] Auto-commit: updating remote repository
+ 2 files changed, 214 insertions(+), 22 deletions(-)
+To github.com:surajnsharma/telemetry.git
+   dc4cc27..d179fac  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: telemetry
+Remote URL: git@github.com:surajnsharma/telemetry.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/telemetry.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkbK4spQ2FwUVJLBGmoT1bXPz0BoNNw0BGttugSTFiz 
+
+Press Enter after adding the SSH key to GitHub...
+sed: can't read /Host github.com/,+2d: No such file or directory
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

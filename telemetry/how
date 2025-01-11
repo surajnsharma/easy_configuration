@@ -1,0 +1,49 @@
+[33mca4614c[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit: Auto-commit: updating remote repository
+[33mab0ef56[m HEAD@{1}: commit: Auto-commit: updating remote repository
+[33md9062ba[m HEAD@{2}: commit: Track large file ./prometheus-2.54.1.linux-amd64/prometheus with Git LFS
+[33me541e14[m HEAD@{3}: commit: Track large file ./prometheus-2.54.1.linux-amd64/promtool with Git LFS
+[33m5ff2a7e[m HEAD@{4}: commit: Track large file ./prometheus-2.54.1.linux-amd64.tar.gz with Git LFS
+[33m6ac167e[m HEAD@{5}: reset: moving to HEAD
+[33m6ac167e[m HEAD@{6}: commit: Auto-commit: updating remote repository
+[33mdc2d88a[m HEAD@{7}: pull origin main: Merge made by the 'ort' strategy.
+[33me489c99[m HEAD@{8}: reset: moving to HEAD
+[33me489c99[m HEAD@{9}: commit: Auto-commit: updating remote repository
+[33mf99374e[m HEAD@{10}: commit: Auto-commit: updating remote repository
+[33m8099ae9[m HEAD@{11}: commit: Auto-commit: updating remote repository
+[33mae28563[m HEAD@{12}: commit: Auto-commit: updating remote repository
+[33m1e4c78c[m HEAD@{13}: commit: Auto-commit: updating remote repository
+[33m019da08[m HEAD@{14}: commit: Auto-commit: updating remote repository
+[33m831bf78[m HEAD@{15}: commit: Auto-commit: updating remote repository
+[33mb45620e[m HEAD@{16}: commit: Auto-commit: updating remote repository
+[33md732941[m HEAD@{17}: commit: Auto-commit: updating remote repository
+[33m2a7fe1b[m HEAD@{18}: commit: Auto-commit: updating remote repository
+[33mc9c2c85[m HEAD@{19}: commit: Auto-commit: updating remote repository
+[33m3fc66b2[m HEAD@{20}: commit: Auto-commit: updates to repository
+[33m849b6c8[m HEAD@{21}: Branch: renamed refs/heads/main to refs/heads/main
+[33m849b6c8[m HEAD@{23}: commit: Auto-commit: updating remote repository
+[33m52e3dbf[m HEAD@{24}: commit: Auto-commit: updating remote repository
+[33m22228e2[m HEAD@{25}: commit: Auto-commit: updating remote repository
+[33m54ac7e0[m HEAD@{26}: commit: Auto-commit: updates to repository
+[33m69b7de5[m HEAD@{27}: Branch: renamed refs/heads/main to refs/heads/main
+[33m69b7de5[m HEAD@{29}: commit: Auto-commit: updates to repository
+[33m2adf806[m HEAD@{30}: Branch: renamed refs/heads/main to refs/heads/main
+[33m2adf806[m HEAD@{32}: reset: moving to origin/main
+[33m2adf806[m HEAD@{33}: rebase (continue) (finish): returning to refs/heads/main
+[33m2adf806[m HEAD@{34}: rebase (continue): Auto-commit: updates to repository
+[33m7ebadfd[m HEAD@{35}: pull origin main --rebase (start): checkout 7ebadfdf0f8a2547e534f807c2c514a36a7a1304
+[33mf8ce5c4[m HEAD@{36}: commit: Auto-commit: updates to repository
+[33m010957d[m HEAD@{37}: Branch: renamed refs/heads/main to refs/heads/main
+[33m010957d[m HEAD@{39}: commit: Auto-commit: updates to repository
+[33mece85b6[m HEAD@{40}: Branch: renamed refs/heads/main to refs/heads/main
+[33mece85b6[m HEAD@{42}: commit: Auto-commit: updates to repository
+[33m479a6c6[m HEAD@{43}: Branch: renamed refs/heads/main to refs/heads/main
+[33m479a6c6[m HEAD@{45}: commit: Auto-commit: updates to repository
+[33m3fec773[m HEAD@{46}: Branch: renamed refs/heads/main to refs/heads/main
+[33m3fec773[m HEAD@{48}: commit: Auto-commit: updates to repository
+[33m9b20d52[m HEAD@{49}: Branch: renamed refs/heads/main to refs/heads/main
+[33m9b20d52[m HEAD@{51}: filter-branch: rewrite
+[33m85246ac[m[33m ([m[mrefs/original/refs/heads/main[m[33m)[m HEAD@{52}: commit: Remove large prometheus file
+[33m8caf1a9[m HEAD@{53}: commit: Add prometheus binary using Git LFS
+[33m3a77861[m HEAD@{54}: commit: Track large files using Git LFS
+[33m3bf9b26[m HEAD@{55}: Branch: renamed refs/heads/master to refs/heads/main
+[33m3bf9b26[m HEAD@{57}: commit (initial): first commit

@@ -1,0 +1,136 @@
+2024-10-24T04:03:51Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T04:03:51Z I! Loaded aggregators: 
+2024-10-24T04:03:51Z I! Loaded processors: 
+2024-10-24T04:03:51Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T04:03:51Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T04:04:11Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T04:04:31Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T04:04:51Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T04:04:51Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T04:05:16Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T04:05:16Z I! Loaded aggregators: 
+2024-10-24T04:05:16Z I! Loaded processors: 
+2024-10-24T04:05:16Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T04:05:16Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T04:05:36Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T04:05:56Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T04:06:16Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T04:06:16Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T04:10:50Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T04:10:50Z I! Loaded aggregators: 
+2024-10-24T04:10:50Z I! Loaded processors: 
+2024-10-24T04:10:50Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T04:10:50Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T04:11:10Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T04:11:30Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T04:11:50Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T04:11:50Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T04:25:51Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T04:25:51Z I! Loaded aggregators: 
+2024-10-24T04:25:51Z I! Loaded processors: 
+2024-10-24T04:25:51Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T04:25:51Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T04:26:11Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T04:26:31Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T04:26:51Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T04:26:51Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T21:54:29Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T21:54:29Z I! Loaded aggregators: 
+2024-10-24T21:54:29Z I! Loaded processors: 
+2024-10-24T21:54:29Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T21:54:29Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T21:54:49Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T21:55:09Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T21:55:29Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T21:55:29Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:05:23Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:05:23Z I! Loaded aggregators: 
+2024-10-24T22:05:23Z I! Loaded processors: 
+2024-10-24T22:05:23Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:05:23Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:05:43Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:06:03Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:06:23Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:06:23Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:07:45Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:07:45Z I! Loaded aggregators: 
+2024-10-24T22:07:45Z I! Loaded processors: 
+2024-10-24T22:07:45Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:07:45Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:08:05Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:08:25Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:08:45Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:08:45Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:16:30Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:16:30Z I! Loaded aggregators: 
+2024-10-24T22:16:30Z I! Loaded processors: 
+2024-10-24T22:16:30Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:16:30Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:16:50Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:17:10Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:17:30Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:17:30Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:42:01Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:42:01Z I! Loaded aggregators: 
+2024-10-24T22:42:01Z I! Loaded processors: 
+2024-10-24T22:42:01Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:42:01Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:42:21Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:42:41Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:43:01Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:43:01Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:49:24Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:49:24Z I! Loaded aggregators: 
+2024-10-24T22:49:24Z I! Loaded processors: 
+2024-10-24T22:49:24Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:49:24Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:49:44Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:50:04Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:50:24Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:50:24Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T22:52:42Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T22:52:42Z I! Loaded aggregators: 
+2024-10-24T22:52:42Z I! Loaded processors: 
+2024-10-24T22:52:42Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T22:52:42Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T22:53:02Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T22:53:22Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T22:53:42Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T22:53:42Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T23:00:06Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T23:00:06Z I! Loaded aggregators: 
+2024-10-24T23:00:06Z I! Loaded processors: 
+2024-10-24T23:00:06Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T23:00:06Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T23:00:26Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T23:00:46Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T23:01:06Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T23:01:06Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T23:08:42Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T23:08:42Z I! Loaded aggregators: 
+2024-10-24T23:08:42Z I! Loaded processors: 
+2024-10-24T23:08:42Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T23:08:42Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T23:09:02Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.1:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.1:57400: i/o timeout"
+2024-10-24T23:09:22Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 192.168.1.2:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 192.168.1.2:57400: i/o timeout"
+2024-10-24T23:09:42Z E! [inputs.jti_openconfig_telemetry] Could not initiate login check for 194.168.1.3:57400: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial tcp 194.168.1.3:57400: i/o timeout"
+2024-10-24T23:09:42Z E! [telegraf] Error running agent: input plugins recorded 3 errors
+2024-10-24T23:15:32Z I! Loaded inputs: jti_openconfig_telemetry
+2024-10-24T23:15:32Z I! Loaded aggregators: 
+2024-10-24T23:15:32Z I! Loaded processors: 
+2024-10-24T23:15:32Z W! [31mOutputs are not used in testing mode![0m
+2024-10-24T23:15:32Z I! Tags enabled: host=q-dell-srv01
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: failed to read from 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: failed to read from 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: failed to read from 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: failed to read from 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [inputs.jti_openconfig_telemetry] Error in plugin: could not subscribe to 10.48.55.38: rpc error: code = Canceled desc = grpc: the client connection is closing
+2024-10-24T23:15:32Z E! [telegraf] Error running agent: input plugins recorded 13 errors

@@ -1,0 +1,22 @@
+global:
+  username: "root"
+  password: "Embe1mpls"
+
+devices:
+  - name: "Router1"
+    host: "svla-q5240-06.englab.juniper.net"
+    username: "root"
+    password: "Embe1mpls"
+    type: "Switch"
+    tags: ["leaf", "bgp-enabled"]
+
+  - name: "Router2"
+    host: "svla-q5240-08.englab.juniper.net"
+    # No device-specific credentials; fallback to global credentials
+    type: "Switch"
+    tags: ["spine", "bgp-enabled"]
+
+  - name: "Switch1"
+    host: "svla-q5240-03.englab.juniper.net"
+    type: "GPU"
+    tags: ["leaf", "cluster"]

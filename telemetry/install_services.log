@@ -1,0 +1,8 @@
+Enter gnmic download URL (Press Enter to use default or type a new URL): Enter OpenTelemetry Collector download URL (Press Enter to use default or type a new URL): Enter Prometheus download URL (Press Enter to use default or type a new URL): Choose an action:
+1) Install services
+2) Uninstall services
+3) Check status of services
+4) Restart services
+5) Troubleshooting
+6) Back to main script
+Enter your choice: 

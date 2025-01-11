@@ -1,0 +1,7 @@
+/junos/system/linecard/cpu/memory
+/junos/system/linecard/firewall/
+/junos/system/linecard/interface/
+/junos/system/linecard/interface/logical/usage
+/junos/system/linecard/packet/usage/
+/interfaces/interface/state/
+/junos/system/linecard/optics/

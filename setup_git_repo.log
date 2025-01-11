@@ -686,3 +686,131 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 Press Enter after adding the SSH key to GitHub...
 SSH configuration updated to use id_ed25519 for GitHub.
 Checking for files larger than 100 MB to track with Git LFS...
+[main 6bc83b0] Auto-commit: updating remote repository
+ 114 files changed, 1613812 insertions(+), 804 deletions(-)
+ rename telemetry/.ipynb_checkpoints/Untitled-checkpoint.ipynb => .ipynb_checkpoints/Untitled2-checkpoint.ipynb (100%)
+ create mode 100644 INTENT_NETWORKING/.DS_Store
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/Untitled-Copy1-checkpoint.ipynb
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/alarm-checkpoint.text
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/alarm_recovery-checkpoint.py
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/chassis_alarms-checkpoint.log
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/creds-checkpoint.yaml
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/debug-checkpoint.log
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/device_creds-checkpoint.yaml
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/intent_functions-checkpoint.py
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/intents_registry-checkpoint.json
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/rpc-checkpoint.text
+ create mode 100644 INTENT_NETWORKING/.ipynb_checkpoints/test-checkpoint.py
+ create mode 100644 INTENT_NETWORKING/README.md
+ create mode 100644 INTENT_NETWORKING/Untitled-Copy1.ipynb
+ create mode 100644 INTENT_NETWORKING/Untitled.ipynb
+ create mode 100644 INTENT_NETWORKING/alarm_recovery/alarm.text
+ create mode 100644 INTENT_NETWORKING/alarm_recovery/alarm_recovery.py
+ create mode 100644 INTENT_NETWORKING/alarm_recovery/chassis_alarms.log
+ create mode 100644 INTENT_NETWORKING/alarm_recovery/creds.yaml
+ create mode 100644 INTENT_NETWORKING/alarm_recovery/rpc.text
+ create mode 100644 INTENT_NETWORKING/debug.log
+ create mode 100644 INTENT_NETWORKING/device_creds.yaml
+ create mode 100644 INTENT_NETWORKING/device_intent.yaml
+ create mode 100644 INTENT_NETWORKING/intent_functions.py
+ create mode 100644 INTENT_NETWORKING/intents_registry.json
+ create mode 100644 INTENT_NETWORKING/requirements.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/diffs/svla-q5240-06.englab.juniper.net_diff.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/diffs/svla-q5240-08.englab.juniper.net_diff.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/general/svla-q5240-06.englab.juniper.net_general.xml
+ create mode 100644 INTENT_NETWORKING/snapshots/post/svla-q5240-06.englab.juniper.net_post.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/post/svla-q5240-06.englab.juniper.net_post.xml
+ create mode 100644 INTENT_NETWORKING/snapshots/post/svla-q5240-08.englab.juniper.net_post.xml
+ create mode 100644 INTENT_NETWORKING/snapshots/pre/svla-q5240-06.englab.juniper.net_pre.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/pre/svla-q5240-06.englab.juniper.net_pre.xml
+ create mode 100644 INTENT_NETWORKING/snapshots/pre/svla-q5240-08.englab.juniper.net_pre.xml
+ create mode 100644 INTENT_NETWORKING/test.py
+ create mode 100644 OSTG/.DS_Store
+ create mode 100644 OSTG/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+ create mode 100644 OSTG/.ipynb_checkpoints/Untitled1-checkpoint.ipynb
+ create mode 100644 OSTG/README.md
+ create mode 100644 OSTG/Untitled.ipynb
+ create mode 100644 OSTG/Untitled1.ipynb
+ create mode 100644 OSTG/interfaces.txt
+ create mode 100644 OSTG/ostg.py
+ create mode 100644 OSTG/removed_interfaces.txt
+ create mode 100644 OSTG/resources/.DS_Store
+ create mode 100644 OSTG/resources/icons/Trash.png
+ create mode 100644 OSTG/resources/icons/add.png
+ create mode 100644 OSTG/resources/icons/copy.png
+ create mode 100644 OSTG/resources/icons/edit.png
+ create mode 100644 OSTG/resources/icons/green_dot.png
+ create mode 100644 OSTG/resources/icons/paste.png
+ create mode 100644 OSTG/resources/icons/readd.png
+ create mode 100644 OSTG/resources/icons/red_dot.png
+ create mode 100644 OSTG/resources/icons/remove.png
+ create mode 100644 OSTG/resources/icons/save.png
+ create mode 100644 OSTG/resources/icons/start.png
+ create mode 100644 OSTG/resources/icons/stop.png
+ create mode 100644 OSTG/server.py
+ create mode 100644 OSTG/server_interfaces.txt
+ create mode 100644 OSTG/serverbkp.py
+ create mode 100644 OSTG/session.json
+ create mode 100644 OSTG/temp.py
+ create mode 100644 OSTG/test2.py
+ create mode 100644 ROBOT_LOG_PARSER/README.md
+ create mode 100644 Untitled2.ipynb
+ create mode 100644 app/device_config/admin/spine_2_vxlan_config.txt
+ create mode 100644 app/device_config/test/commands_lldp.json
+ create mode 100644 app/device_config/test/svla-q5240-03_config.txt
+ create mode 100644 app/device_config/test/svla-q5240-06_config.txt
+ create mode 100644 app/device_config/test/svla-q5240-08_config.txt
+ create mode 100644 app/logs/test/debug.log
+ create mode 100644 telemetry/.git_config
+ create mode 100644 telemetry/.git_dir_config
+ create mode 100644 telemetry/.gitattributes
+ create mode 100644 telemetry/README.md
+ create mode 100644 telemetry/cleaned_telemetry.log
+ create mode 100644 telemetry/config_telegraf.sh
+ create mode 100644 telemetry/config_telegraf.sh.org
+ create mode 100644 telemetry/devices.text
+ create mode 100644 telemetry/filtered_telemetry.log
+ create mode 100644 telemetry/gnmic.sh
+ create mode 100644 telemetry/gnmic.sh.org
+ create mode 100644 telemetry/gnmic_0.38.2_linux_x86_64.tar.gz
+ create mode 100644 telemetry/gnmic_telemetry.log
+ create mode 100644 telemetry/how
+ create mode 100644 telemetry/install.sh
+ create mode 100644 telemetry/install.sh.org
+ create mode 100644 telemetry/install_services.log
+ create mode 100644 telemetry/otel-collector-config.yaml
+ create mode 100644 telemetry/otelcol.log
+ create mode 100644 telemetry/otelcol_0.111.0_linux_amd64.tar.gz
+ create mode 100644 telemetry/sensor.text
+ create mode 100644 telemetry/setup_git_repo.log
+ create mode 100755 telemetry/setup_git_repo.sh
+ create mode 100755 telemetry/setup_telemetry.sh
+ create mode 100644 telemetry/structured_telemetry.json
+ create mode 100644 telemetry/telegraf.log
+ create mode 100644 telemetry/telegraf_generated.conf
+ create mode 100755 telemetry/test.sh
+To github.com:surajnsharma/easy_configuration.git
+   c1a1c46..6bc83b0  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

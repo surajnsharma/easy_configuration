@@ -11,7 +11,7 @@ devices:
     tags: ["leaf", "bgp-enabled"]
 
   - name: "Router2"
-    host: "svla-q5240-08.englab.juniper.net"
+    host: "svla-q5240-03.englab.juniper.net"
     # No device-specific credentials; fallback to global credentials
     type: "Switch"
     tags: ["spine", "bgp-enabled"]

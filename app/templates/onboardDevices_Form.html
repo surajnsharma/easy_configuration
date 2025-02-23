@@ -6,17 +6,15 @@
     <title>Onboard Devices</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="static/onboard_devices.js"></script>
+
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
 </head>
-<style>
+<!--style>
     /* Basic Modal Styles */
 .modal {
     display: none;
@@ -42,7 +40,7 @@
     margin-top: 20px;
 }
 
-</style>
+</style-->
 <body>
 
     <!--h2 class="mb-4 fw-bold text-center"> Device Onboarding</h2-->
@@ -123,33 +121,68 @@
         </div>
         <!-- Onboarding devices table -->
         <h6 class="mb-3 fw-bold">Onboarded Devices</h6>
-        <div class="table-responsive mb-3">
-            <table id="onboardedDevicesTable" class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Select</th>
-                        <th>Hostname</th>
-                        <th>IP Address</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Actions</th>
-                        <th>Progress</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-device-id="1">
-                        <td><input type="checkbox" class="device-checkbox"></td>
-                        <td>Device 1</td>
-                        <td>192.168.1.1</td>
-                        <td>admin</td>
-                        <td>password</td>
-                        <td><!-- Action buttons --></td>
-                        <td class="progress-cell">0%</td>
-                    </tr>
-                    <!-- More rows can be added dynamically here -->
-                </tbody>
-            </table>
-        </div>
+
+
+
+<div class="table-responsive mb-3">
+    <table id="onboardedDevicesTable" class="table table-bordered table-hover align-middle">
+        <thead class="thead-dark">
+            <tr>
+                <th style="width: 50px;">
+                    <input type="checkbox" id="selectAllDevices">
+                </th>
+                <th>
+                    <i id="expandAllIcon" class="fa-solid fa-angles-down"
+                       onclick="toggleAllRows()" style="cursor: pointer; margin-right: 8px; display: inline-block;"></i>
+                    Hostname
+                </th>
+
+                <th>IP Address</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Version</th>
+                <th>Actions</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-device-id="svla-q5240-03">
+                <td><input type="checkbox" class="device-checkbox"></td>
+                <td>
+                    <i class="fas fa-chevron-down dropdown-icon" onclick="toggleRow(this)" style="cursor: pointer; margin-right: 5px;"></i>
+                    svla-q5240-03
+                </td>
+                <td>192.168.1.1</td>
+                <td><input type="text" value="root"></td>
+                <td><input type="text" class="passwordInput" value="Embe1mpls"></td>
+                <td>18.4R3-S1.3</td>
+                <td> </td>
+                <td class="progress-status-cell">
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr class="expandable-row" style="display: none;">
+                <td colspan="8">
+                    <div style="display: flex; justify-content: space-between; padding: 5px;">
+                        <span><strong>Model:</strong> QFX5240-64OD</span>
+                        <span><strong>Serial Number:</strong> AO10026048</span>
+                        <span><strong>Up Time:</strong> 18 hours, 56 minutes, 57 seconds</span>
+                        <span><strong>Last Reboot Reason:</strong> software reboot</span>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
 
         <!-- Action buttons -->
 
@@ -157,6 +190,7 @@
             <button type="button" id="addDeviceBtn" class="btn text-white" style="background-color: #343a40;">Add Device</button>
             <button type="button" id="saveAllBtn" class="btn text-white" style="background-color: #343a40;">Save Config All</button>
             <button type="button" id="restoreAllBtn" class="btn text-white" style="background-color: #343a40;">Restore All</button>
+            <button type="button" id="deleteSelectedDevices" class="btn text-white" style="background-color: #343a40;">Delete Device</button>
         </div>
 
         <div id="fileContentEditor" class="hidden">
@@ -187,19 +221,20 @@
 
 
         <!-- Progress Modal -->
-        <div id="progressModal" class="modal" style="display:none;">
+        <div id="onboardProgressModal" class="modal" style="display:none;">
             <div class="modal-content">
                 <h2>Progress...</h2>
                 <progress id="overallProgressBar" value="0" max="100" style="width:100%;"></progress>
                 <p id="progressText">0% Complete</p>
-
-                <!-- List to display device progress -->
                 <ul id="deviceProgressList"></ul>
 
-                <button id="cancelButton">Cancel</button>
+                <button id="cancelButton">Close</button>
             </div>
         </div>
 
-
+<script src="static/onboard_devices.js"></script>
 </body>
+
+
+
 </html>

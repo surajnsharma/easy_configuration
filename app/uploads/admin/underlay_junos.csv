@@ -1,7 +1,0 @@
-hostname,interface,ip_addr,underlay_protocol,description
-san-q5130-02,et-0/0/0,192.168.2.1,bgp,##
-san-q5130-02,et-0/0/1,192.168.23.1,bgp,##
-san-q5120-02,et-0/0/48,192.168.2.2,bgp,##
-san-q5120-02,et-0/0/50,192.168.21.1,bgp,##
-san-q5120-03,et-0/0/48,192.168.23.2,bgp,##
-san-q5120-03,et-0/0/50,192.168.31.1,bgp,##

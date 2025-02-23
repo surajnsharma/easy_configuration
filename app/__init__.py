@@ -10,7 +10,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 # Initialize extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
-socketio = SocketIO()
+#socketio = SocketIO()
+#socketio = SocketIO(ping_timeout=120, ping_interval=30)
+socketio = SocketIO(async_mode="threading")
 migrate = Migrate()
 
 def create_app(config_name):

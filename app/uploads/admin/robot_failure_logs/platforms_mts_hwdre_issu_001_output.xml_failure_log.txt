@@ -1,0 +1,13 @@
+=> General Failures:
+[20241104 18:51:30.323] - ttributeError: 'NoneType' object has no attribute 'rsplit'
+[20241104 18:26:54.281] - Variable ${tv['uv-skip-ipv6']} does not exist.
+[20241104 18:26:54.329] - Variable ${tv['uv-skip_process_restart']} does not exist.
+[20241104 18:26:54.298] - Variable ${tv['uv-skip-traffic-loss-check']} does not exist.
+[20241104 18:33:39.492] - Variable ${t['framework_variables']['software-install']['package']['from']} does not exist.
+[20241104 18:51:30.343] - ISSU is failed for upgrade type : kexec and for apps : {'picd': {'/usr/sbin/picd': 'modify'}, 'evo-pfemand': {'/usr/sbin/evo-pfemand': 'modify'}, 'hwdre': {'/usr/sbin/hwdre': 'modify'}, 'ifmand': {'/usr/sbin/ifmand': 'modify'}}
+[20241104 18:26:54.313] - Variable ${tv['uv-skip_snmp_check']} does not exist.
+[20241104 18:26:54.265] - Variable ${tv['uv-skip-ipv4']} does not exist.
+=> Testcase-1 encountered the following failures:
+[TestCase Description] - | To verify no traffic loss and no Interface flap with ISSU | To Verify show chassis hardware, fpc,pic and interface status after ISSU | Test Case No : 7-3.2-7,7.4-2,7.3.5-1,7.3.15-1,7.4-1,7.21-7,7.3.3-1 | JTMS Testcase: 7-3.2-7,7.4-2,7.3.5-1,7.3.15-1,7.4-1,7.21-7,7.3.3-1 | Procedure: | ========== | 1) Send continuous traffic across the DUT with Maimum MTU settings on interface. | 2) Generate a ISSU Image with changes in evo-pfemand,hwdre,picd. using the below tool: | /volume/evo/files/share/buildtools/release-tools/bin/evo-iso-duplicate -m &lt;absolutepath&gt;/changedApps -i /volume/evoimages/ci/master/pub-202107262322.0/junos-evo-install-qfx-ms-x86-64-21.4-202107262322.0-EVO.iso | 3) Initiate ISSU using | "request system software add &lt;file&gt; restart" command.. | 4) Verify that there is no traffic loss after issu | 5) After ISSU validate MTU is retained | 6) Validate FPC and PIC is same before and after ISSU | 7) Verify show chassis hardware info is same after ISSU | Expected Result: | =============== | 1) Traffic should run without drops | 2) verify interfaces have not flapped after ISSU | 3) validate the changed MTU is reflected. | 4) Validate FPC and PIC is same before and after ISSU | 5) Verify show chassis hardware info is same after ISSU | 6) No core dumps seen.
+[20241104 18:51:30.323] - ttributeError: 'NoneType' object has no attribute 'rsplit'
+[20241104 18:51:30.343] - ISSU is failed for upgrade type : kexec and for apps : {'picd': {'/usr/sbin/picd': 'modify'}, 'evo-pfemand': {'/usr/sbin/evo-pfemand': 'modify'}, 'hwdre': {'/usr/sbin/hwdre': 'modify'}, 'ifmand': {'/usr/sbin/ifmand': 'modify'}}

@@ -6,17 +6,7 @@
     <title>VXLAN Configuration</title>
 </head>
 <style>
-    .btn-check:checked + .btn {
-        background-color: #007bff;  /* Bootstrap's primary blue */
-        border-color: #007bff;
-        color: white;
-    }
 
-    .btn-check:not(:checked) + .btn {
-        background-color: transparent;
-        color: #007bff;  /* Bootstrap's primary blue */
-        border-color: #007bff;
-    }
 </style>
 
 <body>
@@ -73,22 +63,84 @@
                     </tr>
                     <!-- Overlay Service Selection -->
                     <tr>
-                        <th>Select Overlay Service</th>
+                        <!--th>Select Overlay Service
+                            <a href="#" id="downloadTemplateBtn" title="Download Template">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </th-->
+                        <th>
+                            Select Overlay Service
+                            <a href="#" onclick="downloadTemplate(event)" title="Download Template">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            <a href="#" onclick="downloadTemplateVariables(event)" title="Download Template Variables">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </th>
+
                         <td>
                             <select id="overlay_service_type" name="overlay_service_type" class="form-select" required>
                                 <option value="mac_vrf_vlan_aware">MAC VRF VLAN Aware</option>
                                 <option value="mac_vrf_vlan_based">MAC VRF VLAN Based</option>
-                                <option value="type5_vxlan">TYPE5 VXLAN</option>
+                                <option value="type5_vxlan">TYPE5 VXLAN+VLAN BASED</option>
+                                <option value="type5_vxlan_vlan_aware">TYPE5 VXLAN+VLAN AWARE</option>
                                 <option value="vxlan_type2_to_sym_type2_stitching">T2 TO SYM T2 STITCHING</option>
                                 <option value="vxlan_type2_to_sym_type5">TYPE2 TO SYM T5 STITCHING</option>
                                 <option value="vxlan_bgp_over_sym_type5">BGP OVER SYM T5 VXLAN</option>
                                 <option value="vxlan_vlan_aware_t2_seamless_stitching">T2 SEAMLESS STITCHING</option>
                                 <option value="vxlan_vlan_aware_t2_seamless_stitching_translation_vni">T2 STITCHING TRANSACTION VNI</option>
+                                <option value="custom_template">Custom Template</option>
                             </select>
                         </td>
+
+
+
                         <th>Service Count</th>
                         <td><input type="number" id="overlay_service_count" name="overlay_service_count" value="1" class="form-control" required></td>
                     </tr>
+
+
+        <!-- ✅ Custom Template Upload & Selection Section (Properly Aligned) -->
+
+        <div id="customTemplateSection" style="display:none; margin-top:15px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center w-100 flex-nowrap">
+                        <!-- Browse, Upload & File Name (Aligned, Minimal Gap) -->
+                        <div class="d-flex flex-grow-1 align-items-stretch me-0">
+                            <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center p-0"
+                                   for="customTemplateFile" style="height: 30px; width: 35px;">
+                                <i class="fas fa-folder-open"></i>
+                            </label>
+                            <button type="button" class="btn btn-success d-flex align-items-center justify-content-center p-0"
+                                    style="height: 30px; width: 35px;" onclick="uploadCustomTemplate(event)">
+                                <i class="fas fa-upload"></i>
+                            </button>
+                            <input type="file" id="customTemplateFile" accept=".j2" class="d-none">
+                            <input type="text" id="selectedFileName" class="form-control form-control-sm"
+                                   placeholder="No file chosen" readonly
+                                   style="height: 30px; flex-grow: 1; min-width: 150px; max-width: 380px;">
+                        </div>
+
+                        <!-- Select Uploaded Template (Aligned, Minimal Gap) -->
+                        <div class="d-flex flex-grow-1 align-items-stretch">
+                            <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center p-0"
+                                   style="height: 30px; width: 35px;">
+                                <i class="fas fa-file-alt"></i>
+                            </label>
+                            <select id="customTemplateSelect" name="customTemplate" class="form-select form-select-sm"
+                                    style="height: 30px; flex-grow: 1; min-width: 150px; max-width: 380px;">
+                                <option value="">No templates</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
                 </table>
                 <!-- Spine tag inputs will be dynamically generated here -->
                 <div id="spineTagsContainer"> </div>
@@ -126,18 +178,42 @@
         </div>
 
        <!-- Submit Button -->
-        <div class="mt-3">
+        <!--div class="mt-3">
             <input type="submit" value="Generate VXLAN Configuration" class="btn btn-primary">
-            <!-- Bootstrap Button Group (Toggle) for Bootstrap 5 -->
             <div class="btn-group" role="group" aria-label="Toggle Buttons">
                 <input type="radio" class="btn-check" name="GenerateOverlayBtn" id="GenerateOverlayBtn" autocomplete="off">
                 <label class="btn btn-secondary" for="GenerateOverlayBtn">Click here to Generate Overlay</label>
             </div>
+        </div-->
+        <!-- Submit Button & Toggle Group (Aligned) -->
+
+<!-- Submit Button & Toggle Group (Aligned) -->
+<div class="d-flex flex-wrap align-items-center justify-content-start gap-2 mt-3">
+    <!-- Show Configuration Button -->
+    <input type="submit" value="Show Configuration" class="btn btn-primary">
+
+    <!-- Bootstrap Button Group (Toggle) -->
+    <div class="btn-group">
+        <input type="radio" class="btn-check" name="GenerateOverlayBtn" id="GenerateOverlayBtn" autocomplete="off">
+        <label class="btn toggle-btn" for="GenerateOverlayBtn">Click to Generate Overlay</label>
+    </div>
+</div>
+
+
+
+ </form>
+</div>
+
+
+        <!-- File Upload for Custom Template -->
+        <div id="customTemplateUpload" style="display:none; margin-top:10px;">
+            <form id="customTemplateForm" enctype="multipart/form-data">
+                <label for="customTemplateFile">Upload Custom Template:</label>
+                <input type="file" id="customTemplateFile" accept=".j2" name="file">
+                <button type="button" onclick="uploadCustomTemplate()">Upload</button>
+                <p id="uploadMessage"></p>
+            </form>
         </div>
-
-
-                </div>
-    </form>
 
 
         <!-- Custom Alert Modal -->
@@ -146,20 +222,64 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="vxlanFormAlertLabel">Alert</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="vxlanFormAlertCloseIcon" aria-label="Close"></button>
               </div>
               <div class="modal-body" id="vxlanFormAlertMessage">
                 <!-- Alert message goes here -->
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="vxlanFormAlertModalClose" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>
 
 <script src="static/vxlanForm.js"></script>
+<!-- Bootstrap 5 (latest) -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const overlayBtn = document.getElementById("GenerateOverlayBtn");
+    const overlayLabel = document.querySelector("label[for='GenerateOverlayBtn']");
+
+    // ✅ Smooth transition & cursor styling
+    overlayLabel.style.transition = "background-color 0.3s ease-in-out, color 0.3s ease-in-out";
+    overlayLabel.style.cursor = "pointer";
+
+    overlayBtn.addEventListener("change", function () {
+        if (overlayBtn.checked) {
+            overlayLabel.classList.add("btn-success"); // ✅ Turns Green
+            overlayLabel.textContent = "Overlay Generated"; // ✅ Updates Button Text
+        } else {
+            overlayLabel.classList.remove("btn-success"); // ❌ Resets Color
+            overlayLabel.textContent = "Click to Generate Overlay"; // 🔄 Resets Text
+        }
+    });
+});
+</script>
+
+<!-- Optional: Hover Effect for Better UX -->
+<style>
+.toggle-btn {
+    transition: all 0.3s ease-in-out;
+    padding: 8px 16px; /* Ensures proper padding */
+}
+
+.toggle-btn:hover {
+    background-color: rgba(0, 128, 0, 0.1) !important; /* Subtle hover effect */
+}
+.btn-check:checked + .btn {
+    background-color: #007bff;  /* Bootstrap's primary blue */
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-check:not(:checked) + .btn {
+    background-color: transparent;
+    color: #007bff;  /* Bootstrap's primary blue */
+    border-color: #007bff;
+}
+</style>
 
 </body>
 </html>

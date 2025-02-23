@@ -1,0 +1,48 @@
+set interfaces lo0.0 family inet address 20.0.0.2 primary preferred
+set routing-options router-id 20.0.0.2
+set routing-options autonomous-system 1001
+set protocols bgp group overlay type internal
+set protocols bgp group overlay local-address 20.0.0.2
+set protocols bgp group overlay family evpn signaling
+set routing-instances T5_VRF100 instance-type vrf
+set routing-instances T5_VRF100 protocols evpn ip-prefix-routes advertise direct-nexthop
+set routing-instances T5_VRF100 protocols evpn ip-prefix-routes encapsulation vxlan
+set routing-instances T5_VRF100 protocols evpn ip-prefix-routes vni 30000
+set routing-instances T5_VRF100 vtep-source-interface lo0.0
+set routing-instances T5_VRF100 interface irb.100
+set routing-instances T5_VRF100 route-distinguisher 20.0.0.2:100
+set routing-instances T5_VRF100 vrf-target target:100:100
+set routing-instances MACVRF100 instance-type mac-vrf
+set routing-instances MACVRF100 protocols evpn encapsulation vxlan
+set routing-instances MACVRF100 protocols evpn default-gateway no-gateway-community
+set routing-instances MACVRF100 protocols evpn extended-vni-list 300000
+set routing-instances MACVRF100 protocols evpn remote-ip-host-routes
+set routing-instances MACVRF100 vtep-source-interface lo0.0
+set routing-instances MACVRF100 service-type vlan-based
+set routing-instances MACVRF100 route-distinguisher 1001:100
+set routing-instances MACVRF100 vrf-target target:100:1000
+set routing-instances MACVRF100 vlans vlan100 vlan-id 100
+set routing-instances MACVRF100 vlans vlan100 vxlan vni 300000
+set routing-instances MACVRF100 vlans vlan100 l3-interface irb.100
+set interfaces irb.100 family inet address 192.168.0.1/24
+set routing-instances T5_VRF101 instance-type vrf
+set routing-instances T5_VRF101 protocols evpn ip-prefix-routes advertise direct-nexthop
+set routing-instances T5_VRF101 protocols evpn ip-prefix-routes encapsulation vxlan
+set routing-instances T5_VRF101 protocols evpn ip-prefix-routes vni 30001
+set routing-instances T5_VRF101 vtep-source-interface lo0.0
+set routing-instances T5_VRF101 interface irb.101
+set routing-instances T5_VRF101 route-distinguisher 20.0.0.2:101
+set routing-instances T5_VRF101 vrf-target target:101:101
+set routing-instances MACVRF101 instance-type mac-vrf
+set routing-instances MACVRF101 protocols evpn encapsulation vxlan
+set routing-instances MACVRF101 protocols evpn default-gateway no-gateway-community
+set routing-instances MACVRF101 protocols evpn extended-vni-list 300010
+set routing-instances MACVRF101 protocols evpn remote-ip-host-routes
+set routing-instances MACVRF101 vtep-source-interface lo0.0
+set routing-instances MACVRF101 service-type vlan-based
+set routing-instances MACVRF101 route-distinguisher 1001:101
+set routing-instances MACVRF101 vrf-target target:101:1010
+set routing-instances MACVRF101 vlans vlan101 vlan-id 101
+set routing-instances MACVRF101 vlans vlan101 vxlan vni 300010
+set routing-instances MACVRF101 vlans vlan101 l3-interface irb.101
+set interfaces irb.101 family inet address 192.168.1.1/24

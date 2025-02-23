@@ -2,7 +2,10 @@
 import logging
 import time
 from jnpr.junos import Device
-from jnpr.junos.exception import ConfigLoadError, CommitError, RpcError
+from jnpr.junos.exception import ConfigLoadError, CommitError, RpcError,ConnectRefusedError, ConnectError, ConnectTimeoutError, ProbeError
+import socket
+
+
 import os
 from jnpr.junos.exception import RpcError
 from lxml import etree  # For pretty-printing XML
@@ -66,7 +69,7 @@ def handle_config_load(cu, device_name, config_command, intent_name, retries=3, 
             logging.error(f"Unexpected error: {e}")
             return False
 
-def connect_to_device(host, username, password, retries=3, delay=5):
+def connect_to_device(host, username, password, retries=1, delay=5):
     for attempt in range(retries):
         try:
             dev = Device(host=host, user=username, passwd=password)
@@ -78,6 +81,82 @@ def connect_to_device(host, username, password, retries=3, delay=5):
             time.sleep(delay)
     return None
 
+
+def is_device_reachable(host, timeout=3):
+    """
+    Checks if a device is reachable via ICMP (ping).
+    Returns True if reachable, False otherwise.
+    """
+    response = os.system(f"ping -c 1 -W {timeout} {host} > /dev/null 2>&1")
+    return response == 0  # 0 means success
+
+
+'''def connect_to_device(host, username, password, retries=3, delay=5):
+    """
+    Attempts to connect to a network device. If the device is unreachable, it will not execute the intent.
+
+    Returns:
+        Device object if successful, else None.
+    """
+
+    def is_device_reachable(host, timeout=3):
+        """Check if the device is reachable via ICMP (ping)."""
+        response = os.system(f"ping -c 1 -W {timeout} {host} > /dev/null 2>&1")
+        return response == 0  # 0 means success
+
+    def is_ssh_port_open(host, port=22, timeout=3):
+        """Check if SSH port 22 is open."""
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                return True
+        except (socket.timeout, ConnectionRefusedError):
+            return False
+
+    # Step 1: Ensure device is reachable
+    if not is_device_reachable(host):
+        logging.error(f"Device {host} is not reachable. Skipping execution.")
+        with open("skipped_devices.log", "a") as log_file:
+            log_file.write(f"{host} - Unreachable\n")
+        return None  # Return None to prevent execution
+
+    # Step 2: Ensure SSH is enabled
+    if not is_ssh_port_open(host):
+        logging.error(f"SSH port 22 is closed on {host}. Skipping execution.")
+        with open("skipped_devices.log", "a") as log_file:
+            log_file.write(f"{host} - SSH Closed\n")
+        return None  # Return None to prevent execution
+
+    # Step 3: Attempt SSH connection
+    for attempt in range(1, retries + 1):
+        try:
+            dev = Device(host=host, user=username, passwd=password)
+            dev.open()
+
+            if dev.connected:
+                logging.info(f"Successfully connected to {host} (Attempt {attempt}/{retries}).")
+                return dev
+            else:
+                logging.warning(f"Connected to {host} but dev.connected is False. Retrying...")
+
+        except ConnectRefusedError:
+            logging.error(f"Connection refused for {host}. Ensure SSH is enabled.")
+        except ConnectTimeoutError:
+            logging.error(f"Connection timeout for {host}. Check network reachability.")
+        except ConnectError as e:
+            logging.error(f"General connection error for {host}: {e}")
+        except ProbeError:
+            logging.error(f"Cannot probe the device {host}. Device might be unreachable.")
+        except paramiko.ssh_exception.SSHException as e:
+            logging.error(f"SSH error for {host}: {e}")
+        except Exception as e:
+            logging.error(f"Unexpected error while connecting to {host}: {e}")
+
+        time.sleep(delay * attempt)  # Exponential backoff for retries
+
+    logging.error(f"Failed to connect to {host} after {retries} attempts.")
+    with open("skipped_devices.log", "a") as log_file:
+        log_file.write(f"{host} - Connection Failed\n")
+    return None  # Return None to prevent execution'''
 
 
 def generate_alarm(device, cu, fpc_slot, pic_slot, ports, **kwargs):
@@ -167,18 +246,6 @@ def generate_alarm(device, cu, fpc_slot, pic_slot, ports, **kwargs):
 
 
 def enable_interface(dev, cu, **kwargs):
-    """
-    Enable network interfaces based on provided parameters.
-
-    Args:
-        dev: Device connection object.
-        cu: Configuration utility object.
-        kwargs: Additional arguments like fpc_slot, pic_slot, ports, or interface_name.
-
-    Returns:
-        dict: Summary of operation status and detailed results.
-    """
-
     def build_interface_names(fpc_slot, pic_slot, ports):
         """
         Generate interface names based on fpc_slot, pic_slot, and ports.
@@ -198,6 +265,7 @@ def enable_interface(dev, cu, **kwargs):
             except Exception as e:
                 logging.error(f"Unexpected error while processing port '{port}': {e}")
         return interfaces
+
 
     fpc_slot = kwargs.get("fpc_slot")
     pic_slot = kwargs.get("pic_slot")
@@ -276,6 +344,8 @@ def enable_interface(dev, cu, **kwargs):
         "summary": {"status": overall_status},
         "snapshot_status": {"enable_interface": operation_status},
     }
+
+
 
 def disable_interface(dev, cu, **kwargs):
     """
@@ -542,13 +612,11 @@ def snapshot_device_state(dev, cu=None, device_name=None, **kwargs):
     """
     Capture a snapshot of the device state using predefined commands and save it locally
     in the specified format (XML or text).
-
     Args:
         dev: Device connection object.
         cu: Optional configuration object.
         device_name: Device name for custom filenames.
         kwargs: Additional arguments (format, output_dir, snapshot_type).
-
     Returns:
         dict: Summary of the snapshot creation process.
     """

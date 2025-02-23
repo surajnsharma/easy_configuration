@@ -3,10 +3,16 @@
 # Variables - update these for your environment
 APP_NAME="easy_configuration"  # Name for systemd service
 SERVICE_FILE="/etc/systemd/system/$APP_NAME.service"
-WORKING_DIRECTORY="/root/easy_configuration"
-VENV_PATH="$WORKING_DIRECTORY/venv/bin/gunicorn"
+WORKING_DIRECTORY="/root/SURAJ_PY/easy_configuration"
 WORKERS=16
 BIND_ADDRESS="0.0.0.0:8000"
+
+# Detect existing Gunicorn path
+GUNICORN_PATH=$(command -v gunicorn)
+if [ -z "$GUNICORN_PATH" ]; then
+    echo "Error: Gunicorn is not installed. Please install it using 'pip install gunicorn'."
+    exit 1
+fi
 
 # Function to create the service file if it doesn't exist
 create_service_file() {
@@ -22,7 +28,7 @@ User=root
 Group=www-data
 WorkingDirectory=$WORKING_DIRECTORY
 Environment="FLASK_CONFIG=production"
-ExecStart=$VENV_PATH --workers $WORKERS --bind $BIND_ADDRESS --worker-class eventlet "run:app"
+ExecStart=$GUNICORN_PATH --workers $WORKERS --bind $BIND_ADDRESS --worker-class eventlet "run:app"
 
 [Install]
 WantedBy=multi-user.target
@@ -65,6 +71,7 @@ check_status() {
     echo "Checking status of $APP_NAME service..."
     sudo systemctl status "$APP_NAME"
 }
+
 # Function to restart the application with daemon-reload
 restart_app() {
     echo "Reloading systemd manager configuration..."
@@ -72,11 +79,7 @@ restart_app() {
     echo "Restarting $APP_NAME service..."
     sudo systemctl restart "$APP_NAME"
     sudo systemctl status "$APP_NAME"
-
 }
-
-
-
 
 # Function to view application logs
 view_logs() {

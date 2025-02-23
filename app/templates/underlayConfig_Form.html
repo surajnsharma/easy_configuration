@@ -12,53 +12,6 @@
 <body>
 
 
-<!-- Modal Styling -->
-<style>
-/* Modal styling */
-    #topologyModal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1000; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content */
-    #topologyModalContent {
-        background-color: #fefefe;
-        margin: 5% auto; /* Centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 90%; /* Increase width */
-        max-width: 1200px; /* Limit maximum width */
-        height: 80vh; /* Set height relative to viewport */
-        max-height: 90vh; /* Limit maximum height */
-        overflow: hidden; /* Hide overflow */
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-    }
-
-    /* Modal Header */
-    #topologyModalHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    /* Cytoscape container */
-    #cyModalContent {
-        height: calc(100% - 40px); /* Fill remaining height */
-        overflow: auto;
-    }
-
-
-</style>
-
-
 
     <form id="underlayConfigForm" action="#" method="post" class="hidden mt-4" enctype="multipart/form-data">
         <h4 class="mb-4 fw-bold">Underlay Config</h4> <!-- Bootstrapped heading -->
@@ -73,6 +26,13 @@
             </div>
         </div>
 
+        <!-- IP Subnet Input Row -->
+        <div class="mb-3 row">
+            <label for="underlay_ip_subnet" class="col-sm-3 col-form-label fw-semibold">IP Subnet</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="underlay_ip_subnet" id="underlay_ip_subnet" placeholder="Enter IP Subnet (e.g., 192.168.1.0/24)" value="192.168.1.0/24,fd00:1::1/64">
+            </div>
+        </div>
         <!-- CSV Upload Row -->
        <div class="mb-3 row" id="csv_row">
         <label for="csv_file" class="col-sm-3 col-form-label fw-semibold">CSV File</label>
@@ -144,19 +104,18 @@ san-q5230-05,et-0/0/9,san-q5230-06,et-0/0/9
     </form>
 
 
-<div id="topologyContainer" class="hidden topologyContainer" style="margin-top: 20px;">
-            <h2>My Topology</h2>
-            <div id="cy" style="height: 600px; width: 100%;"></div>
+
+<!-- Error Log Modal -->
+<div id="errorLogModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="closeErrorLogBtn" class="close-button">&times;</span>
+            <h4>Error Log</h4>
+        </div>
+        <ul id="errorLogList"></ul>
+    </div>
 </div>
 
-    <!--div id="underlayConfigprogressModal" class="modal">
-        <div class="modal-content">
-            <h2>Progress</h2>
-            <progress id="underlayconfigProgressBar" value="0" max="100"></progress>
-            <p id="underlayConfigprogressText">0% Complete</p>
-
-        </div>
-    </div-->
 
 <!-- Config progress Modal -->
 <div id="underlayConfigprogressModal" class="modal">
@@ -164,6 +123,8 @@ san-q5230-05,et-0/0/9,san-q5230-06,et-0/0/9
         <h6>Progress</h6>
         <progress id="underlayconfigProgressBar" value="0" max="100"></progress>
         <p id="underlayConfigprogressText">0% Complete</p>
+        <!-- Add this for stage information -->
+        <p id="underlayConfigStageText" style="font-weight: bold; color: blue;">Stage will be displayed here</p>
         <h6>Success Hosts</h6>
         <ul id="successHostList"></ul>
         <h6>Failed Hosts</h6>
@@ -173,21 +134,45 @@ san-q5230-05,et-0/0/9,san-q5230-06,et-0/0/9
     </div>
 </div>
 
-<!-- Topology Modal -->
+    <!-- Topology Modal -->
 <div id="topologyModal" class="modal">
     <div id="topologyModalContent" class="modal-content">
         <div id="topologyModalHeader">
-            <span class="topology-modal-close">&times;</span>
+            <span id="closeTopologyBtn" class="topology-modal-close">&times;</span>
             <h4>My Topology</h4>
+            <!-- Refresh Button -->
+        <div style="text-align: center; margin-top: 15px;">
+            <button id="refreshTopologyBtn" style="padding: 8px 16px; font-size: 14px; cursor: pointer; background-color: #007BFF; color: white; border: none; border-radius: 5px;">
+                Refresh
+            </button>
+        </div>
         </div>
         <div id="cyModalContent"></div>
+
+
+        <div id="topologyInfo" style="margin-top: 10px; text-align: center;">
+            <div id="topologyLegend">
+            <ul style="list-style: none; padding: 0; display: flex; justify-content: center; align-items: center; gap: 15px;">
+                <li style="display: inline; margin: 0;">
+                    <span style="color: purple; font-size: 20px;">&#x25A0;</span> Link Up
+                </li>
+                <li style="display: inline; margin: 0;">
+                    <span style="color: grey; font-size: 20px;">&#x25A0;</span> Link Down
+                </li>
+                <li style="display: inline; margin: 0;">
+                    <span style="color: orange; font-size: 20px;">&#x25A0;</span> Checking Link...
+                </li>
+            </ul>
+            </div>
+        </div>
+
         <h6 id="statusMessage" style="display: none; text-align: center; font-weight: bold;"></h6>
     </div>
-
 </div>
 
 
 <script src="static/underlayConfigForm.js"></script>
+
 
 <script>
     // Open Sample CSV Modal without submitting the form

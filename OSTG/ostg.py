@@ -1,5 +1,4 @@
 ## here is the current client code
-import logging
 import sys
 import requests
 from PyQt5.QtWidgets import (
@@ -65,9 +64,6 @@ class TrafficGeneratorClient(QMainWindow):
 
         # Load session.json if available
         self.load_session()
-
-
-
 
     def setup_menu_bar(self):
         """Set up the menu bar for server and stream management."""
@@ -289,6 +285,8 @@ class TrafficGeneratorClient(QMainWindow):
 
         dialog.accept()
 
+
+
     def update_server_tree(self):
         """Update the server tree with servers and their ports."""
         self.server_tree.clear()  # Clear the tree before updating
@@ -365,6 +363,7 @@ class TrafficGeneratorClient(QMainWindow):
             server_item.addChild(port_item)
 
         print(f"Dummy ports added for {tg_id}.")
+
 
     def add_server_interface(self):
         """Add a new server interface."""
@@ -487,6 +486,22 @@ class TrafficGeneratorClient(QMainWindow):
 
 
 
+
+
+
+    def _initialize_empty_session(self):
+        """Initialize an empty session with default values."""
+        print("Initializing an empty session.")
+        self.server_interfaces = []
+        self.streams = {}
+        self.removed_interfaces = set()
+        self.selected_servers = []
+
+        # Update UI components to reflect the reset state
+        self.update_server_tree()
+        self.update_stream_table()
+        print("Empty session initialized.")
+
     def save_session(self):
         """Save the current session to a JSON file."""
         updated_streams = {}
@@ -506,12 +521,12 @@ class TrafficGeneratorClient(QMainWindow):
 
                 # Extract and merge RoCEv2 data
                 rocev2_data = {
-                    "traffic_class": stream_data.get("rocev2_traffic_class", "0"),
-                    "flow_label": stream_data.get("rocev2_flow_label", "000000"),
-                    "source_gid": stream_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
-                    "destination_gid": stream_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
-                    "source_qp": stream_data.get("rocev2_source_qp", "0"),
-                    "destination_qp": stream_data.get("rocev2_destination_qp", "0"),
+                    "rocev2_traffic_class": stream_data.get("rocev2_traffic_class", "0"),
+                    "rocev2_flow_label": stream_data.get("rocev2_flow_label", "000000"),
+                    "rocev2_source_gid": stream_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
+                    "rocev2_destination_gid": stream_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
+                    "rocev2_source_qp": stream_data.get("rocev2_source_qp", "0"),
+                    "rocev2_destination_qp": stream_data.get("rocev2_destination_qp", "0"),
                 }
                 if "rocev2" in stream_data:
                     rocev2_data.update(stream_data["rocev2"])
@@ -523,6 +538,12 @@ class TrafficGeneratorClient(QMainWindow):
                     "ipv4_dscp": stream_data.get("ipv4_dscp", "cs0"),
                     "ipv4_ecn": stream_data.get("ipv4_ecn", "Not-ECT"),
                     "ipv4_custom_tos": stream_data.get("ipv4_custom_tos", ""),
+                }
+                # Extract MPLS Details
+                mpls_data = {
+                    "mpls_label": stream_data.get("mpls_label", "16"),
+                    "mpls_ttl": stream_data.get("mpls_ttl", "64"),
+                    "mpls_experimental": stream_data.get("mpls_experimental", "0"),
                 }
                 # Categorize data into protocol_selection and protocol_data
                 categorized_stream = {
@@ -561,6 +582,7 @@ class TrafficGeneratorClient(QMainWindow):
                             "vlan_increment_value": stream_data.get("vlan_increment_value", "1"),
                             "vlan_increment_count": stream_data.get("vlan_increment_count", "1"),
                         },
+
                         "ipv4": {
                             "ipv4_source": stream_data.get("ipv4_source", "0.0.0.0"),
                             "ipv4_destination": stream_data.get("ipv4_destination", "0.0.0.0"),
@@ -572,18 +594,30 @@ class TrafficGeneratorClient(QMainWindow):
                             "ipv4_custom_tos": stream_data.get("ipv4_custom_tos", None),
                             "ipv4_ttl": stream_data.get("ipv4_ttl", "64"),
                             "ipv4_identification": stream_data.get("ipv4_identification", "0000"),
-                            "ipv4_increment_source": stream_data.get("ipv4_increment_source", False),
                             "ipv4_source_increment_step": stream_data.get("ipv4_source_increment_step", "1"),
                             "ipv4_source_increment_count": stream_data.get("ipv4_source_increment_count", "1"),
-                            "ipv4_increment_destination": stream_data.get("ipv4_increment_destination", False),
                             "ipv4_destination_increment_step": stream_data.get("ipv4_destination_increment_step", "1"),
-                            "ipv4_destination_increment_count": stream_data.get("ipv4_destination_increment_count",
-                                                                                "1"),
+                            "ipv4_destination_increment_count": stream_data.get("ipv4_destination_increment_count", "1"),
                             "ipv4_df": stream_data.get("ipv4_df", False),
                             "ipv4_mf": stream_data.get("ipv4_mf", False),
                             "ipv4_fragment_offset": stream_data.get("ipv4_fragment_offset", "0"),
                             **tos_dscp_data,
                         },
+
+                        "ipv6": {
+                            "ipv6_source": stream.get("ipv6_source", "::1"),
+                            "ipv6_source_mode": stream.get("ipv6_source_mode", "Fixed"),
+                            "ipv6_source_increment_step": stream.get("ipv6_source_increment_step", "1"),
+                            "ipv6_source_increment_count": stream.get("ipv6_source_increment_count", "1"),
+                            "ipv6_destination": stream.get("ipv6_destination", "::1"),
+                            "ipv6_destination_mode": stream.get("ipv6_destination_mode", "Fixed"),
+                            "ipv6_destination_increment_step": stream.get("ipv6_destination_increment_step", "1"),
+                            "ipv6_destination_increment_count": stream.get("ipv6_destination_increment_count", "1"),
+                            "ipv6_traffic_class": stream.get("ipv6_traffic_class", "0"),
+                            "ipv6_flow_label": stream.get("ipv6_flow_label", "0"),
+                            "ipv6_hop_limit": stream.get("ipv6_hop_limit", "64"),
+                        },
+
                         "tcp": {
                             "tcp_source_port": stream_data.get("tcp_source_port", "0"),
                             "tcp_destination_port": stream_data.get("tcp_destination_port", "0"),
@@ -599,6 +633,7 @@ class TrafficGeneratorClient(QMainWindow):
                             "tcp_destination_port_step": stream_data.get("tcp_destination_port_step", "1"),
                             "tcp_destination_port_count": stream_data.get("tcp_destination_port_count", "1"),
                         },
+                        "mpls": mpls_data,
                         "rocev2": rocev2_data,
                         "payload_data": {
                             "payload_data": stream_data.get("payload_data", ""),
@@ -635,20 +670,6 @@ class TrafficGeneratorClient(QMainWindow):
             print("Session saved successfully.")
         except Exception as e:
             QMessageBox.warning(self, "Save Session", f"Failed to save session: {e}")
-
-
-    def _initialize_empty_session(self):
-        """Initialize an empty session with default values."""
-        print("Initializing an empty session.")
-        self.server_interfaces = []
-        self.streams = {}
-        self.removed_interfaces = set()
-        self.selected_servers = []
-
-        # Update UI components to reflect the reset state
-        self.update_server_tree()
-        self.update_stream_table()
-        print("Empty session initialized.")
     def load_session(self):
         """Load the session from a JSON file."""
         try:
@@ -672,9 +693,11 @@ class TrafficGeneratorClient(QMainWindow):
                     mac_data = protocol_data.get("mac", {})
                     vlan_data = protocol_data.get("vlan", {})
                     ipv4_data = protocol_data.get("ipv4", {})
+                    ipv6_data = protocol_data.get("ipv6", {})
                     tcp_data = protocol_data.get("tcp", {})
                     payload_data = protocol_data.get("payload_data", {})
                     rocev2_data = protocol_data.get("rocev2", {})
+                    mpls_data = protocol_data.get("mpls", {})
 
                     # Extract TOS/DSCP/Custom fields
                     tos_dscp_data = {
@@ -714,16 +737,27 @@ class TrafficGeneratorClient(QMainWindow):
                             "ipv4_ecn": ipv4_data.get("ipv4_ecn", None),
                             "ipv4_ttl": ipv4_data.get("ipv4_ttl", "64"),
                             "ipv4_identification": ipv4_data.get("ipv4_identification", "0000"),
-                            "ipv4_increment_source": ipv4_data.get("ipv4_increment_source", False),
                             "ipv4_source_increment_step": ipv4_data.get("ipv4_source_increment_step", "1"),
                             "ipv4_source_increment_count": ipv4_data.get("ipv4_source_increment_count", "1"),
-                            "ipv4_increment_destination": ipv4_data.get("ipv4_increment_destination", False),
                             "ipv4_destination_increment_step": ipv4_data.get("ipv4_destination_increment_step", "1"),
                             "ipv4_destination_increment_count": ipv4_data.get("ipv4_destination_increment_count", "1"),
                             "ipv4_df": ipv4_data.get("ipv4_df", False),
                             "ipv4_mf": ipv4_data.get("ipv4_mf", False),
                             "ipv4_fragment_offset": ipv4_data.get("ipv4_fragment_offset", "0"),
                             **tos_dscp_data,
+                        },
+                        **{
+                            "ipv6_source": ipv6_data.get("ipv6_source", "::1"),
+                            "ipv6_source_mode": ipv6_data.get("ipv6_source_mode", "Fixed"),
+                            "ipv6_source_increment_step": ipv6_data.get("ipv6_source_increment_step", "1"),
+                            "ipv6_source_increment_count": ipv6_data.get("ipv6_source_increment_count", "1"),
+                            "ipv6_destination": ipv6_data.get("ipv6_destination", "::1"),
+                            "ipv6_destination_mode": ipv6_data.get("ipv6_destination_mode", "Fixed"),
+                            "ipv6_destination_increment_step": ipv6_data.get("ipv6_destination_increment_step", "1"),
+                            "ipv6_destination_increment_count": ipv6_data.get("ipv6_destination_increment_count", "1"),
+                            "ipv6_traffic_class": ipv6_data.get("ipv6_traffic_class", "0"),
+                            "ipv6_flow_label": ipv6_data.get("ipv6_flow_label", "0"),
+                            "ipv6_hop_limit": ipv6_data.get("ipv6_hop_limit", "64"),
                         },
                         **{
                             "tcp_source_port": tcp_data.get("tcp_source_port", "0"),
@@ -741,15 +775,20 @@ class TrafficGeneratorClient(QMainWindow):
                             "tcp_destination_port_count": tcp_data.get("tcp_destination_port_count", "1"),
                         },
                         **{
+                            "mpls_label": mpls_data.get("mpls_label", "16"),  # Default value: 16
+                            "mpls_ttl": mpls_data.get("mpls_ttl", "64"),  # Default value: 64
+                            "mpls_experimental": mpls_data.get("mpls_experimental", "0"),  # Default value: 0
+                        },
+                        **{
                             "payload_data": payload_data.get("payload_data", ""),
                         },
                         **{
-                            "rocev2_traffic_class": rocev2_data.get("traffic_class", "0"),
-                            "rocev2_flow_label": rocev2_data.get("flow_label", "000000"),
-                            "rocev2_source_gid": rocev2_data.get("source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
-                            "rocev2_destination_gid": rocev2_data.get("destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
-                            "rocev2_source_qp": rocev2_data.get("source_qp", "0"),
-                            "rocev2_destination_qp": rocev2_data.get("destination_qp", "0"),
+                            "rocev2_traffic_class": rocev2_data.get("rocev2_traffic_class", "0"),
+                            "rocev2_flow_label": rocev2_data.get("rocev2_flow_label", "000000"),
+                            "rocev2_source_gid": rocev2_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
+                            "rocev2_destination_gid": rocev2_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
+                            "rocev2_source_qp": rocev2_data.get("rocev2_source_qp", "0"),
+                            "rocev2_destination_qp": rocev2_data.get("rocev2_destination_qp", "0"),
                         },
                         **{
                             "override_source_tcp_port": override_settings.get("override_source_tcp_port", False),
@@ -802,7 +841,7 @@ class TrafficGeneratorClient(QMainWindow):
         self.update_server_tree()
         self.update_stream_table()
 
-    '''def fetch_and_update_statistics(self):
+    def fetch_and_update_statistics(self):
         """Fetch traffic statistics from all selected servers and calculate all fields locally."""
         if not self.selected_servers:
             print("No servers selected. Clearing traffic statistics.")
@@ -863,74 +902,7 @@ class TrafficGeneratorClient(QMainWindow):
             self.update_statistics_table(merged_statistics)
         else:
             print("No statistics were fetched or merged. Clearing statistics table.")
-            self.clear_statistics_table()'''
-
-    def fetch_and_update_statistics(self):
-        """Fetch traffic statistics from all selected servers and calculate all fields locally."""
-        if not self.selected_servers:
-            print("No servers selected. Clearing traffic statistics.")
             self.clear_statistics_table()
-            return
-
-        if not hasattr(self, 'current_statistics'):
-            self.current_statistics = {}  # Retain previously fetched stats
-
-        merged_statistics = self.current_statistics.copy()  # Start with existing stats
-
-        for server in self.selected_servers:
-            tg_id = server["tg_id"]  # Get the TG ID of the server
-            server_address = server["address"]
-            try:
-                #print(f"Fetching data from {server_address}...")
-                response = requests.get(f"{server_address}/api/interfaces", timeout=5)
-                if response.status_code == 200:
-                    interfaces = response.json()
-                    #print(f"Fetched interfaces: {interfaces}")
-                    for interface in interfaces:
-                        # Create a unique interface name with TG ID
-                        interface_name = f"TG {tg_id} - Port: {interface['name']}"
-
-                        # Skip removed interfaces
-                        if interface_name in self.removed_interfaces:
-                            #print(f"Skipping removed interface: {interface_name}")
-                            merged_statistics.pop(interface_name, None)  # Remove stale stats
-                            continue
-
-                        # Get raw values or default to 0
-                        tx = interface.get("tx", 0)
-                        rx = interface.get("rx", 0)
-                        sent_bytes = interface.get("sent_bytes", tx * 64)  # Assume 64 bytes per frame
-                        received_bytes = interface.get("received_bytes", rx * 64)
-                        send_fps = tx // 10  # Approximation, replace `10` with the correct time window
-                        receive_fps = rx // 10
-                        send_bps = sent_bytes * 8  # Convert bytes to bits
-                        receive_bps = received_bytes * 8
-                        errors = interface.get("errors", 0)
-
-                        # Update statistics for the interface
-                        merged_statistics[interface_name] = {
-                            "status": interface.get("status", "N/A"),
-                            "tx": tx,
-                            "rx": rx,
-                            "sent_bytes": sent_bytes,
-                            "received_bytes": received_bytes,
-                            "send_fps": send_fps,
-                            "receive_fps": receive_fps,
-                            "send_bps": send_bps,
-                            "receive_bps": receive_bps,
-                            "errors": errors,
-                        }
-                else:
-                    print(f"Failed to fetch statistics from {server_address}. Status code: {response.status_code}")
-            except requests.RequestException as e:
-                print(f"Error fetching statistics from {server_address}: {e}")
-
-        # Update or retain previous statistics
-        if merged_statistics:
-            self.current_statistics = merged_statistics  # Retain current statistics for next fetch
-            self.update_statistics_table(merged_statistics)
-        else:
-            print("No statistics were fetched or merged. Retaining existing statistics.")
 
     def update_statistics_table(self, statistics):
         """Update the traffic statistics table with the merged statistics."""
@@ -1040,6 +1012,7 @@ class TrafficGeneratorClient(QMainWindow):
         # Set the final layout for the stream group
         self.stream_group.setLayout(layout)
         self.top_section.addWidget(self.stream_group)
+
     def update_stream_table(self):
         """Update the stream table with streams for all selected TG ports."""
         # Save currently selected rows
@@ -1064,7 +1037,7 @@ class TrafficGeneratorClient(QMainWindow):
         # Populate streams for all ports or only selected ports
         for port, streams in self.streams.items():
             if not selected_ports or port in selected_ports:  # Include all if no selection
-                for stream_index, stream in enumerate(streams):
+                for stream in streams:
                     row_position = self.stream_table.rowCount()
                     self.stream_table.insertRow(row_position)
 
@@ -1081,8 +1054,7 @@ class TrafficGeneratorClient(QMainWindow):
                     self.stream_table.setItem(row_position, 1, QTableWidgetItem(port))
 
                     # Name Column (2)
-                    stream_name = stream.get("name", f"Unnamed Stream {stream_index}")
-                    self.stream_table.setItem(row_position, 2, QTableWidgetItem(stream_name))
+                    self.stream_table.setItem(row_position, 2, QTableWidgetItem(stream.get("name", "")))
 
                     # Enabled Column (3)
                     enabled_text = "Yes" if stream.get("enabled") else "No"
@@ -1108,327 +1080,46 @@ class TrafficGeneratorClient(QMainWindow):
 
         print(f"Stream table updated {self.stream_table.rowCount()} rows.")  # Debugging
 
-    '''def start_stream(self):
-        """Start the selected streams, update their statuses, and notify the server."""
-        selected_rows = self.stream_table.selectionModel().selectedRows()
-
-        if not selected_rows:
-            QMessageBox.warning(self, "No Selection", "Please select a stream to start.")
-            return
-
-        streams_to_start = {}
-
-        for row in selected_rows:
-            row_index = row.row()  # Get the selected row index
-            port = self.stream_table.item(row_index, 1).text()  # Interface column
-            stream_name = self.stream_table.item(row_index, 2).text()  # Stream name column
-
-            # Identify the stream based on its row index
-            streams = self.streams.get(port, [])
-            if row_index < len(streams):
-                stream = streams[row_index]
-                if stream.get("name", f"Unnamed Stream {row_index}") == stream_name:
-                    stream["status"] = "running"  # Update the stream status to 'running'
-                    print(f"Stream '{stream_name}' on {port} started successfully.")
-
-                    # Collect stream data for server
-                    if port not in streams_to_start:
-                        streams_to_start[port] = []
-                    streams_to_start[port].append(stream)
-                else:
-                    print(f"Stream '{stream_name}' not found in interface '{port}'.")
-            else:
-                print(f"Stream at row {row_index} for port {port} not found.")
-
-        # Send stream data to the server
-        for port, streams in streams_to_start.items():
-            # Identify the server for the port
-            server_info = next(
-                (s for s in self.server_interfaces if f"TG {s.get('tg_id', '')} - Port: {s.get('port', '')}" in port),
-                None
-            )
-            if not server_info:
-                QMessageBox.warning(self, "Stream Error", f"No server address found for port: {port}")
-                print(f"No server found for port: {port}. Available server interfaces: {self.server_interfaces}")
-                continue
-
-            server_address = server_info["address"]
-
-            try:
-                payload = {
-                    "streams": {port: streams},
-                }
-                print(f"Sending payload to {server_address}: {payload}")
-                response = requests.post(f"{server_address}/api/traffic/start", json=payload)
-                if response.status_code == 200:
-                    #QMessageBox.information(self, "Start Stream", f"Streams on {port} started successfully.")
-                    print(f"Stream '{stream_name}' on {port} Server response ok {response.status_code}.")
-                else:
-                    QMessageBox.critical(self, "Stream Error", f"Failed to start streams on {port}: {response.text}")
-            except Exception as e:
-                QMessageBox.critical(self, "Stream Error", f"Error connecting to server {server_address}: {e}")
-
-        self.update_stream_table()  # Refresh the table'''
-
     def start_stream(self):
-        """Start the selected streams, update their statuses, and notify the server."""
+        """Start the selected streams and update their statuses."""
         selected_rows = self.stream_table.selectionModel().selectedRows()
 
         if not selected_rows:
             QMessageBox.warning(self, "No Selection", "Please select a stream to start.")
             return
 
-        streams_to_start = {}
-
         for row in selected_rows:
-            row_index = row.row()  # Get the selected row index
-            port = self.stream_table.item(row_index, 1).text()  # Interface column
-            stream_name = self.stream_table.item(row_index, 2).text()  # Stream name column
+            port = self.stream_table.item(row.row(), 1).text()
+            stream_name = self.stream_table.item(row.row(), 2).text()
 
-            # Identify the stream based on its row index
-            streams = self.streams.get(port, [])
-            if row_index < len(streams):
-                stream = streams[row_index]
-                if stream.get("name", f"Unnamed Stream {row_index}") == stream_name:
-                    stream["status"] = "running"  # Update the stream status to 'running'
-                    print(f"Stream '{stream_name}' on {port} started successfully.")
-
-                    # Format stream data for the server
-                    structured_stream = {
-                        "protocol_selection": {
-                            "name": stream.get("name", ""),
-                            "enabled": stream.get("enabled", False),
-                            "details": stream.get("details", ""),
-                            "frame_type": stream.get("frame_type", "Fixed"),
-                            "frame_min": stream.get("frame_min", "64"),
-                            "frame_max": stream.get("frame_max", "1518"),
-                            "frame_size": stream.get("frame_size", "64"),
-                            "L1": stream.get("L1", "None"),
-                            "VLAN": stream.get("VLAN", "Untagged"),
-                            "L2": stream.get("L2", "None"),
-                            "L3": stream.get("L3", "None"),
-                            "L4": stream.get("L4", "None"),
-                            "Payload": stream.get("Payload", "None"),
-                        },
-                        "protocol_data": {
-                            "mac": {
-                                "mac_destination_mode": stream.get("mac_destination_mode", "Fixed"),
-                                "mac_destination_address": stream.get("mac_destination_address", "00:00:00:00:00:00"),
-                                "mac_destination_count": stream.get("mac_destination_count", "1"),
-                                "mac_destination_step": stream.get("mac_destination_step", "1"),
-                                "mac_source_mode": stream.get("mac_source_mode", "Fixed"),
-                                "mac_source_address": stream.get("mac_source_address", "00:00:00:00:00:00"),
-                                "mac_source_count": stream.get("mac_source_count", "1"),
-                                "mac_source_step": stream.get("mac_source_step", "1"),
-                            },
-                            "vlan": {
-                                "vlan_priority": stream.get("vlan_priority", "0"),
-                                "vlan_cfi_dei": stream.get("vlan_cfi_dei", "0"),
-                                "vlan_id": stream.get("vlan_id", "1"),
-                                "vlan_tpid": stream.get("vlan_tpid", "81 00"),
-                                "vlan_increment": stream.get("vlan_increment", False),
-                                "vlan_increment_value": stream.get("vlan_increment_value", "1"),
-                                "vlan_increment_count": stream.get("vlan_increment_count", "1"),
-                            },
-                            "ipv4": {
-                                "ipv4_source": stream.get("ipv4_source", "0.0.0.0"),
-                                "ipv4_destination": stream.get("ipv4_destination", "0.0.0.0"),
-                                "ipv4_source_mode": stream.get("ipv4_source_mode", "Fixed"),
-                                "ipv4_destination_mode": stream.get("ipv4_destination_mode", "Fixed"),
-                                "ipv4_tos": stream.get("ipv4_tos", None),
-                                "ipv4_dscp": stream.get("ipv4_dscp", None),
-                                "ipv4_ecn": stream.get("ipv4_ecn", None),
-                                "ipv4_custom_tos": stream.get("ipv4_custom_tos", None),
-                                "ipv4_ttl": stream.get("ipv4_ttl", "64"),
-                                "ipv4_identification": stream.get("ipv4_identification", "0000"),
-                                "ipv4_increment_source": stream.get("ipv4_increment_source", False),
-                                "ipv4_source_increment_step": stream.get("ipv4_source_increment_step", "1"),
-                                "ipv4_source_increment_count": stream.get("ipv4_source_increment_count", "1"),
-                                "ipv4_increment_destination": stream.get("ipv4_increment_destination", False),
-                                "ipv4_destination_increment_step": stream.get("ipv4_destination_increment_step", "1"),
-                                "ipv4_destination_increment_count": stream.get("ipv4_destination_increment_count", "1"),
-                                "ipv4_df": stream.get("ipv4_df", False),
-                                "ipv4_mf": stream.get("ipv4_mf", False),
-                                "ipv4_fragment_offset": stream.get("ipv4_fragment_offset", "0"),
-                            },
-                            "tcp": {
-                                "tcp_source_port": stream.get("tcp_source_port", "0"),
-                                "tcp_destination_port": stream.get("tcp_destination_port", "0"),
-                                "tcp_sequence_number": stream.get("tcp_sequence_number", "0"),
-                                "tcp_acknowledgement_number": stream.get("tcp_acknowledgement_number", "0"),
-                                "tcp_window": stream.get("tcp_window", "1024"),
-                                "tcp_checksum": stream.get("tcp_checksum", ""),
-                                "tcp_flags": stream.get("tcp_flags", ""),
-                                "tcp_increment_source_port": stream.get("tcp_increment_source_port", False),
-                                "tcp_source_port_step": stream.get("tcp_source_port_step", "1"),
-                                "tcp_source_port_count": stream.get("tcp_source_port_count", "1"),
-                                "tcp_increment_destination_port": stream.get("tcp_increment_destination_port", False),
-                                "tcp_destination_port_step": stream.get("tcp_destination_port_step", "1"),
-                                "tcp_destination_port_count": stream.get("tcp_destination_port_count", "1"),
-                            },
-                            "rocev2": {
-                                "traffic_class": stream.get("rocev2_traffic_class", "0"),
-                                "flow_label": stream.get("rocev2_flow_label", "000000"),
-                                "source_gid": stream.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
-                                "destination_gid": stream.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
-                                "source_qp": stream.get("rocev2_source_qp", "0"),
-                                "destination_qp": stream.get("rocev2_destination_qp", "0"),
-                            },
-                            "payload_data": {
-                                "payload_data": stream.get("payload_data", ""),
-                            },
-                        },
-                        "override_settings": {
-                            "override_source_tcp_port": stream.get("override_source_tcp_port", False),
-                            "override_destination_tcp_port": stream.get("override_destination_tcp_port", False),
-                            "override_vlan_tpid": stream.get("override_vlan_tpid", False),
-                        },
-                        "stream_rate_control": {
-                            "stream_rate_type": stream.get("stream_rate_type", "Packets Per Second (PPS)"),
-                            "stream_pps_rate": stream.get("stream_pps_rate", None),
-                            "stream_bit_rate": stream.get("stream_bit_rate", None),
-                            "stream_load_percentage": stream.get("stream_load_percentage", None),
-                            "stream_duration_mode": stream.get("stream_duration_mode", "Continuous"),
-                            "stream_duration_seconds": stream.get("stream_duration_seconds", "10"),
-                        },
-                    }
-                    # Add formatted stream to the server payload
-                    if port not in streams_to_start:
-                        streams_to_start[port] = []
-                    streams_to_start[port].append(structured_stream)
-                else:
-                    print(f"Stream '{stream_name}' not found in interface '{port}'.")
-
-        # Send stream data to the server
-        for port, streams in streams_to_start.items():
-            server_info = next(
-                (s for s in self.server_interfaces if f"TG {s.get('tg_id', '')} - Port: {s.get('port', '')}" in port),
-                None
-            )
-            if not server_info:
-                QMessageBox.warning(self, "Stream Error", f"No server address found for port: {port}")
-                print(f"No server found for port: {port}. Available server interfaces: {self.server_interfaces}")
-                continue
-
-            server_address = server_info["address"]
-            try:
-                payload = {"streams": {port: streams}}
-                print(f"Sending payload to {server_address}: {payload}")
-                response = requests.post(f"{server_address}/api/traffic/start", json=payload)
-                if response.status_code == 200:
-                    print(f"Streams on {port} started successfully: {response.json()}")
-                else:
-                    QMessageBox.critical(self, "Stream Error", f"Failed to start streams on {port}: {response.text}")
-            except Exception as e:
-                QMessageBox.critical(self, "Stream Error", f"Error connecting to server {server_address}: {e}")
+            # Update the status in the data structure
+            for stream in self.streams.get(port, []):
+                if stream["name"] == stream_name:
+                    stream["status"] = "running"  # Update the status to 'running'
+                    break
 
         self.update_stream_table()  # Refresh the table
-
-    '''def stop_stream(self):
-        """Stop the selected streams, update their statuses, and notify the server."""
-        selected_rows = self.stream_table.selectionModel().selectedRows()
-
-        if not selected_rows:
-            QMessageBox.warning(self, "No Selection", "Please select a stream to stop.")
-            return
-
-        streams_to_stop = []  # List to send to the server
-
-        for row in selected_rows:
-            row_index = row.row()  # Get the selected row index
-            port = self.stream_table.item(row_index, 1).text()  # Interface column
-            stream_name = self.stream_table.item(row_index, 2).text()  # Stream name column
-
-            # Identify the stream based on the port and index
-            streams = self.streams.get(port, [])
-            if row_index < len(streams):
-                stream = streams[row_index]
-                if stream.get("name", f"Unnamed Stream {row_index}") == stream_name:
-                    stream["status"] = "stopped"  # Mark stream as stopped
-                    streams_to_stop.append(stream)  # Add to the list to notify the server
-                    print(f"Stream '{stream_name}' on {port} marked as stopped.")
-                else:
-                    print(f"Stream '{stream_name}' not found in interface '{port}'.")
-            else:
-                print(f"Stream at row {row_index} for port {port} not found.")
-
-        if not streams_to_stop:
-            QMessageBox.warning(self, "No Streams to Stop", "No streams could be stopped.")
-            return
-
-        # Notify the server
-        server_address = self.selected_servers[0]["address"] if self.selected_servers else None
-        if server_address:
-            try:
-                response = requests.post(
-                    f"{server_address}/api/traffic/stop",
-                    json={"streams": streams_to_stop},
-                    timeout=5,
-                )
-                if response.status_code == 200:
-                    #QMessageBox.information(self, "Stop Stream", "Selected streams have been stopped.")
-                    print("Selected streams have been stopped")
-                else:
-                    QMessageBox.critical(self, "Stop Stream", f"Server Error: {response.text}")
-            except requests.RequestException as e:
-                QMessageBox.critical(self, "Stop Stream", f"Error connecting to server: {e}")
-        else:
-            QMessageBox.critical(self, "Stop Stream", "No server address found.")
-
-        self.update_stream_table()  # Refresh the table'''
-
+        #QMessageBox.information(self, "Start Stream", "Selected streams have been started.")
     def stop_stream(self):
-        """Stop the selected streams, update their statuses, and notify the server."""
+        """Stop the selected streams and update their statuses."""
         selected_rows = self.stream_table.selectionModel().selectedRows()
 
         if not selected_rows:
             QMessageBox.warning(self, "No Selection", "Please select a stream to stop.")
             return
 
-        streams_to_stop = []  # List to send to the server
-
         for row in selected_rows:
-            row_index = row.row()  # Get the selected row index
-            port = self.stream_table.item(row_index, 1).text()  # Interface column
-            stream_name = self.stream_table.item(row_index, 2).text()  # Stream name column
+            port = self.stream_table.item(row.row(), 1).text()
+            stream_name = self.stream_table.item(row.row(), 2).text()
 
-            # Identify the stream based on the port and index
-            streams = self.streams.get(port, [])
-            if row_index < len(streams):
-                stream = streams[row_index]
-                if stream.get("name", f"Unnamed Stream {row_index}") == stream_name:
-                    stream["status"] = "stopped"  # Mark stream as stopped
-                    streams_to_stop.append(
-                        {"name": stream_name, "interface": port})  # Add to the list to notify the server
-                    print(f"Stream '{stream_name}' on {port} marked as stopped.")
-                else:
-                    print(f"Stream '{stream_name}' not found in interface '{port}'.")
-            else:
-                print(f"Stream at row {row_index} for port {port} not found.")
-
-        if not streams_to_stop:
-            QMessageBox.warning(self, "No Streams to Stop", "No streams could be stopped.")
-            return
-
-        # Notify the server
-        server_address = self.selected_servers[0]["address"] if self.selected_servers else None
-        if server_address:
-            try:
-                response = requests.post(
-                    f"{server_address}/api/traffic/stop",
-                    json={"streams": streams_to_stop},
-                    timeout=5,
-                )
-                if response.status_code == 200:
-                    print("Selected streams have been stopped successfully.")
-                else:
-                    QMessageBox.critical(self, "Stop Stream", f"Server Error: {response.text}")
-            except requests.RequestException as e:
-                QMessageBox.critical(self, "Stop Stream", f"Error connecting to server: {e}")
-        else:
-            QMessageBox.critical(self, "Stop Stream", "No server address found.")
+            # Update the status in the data structure
+            for stream in self.streams.get(port, []):
+                if stream["name"] == stream_name:
+                    stream["status"] = "stopped"  # Update the status to 'stopped'
+                    break
 
         self.update_stream_table()  # Refresh the table
+        #QMessageBox.information(self, "Stop Stream", "Selected streams have been stopped.")
 
     def update_stream_status(self, row, color):
         """Update the stream status to green or red dot for a specific row."""
@@ -1446,6 +1137,7 @@ class TrafficGeneratorClient(QMainWindow):
         self.start_stream_button = QPushButton("Start Stream")
         self.start_stream_button.clicked.connect(self.start_stream)
         button_layout.addWidget(self.start_stream_button)
+
         # Stop Stream Button
         self.stop_stream_button = QPushButton("Stop Stream")
         self.stop_stream_button.clicked.connect(self.stop_stream)
@@ -1456,8 +1148,6 @@ class TrafficGeneratorClient(QMainWindow):
 
         return button_layout
 
-
-
     def copy_selected_stream(self):
         """Copy the selected stream to a temporary variable."""
         selected_rows = self.stream_table.selectionModel().selectedRows()
@@ -1467,17 +1157,17 @@ class TrafficGeneratorClient(QMainWindow):
 
         # Get the selected stream's details
         selected_row = selected_rows[0].row()
-        interface = self.stream_table.item(selected_row, 0).text()
-        stream_name = self.stream_table.item(selected_row, 1).text()
+        interface = self.stream_table.item(selected_row, 1).text()  # Assuming column 1 is interface
+        stream_name = self.stream_table.item(selected_row, 2).text()  # Assuming column 2 is stream name
 
         # Find the stream in the dictionary
         stream = next((s for s in self.streams.get(interface, []) if s["name"] == stream_name), None)
         if not stream:
-            QMessageBox.warning(self, "Error", "Stream not found.")
+            QMessageBox.warning(self, "Error", f"Stream '{stream_name}' not found.")
             return
 
         # Save the stream to a temporary variable
-        self.copied_stream = stream
+        self.copied_stream = stream.copy()  # Ensure a deep copy to avoid modifying the original
         print(f"Copied Stream: {self.copied_stream}")
         #QMessageBox.information(self, "Stream Copied", f"Stream '{stream_name}' copied successfully.")
 
@@ -1510,14 +1200,21 @@ class TrafficGeneratorClient(QMainWindow):
 
         # Copy the stream data and ensure the name is unique
         pasted_stream = self.copied_stream.copy()
-        pasted_stream["name"] = f"{pasted_stream['name']}_copy"
+        original_name = pasted_stream["name"]
+        index = 1
+        new_name = f"{original_name}_copy"
+        while any(s["name"] == new_name for s in self.streams[full_port_name]):
+            index += 1
+            new_name = f"{original_name}_copy_{index}"
+        pasted_stream["name"] = new_name
 
         # Append the copied stream to the target port
         self.streams[full_port_name].append(pasted_stream)
         print(f"Pasted Stream to {full_port_name}: {pasted_stream}")
+
         # Refresh the stream table
         self.update_stream_table()
-        #QMessageBox.information(self, "Stream Pasted", f"Stream pasted to {full_port_name}.")
+        #QMessageBox.information(self, "Stream Pasted", f"Stream pasted to {full_port_name} with name '{new_name}'.")
 
     def setup_traffic_statistics_section(self):
         """Set up the traffic statistics section."""
@@ -1571,6 +1268,7 @@ class TrafficGeneratorClient(QMainWindow):
             self.removed_interfaces = set()
 
 
+
     def open_add_stream_dialog(self):
         """Open a dialog to add a stream for the selected TG port."""
         selected_items = self.server_tree.selectedItems()
@@ -1594,32 +1292,35 @@ class TrafficGeneratorClient(QMainWindow):
         dialog = AddStreamDialog(self, full_port_name)
         if dialog.exec() == QDialog.Accepted:
             stream_details = dialog.get_stream_details()
-
             # Ensure a list exists for the TG port in the streams dictionary
             if full_port_name not in self.streams:
                 self.streams[full_port_name] = []  # Initialize the list for the port
 
-            # Generate a unique name for the stream
-            existing_names = {stream["name"] for stream in self.streams[full_port_name]}
-            base_name = stream_details.get("name", "NewStream")
-            unique_name = base_name
-            counter = 1
+            # Generate a unique stream name in the format "Stream_<number>"
+            existing_stream_names = [stream["name"] for stream in self.streams[full_port_name]]
+            if not stream_details.get("name"):
+                index = 1
+                while f"Stream_{index}" in existing_stream_names:
+                    index += 1
+                stream_details["name"] = f"Stream_{index}"
 
-            while unique_name in existing_names:
-                unique_name = f"{base_name}_{counter}"
-                counter += 1
-
-            # Assign the unique name to the stream details
-            stream_details["name"] = unique_name
+            # Check for duplicate names if the user provides one
+            elif stream_details["name"] in existing_stream_names:
+                QMessageBox.warning(
+                    self,
+                    "Duplicate Stream Name",
+                    f"A stream with the name '{stream_details['name']}' already exists for this port. Please choose a different name."
+                )
+                return
 
             # Append the new stream to the list for the selected TG port
             self.streams[full_port_name].append(stream_details)
 
-            print(f"Stream added for {full_port_name}: {stream_details}")  # Debugging
+            # Debugging: Log the added stream
+            print(f"Stream added for {full_port_name}: {stream_details}")
 
             # Refresh the stream table
             self.update_stream_table()
-
 
     def edit_selected_stream(self):
         """Edit the selected stream."""
@@ -1667,9 +1368,10 @@ class TrafficGeneratorClient(QMainWindow):
                     QMessageBox.warning(self, "Edit Stream", "No changes were made to the stream.")
                     return
 
-                # Update the stream details in place
-                for key, value in edited_stream.items():
-                    stream[key] = value
+                # Replace or update the stream details in the dictionary
+                self.streams[interface] = [
+                    edited_stream if s.get("name") == stream_name else s for s in self.streams[interface]
+                ]
 
                 # Refresh the stream table
                 self.update_stream_table()
@@ -1718,6 +1420,8 @@ class TrafficGeneratorClient(QMainWindow):
             QMessageBox.information(self, "Stream Removed", "Selected streams have been removed.")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred while removing the stream: {e}")
+
+
 
     def on_server_checkbox_state_changed(self, index, state):
         """Handle state changes for the server selection checkboxes."""
@@ -1788,7 +1492,7 @@ class AddStreamDialog(QDialog):
 
         # Buttons
         self.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.buttons.accepted.connect(self.validate_and_accept)
+        self.buttons.accepted.connect(self.accept)
         self.buttons.rejected.connect(self.reject)
         self.main_layout.addWidget(self.buttons)
         self.setLayout(self.main_layout)
@@ -1802,34 +1506,6 @@ class AddStreamDialog(QDialog):
         self.connect_protocol_data_to_packet_view()
 
     # Option 1: Implement setup_variable_fields_tab if required
-
-    def validate_and_accept(self):
-        """Validates the stream name, generates a dynamic name if empty, and accepts the dialog if valid."""
-        stream_name = self.stream_name.text().strip()
-
-        # Generate a default stream name if none is provided
-        if not stream_name:
-            stream_name = self.generate_default_stream_name()
-            self.stream_name.setText(stream_name)  # Update the field for consistency
-
-        # Fetch existing stream names
-        existing_stream_names = self.get_existing_stream_names()
-        print(f"Validating stream name: {stream_name}")  # Debugging
-        print(f"Existing stream names: {existing_stream_names}")  # Debugging
-
-        # Check for duplicates
-        if stream_name in existing_stream_names:
-            QMessageBox.critical(self, "Duplicate Name", f"The stream name '{stream_name}' is already in use.")
-            return  # Do not proceed
-
-        # Add the new name to the list (if applicable)
-        if self.parent() and hasattr(self.parent(), "stream_list"):
-            self.parent().stream_list.append({"name": stream_name})
-
-        # If all validations pass, call accept to close the dialog
-        print("Validation passed, accepting the dialog.")
-        self.accept()
-
     def setup_variable_fields_tab(self):
         """Set up the Variable Fields tab."""
         layout = QVBoxLayout()
@@ -1951,9 +1627,11 @@ class AddStreamDialog(QDialog):
         l1_layout = QVBoxLayout()
         self.l1_none = QRadioButton("None")
         self.l1_mac = QRadioButton("MAC")
+        self.l1_raw = QRadioButton("RAW")
         self.l1_none.setChecked(True)
         l1_layout.addWidget(self.l1_none)
         l1_layout.addWidget(self.l1_mac)
+        l1_layout.addWidget(self.l1_raw)
         l1_group.setLayout(l1_layout)
         simple_layout.addWidget(l1_group, 0, 0)
 
@@ -1975,9 +1653,11 @@ class AddStreamDialog(QDialog):
         l2_layout = QVBoxLayout()
         self.l2_none = QRadioButton("None")
         self.l2_ethernet = QRadioButton("Ethernet II")
+        self.l2_mpls = QRadioButton("MPLS")
         self.l2_none.setChecked(True)
         l2_layout.addWidget(self.l2_none)
         l2_layout.addWidget(self.l2_ethernet)
+        l2_layout.addWidget(self.l2_mpls)
         l2_group.setLayout(l2_layout)
         simple_layout.addWidget(l2_group, 0, 2)
 
@@ -2031,6 +1711,8 @@ class AddStreamDialog(QDialog):
         # Add Stretch for Bottom Alignment
         self.protocol_tab_layout.addStretch(1)
 
+
+
     def add_simple_section(self):
         """Adds the Simple Section to the Protocol Selection Tab."""
         simple_group = QGroupBox("Simple")
@@ -2072,196 +1754,13 @@ class AddStreamDialog(QDialog):
         self.add_mac_section()
         self.add_vlan_section()
         self.add_ipv4_section()
+        self.add_ipv6_section()
         self.add_tcp_section()
+        self.add_mpls_section()
         self.add_payload_data_section()
         self.add_rocev2_section()
 
 
-
-    def populate_stream_fields(self, stream_data=None):
-        """Populates the dialog fields with the existing stream data or default values."""
-        if not stream_data:
-            stream_data = {}
-        print(f"**** Populating fields with: {stream_data}")  # Debugging
-
-        # Basics Section
-        self.stream_name.setText(stream_data.get("name", ""))
-        self.enabled_checkbox.setChecked(stream_data.get("enabled", False))
-        self.details_field.setText(stream_data.get("details", ""))
-
-        # Frame Length Section
-        self.frame_type.setCurrentText(stream_data.get("frame_type", "Fixed"))
-        self.frame_min.setText(stream_data.get("frame_min", "64"))
-        self.frame_max.setText(stream_data.get("frame_max", "1518"))
-        self.frame_size.setText(stream_data.get("frame_size", "64"))
-
-        # L1 Section
-        l1_value = stream_data.get("L1", "None")
-        self.l1_none.setChecked(l1_value == "None")
-        self.l1_mac.setChecked(l1_value == "MAC")
-
-        # VLAN Section
-        vlan_value = stream_data.get("VLAN", "Untagged")
-        self.vlan_tagged.setChecked(vlan_value == "Tagged")
-        self.vlan_stacked.setChecked(vlan_value == "Stacked")
-        self.vlan_untagged.setChecked(vlan_value == "Untagged")
-
-        vlan_increment = stream_data.get("vlan_increment", False)
-        self.vlan_increment_checkbox.setChecked(vlan_increment)
-        self.vlan_increment_value.setText(stream_data.get("vlan_increment_value", "1"))
-        self.vlan_increment_count.setText(stream_data.get("vlan_increment_count", "1"))
-        self.vlan_increment_value.setEnabled(vlan_increment)
-        self.vlan_increment_count.setEnabled(vlan_increment)
-        self.priority_field.setCurrentText(stream_data.get("vlan_priority", "0"))
-        self.cfi_dei_field.setCurrentText(stream_data.get("vlan_cfi_dei", "0"))
-        self.vlan_id_field.setText(stream_data.get("vlan_id", "1"))
-        self.tpid_field.setText(stream_data.get("vlan_tpid", "81 00"))
-        self.override_tpid_checkbox.setChecked(stream_data.get("override_vlan_tpid", False))
-        self.tpid_field.setEnabled(self.override_tpid_checkbox.isChecked())
-
-        # L2 Section
-        l2_value = stream_data.get("L2", "None")
-        self.l2_none.setChecked(l2_value == "None")
-        self.l2_ethernet.setChecked(l2_value == "Ethernet II")
-
-        # L3 Section
-        l3_value = stream_data.get("L3", "None")
-        self.l3_none.setChecked(l3_value == "None")
-        self.l3_arp.setChecked(l3_value == "ARP")
-        self.l3_ipv4.setChecked(l3_value == "IPv4")
-        self.l3_ipv6.setChecked(l3_value == "IPv6")
-
-        # L4 Section
-        l4_value = stream_data.get("L4", "None")
-        self.l4_none.setChecked(l4_value == "None")
-        self.l4_icmp.setChecked(l4_value == "ICMP")
-        self.l4_igmp.setChecked(l4_value == "IGMP")
-        self.l4_tcp.setChecked(l4_value == "TCP")
-        self.l4_udp.setChecked(l4_value == "UDP")
-        self.l4_rocev2.setChecked(l4_value == "RoCEv2")
-
-        # Populate TCP Flags if L4 is TCP
-
-        tcp_flags = stream_data.get("tcp_flags", "")
-        flags = [flag.strip() for flag in tcp_flags.split(",")] if tcp_flags else []
-        for flag, widget in [
-            ("URG", self.flag_urg),
-            ("ACK", self.flag_ack),
-            ("PSH", self.flag_psh),
-            ("RST", self.flag_rst),
-            ("SYN", self.flag_syn),
-            ("FIN", self.flag_fin),
-        ]:
-            widget.setChecked(flag in flags)
-        # Populate RoCEv2 Fields if L4 is RoCEv2
-        print("Populating RoCEv2 fields...")
-        self.rocev2_traffic_class.setCurrentText(stream_data.get("rocev2_traffic_class", "0"))
-        self.rocev2_flow_label.setText(stream_data.get("rocev2_flow_label", "000000"))
-        self.rocev2_source_gid.setText(stream_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"))
-        self.rocev2_destination_gid.setText(stream_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"))
-        self.rocev2_source_qp.setText(stream_data.get("rocev2_source_qp", "0"))
-        self.rocev2_destination_qp.setText(stream_data.get("rocev2_destination_qp", "0"))
-
-        # Payload Section
-        payload_value = stream_data.get("Payload", "None")
-        self.payload_none.setChecked(payload_value == "None")
-        self.payload_pattern.setChecked(payload_value == "Pattern")
-        self.payload_hex.setChecked(payload_value == "Hex Dump")
-
-        # MAC Section
-        # Populate MAC Destination Fields
-        self.mac_destination_mode.setCurrentText(stream_data.get("mac_destination_mode", "Fixed"))
-        self.mac_destination_address.setText(stream_data.get("mac_destination_address", "00:00:00:00:00:00"))
-        self.mac_destination_count.setText(stream_data.get("mac_destination_count", "1"))
-        self.mac_destination_step.setText(stream_data.get("mac_destination_step", "1"))
-        self.toggle_mac_fields(
-            mode=self.mac_destination_mode.currentText(),
-            count_field=self.mac_destination_count,
-            step_field=self.mac_destination_step,
-        )
-
-        # Populate MAC Source Fields
-        self.mac_source_mode.setCurrentText(stream_data.get("mac_source_mode", "Fixed"))
-        self.mac_source_address.setText(stream_data.get("mac_source_address", "00:00:00:00:00:00"))
-        self.mac_source_count.setText(stream_data.get("mac_source_count", "1"))
-        self.mac_source_step.setText(stream_data.get("mac_source_step", "1"))
-        self.toggle_mac_fields(
-            mode=self.mac_source_mode.currentText(),
-            count_field=self.mac_source_count,
-            step_field=self.mac_source_step,
-        )
-
-        # IPv4 Section
-        self.source_field.setText(stream_data.get("ipv4_source", "0.0.0.0"))
-        self.destination_field.setText(stream_data.get("ipv4_destination", "0.0.0.0"))
-        self.ttl_field.setText(stream_data.get("ipv4_ttl", "64"))
-        self.identification_field.setText(stream_data.get("ipv4_identification", "0000"))
-        self.source_mode_dropdown.setCurrentText(stream_data.get("ipv4_source_mode", "Fixed"))
-        self.destination_mode_dropdown.setCurrentText(stream_data.get("ipv4_destination_mode", "Fixed"))
-
-        # IPv4 Increment
-        self.increment_source_checkbox.setChecked(stream_data.get("ipv4_increment_source", False))
-        self.source_increment_step.setText(stream_data.get("ipv4_source_increment_step", "1"))
-        self.source_increment_count.setText(stream_data.get("ipv4_source_increment_count", "1"))
-        self.source_increment_step.setEnabled(self.increment_source_checkbox.isChecked())
-        self.source_increment_count.setEnabled(self.increment_source_checkbox.isChecked())
-
-        self.increment_destination_checkbox.setChecked(stream_data.get("ipv4_increment_destination", False))
-        self.destination_increment_step.setText(stream_data.get("ipv4_destination_increment_step", "1"))
-        self.destination_increment_count.setText(stream_data.get("ipv4_destination_increment_count", "1"))
-        self.destination_increment_step.setEnabled(self.increment_destination_checkbox.isChecked())
-        self.destination_increment_count.setEnabled(self.increment_destination_checkbox.isChecked())
-        self.df_checkbox.setChecked(stream_data.get("ipv4_df", False))
-        self.mf_checkbox.setChecked(stream_data.get("ipv4_mf", False))
-        self.fragment_offset_field.setText(stream_data.get("ipv4_fragment_offset", "0"))
-
-        # TOS/DSCP/Custom
-        tos_dscp_mode = stream_data.get("tos_dscp_mode", "TOS")
-        self.tos_dscp_custom_mode.setCurrentText(tos_dscp_mode)
-        if tos_dscp_mode == "TOS":
-            self.tos_dropdown.setCurrentText(stream_data.get("ipv4_tos", "Routine"))
-        elif tos_dscp_mode == "DSCP":
-            self.dscp_dropdown.setCurrentText(stream_data.get("ipv4_dscp", "cs0"))
-            self.ecn_dropdown.setCurrentText(stream_data.get("ipv4_ecn", "Not-ECT"))
-        elif tos_dscp_mode == "Custom":
-            self.custom_tos_field.setText(stream_data.get("ipv4_custom_tos", ""))
-
-        # TCP Section
-        self.source_port_field.setText(stream_data.get("tcp_source_port", "0"))
-        self.destination_port_field.setText(stream_data.get("tcp_destination_port", "0"))
-        self.window_field.setText(stream_data.get("tcp_window", "1024"))
-        self.tcp_checksum_field.setText(stream_data.get("tcp_checksum", ""))
-        self.override_source_port_checkbox.setChecked(stream_data.get("override_source_tcp_port", False))
-        self.source_port_field.setEnabled(self.override_source_port_checkbox.isChecked())
-        self.override_destination_port_checkbox.setChecked(stream_data.get("override_destination_tcp_port", False))
-        self.destination_port_field.setEnabled(self.override_destination_port_checkbox.isChecked())
-        self.increment_tcp_source_checkbox.setChecked(stream_data.get("tcp_increment_source_port", False))
-        self.tcp_source_increment_step.setText(stream_data.get("tcp_source_port_step", "1"))
-        self.tcp_source_increment_count.setText(stream_data.get("tcp_source_port_count", "1"))
-        self.increment_tcp_destination_checkbox.setChecked(stream_data.get("tcp_increment_destination_port", False))
-        self.tcp_destination_increment_step.setText(stream_data.get("tcp_destination_port_step", "1"))
-        self.tcp_destination_increment_count.setText(stream_data.get("tcp_destination_port_count", "1"))
-
-        # Payload Data
-        self.payload_data_field.setText(stream_data.get("payload_data", ""))
-
-        # Stream Rate Section
-        self.rate_type_dropdown.setCurrentText(stream_data.get("stream_rate_type", "Packets Per Second (PPS)"))
-        self.stream_pps_rate.setText(stream_data.get("stream_pps_rate", "1000"))
-        self.stream_bit_rate.setText(stream_data.get("stream_bit_rate", "100"))
-        self.stream_load_percentage.setText(stream_data.get("stream_load_percentage", "50"))
-
-        # Stream Duration Section
-        duration_mode = stream_data.get("stream_duration_mode", "Continuous")
-        self.duration_mode_dropdown.setCurrentText(duration_mode)
-
-        if duration_mode == "Seconds":
-            duration_value = stream_data.get("stream_duration_seconds", "10")
-            self.stream_duration_field.setText(str(duration_value))
-        else:
-            self.stream_duration_field.clear()
-
-        print("**** Finished populating fields.")  # Debugging end
 
     def toggle_mac_fields(self, mode, count_field, step_field):
         """
@@ -2336,7 +1835,41 @@ class AddStreamDialog(QDialog):
         mac_group.setLayout(mac_layout)
         self.protocol_data_layout.addWidget(mac_group)
 
+    def add_mpls_section(self):
+        """Adds the MPLS section to the Protocol Data Tab."""
+        mpls_group = QGroupBox("MPLS")
+        mpls_layout = QGridLayout()
+        mpls_layout.setContentsMargins(5, 5, 5, 5)  # Tight margins
+        mpls_layout.setSpacing(5)  # Adjust spacing between widgets
 
+        # MPLS Label Field
+        self.mpls_label_field = QLineEdit("16")  # Default value: 16
+        self.mpls_label_field.setPlaceholderText("Label")
+        self.mpls_label_field.setValidator(QIntValidator(0, 1048575))  # Valid MPLS label range
+
+        # MPLS TTL Field
+        self.mpls_ttl_field = QLineEdit("64")  # Default value: 64
+        self.mpls_ttl_field.setPlaceholderText("TTL")
+        self.mpls_ttl_field.setValidator(QIntValidator(0, 255))  # Valid TTL range
+
+        # MPLS Experimental Field
+        self.mpls_experimental_field = QLineEdit("0")  # Default value: 0
+        self.mpls_experimental_field.setPlaceholderText("Experimental")
+        self.mpls_experimental_field.setValidator(QIntValidator(0, 7))  # Valid EXP range
+
+        # Add widgets in a single row
+        mpls_layout.addWidget(QLabel("Label:"), 0, 0)
+        mpls_layout.addWidget(self.mpls_label_field, 0, 1)
+        mpls_layout.addWidget(QLabel("TTL:"), 0, 2)
+        mpls_layout.addWidget(self.mpls_ttl_field, 0, 3)
+        mpls_layout.addWidget(QLabel("Experimental:"), 0, 4)
+        mpls_layout.addWidget(self.mpls_experimental_field, 0, 5)
+
+        mpls_group.setLayout(mpls_layout)
+        mpls_group.setMaximumHeight(70)  # Compact height for MPLS Section
+
+        # Add MPLS section to the Protocol Data Tab layout
+        self.protocol_data_layout.addWidget(mpls_group)
 
     def add_vlan_section(self):
         """Adds the VLAN section to the Protocol Data tab."""
@@ -2411,26 +1944,21 @@ class AddStreamDialog(QDialog):
         self.source_mode_dropdown.addItems(["Fixed", "Increment"])
         ipv4_layout.addWidget(self.source_mode_dropdown, 0, 2)
 
-        self.increment_source_checkbox = QCheckBox("Increment Source")
-        ipv4_layout.addWidget(self.increment_source_checkbox, 0, 3)
-
         self.source_increment_step = QLineEdit("1")
         self.source_increment_step.setValidator(QIntValidator(1, 255))
-        self.source_increment_step.setDisabled(True)
-        ipv4_layout.addWidget(QLabel("Step"), 0, 4)
-        ipv4_layout.addWidget(self.source_increment_step, 0, 5)
+        ipv4_layout.addWidget(QLabel("Step"), 0, 3)
+        ipv4_layout.addWidget(self.source_increment_step, 0, 4)
 
         self.source_increment_count = QLineEdit("1")
         self.source_increment_count.setValidator(QIntValidator(1, 255))
-        self.source_increment_count.setDisabled(True)
-        ipv4_layout.addWidget(QLabel("Count"), 0, 6)
-        ipv4_layout.addWidget(self.source_increment_count, 0, 7)
+        ipv4_layout.addWidget(QLabel("Count"), 0, 5)
+        ipv4_layout.addWidget(self.source_increment_count, 0, 6)
 
-        # Enable/disable increment fields based on checkbox
-        self.increment_source_checkbox.toggled.connect(
-            lambda checked: [
-                self.source_increment_step.setEnabled(checked),
-                self.source_increment_count.setEnabled(checked),
+        # Enable/disable increment fields based on source mode
+        self.source_mode_dropdown.currentIndexChanged.connect(
+            lambda index: [
+                self.source_increment_step.setEnabled(index == 1),  # Enable only if "Increment" is selected
+                self.source_increment_count.setEnabled(index == 1)
             ]
         )
 
@@ -2443,58 +1971,53 @@ class AddStreamDialog(QDialog):
         self.destination_mode_dropdown.addItems(["Fixed", "Increment"])
         ipv4_layout.addWidget(self.destination_mode_dropdown, 1, 2)
 
-        self.increment_destination_checkbox = QCheckBox("Increment Destination")
-        ipv4_layout.addWidget(self.increment_destination_checkbox, 1, 3)
-
         self.destination_increment_step = QLineEdit("1")
         self.destination_increment_step.setValidator(QIntValidator(1, 255))
-        self.destination_increment_step.setDisabled(True)
-        ipv4_layout.addWidget(QLabel("Step"), 1, 4)
-        ipv4_layout.addWidget(self.destination_increment_step, 1, 5)
+        ipv4_layout.addWidget(QLabel("Step"), 1, 3)
+        ipv4_layout.addWidget(self.destination_increment_step, 1, 4)
 
         self.destination_increment_count = QLineEdit("1")
         self.destination_increment_count.setValidator(QIntValidator(1, 255))
-        self.destination_increment_count.setDisabled(True)
-        ipv4_layout.addWidget(QLabel("Count"), 1, 6)
-        ipv4_layout.addWidget(self.destination_increment_count, 1, 7)
+        ipv4_layout.addWidget(QLabel("Count"), 1, 5)
+        ipv4_layout.addWidget(self.destination_increment_count, 1, 6)
 
-        # Enable/disable increment fields based on checkbox
-        self.increment_destination_checkbox.toggled.connect(
-            lambda checked: [
-                self.destination_increment_step.setEnabled(checked),
-                self.destination_increment_count.setEnabled(checked),
+        # Enable/disable increment fields based on destination mode
+        self.destination_mode_dropdown.currentIndexChanged.connect(
+            lambda index: [
+                self.destination_increment_step.setEnabled(index == 1),  # Enable only if "Increment" is selected
+                self.destination_increment_count.setEnabled(index == 1)
             ]
         )
 
-        # Time to Live (TTL) and Identification
-        ipv4_layout.addWidget(QLabel("Time To Live (TTL)"), 2, 0)
+        # TTL, DF, MF, Fragment Offset, and Identification in One Row
+        ipv4_layout.addWidget(QLabel("TTL"), 2, 0)
         self.ttl_field = QLineEdit("64")
         self.ttl_field.setValidator(QIntValidator(1, 255))
         ipv4_layout.addWidget(self.ttl_field, 2, 1)
 
-        ipv4_layout.addWidget(QLabel("Identification"), 2, 2)
-        self.identification_field = QLineEdit("0000")
-        self.identification_field.setValidator(QIntValidator(0, 65535))
-        ipv4_layout.addWidget(self.identification_field, 2, 3)
-
-        # Flags Section
         self.df_checkbox = QCheckBox("Don't Fragment (DF)")
-        self.mf_checkbox = QCheckBox("More Fragments (MF)")
-        ipv4_layout.addWidget(self.df_checkbox, 3, 0)
-        ipv4_layout.addWidget(self.mf_checkbox, 3, 1)
+        ipv4_layout.addWidget(self.df_checkbox, 2, 2)
 
-        ipv4_layout.addWidget(QLabel("Fragment Offset"), 3, 2)
+        self.mf_checkbox = QCheckBox("More Fragments (MF)")
+        ipv4_layout.addWidget(self.mf_checkbox, 2, 3)
+
+        ipv4_layout.addWidget(QLabel("Fragment Offset"), 2, 4)
         self.fragment_offset_field = QLineEdit("0")
         self.fragment_offset_field.setValidator(QIntValidator(0, 8191))  # 13-bit field
-        ipv4_layout.addWidget(self.fragment_offset_field, 3, 3)
+        ipv4_layout.addWidget(self.fragment_offset_field, 2, 5)
+
+        ipv4_layout.addWidget(QLabel("Identification"), 2, 6)
+        self.identification_field = QLineEdit("0000")
+        self.identification_field.setValidator(QIntValidator(0, 65535))
+        ipv4_layout.addWidget(self.identification_field, 2, 7)
 
         # TOS/DSCP/Custom Section
         self.tos_dscp_custom_mode = QComboBox()
         self.tos_dscp_custom_mode.addItems(["TOS", "DSCP", "Custom"])
-        ipv4_layout.addWidget(self.tos_dscp_custom_mode, 4, 0)
+        ipv4_layout.addWidget(self.tos_dscp_custom_mode, 3, 0)
 
         self.tos_dscp_custom_stack = QStackedWidget()
-        ipv4_layout.addWidget(self.tos_dscp_custom_stack, 4, 1, 1, 6)  # Spanning columns 1 to 6
+        ipv4_layout.addWidget(self.tos_dscp_custom_stack, 3, 1, 1, 6)  # Spanning columns 1 to 6
 
         # TOS Widget
         tos_widget = QWidget()
@@ -2542,7 +2065,97 @@ class AddStreamDialog(QDialog):
 
 
 
-    def add_tcp_section(self):
+    def add_ipv6_section(self):
+        """Adds the IPv6 section to the Protocol Data tab."""
+        ipv6_group = QGroupBox("IPv6")
+        ipv6_layout = QGridLayout()
+
+        # Source Address
+        ipv6_layout.addWidget(QLabel("Source Address"), 0, 0)
+        self.ipv6_source_field = QLineEdit("::1")
+        ipv6_layout.addWidget(self.ipv6_source_field, 0, 1)
+
+        # Source Address Mode Dropdown
+        ipv6_layout.addWidget(QLabel("Source Mode"), 0, 2)
+        self.ipv6_source_mode_dropdown = QComboBox()
+        self.ipv6_source_mode_dropdown.addItems(["Fixed", "Increment"])
+        ipv6_layout.addWidget(self.ipv6_source_mode_dropdown, 0, 3)
+
+        # Source Increment Step
+        ipv6_layout.addWidget(QLabel("Source Step"), 0, 4)
+        self.ipv6_source_increment_step = QLineEdit("1")
+        self.ipv6_source_increment_step.setDisabled(True)
+        ipv6_layout.addWidget(self.ipv6_source_increment_step, 0, 5)
+
+        # Source Increment Count
+        ipv6_layout.addWidget(QLabel("Source Count"), 0, 6)
+        self.ipv6_source_increment_count = QLineEdit("1")
+        self.ipv6_source_increment_count.setDisabled(True)
+        ipv6_layout.addWidget(self.ipv6_source_increment_count, 0, 7)
+
+        # Destination Address
+        ipv6_layout.addWidget(QLabel("Destination Address"), 1, 0)
+        self.ipv6_destination_field = QLineEdit("::2")
+        ipv6_layout.addWidget(self.ipv6_destination_field, 1, 1)
+
+        # Destination Address Mode Dropdown
+        ipv6_layout.addWidget(QLabel("Destination Mode"), 1, 2)
+        self.ipv6_destination_mode_dropdown = QComboBox()
+        self.ipv6_destination_mode_dropdown.addItems(["Fixed", "Increment"])
+        ipv6_layout.addWidget(self.ipv6_destination_mode_dropdown, 1, 3)
+
+        # Destination Increment Step
+        ipv6_layout.addWidget(QLabel("Destination Step"), 1, 4)
+        self.ipv6_destination_increment_step = QLineEdit("1")
+        self.ipv6_destination_increment_step.setDisabled(True)
+        ipv6_layout.addWidget(self.ipv6_destination_increment_step, 1, 5)
+
+        # Destination Increment Count
+        ipv6_layout.addWidget(QLabel("Destination Count"), 1, 6)
+        self.ipv6_destination_increment_count = QLineEdit("1")
+        self.ipv6_destination_increment_count.setDisabled(True)
+        ipv6_layout.addWidget(self.ipv6_destination_increment_count, 1, 7)
+
+        # Traffic Class
+        ipv6_layout.addWidget(QLabel("Traffic Class"), 2, 0)
+        self.ipv6_traffic_class_field = QLineEdit("0")
+        self.ipv6_traffic_class_field.setValidator(QIntValidator(0, 255))
+        ipv6_layout.addWidget(self.ipv6_traffic_class_field, 2, 1)
+
+        # Flow Label
+        ipv6_layout.addWidget(QLabel("Flow Label"), 2, 2)
+        self.ipv6_flow_label_field = QLineEdit("0")
+        self.ipv6_flow_label_field.setValidator(QIntValidator(0, 1048575))  # 20-bit value
+        ipv6_layout.addWidget(self.ipv6_flow_label_field, 2, 3)
+
+        # Hop Limit
+        ipv6_layout.addWidget(QLabel("Hop Limit"), 2, 4)
+        self.ipv6_hop_limit_field = QLineEdit("64")
+        self.ipv6_hop_limit_field.setValidator(QIntValidator(0, 255))
+        ipv6_layout.addWidget(self.ipv6_hop_limit_field, 2, 5)
+
+        # Enable/Disable increment fields based on dropdown selection
+        self.ipv6_source_mode_dropdown.currentTextChanged.connect(
+            lambda mode: self.update_increment_fields(
+                mode, self.ipv6_source_increment_step, self.ipv6_source_increment_count
+            )
+        )
+        self.ipv6_destination_mode_dropdown.currentTextChanged.connect(
+            lambda mode: self.update_increment_fields(
+                mode, self.ipv6_destination_increment_step, self.ipv6_destination_increment_count
+            )
+        )
+
+        ipv6_group.setLayout(ipv6_layout)
+        self.protocol_data_layout.addWidget(ipv6_group)
+
+    def update_increment_fields(self, mode, step_field, count_field):
+        """Enable or disable increment fields based on the dropdown mode."""
+        is_increment = mode == "Increment"
+        step_field.setEnabled(is_increment)
+        count_field.setEnabled(is_increment)
+
+    '''def add_tcp_section(self):
         """Adds the TCP section to the Protocol Data tab."""
 
         def validate_32bit_unsigned(field):
@@ -2689,6 +2302,152 @@ class AddStreamDialog(QDialog):
         flags_group.setLayout(flags_layout)
         tcp_layout.addWidget(flags_group, 4, 0, 1, 6)
         tcp_group.setLayout(tcp_layout)
+        self.protocol_data_layout.addWidget(tcp_group)'''
+
+    def add_tcp_section(self):
+        """Adds the TCP section to the Protocol Data tab."""
+
+        def validate_32bit_unsigned(field):
+            """
+            Validates if the text in the given field is a 32-bit unsigned integer.
+            If the value is invalid, it resets the field to 0.
+            """
+            try:
+                value = int(field.text())
+                if not (0 <= value <= 4294967295):
+                    raise ValueError
+            except ValueError:
+                field.setText("0")
+
+        tcp_group = QGroupBox("Transmission Control Protocol (stateless)")
+        tcp_layout = QGridLayout()
+
+        # Override Source Port
+        self.override_source_port_checkbox = QCheckBox("Override Source Port")
+        tcp_layout.addWidget(self.override_source_port_checkbox, 0, 0)
+
+        self.source_port_field = QLineEdit("0")
+        self.source_port_field.setValidator(QIntValidator(0, 65535))
+        self.source_port_field.setDisabled(True)  # Initially disabled
+        tcp_layout.addWidget(self.source_port_field, 0, 1)
+
+        # Connect checkbox to enable/disable source port field
+        self.override_source_port_checkbox.toggled.connect(
+            lambda checked: self.source_port_field.setEnabled(checked)
+        )
+
+        # Increment Source Port
+        self.increment_tcp_source_checkbox = QCheckBox("Increment Source Port")
+        tcp_layout.addWidget(self.increment_tcp_source_checkbox, 0, 2)
+
+        self.tcp_source_increment_step = QLineEdit("1")
+        self.tcp_source_increment_step.setValidator(QIntValidator(1, 65535))
+        self.tcp_source_increment_step.setDisabled(True)
+        tcp_layout.addWidget(QLabel("Step"), 0, 3)
+        tcp_layout.addWidget(self.tcp_source_increment_step, 0, 4)
+
+        self.tcp_source_increment_count = QLineEdit("1")
+        self.tcp_source_increment_count.setValidator(QIntValidator(1, 65535))
+        self.tcp_source_increment_count.setDisabled(True)
+        tcp_layout.addWidget(QLabel("Count"), 0, 5)
+        tcp_layout.addWidget(self.tcp_source_increment_count, 0, 6)
+
+        # Enable/disable fields based on increment checkbox
+        self.increment_tcp_source_checkbox.toggled.connect(
+            lambda checked: [
+                self.tcp_source_increment_step.setEnabled(checked),
+                self.tcp_source_increment_count.setEnabled(checked),
+            ]
+        )
+
+        # Override Destination Port
+        self.override_destination_port_checkbox = QCheckBox("Override Destination Port")
+        tcp_layout.addWidget(self.override_destination_port_checkbox, 1, 0)
+
+        self.destination_port_field = QLineEdit("0")
+        self.destination_port_field.setValidator(QIntValidator(0, 65535))
+        self.destination_port_field.setDisabled(True)  # Initially disabled
+        tcp_layout.addWidget(self.destination_port_field, 1, 1)
+
+        # Connect checkbox to enable/disable destination port field
+        self.override_destination_port_checkbox.toggled.connect(
+            lambda checked: self.destination_port_field.setEnabled(checked)
+        )
+
+        # Increment Destination Port
+        self.increment_tcp_destination_checkbox = QCheckBox("Increment Destination Port")
+        tcp_layout.addWidget(self.increment_tcp_destination_checkbox, 1, 2)
+
+        self.tcp_destination_increment_step = QLineEdit("1")
+        self.tcp_destination_increment_step.setValidator(QIntValidator(1, 65535))
+        self.tcp_destination_increment_step.setDisabled(True)
+        tcp_layout.addWidget(QLabel("Step"), 1, 3)
+        tcp_layout.addWidget(self.tcp_destination_increment_step, 1, 4)
+
+        self.tcp_destination_increment_count = QLineEdit("1")
+        self.tcp_destination_increment_count.setValidator(QIntValidator(1, 65535))
+        self.tcp_destination_increment_count.setDisabled(True)
+        tcp_layout.addWidget(QLabel("Count"), 1, 5)
+        tcp_layout.addWidget(self.tcp_destination_increment_count, 1, 6)
+
+        # Enable/disable fields based on increment checkbox
+        self.increment_tcp_destination_checkbox.toggled.connect(
+            lambda checked: [
+                self.tcp_destination_increment_step.setEnabled(checked),
+                self.tcp_destination_increment_count.setEnabled(checked),
+            ]
+        )
+
+        # Arrange Sequence Number, Acknowledgement Number, Window, and Override Checksum in one row
+        tcp_layout.addWidget(QLabel("Seq No"), 2, 0)
+        self.sequence_number_field = QLineEdit("129018")
+        tcp_layout.addWidget(self.sequence_number_field, 2, 1)
+        self.sequence_number_field.editingFinished.connect(
+            lambda: validate_32bit_unsigned(self.sequence_number_field)
+        )
+
+        tcp_layout.addWidget(QLabel("Ack No"), 2, 2)
+        self.acknowledgement_number_field = QLineEdit("0")
+        tcp_layout.addWidget(self.acknowledgement_number_field, 2, 3)
+        self.acknowledgement_number_field.editingFinished.connect(
+            lambda: validate_32bit_unsigned(self.acknowledgement_number_field)
+        )
+
+        tcp_layout.addWidget(QLabel("Window"), 2, 4)
+        self.window_field = QLineEdit("1024")
+        self.window_field.setValidator(QIntValidator(1, 65535))
+        tcp_layout.addWidget(self.window_field, 2, 5)
+
+        self.override_checksum_checkbox = QCheckBox("Override Checksum")
+        tcp_layout.addWidget(self.override_checksum_checkbox, 2, 6)
+
+        self.tcp_checksum_field = QLineEdit("B3 E7")
+        self.tcp_checksum_field.setDisabled(True)
+        tcp_layout.addWidget(self.tcp_checksum_field, 2, 7)
+
+        # Connect the checkbox to enable/disable checksum field
+        self.override_checksum_checkbox.toggled.connect(
+            lambda checked: self.tcp_checksum_field.setEnabled(checked)
+        )
+
+        # Flags Section
+        flags_group = QGroupBox("Flags")
+        flags_layout = QGridLayout()
+        self.flag_urg = QCheckBox("URG")
+        self.flag_ack = QCheckBox("ACK")
+        self.flag_psh = QCheckBox("PSH")
+        self.flag_rst = QCheckBox("RST")
+        self.flag_syn = QCheckBox("SYN")
+        self.flag_fin = QCheckBox("FIN")
+        flags_layout.addWidget(self.flag_urg, 0, 0)
+        flags_layout.addWidget(self.flag_ack, 0, 1)
+        flags_layout.addWidget(self.flag_psh, 0, 2)
+        flags_layout.addWidget(self.flag_rst, 1, 0)
+        flags_layout.addWidget(self.flag_syn, 1, 1)
+        flags_layout.addWidget(self.flag_fin, 1, 2)
+        flags_group.setLayout(flags_layout)
+        tcp_layout.addWidget(flags_group, 4, 0, 1, 6)
+        tcp_group.setLayout(tcp_layout)
         self.protocol_data_layout.addWidget(tcp_group)
 
     def add_rocev2_section(self):
@@ -2760,6 +2519,245 @@ class AddStreamDialog(QDialog):
             stream_data = self.get_stream_details()
             self.populate_packet_view(stream_data)
 
+
+    def populate_stream_fields(self, stream_data=None):
+        """Populates the dialog fields with the existing stream data or default values."""
+        if not stream_data:
+            stream_data = {}
+        print(f"**** Populating fields with: {stream_data}")  # Debugging
+
+        # Basics Section
+        self.stream_name.setText(stream_data.get("name", ""))
+        self.enabled_checkbox.setChecked(stream_data.get("enabled", False))
+        self.details_field.setText(stream_data.get("details", ""))
+
+        # Frame Length Section
+        self.frame_type.setCurrentText(stream_data.get("frame_type", "Fixed"))
+        self.frame_min.setText(stream_data.get("frame_min", "64"))
+        self.frame_max.setText(stream_data.get("frame_max", "1518"))
+        self.frame_size.setText(stream_data.get("frame_size", "64"))
+
+        # L1 Section
+        l1_value = stream_data.get("L1", "None")
+        self.l1_none.setChecked(l1_value == "None")
+        self.l1_mac.setChecked(l1_value == "MAC")
+        self.l1_raw.setChecked(l1_value == "RAW")
+
+        # VLAN Section
+        vlan_value = stream_data.get("VLAN", "Untagged")
+        self.vlan_tagged.setChecked(vlan_value == "Tagged")
+        self.vlan_stacked.setChecked(vlan_value == "Stacked")
+        self.vlan_untagged.setChecked(vlan_value == "Untagged")
+
+        vlan_increment = stream_data.get("vlan_increment", False)
+        self.vlan_increment_checkbox.setChecked(vlan_increment)
+        self.vlan_increment_value.setText(stream_data.get("vlan_increment_value", "1"))
+        self.vlan_increment_count.setText(stream_data.get("vlan_increment_count", "1"))
+        self.vlan_increment_value.setEnabled(vlan_increment)
+        self.vlan_increment_count.setEnabled(vlan_increment)
+        self.priority_field.setCurrentText(stream_data.get("vlan_priority", "0"))
+        self.cfi_dei_field.setCurrentText(stream_data.get("vlan_cfi_dei", "0"))
+        self.vlan_id_field.setText(stream_data.get("vlan_id", "1"))
+        self.tpid_field.setText(stream_data.get("vlan_tpid", "81 00"))
+        self.override_tpid_checkbox.setChecked(stream_data.get("override_vlan_tpid", False))
+        self.tpid_field.setEnabled(self.override_tpid_checkbox.isChecked())
+
+        # L2 Section
+        l2_value = stream_data.get("L2", "None")
+        self.l2_none.setChecked(l2_value == "None")
+        self.l2_ethernet.setChecked(l2_value == "Ethernet II")
+        self.l2_mpls.setChecked(l2_value == "MPLS")
+
+        # L3 Section
+        l3_value = stream_data.get("L3", "None")
+        self.l3_none.setChecked(l3_value == "None")
+        self.l3_arp.setChecked(l3_value == "ARP")
+        self.l3_ipv4.setChecked(l3_value == "IPv4")
+        self.l3_ipv6.setChecked(l3_value == "IPv6")
+
+        # L4 Section
+        l4_value = stream_data.get("L4", "None")
+        self.l4_none.setChecked(l4_value == "None")
+        self.l4_icmp.setChecked(l4_value == "ICMP")
+        self.l4_igmp.setChecked(l4_value == "IGMP")
+        self.l4_tcp.setChecked(l4_value == "TCP")
+        self.l4_udp.setChecked(l4_value == "UDP")
+        self.l4_rocev2.setChecked(l4_value == "RoCEv2")
+
+        # TCP Section
+        self.override_source_port_checkbox.setChecked(stream_data.get("override_source_tcp_port", False))
+        self.source_port_field.setText(stream_data.get("tcp_source_port", "0"))
+        # Ensure field enablement is updated explicitly
+        self.source_port_field.setEnabled(self.override_source_port_checkbox.isChecked())
+        self.increment_tcp_source_checkbox.setChecked(stream_data.get("tcp_increment_source_port", False))
+        self.tcp_source_increment_step.setText(stream_data.get("tcp_source_port_step", "1"))
+        self.tcp_source_increment_count.setText(stream_data.get("tcp_source_port_count", "1"))
+        # Ensure increment-related fields are explicitly enabled/disabled
+        self.tcp_source_increment_step.setEnabled(self.increment_tcp_source_checkbox.isChecked())
+        self.tcp_source_increment_count.setEnabled(self.increment_tcp_source_checkbox.isChecked())
+        self.override_destination_port_checkbox.setChecked(stream_data.get("override_destination_tcp_port", False))
+        self.destination_port_field.setText(stream_data.get("tcp_destination_port", "0"))
+        # Ensure field enablement is updated explicitly
+        self.destination_port_field.setEnabled(self.override_destination_port_checkbox.isChecked())
+        self.increment_tcp_destination_checkbox.setChecked(stream_data.get("tcp_increment_destination_port", False))
+        self.tcp_destination_increment_step.setText(stream_data.get("tcp_destination_port_step", "1"))
+        self.tcp_destination_increment_count.setText(stream_data.get("tcp_destination_port_count", "1"))
+        # Ensure increment-related fields are explicitly enabled/disabled
+        self.tcp_destination_increment_step.setEnabled(self.increment_tcp_destination_checkbox.isChecked())
+        self.tcp_destination_increment_count.setEnabled(self.increment_tcp_destination_checkbox.isChecked())
+        self.override_checksum_checkbox.setChecked(stream_data.get("override_checksum", False))
+        self.tcp_checksum_field.setText(stream_data.get("tcp_checksum", "B3 E7"))
+        self.tcp_checksum_field.setEnabled(self.override_checksum_checkbox.isChecked())  # Explicit enable/disable
+        # TCP Flags (if L4 is TCP)
+        tcp_flags = stream_data.get("tcp_flags", "")
+        flags = [flag.strip() for flag in tcp_flags.split(",")] if tcp_flags else []
+        for flag, widget in [
+            ("URG", self.flag_urg),
+            ("ACK", self.flag_ack),
+            ("PSH", self.flag_psh),
+            ("RST", self.flag_rst),
+            ("SYN", self.flag_syn),
+            ("FIN", self.flag_fin),
+        ]:
+            widget.setChecked(flag in flags)
+
+        # RoCEv2 Fields (if L4 is RoCEv2)
+        rocev2_data = {
+            "rocev2_traffic_class": stream_data.get("rocev2_traffic_class", "0"),
+            "rocev2_flow_label": stream_data.get("rocev2_flow_label", "000000"),
+            "rocev2_source_gid": stream_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"),
+            "rocev2_destination_gid": stream_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"),
+            "rocev2_source_qp": stream_data.get("rocev2_source_qp", "0"),
+            "rocev2_destination_qp": stream_data.get("rocev2_destination_qp", "0"),
+        }
+
+
+        self.rocev2_traffic_class.setCurrentText(rocev2_data["rocev2_traffic_class"])
+        self.rocev2_flow_label.setText(rocev2_data["rocev2_flow_label"])
+        self.rocev2_source_gid.setText(rocev2_data["rocev2_source_gid"])
+        self.rocev2_destination_gid.setText(rocev2_data["rocev2_destination_gid"])
+        self.rocev2_source_qp.setText(rocev2_data["rocev2_source_qp"])
+        self.rocev2_destination_qp.setText(rocev2_data["rocev2_destination_qp"])
+
+        is_rocev2 = l4_value == "RoCEv2"
+        self.l4_rocev2.setChecked(is_rocev2)
+        self.l4_rocev2.toggled.emit(True)
+
+        self.rocev2_traffic_class.setEnabled(is_rocev2)
+        self.rocev2_flow_label.setEnabled(is_rocev2)
+        self.rocev2_source_gid.setEnabled(is_rocev2)
+        self.rocev2_destination_gid.setEnabled(is_rocev2)
+        self.rocev2_source_qp.setEnabled(is_rocev2)
+        self.rocev2_destination_qp.setEnabled(is_rocev2)
+
+        # MPLS Section
+        self.mpls_label_field.setText(stream_data.get("mpls_label", "16"))
+        self.mpls_ttl_field.setText(stream_data.get("mpls_ttl", "64"))
+        self.mpls_experimental_field.setText(stream_data.get("mpls_experimental", "0"))
+
+        # Payload Section
+        payload_value = stream_data.get("Payload", "None")
+        self.payload_none.setChecked(payload_value == "None")
+        self.payload_pattern.setChecked(payload_value == "Pattern")
+        self.payload_hex.setChecked(payload_value == "Hex Dump")
+
+        # MAC Section
+        self.mac_destination_mode.setCurrentText(stream_data.get("mac_destination_mode", "Fixed"))
+        self.mac_destination_address.setText(stream_data.get("mac_destination_address", "00:00:00:00:00:00"))
+        self.mac_destination_count.setText(stream_data.get("mac_destination_count", "1"))
+        self.mac_destination_step.setText(stream_data.get("mac_destination_step", "1"))
+        self.mac_source_mode.setCurrentText(stream_data.get("mac_source_mode", "Fixed"))
+        self.mac_source_address.setText(stream_data.get("mac_source_address", "00:00:00:00:00:00"))
+        self.mac_source_count.setText(stream_data.get("mac_source_count", "1"))
+        self.mac_source_step.setText(stream_data.get("mac_source_step", "1"))
+
+        # IPv4 Section
+        self.source_field.setText(stream_data.get("ipv4_source", "0.0.0.0"))
+        self.destination_field.setText(stream_data.get("ipv4_destination", "0.0.0.0"))
+        self.ttl_field.setText(stream_data.get("ipv4_ttl", "64"))
+        self.identification_field.setText(stream_data.get("ipv4_identification", "0000"))
+        self.df_checkbox.setChecked(stream_data.get("ipv4_df", False))
+        self.mf_checkbox.setChecked(stream_data.get("ipv4_mf", False))
+        self.fragment_offset_field.setText(stream_data.get("ipv4_fragment_offset", "0"))
+
+        # Source Mode Dropdown
+        source_mode = stream_data.get("ipv4_source_mode", "Fixed")
+        self.source_mode_dropdown.setCurrentText(source_mode)
+        is_source_increment = source_mode == "Increment"
+        self.source_increment_step.setEnabled(is_source_increment)
+        self.source_increment_count.setEnabled(is_source_increment)
+        self.source_increment_step.setText(stream_data.get("ipv4_source_increment_step", "1"))
+        self.source_increment_count.setText(stream_data.get("ipv4_source_increment_count", "1"))
+
+        # Destination Mode Dropdown
+        destination_mode = stream_data.get("ipv4_destination_mode", "Fixed")
+        self.destination_mode_dropdown.setCurrentText(destination_mode)
+        is_destination_increment = destination_mode == "Increment"
+        self.destination_increment_step.setEnabled(is_destination_increment)
+        self.destination_increment_count.setEnabled(is_destination_increment)
+        self.destination_increment_step.setText(stream_data.get("ipv4_destination_increment_step", "1"))
+        self.destination_increment_count.setText(stream_data.get("ipv4_destination_increment_count", "1"))
+
+        # TOS/DSCP/Custom
+        tos_dscp_mode = stream_data.get("tos_dscp_mode", "TOS")
+        self.tos_dscp_custom_mode.setCurrentText(tos_dscp_mode)
+        if tos_dscp_mode == "TOS":
+            self.tos_dropdown.setCurrentText(stream_data.get("ipv4_tos", "Routine"))
+        elif tos_dscp_mode == "DSCP":
+            self.dscp_dropdown.setCurrentText(stream_data.get("ipv4_dscp", "cs0"))
+            self.ecn_dropdown.setCurrentText(stream_data.get("ipv4_ecn", "Not-ECT"))
+        elif tos_dscp_mode == "Custom":
+            self.custom_tos_field.setText(stream_data.get("ipv4_custom_tos", ""))
+
+        """Populate IPv6-related fields with data from the stream."""
+        # Debug: Print stream_data for troubleshooting
+        print(f"Stream Data: {stream_data}")
+
+        # Set IPv6 Source Address and Mode
+        self.ipv6_source_field.setText(stream_data.get("ipv6_source", "::1"))
+
+        source_mode = stream_data.get("ipv6_source_mode", "Fixed")
+        self.ipv6_source_mode_dropdown.setCurrentText(source_mode)
+        is_source_increment = source_mode == "Increment"
+        self.ipv6_source_increment_step.setEnabled(is_source_increment)
+        self.ipv6_source_increment_count.setEnabled(is_source_increment)
+        self.ipv6_source_increment_step.setText(stream_data.get("ipv6_source_increment_step", "1"))
+        self.ipv6_source_increment_count.setText(stream_data.get("ipv6_source_increment_count", "1"))
+
+        # Set IPv6 Destination Address and Mode
+        self.ipv6_destination_field.setText(stream_data.get("ipv6_destination", "::1"))
+
+        destination_mode = stream_data.get("ipv6_destination_mode", "Fixed")
+        self.ipv6_destination_mode_dropdown.setCurrentText(destination_mode)
+        is_destination_increment = destination_mode == "Increment"
+        self.ipv6_destination_increment_step.setEnabled(is_destination_increment)
+        self.ipv6_destination_increment_count.setEnabled(is_destination_increment)
+        self.ipv6_destination_increment_step.setText(stream_data.get("ipv6_destination_increment_step", "1"))
+        self.ipv6_destination_increment_count.setText(stream_data.get("ipv6_destination_increment_count", "1"))
+
+        # Populate Traffic Class, Flow Label, and Hop Limit
+        self.ipv6_traffic_class_field.setText(stream_data.get("ipv6_traffic_class", "0"))
+        self.ipv6_flow_label_field.setText(stream_data.get("ipv6_flow_label", "0"))
+        self.ipv6_hop_limit_field.setText(stream_data.get("ipv6_hop_limit", "64"))
+
+        # Debugging: Log the populated values
+
+
+        # Stream Rate Section
+        self.rate_type_dropdown.setCurrentText(stream_data.get("stream_rate_type", "Packets Per Second (PPS)"))
+        self.stream_pps_rate.setText(stream_data.get("stream_pps_rate", "1000"))
+        self.stream_bit_rate.setText(stream_data.get("stream_bit_rate", "100"))
+        self.stream_load_percentage.setText(stream_data.get("stream_load_percentage", "50"))
+
+        # Stream Duration Section
+        duration_mode = stream_data.get("stream_duration_mode", "Continuous")
+        self.duration_mode_dropdown.setCurrentText(duration_mode)
+        if duration_mode == "Seconds":
+            self.stream_duration_field.setText(stream_data.get("stream_duration_seconds", "10"))
+        else:
+            self.stream_duration_field.clear()
+
+        print("**** Finished populating fields.")  # Debugging end
     def generate_protocol_data(self, stream_data):
         """
         Generate Protocol Data based on stream configuration.
@@ -2815,16 +2813,7 @@ class AddStreamDialog(QDialog):
         print("Populating Packet View with Stream Data:", stream_data)
 
         # Helper function to generate incremented values
-        def increment_value(base, step, count, is_ip=False):
-            results = []
-            for i in range(int(count)):
-                if is_ip:
-                    octets = list(map(int, base.split(".")))
-                    octets[-1] += step * i
-                    results.append(".".join(map(str, octets)))
-                else:
-                    results.append(str(int(base) + step * i))
-            return results
+
 
         # MAC Section
         if stream_data.get('L2') != 'None':
@@ -2843,8 +2832,7 @@ class AddStreamDialog(QDialog):
             mac_item.addChild(QTreeWidgetItem(["Source Step", stream_data.get('mac_source_step', '1')]))
             self.packet_tree.addTopLevelItem(mac_item)
 
-        # Helper function to generate incremented values within range
-        from PyQt5.QtWidgets import QMessageBox
+
 
         def increment_value(base, step, count, is_ip=False, range_min=None, range_max=None, parent=None):
             results = []
@@ -2864,7 +2852,11 @@ class AddStreamDialog(QDialog):
                                 if j > 0:
                                     incremented_octets[j - 1] += 1
                                 else:
-                                    raise ValueError(f"IP address overflow: {base}")
+                                    raise ValueError(f"IP address overflow: {'.'.join(map(str, incremented_octets))}")
+                        for j in range(4):  # Validate the incremented IP after handling overflow
+                            if incremented_octets[j] < 0 or incremented_octets[j] > 255:
+                                raise ValueError(
+                                    f"Invalid IP address generated: {'.'.join(map(str, incremented_octets))}")
                         results.append(".".join(map(str, incremented_octets)))
                 else:
                     # Validate numeric value range
@@ -2890,11 +2882,11 @@ class AddStreamDialog(QDialog):
                 # Log the error and display notifications
                 error_message = f"Error in increment_value: {e}"
                 print(error_message)  # Console log
-                QMessageBox.critical(parent, "Increment Value Error", error_message)  # Popup notification
+                if parent:  # Ensure parent is provided before showing the message box
+                    QMessageBox.critical(parent, "Increment Value Error", error_message)  # Popup notification
                 return []  # Return empty list on error
 
             return results
-
 
         # VLAN Section
         if stream_data.get('VLAN') != 'None':
@@ -3057,49 +3049,28 @@ class AddStreamDialog(QDialog):
         frame_length_group.setLayout(frame_length_layout)
         self.protocol_data_layout.addWidget(frame_length_group)
 
-    def generate_default_stream_name(self):
-        """Generates a unique default stream name."""
-        existing_stream_names = self.get_existing_stream_names()
-        index = 1
-        default_name = f"Stream {index}"
-        while default_name in existing_stream_names:
-            index += 1
-            default_name = f"Stream {index}"
-        return default_name
-
-    def get_existing_stream_names(self):
-        """
-        Retrieves existing stream names from the parent dialog or a shared source.
-        If no parent is set, return an empty list.
-        """
-        if self.parent() and hasattr(self.parent(), "stream_list"):
-            return [stream["name"] for stream in self.parent().stream_list]
-        return []  # Fallback if no parent or `stream_list`
 
     def get_stream_details(self):
         """Retrieve stream details entered in the dialog."""
-        stream_name = self.stream_name.text().strip()
-        if not stream_name:
-            # Generate a default name if the user did not provide one
-            stream_name = self.generate_default_stream_name()
-            self.stream_name.setText(stream_name)  # Update the field for consistency
-        # Rest of the method remains unchanged
         # General Stream Details
         stream_details = {
-            "name": stream_name,
+            "name": self.stream_name.text() or "",
             "enabled": self.enabled_checkbox.isChecked(),
             "details": self.details_field.text() or "",
             "frame_type": self.frame_type.currentText() or "Fixed",
             "frame_min": self.frame_min.text() or "64",
             "frame_max": self.frame_max.text() or "1518",
             "frame_size": self.frame_size.text() or "64",
-            "L1": "MAC" if self.l1_mac.isChecked() else "None",
+            #"L1": "MAC" if self.l1_mac.isChecked() else "None",
+            "L1": "MAC" if self.l1_mac.isChecked() else "RAW" if self.l1_raw.isChecked() else "None",
+
             "VLAN": (
                 "Tagged" if self.vlan_tagged.isChecked() else
                 "Stacked" if self.vlan_stacked.isChecked() else
                 "Untagged"
             ),
-            "L2": "Ethernet II" if self.l2_ethernet.isChecked() else "None",
+            #"L2": "Ethernet II" if self.l2_ethernet.isChecked() else "None",
+            "L2": "Ethernet II" if self.l2_ethernet.isChecked() else "MPLS" if self.l2_mpls.isChecked() else "None",
             "L3": (
                 "IPv4" if self.l3_ipv4.isChecked() else
                 "IPv6" if self.l3_ipv6.isChecked() else
@@ -3121,6 +3092,12 @@ class AddStreamDialog(QDialog):
             ),
         }
 
+        # MPLS Details
+        stream_details.update({
+            "mpls_label": self.mpls_label_field.text() or "16",  # Default: 16
+            "mpls_ttl": self.mpls_ttl_field.text() or "64",  # Default: 64
+            "mpls_experimental": self.mpls_experimental_field.text() or "0",  # Default: 0
+        })
         # MAC Details
         stream_details.update({
             "mac_destination_mode": self.mac_destination_mode.currentText() or "Fixed",
@@ -3145,7 +3122,7 @@ class AddStreamDialog(QDialog):
             "vlan_increment_count": self.vlan_increment_count.text() or "1",
         })
 
-        # IPv4 Details
+        '''# IPv4 Details
         stream_details.update({
             "ipv4_source": self.source_field.text() or "0.0.0.0",
             "ipv4_destination": self.destination_field.text() or "0.0.0.0",
@@ -3168,6 +3145,55 @@ class AddStreamDialog(QDialog):
             "ipv4_custom_tos": self.custom_tos_field.text() if self.tos_dscp_custom_mode.currentText() == "Custom" else None,
             "ipv4_source_mode": self.source_mode_dropdown.currentText() or "Fixed",
             "ipv4_destination_mode": self.destination_mode_dropdown.currentText() or "Fixed",
+        })'''
+
+        # IPv4 Details
+        stream_details.update({
+            "ipv4_source": self.source_field.text() or "0.0.0.0",
+            "ipv4_destination": self.destination_field.text() or "0.0.0.0",
+            "ipv4_ttl": self.ttl_field.text() or "64",
+            "ipv4_identification": self.identification_field.text() or "0000",
+            "ipv4_source_mode": self.source_mode_dropdown.currentText() or "Fixed",
+            "ipv4_source_increment_step": self.source_increment_step.text() if self.source_mode_dropdown.currentText() == "Increment" else "1",
+            "ipv4_source_increment_count": self.source_increment_count.text() if self.source_mode_dropdown.currentText() == "Increment" else "1",
+            "ipv4_destination_mode": self.destination_mode_dropdown.currentText() or "Fixed",
+            "ipv4_destination_increment_step": self.destination_increment_step.text() if self.destination_mode_dropdown.currentText() == "Increment" else "1",
+            "ipv4_destination_increment_count": self.destination_increment_count.text() if self.destination_mode_dropdown.currentText() == "Increment" else "1",
+            "ipv4_df": self.df_checkbox.isChecked(),
+            "ipv4_mf": self.mf_checkbox.isChecked(),
+            "ipv4_fragment_offset": self.fragment_offset_field.text() or "0",
+            # TOS/DSCP/Custom
+            "tos_dscp_mode": self.tos_dscp_custom_mode.currentText() or "TOS",
+            "ipv4_tos": self.tos_dropdown.currentText() if self.tos_dscp_custom_mode.currentText() == "TOS" else None,
+            "ipv4_dscp": self.dscp_dropdown.currentText() if self.tos_dscp_custom_mode.currentText() == "DSCP" else None,
+            "ipv4_ecn": self.ecn_dropdown.currentText() if self.tos_dscp_custom_mode.currentText() == "DSCP" else None,
+            "ipv4_custom_tos": self.custom_tos_field.text() if self.tos_dscp_custom_mode.currentText() == "Custom" else None,
+        })
+
+        # IPv6 Details
+        ipv6_source_mode = self.ipv6_source_mode_dropdown.currentText()
+        ipv6_destination_mode = self.ipv6_destination_mode_dropdown.currentText()
+
+        stream_details.update({
+            "ipv6_source": self.ipv6_source_field.text() or "::1",
+            "ipv6_source_mode": ipv6_source_mode,
+            "ipv6_source_increment_step": (
+                self.ipv6_source_increment_step.text() if ipv6_source_mode == "Increment" else "0"
+            ),
+            "ipv6_source_increment_count": (
+                self.ipv6_source_increment_count.text() if ipv6_source_mode == "Increment" else "0"
+            ),
+            "ipv6_destination": self.ipv6_destination_field.text() or "::2",
+            "ipv6_destination_mode": ipv6_destination_mode,
+            "ipv6_destination_increment_step": (
+                self.ipv6_destination_increment_step.text() if ipv6_destination_mode == "Increment" else "0"
+            ),
+            "ipv6_destination_increment_count": (
+                self.ipv6_destination_increment_count.text() if ipv6_destination_mode == "Increment" else "0"
+            ),
+            "ipv6_traffic_class": self.ipv6_traffic_class_field.text() or "0",
+            "ipv6_flow_label": self.ipv6_flow_label_field.text() or "0",
+            "ipv6_hop_limit": self.ipv6_hop_limit_field.text() or "64",
         })
 
         # TCP Details
@@ -3224,15 +3250,14 @@ class AddStreamDialog(QDialog):
         # RoCEv2 Details
         if self.l4_rocev2.isChecked():
             stream_details["rocev2"] = {
-                "traffic_class": self.rocev2_traffic_class.currentText(),
-                "flow_label": self.rocev2_flow_label.text() or "000000",
-                "source_gid": self.rocev2_source_gid.text() or "0:0:0:0:0:ffff:192.168.1.1",
-                "destination_gid": self.rocev2_destination_gid.text() or "0:0:0:0:0:ffff:192.168.1.2",
-                "source_qp": self.rocev2_source_qp.text() or "0",
-                "destination_qp": self.rocev2_destination_qp.text() or "0",
+                "rocev2_traffic_class": self.rocev2_traffic_class.currentText(),
+                "rocev2_flow_label": self.rocev2_flow_label.text() or "000000",
+                "rocev2_source_gid": self.rocev2_source_gid.text() or "0:0:0:0:0:ffff:192.168.1.1",
+                "rocev2_destination_gid": self.rocev2_destination_gid.text() or "0:0:0:0:0:ffff:192.168.1.2",
+                "rocev2_source_qp": self.rocev2_source_qp.text() or "0",
+                "rocev2_destination_qp": self.rocev2_destination_qp.text() or "0",
             }
 
-        print(f"**get_stream_details: {stream_details}")
         return stream_details
 
     def get_tcp_flags(self):

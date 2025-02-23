@@ -2,16 +2,130 @@
     "servers": [
         {
             "tg_id": 0,
-            "address": "http://127.0.0.1:5001"
+            "address": "http://127.0.0.1:5201"
         }
     ],
     "streams": {
-        "TG 0 - Port: eth0": [],
-        "TG 0 - Port: en1": [
+        "TG 0 - Port: en0": [
             {
                 "protocol_selection": {
-                    "name": "Stream 1",
+                    "name": "Stream_1",
                     "enabled": false,
+                    "details": "",
+                    "frame_type": "Fixed",
+                    "frame_min": "64",
+                    "frame_max": "1518",
+                    "frame_size": "64",
+                    "L1": "MAC",
+                    "VLAN": "Untagged",
+                    "L2": "Ethernet II",
+                    "L3": "IPv4",
+                    "L4": "TCP",
+                    "Payload": "None"
+                },
+                "protocol_data": {
+                    "mac": {
+                        "mac_destination_mode": "Increment",
+                        "mac_destination_address": "00:00:00:00:00:01",
+                        "mac_destination_count": "22",
+                        "mac_destination_step": "1",
+                        "mac_source_mode": "Increment",
+                        "mac_source_address": "00:00:00:00:00:02",
+                        "mac_source_count": "22",
+                        "mac_source_step": "1"
+                    },
+                    "vlan": {
+                        "vlan_priority": "2",
+                        "vlan_cfi_dei": "1",
+                        "vlan_id": "22",
+                        "vlan_tpid": "81 00",
+                        "vlan_increment": true,
+                        "vlan_increment_value": "22",
+                        "vlan_increment_count": "1"
+                    },
+                    "ipv4": {
+                        "ipv4_source": "0.0.0.022",
+                        "ipv4_destination": "0.0.0.022",
+                        "ipv4_source_mode": "Increment",
+                        "ipv4_destination_mode": "Increment",
+                        "ipv4_tos": null,
+                        "ipv4_dscp": "cs3",
+                        "ipv4_ecn": "CE",
+                        "ipv4_custom_tos": null,
+                        "ipv4_ttl": "64",
+                        "ipv4_identification": "0000",
+                        "ipv4_source_increment_step": "1",
+                        "ipv4_source_increment_count": "22",
+                        "ipv4_destination_increment_step": "1",
+                        "ipv4_destination_increment_count": "22",
+                        "ipv4_df": true,
+                        "ipv4_mf": true,
+                        "ipv4_fragment_offset": "22",
+                        "tos_dscp_mode": "DSCP"
+                    },
+                    "ipv6": {
+                        "ipv6_source": "::22",
+                        "ipv6_source_mode": "Increment",
+                        "ipv6_source_increment_step": "22",
+                        "ipv6_source_increment_count": "22",
+                        "ipv6_destination": "::22",
+                        "ipv6_destination_mode": "Increment",
+                        "ipv6_destination_increment_step": "22",
+                        "ipv6_destination_increment_count": "22",
+                        "ipv6_traffic_class": "22",
+                        "ipv6_flow_label": "22",
+                        "ipv6_hop_limit": "22"
+                    },
+                    "tcp": {
+                        "tcp_source_port": "22",
+                        "tcp_destination_port": "22",
+                        "tcp_sequence_number": "129018",
+                        "tcp_acknowledgement_number": "0",
+                        "tcp_window": "1024",
+                        "tcp_checksum": "B3 E7",
+                        "tcp_flags": "URG, ACK, PSH, RST, SYN, FIN",
+                        "tcp_increment_source_port": true,
+                        "tcp_source_port_step": "22",
+                        "tcp_source_port_count": "22",
+                        "tcp_increment_destination_port": true,
+                        "tcp_destination_port_step": "22",
+                        "tcp_destination_port_count": "22"
+                    },
+                    "mpls": {
+                        "mpls_label": "22",
+                        "mpls_ttl": "22",
+                        "mpls_experimental": "2"
+                    },
+                    "rocev2": {
+                        "rocev2_traffic_class": "0",
+                        "rocev2_flow_label": "000000",
+                        "rocev2_source_gid": "0:0:0:0:0:ffff:192.168.1.1",
+                        "rocev2_destination_gid": "0:0:0:0:0:ffff:192.168.1.2",
+                        "rocev2_source_qp": "0",
+                        "rocev2_destination_qp": "0"
+                    },
+                    "payload_data": {
+                        "payload_data": "0000"
+                    }
+                },
+                "override_settings": {
+                    "override_source_tcp_port": true,
+                    "override_destination_tcp_port": true,
+                    "override_vlan_tpid": true
+                },
+                "stream_rate_control": {
+                    "stream_rate_type": "Packets Per Second (PPS)",
+                    "stream_pps_rate": "1000",
+                    "stream_bit_rate": null,
+                    "stream_load_percentage": null,
+                    "stream_duration_mode": "Continuous",
+                    "stream_duration_seconds": null
+                }
+            },
+            {
+                "protocol_selection": {
+                    "name": "Stream_2",
+                    "enabled": true,
                     "details": "",
                     "frame_type": "Fixed",
                     "frame_min": "64",
@@ -20,8 +134,8 @@
                     "L1": "None",
                     "VLAN": "Untagged",
                     "L2": "None",
-                    "L3": "None",
-                    "L4": "None",
+                    "L3": "IPv6",
+                    "L4": "RoCEv2",
                     "Payload": "None"
                 },
                 "protocol_data": {
@@ -50,21 +164,32 @@
                         "ipv4_source_mode": "Fixed",
                         "ipv4_destination_mode": "Fixed",
                         "ipv4_tos": "Routine",
-                        "ipv4_dscp": null,
-                        "ipv4_ecn": null,
-                        "ipv4_custom_tos": null,
+                        "ipv4_dscp": "cs0",
+                        "ipv4_ecn": "Not-ECT",
+                        "ipv4_custom_tos": "",
                         "ipv4_ttl": "64",
                         "ipv4_identification": "0000",
-                        "ipv4_increment_source": false,
                         "ipv4_source_increment_step": "1",
                         "ipv4_source_increment_count": "1",
-                        "ipv4_increment_destination": false,
                         "ipv4_destination_increment_step": "1",
                         "ipv4_destination_increment_count": "1",
                         "ipv4_df": false,
                         "ipv4_mf": false,
                         "ipv4_fragment_offset": "0",
                         "tos_dscp_mode": "TOS"
+                    },
+                    "ipv6": {
+                        "ipv6_source": "::11",
+                        "ipv6_source_mode": "Increment",
+                        "ipv6_source_increment_step": "11",
+                        "ipv6_source_increment_count": "11",
+                        "ipv6_destination": "::21",
+                        "ipv6_destination_mode": "Increment",
+                        "ipv6_destination_increment_step": "11",
+                        "ipv6_destination_increment_count": "11",
+                        "ipv6_traffic_class": "01",
+                        "ipv6_flow_label": "01",
+                        "ipv6_hop_limit": "64"
                     },
                     "tcp": {
                         "tcp_source_port": "0",
@@ -81,312 +206,18 @@
                         "tcp_destination_port_step": "1",
                         "tcp_destination_port_count": "1"
                     },
-                    "rocev2": {
-                        "traffic_class": "0",
-                        "flow_label": "000000",
-                        "source_gid": "0:0:0:0:0:ffff:192.168.1.1",
-                        "destination_gid": "0:0:0:0:0:ffff:192.168.1.2",
-                        "source_qp": "0",
-                        "destination_qp": "0"
-                    },
-                    "payload_data": {
-                        "payload_data": "0000"
-                    }
-                },
-                "override_settings": {
-                    "override_source_tcp_port": false,
-                    "override_destination_tcp_port": false,
-                    "override_vlan_tpid": false
-                },
-                "stream_rate_control": {
-                    "stream_rate_type": "Packets Per Second (PPS)",
-                    "stream_pps_rate": "1000",
-                    "stream_bit_rate": null,
-                    "stream_load_percentage": null,
-                    "stream_duration_mode": "Continuous",
-                    "stream_duration_seconds": null
-                }
-            },
-            {
-                "protocol_selection": {
-                    "name": "Stream 1_1",
-                    "enabled": false,
-                    "details": "",
-                    "frame_type": "Fixed",
-                    "frame_min": "64",
-                    "frame_max": "1518",
-                    "frame_size": "64",
-                    "L1": "MAC",
-                    "VLAN": "Tagged",
-                    "L2": "Ethernet II",
-                    "L3": "IPv4",
-                    "L4": "RoCEv2",
-                    "Payload": "Pattern"
-                },
-                "protocol_data": {
-                    "mac": {
-                        "mac_destination_mode": "Fixed",
-                        "mac_destination_address": "00:00:00:00:00:00",
-                        "mac_destination_count": "1",
-                        "mac_destination_step": "1",
-                        "mac_source_mode": "Fixed",
-                        "mac_source_address": "00:00:00:00:00:00",
-                        "mac_source_count": "1",
-                        "mac_source_step": "1"
-                    },
-                    "vlan": {
-                        "vlan_priority": "0",
-                        "vlan_cfi_dei": "0",
-                        "vlan_id": "10",
-                        "vlan_tpid": "81 00",
-                        "vlan_increment": false,
-                        "vlan_increment_value": "1",
-                        "vlan_increment_count": "1"
-                    },
-                    "ipv4": {
-                        "ipv4_source": "0.0.0.0",
-                        "ipv4_destination": "0.0.0.0",
-                        "ipv4_source_mode": "Fixed",
-                        "ipv4_destination_mode": "Fixed",
-                        "ipv4_tos": "Routine",
-                        "ipv4_dscp": null,
-                        "ipv4_ecn": null,
-                        "ipv4_custom_tos": null,
-                        "ipv4_ttl": "64",
-                        "ipv4_identification": "0000",
-                        "ipv4_increment_source": false,
-                        "ipv4_source_increment_step": "1",
-                        "ipv4_source_increment_count": "1",
-                        "ipv4_increment_destination": false,
-                        "ipv4_destination_increment_step": "1",
-                        "ipv4_destination_increment_count": "1",
-                        "ipv4_df": false,
-                        "ipv4_mf": false,
-                        "ipv4_fragment_offset": "0",
-                        "tos_dscp_mode": "TOS"
-                    },
-                    "tcp": {
-                        "tcp_source_port": "0",
-                        "tcp_destination_port": "0",
-                        "tcp_sequence_number": "129018",
-                        "tcp_acknowledgement_number": "0",
-                        "tcp_window": "1024",
-                        "tcp_checksum": "B3 E7",
-                        "tcp_flags": "",
-                        "tcp_increment_source_port": false,
-                        "tcp_source_port_step": "1",
-                        "tcp_source_port_count": "1",
-                        "tcp_increment_destination_port": false,
-                        "tcp_destination_port_step": "1",
-                        "tcp_destination_port_count": "1"
+                    "mpls": {
+                        "mpls_label": "16",
+                        "mpls_ttl": "64",
+                        "mpls_experimental": "0"
                     },
                     "rocev2": {
-                        "traffic_class": "0",
-                        "flow_label": "000000",
-                        "source_gid": "0:0:0:0:0:ffff:192.168.1.1",
-                        "destination_gid": "0:0:0:0:0:ffff:192.168.1.2",
-                        "source_qp": "0",
-                        "destination_qp": "0"
-                    },
-                    "payload_data": {
-                        "payload_data": "0000"
-                    }
-                },
-                "override_settings": {
-                    "override_source_tcp_port": false,
-                    "override_destination_tcp_port": false,
-                    "override_vlan_tpid": false
-                },
-                "stream_rate_control": {
-                    "stream_rate_type": "Packets Per Second (PPS)",
-                    "stream_pps_rate": "1000",
-                    "stream_bit_rate": null,
-                    "stream_load_percentage": null,
-                    "stream_duration_mode": "Continuous",
-                    "stream_duration_seconds": null
-                }
-            }
-        ],
-        "TG 0 - Port: en0": [
-            {
-                "protocol_selection": {
-                    "name": "Stream 1",
-                    "enabled": true,
-                    "details": "",
-                    "frame_type": "Fixed",
-                    "frame_min": "64",
-                    "frame_max": "1518",
-                    "frame_size": "64",
-                    "L1": "None",
-                    "VLAN": "Untagged",
-                    "L2": "Ethernet II",
-                    "L3": "IPv4",
-                    "L4": "TCP",
-                    "Payload": "None"
-                },
-                "protocol_data": {
-                    "mac": {
-                        "mac_destination_mode": "Fixed",
-                        "mac_destination_address": "00:00:00:00:00:00",
-                        "mac_destination_count": "1",
-                        "mac_destination_step": "1",
-                        "mac_source_mode": "Fixed",
-                        "mac_source_address": "00:00:00:00:00:00",
-                        "mac_source_count": "1",
-                        "mac_source_step": "1"
-                    },
-                    "vlan": {
-                        "vlan_priority": "0",
-                        "vlan_cfi_dei": "0",
-                        "vlan_id": "10",
-                        "vlan_tpid": "81 00",
-                        "vlan_increment": false,
-                        "vlan_increment_value": "1",
-                        "vlan_increment_count": "1"
-                    },
-                    "ipv4": {
-                        "ipv4_source": "1.1.1.1",
-                        "ipv4_destination": "2.2.2.2",
-                        "ipv4_source_mode": "Fixed",
-                        "ipv4_destination_mode": "Fixed",
-                        "ipv4_tos": "Routine",
-                        "ipv4_dscp": null,
-                        "ipv4_ecn": null,
-                        "ipv4_custom_tos": null,
-                        "ipv4_ttl": "64",
-                        "ipv4_identification": "0000",
-                        "ipv4_increment_source": false,
-                        "ipv4_source_increment_step": "1",
-                        "ipv4_source_increment_count": "1",
-                        "ipv4_increment_destination": false,
-                        "ipv4_destination_increment_step": "1",
-                        "ipv4_destination_increment_count": "1",
-                        "ipv4_df": false,
-                        "ipv4_mf": false,
-                        "ipv4_fragment_offset": "0",
-                        "tos_dscp_mode": "TOS"
-                    },
-                    "tcp": {
-                        "tcp_source_port": "0",
-                        "tcp_destination_port": "0",
-                        "tcp_sequence_number": "129018",
-                        "tcp_acknowledgement_number": "0",
-                        "tcp_window": "1024",
-                        "tcp_checksum": "B3 E7",
-                        "tcp_flags": "",
-                        "tcp_increment_source_port": false,
-                        "tcp_source_port_step": "1",
-                        "tcp_source_port_count": "1",
-                        "tcp_increment_destination_port": false,
-                        "tcp_destination_port_step": "1",
-                        "tcp_destination_port_count": "1"
-                    },
-                    "rocev2": {
-                        "traffic_class": "0",
-                        "flow_label": "000000",
-                        "source_gid": "0:0:0:0:0:ffff:192.168.1.1",
-                        "destination_gid": "0:0:0:0:0:ffff:192.168.1.2",
-                        "source_qp": "0",
-                        "destination_qp": "0"
-                    },
-                    "payload_data": {
-                        "payload_data": "0000"
-                    }
-                },
-                "override_settings": {
-                    "override_source_tcp_port": false,
-                    "override_destination_tcp_port": false,
-                    "override_vlan_tpid": false
-                },
-                "stream_rate_control": {
-                    "stream_rate_type": "Packets Per Second (PPS)",
-                    "stream_pps_rate": "1000",
-                    "stream_bit_rate": null,
-                    "stream_load_percentage": null,
-                    "stream_duration_mode": "Continuous",
-                    "stream_duration_seconds": null
-                }
-            },
-            {
-                "protocol_selection": {
-                    "name": "Stream 1_1",
-                    "enabled": false,
-                    "details": "",
-                    "frame_type": "Fixed",
-                    "frame_min": "64",
-                    "frame_max": "1518",
-                    "frame_size": "64",
-                    "L1": "None",
-                    "VLAN": "Untagged",
-                    "L2": "None",
-                    "L3": "None",
-                    "L4": "TCP",
-                    "Payload": "None"
-                },
-                "protocol_data": {
-                    "mac": {
-                        "mac_destination_mode": "Fixed",
-                        "mac_destination_address": "00:00:00:00:00:00",
-                        "mac_destination_count": "1",
-                        "mac_destination_step": "1",
-                        "mac_source_mode": "Fixed",
-                        "mac_source_address": "00:00:00:00:00:00",
-                        "mac_source_count": "1",
-                        "mac_source_step": "1"
-                    },
-                    "vlan": {
-                        "vlan_priority": "0",
-                        "vlan_cfi_dei": "0",
-                        "vlan_id": "10",
-                        "vlan_tpid": "81 00",
-                        "vlan_increment": false,
-                        "vlan_increment_value": "1",
-                        "vlan_increment_count": "1"
-                    },
-                    "ipv4": {
-                        "ipv4_source": "4.4.4.4",
-                        "ipv4_destination": "5.5.5.5",
-                        "ipv4_source_mode": "Fixed",
-                        "ipv4_destination_mode": "Fixed",
-                        "ipv4_tos": "Routine",
-                        "ipv4_dscp": null,
-                        "ipv4_ecn": null,
-                        "ipv4_custom_tos": null,
-                        "ipv4_ttl": "64",
-                        "ipv4_identification": "0000",
-                        "ipv4_increment_source": false,
-                        "ipv4_source_increment_step": "1",
-                        "ipv4_source_increment_count": "1",
-                        "ipv4_increment_destination": false,
-                        "ipv4_destination_increment_step": "1",
-                        "ipv4_destination_increment_count": "1",
-                        "ipv4_df": false,
-                        "ipv4_mf": false,
-                        "ipv4_fragment_offset": "0",
-                        "tos_dscp_mode": "TOS"
-                    },
-                    "tcp": {
-                        "tcp_source_port": "0",
-                        "tcp_destination_port": "0",
-                        "tcp_sequence_number": "129018",
-                        "tcp_acknowledgement_number": "0",
-                        "tcp_window": "1024",
-                        "tcp_checksum": "B3 E7",
-                        "tcp_flags": "ACK, SYN",
-                        "tcp_increment_source_port": false,
-                        "tcp_source_port_step": "1",
-                        "tcp_source_port_count": "1",
-                        "tcp_increment_destination_port": false,
-                        "tcp_destination_port_step": "1",
-                        "tcp_destination_port_count": "1"
-                    },
-                    "rocev2": {
-                        "traffic_class": "0",
-                        "flow_label": "000000",
-                        "source_gid": "0:0:0:0:0:ffff:192.168.1.1",
-                        "destination_gid": "0:0:0:0:0:ffff:192.168.1.2",
-                        "source_qp": "0",
-                        "destination_qp": "0"
+                        "rocev2_traffic_class": "1",
+                        "rocev2_flow_label": "000022",
+                        "rocev2_source_gid": "0:0:0:0:0:ffff:192.168.1.12",
+                        "rocev2_destination_gid": "0:0:0:0:0:ffff:192.168.1.22",
+                        "rocev2_source_qp": "2",
+                        "rocev2_destination_qp": "2"
                     },
                     "payload_data": {
                         "payload_data": "0000"
@@ -409,34 +240,28 @@
         ]
     },
     "removed_interfaces": [
-        "TG 0 - Port: bridge0",
-        "TG 0 - Port: anpi1",
-        "TG 0 - Port: lo0",
-        "TG 0 - Port: utun2",
-        "TG 0 - Port: utun1",
-        "TG 0 - Port: llw0",
-        "TG 0 - Port: en5",
-        "TG 0 - Port: utun6",
-        "TG 0 - Port: anpi0",
-        "TG 0 - Port: en6",
-        "TG 0 - Port: en8",
-        "TG 0 - Port: utun7",
-        "TG 0 - Port: anpi2",
-        "TG 0 - Port: utun5",
-        "TG 0 - Port: en1",
-        "TG 0 - Port: en3",
-        "TG 0 - Port: utun8",
-        "TG 0 - Port: en4",
-        "TG 0 - Port: stf0",
         "TG 0 - Port: awdl0",
-        "TG 0 - Port: utun3",
-        "TG 0 - Port: ap1",
-        "TG 0 - Port: utun4",
-        "TG 0 - Port: gif0",
+        "TG 0 - Port: utun6",
+        "TG 0 - Port: bridge0",
+        "TG 0 - Port: utun0",
+        "TG 0 - Port: en3",
         "TG 0 - Port: en2",
-        "TG 0 - Port: utun0"
+        "TG 0 - Port: utun4",
+        "TG 0 - Port: utun5",
+        "TG 0 - Port: anpi0",
+        "TG 0 - Port: utun3",
+        "TG 0 - Port: anpi2",
+        "TG 0 - Port: stf0",
+        "TG 0 - Port: ap1",
+        "TG 0 - Port: utun8",
+        "TG 0 - Port: en0",
+        "TG 0 - Port: utun7",
+        "TG 0 - Port: utun2",
+        "TG 0 - Port: gif0",
+        "TG 0 - Port: anpi1",
+        "TG 0 - Port: llw0",
+        "TG 0 - Port: lo0",
+        "TG 0 - Port: utun1"
     ],
-    "selected_servers": [
-        "http://127.0.0.1:5001"
-    ]
+    "selected_servers": []
 }

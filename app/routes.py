@@ -1,44 +1,70 @@
 #routes.py#
 from app import login_manager, socketio
 from .models import DeviceInfo,TriggerEvent,TrainingData,Topology
-from .utils import check_link_health, OnboardDeviceClass,get_router_details_from_db,transfer_file_to_router,generate_config,check_device_health,generate_bgp_scale_config,generate_vlan_config
+from .utils import DeviceHealthCheck, OnboardDeviceClass,get_router_details_from_db,transfer_file_to_router,generate_config,generate_bgp_scale_config,generate_vlan_config
 from .utils import DeviceConnectorClass, BuildLLDPConnectionClass, VxlanConfigGeneratorClass,RobotXMLParserClass
-from .utils import is_reachable, get_router_ips_from_csv,get_router_details_from_csv,get_lldp_neighbors,get_next_available_ip,generate_common_config,generate_interface_config,generate_bgp_config
+#from .utils import is_reachable, get_router_ips_from_csv,get_router_details_from_csv,get_lldp_neighbors,get_next_available_ip,generate_common_config,generate_interface_config,generate_bgp_config
 from app.config import config
 from app.models import User
+from sqlalchemy.exc import DatabaseError
 from . import db
-from flask import Flask, render_template, request, send_file, redirect, url_for, flash, current_app, jsonify, send_from_directory,abort,make_response
+from flask import Flask, session, Blueprint,render_template, request, send_file, redirect, url_for, flash, current_app, jsonify, send_from_directory,abort,make_response
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import session
 from jnpr.junos import Device
 from jnpr.junos.utils.config import Config
 from jnpr.junos.utils.sw import SW
-from lxml import etree
-import logging,os, io,csv,time,ipaddress,threading,hashlib
+#from lxml import etree
+import logging,os, io,csv,time,ipaddress,threading
 from collections import defaultdict
 from functools import wraps
 from jnpr.junos.exception import ConnectError, ConnectAuthError, ConfigLoadError, CommitError, LockError, UnlockError,RpcError,RpcTimeoutError,ConnectUnknownHostError
 from werkzeug.utils import secure_filename
-from jnpr.junos.utils.scp import SCP
+#from jnpr.junos.utils.scp import SCP
 import psutil, re, paramiko
 from flask_cors import CORS
 from ncclient.transport.errors import SSHError
-import paramiko,traceback,socket
+import paramiko,socket
+from paramiko.ssh_exception import SSHException, NoValidConnectionsError
+from paramiko.ssh_exception import SSHException, AuthenticationException, BadAuthenticationType
+from jnpr.junos.exception import ConnectError, RpcTimeoutError
+from paramiko.ssh_exception import ChannelException, ProxyCommandFailure
+
 import json, gzip
+#from inspect import signature
+from scp import SCPClient
+#from concurrent.futures import ThreadPoolExecutor, as_completed
 
+logging.basicConfig(level=logging.ERROR)
+# Set logging level and format
+logging.basicConfig(
+    level=logging.DEBUG,  # Set to INFO or DEBUG to capture all messages
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+# Ensure log messages appear in console as well
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+logging.getLogger().addHandler(console_handler)
 
-
+logging.info("🚀 Logging is set up and working!")
 #print(f"current_app.config:: {current_app.config}")
+
+stop_events = {} ## used for image copy stop in onboard page
 
 def create_routes(app):
     CORS(app)
-    @socketio.on('connect')
-    def handle_connect():
-        print('Client connected')
+    my_blueprint = Blueprint('my_blueprint', __name__)
 
-    @socketio.on('disconnect')
-    def handle_disconnect():
-        print('Client disconnected')
+    @my_blueprint.route('/protected', methods=['GET'])
+    @login_required
+    def protected_route():
+        return "This is a protected route."
+
+    app.register_blueprint(my_blueprint)
+
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -74,7 +100,6 @@ def create_routes(app):
                 TriggerEvent.query.filter_by(user_id=user.id).delete()
                 Topology.query.filter_by(user_id=user.id).delete()
                 logging.info(f"Associated records deleted for user ID {user_id}")
-
                 # Now delete the user
                 db.session.delete(user)
                 db.session.commit()
@@ -86,7 +111,6 @@ def create_routes(app):
             db.session.rollback()
             logging.error(f"Error deleting user: {str(e)}")
             flash(f'Error deleting user: {str(e)}', 'error')
-
         return redirect(url_for('list_users'))
 
 
@@ -100,34 +124,6 @@ def create_routes(app):
         flash('You have been logged out.', 'success')
         return redirect(url_for('index'))
 
-
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))
-        if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['password']
-            user = User.query.filter_by(username=username).first()
-            if user and user.check_password(password):
-                login_user(user)  # Log in the user
-                # Set up user-specific folders and logging
-                config_class_name = os.getenv('FLASK_CONFIG') or 'development'
-                config_class = config[config_class_name]()
-                user_folder, log_folder, telemetry_folder, device_config = config_class.create_user_folders(username)
-                # Update app configuration with user-specific folders
-                current_app.config['UPLOAD_FOLDER'] = user_folder
-                current_app.config['LOG_FOLDER'] = log_folder
-                current_app.config['TELEMETRY_FOLDER'] = telemetry_folder
-                current_app.config['DEVICE_FOLDER'] = device_config
-                # Set up user-specific logging and obtain the logger
-                config_class.setup_logging(log_folder)
-                print(f"User-specific log folder set up at: {log_folder}")
-                return redirect(url_for('index'))
-            else:
-                flash('Invalid username or password', 'error')
-
-        return render_template('login.html')
 
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
@@ -154,34 +150,196 @@ def create_routes(app):
                 return redirect(url_for('signup'))
         return render_template('signup.html')
 
+    '''@app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            user = User.query.filter_by(username=username).first()
+            if user and user.check_password(password):
+
+                login_user(user)  # Log in the user
+
+                # Set up user-specific folders and logging
+                config_class_name = os.getenv('FLASK_CONFIG') or 'development'
+                config_class = config[config_class_name]()
+                #print(current_app.config['ALL_USER_UPLOAD_FOLDER'])
+                # Get user-specific folder paths
+                user_folder, log_folder, telemetry_folder, device_config = config_class.create_user_folders(username)
+                #print(user_folder, log_folder, telemetry_folder, device_config)
+                # Normalize log folder path to prevent duplication
+                base_log_folder = os.path.dirname(config_class.LOG_FOLDER)
+                if log_folder.startswith(base_log_folder):
+                    # Ensure `log_folder` ends with the correct username
+                    if not log_folder.endswith(username):
+                        log_folder = os.path.join(base_log_folder, username)
+
+                session['LOG_FOLDER'] = log_folder
+                session['DEVICE_FOLDER']=device_config
+                session['UPLOAD_FOLDER'] = user_folder
+                # Update app configuration
+                current_app.config['UPLOAD_FOLDER'] = user_folder
+                current_app.config['LOG_FOLDER'] = log_folder
+                current_app.config['TELEMETRY_FOLDER'] = telemetry_folder
+                current_app.config['DEVICE_FOLDER'] = device_config
+
+                # Set up logging
+                config_class.setup_logging(log_folder)
+                print(f"User-specific log folder set up at: {log_folder}")
+
+                return redirect(url_for('index'))
+            else:
+                flash('Invalid username or password', 'error')
+
+        return render_template('login.html')'''
+
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            user = User.query.filter_by(username=username).first()
+
+            if user and user.check_password(password):
+                login_user(user)
+
+                # Set up user-specific folders and logging
+                config_class_name = os.getenv('FLASK_CONFIG') or 'development'
+                config_class = config[config_class_name]()
+                user_folder, log_folder, telemetry_folder, device_config = config_class.create_user_folders(username)
+
+                # Normalize log folder path
+                base_log_folder = os.path.dirname(config_class.LOG_FOLDER)
+                if log_folder.startswith(base_log_folder) and not log_folder.endswith(username):
+                    log_folder = os.path.join(base_log_folder, username)
+
+                # Store log folder in session
+                session['LOG_FOLDER'] = log_folder
+                session['DEVICE_FOLDER'] = device_config
+                session['UPLOAD_FOLDER'] = user_folder
+                session.modified = True  # ✅ Force Flask to save session changes
+
+                # Print session values for debugging
+                print(f"DEBUG: session['LOG_FOLDER'] = {session.get('LOG_FOLDER')}")
+                logging.info(f"DEBUG: session['LOG_FOLDER'] set to {session.get('LOG_FOLDER')}")
+
+                # Update app configuration
+                current_app.config['UPLOAD_FOLDER'] = user_folder
+                current_app.config['LOG_FOLDER'] = log_folder
+                current_app.config['TELEMETRY_FOLDER'] = telemetry_folder
+                current_app.config['DEVICE_FOLDER'] = device_config
+
+                # Set up logging
+                config_class.setup_logging(log_folder)
+                logging.info(f"User-specific log folder set up at: {log_folder}")
+
+                return redirect(url_for('index'))
+            else:
+                flash('Invalid username or password', 'error')
+
+        return render_template('login.html')
+
+    '''@app.route('/debug_log')
+    @login_required
+    def debug_log():
+        """
+        Handles the debug log display for the logged-in user.
+        Ensures the user-specific log folder and file exist and retrieves the log content.
+        """
+        # Retrieve user-specific log folder from session
+        log_folder = session.get('LOG_FOLDER', None)
+
+        if not log_folder:
+            logging.error("Session missing LOG_FOLDER, user needs to log in again.")
+            flash('Error! Please log in again to access debug logs.', 'error')
+            return render_template('debug_log.html', log_content='Unable to access log folder. Please log in again.')
+
+        # Ensure the debug.log file exists
+        log_file_path = os.path.join(log_folder, 'debug.log')
+        logging.info(f"Debug log path: {log_file_path}")
+        print(f"debuglog : {log_file_path}")
+        try:
+            # If the log file doesn't exist, create it with an initial message
+            if not os.path.exists(log_file_path):
+                try:
+                    with open(log_file_path, 'w') as file:
+                        file.write('Debug log initialized.\n')
+                    logging.info(f"Log file created at: {log_file_path}")
+                except Exception as e:
+                    flash(f"Error creating log file: {e}", 'error')
+                    return render_template('debug_log.html', log_content=f"Error creating log file: {e}")
+            # Read the log file content
+            try:
+                with open(log_file_path, 'r') as file:
+                    log_content = file.read()
+            except Exception as e:
+                log_content = f"Error reading log file: {e}"
+                logging.error(f"Error reading log file: {e}")
+
+        except Exception as e:
+            log_content = f"Unexpected error handling the log file: {e}"
+            logging.error(f"Unexpected error: {e}")
+
+        return render_template('debug_log.html', log_content=log_content)'''
+
     @app.route('/debug_log')
     @login_required
     def debug_log():
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            flash('Pls login again', 'error')
-            return redirect(url_for('index'))
-        log_file_path = os.path.join(current_app.config['LOG_FOLDER'], 'debug.log')
-        print(log_file_path)
+        """
+        Handles the debug log display for the logged-in user.
+        Ensures the user-specific log folder and file exist and retrieves the log content.
+        """
+        print(f"DEBUG: session contents = {session}")
+        logging.info(f"DEBUG: session contents before accessing debug logs: {session}")
+
+        log_folder = session.get('LOG_FOLDER', None)
+
+        if not log_folder:
+            logging.error("Session missing LOG_FOLDER, user needs to log in again.")
+            flash('Error! Please log in again to access debug logs.', 'error')
+            return render_template('debug_log.html', log_content='Unable to access log folder. Please log in again.')
+
+        log_file_path = os.path.join(log_folder, 'debug.log')
+        logging.info(f"Debug log path: {log_file_path}")
+
         try:
+            if not os.path.exists(log_file_path):
+                with open(log_file_path, 'w') as file:
+                    file.write('Debug log initialized.\n')
+                logging.info(f"Log file created at: {log_file_path}")
+
             with open(log_file_path, 'r') as file:
                 log_content = file.read()
-        except FileNotFoundError:
-            log_content = 'Log file not found.'
+
+        except Exception as e:
+            logging.error(f"Error reading log file: {e}")
+            log_content = f"Error reading log file: {e}"
+
         return render_template('debug_log.html', log_content=log_content)
-
-
 
     @app.route('/download_log')
     @login_required
     def download_log():
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            flash('Pls login again', 'error')
-            return redirect(url_for('index'))
-        if 'LOG_FOLDER' not in current_app.config:
-            flash('Pls login again', 'error')
-            return redirect(url_for('index'))
-        log_file_path = os.path.join(current_app.config['LOG_FOLDER'], 'debug.log')
-        return send_file(log_file_path, as_attachment=True, download_name='debug.log')
+        log_file_path = os.path.join(session.get('LOG_FOLDER'), 'debug.log')
+        # Validate the log file existence
+        if not os.path.exists(log_file_path):
+            flash('Log file not found. Please try again later.', 'error')
+            log_content = 'Log file not found. Please check the messages above.'
+            return render_template('debug_log.html', log_content=log_content)
+        # Serve the log file for download if available
+        try:
+            #return (f"log_file_path: {log_file_path}")
+            return send_file(log_file_path, as_attachment=True, download_name='debug.log')
+        except Exception as e:
+            flash(f'Error downloading log file: {str(e)}', 'error')
+            log_content = 'Unable to download the log file due to an error. Please try again later.'
+            return render_template('debug_log.html', log_content=log_content)
+
 
 
     #*******************************  Main APP START **************************##
@@ -240,7 +398,7 @@ def create_routes(app):
     @app.route('/api/uploadRobotDebugFile', methods=['POST'])
     def upload_robot_debug_file():
         """
-        Route for uploading and processing Robot Framework debug files.
+        Route for uploading and processing Robot Framework debug files with socket.emit progress notifications.
         """
         try:
             # Initialize parser
@@ -248,27 +406,32 @@ def create_routes(app):
 
             # Check if the file is part of the request
             if 'file' not in request.files:
-                current_app.logger.error("No file part in the request.")
+                socketio.emit('xmlRobotprogress', {'status': 'error', 'message': "No file part in the request", 'progress': 0})
                 return jsonify({"status": "error", "message": "No file part in the request"}), 400
 
             file = request.files['file']
             if file.filename == '':
-                current_app.logger.error("No file selected for upload.")
+                socketio.emit('xmlRobotprogress', {'status': 'error', 'message': "No file selected for upload", 'progress': 0})
                 return jsonify({"status": "error", "message": "No file selected for upload"}), 400
 
             if not parser.allowed_file(file.filename):
-                current_app.logger.error(f"Unsupported file type: {file.filename}")
+                socketio.emit('xmlRobotprogress',
+                              {'status': 'error', 'message': f"Unsupported file type: {file.filename}", 'progress': 0})
                 return jsonify({"status": "error", "message": "Unsupported file type"}), 400
+
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "Validating file...", 'progress': 5})
 
             # Retrieve nameSuggestions flag
             name_suggestions = request.form.get('nameSuggestions', 'true').lower() == 'true'
-            current_app.logger.info(f"nameSuggestions flag: {name_suggestions}")
+            socketio.emit('xmlRobotprogress',
+                          {'status': 'info', 'message': f"Name suggestions flag: {name_suggestions}", 'progress': 10})
 
             username = current_user.username
             user_id = current_user.id
 
             # Save file to user-specific folder
             file_path = parser.save_file(file, username)
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "File saved successfully", 'progress': 20})
 
             # Handle .gz files
             if file_path.endswith('.gz'):
@@ -279,21 +442,26 @@ def create_routes(app):
                             out_file.write(gz_file.read())
                     os.remove(file_path)  # Remove the original .gz file
                     file_path = decompressed_file_path
-                    current_app.logger.info(f"Decompressed .gz file to: {file_path}")
+                    socketio.emit('xmlRobotprogress', {'status': 'info', 'message': f"Decompressed .gz file to: {file_path}",
+                                               'progress': 30})
                 except Exception as e:
-                    current_app.logger.error(f"Error decompressing .gz file: {e}", exc_info=True)
+                    socketio.emit('xmlRobotprogress',
+                                  {'status': 'error', 'message': f"Error decompressing .gz file: {e}", 'progress': 0})
                     return jsonify({"status": "error", "message": "Error decompressing .gz file"}), 500
 
             # Read XML content
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     xml_content = f.read()
+                socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "XML file read successfully", 'progress': 40})
             except Exception as e:
-                current_app.logger.error(f"Error reading file {file_path}: {e}", exc_info=True)
+                socketio.emit('xmlRobotprogress',
+                              {'status': 'error', 'message': f"Error reading file {file_path}", 'progress': 0})
                 return jsonify({"status": "error", "message": "Error reading file"}), 500
 
             # Parse failures from the XML content
             failures = parser.parse_robot_xml(xml_content=xml_content)
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "Failures parsed from XML", 'progress': 50})
 
             # Save failures to a log file
             log_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], username, "robot_failure_logs")
@@ -302,8 +470,10 @@ def create_routes(app):
             try:
                 with open(failure_log_path, 'w', encoding='utf-8') as log_file:
                     log_file.write(failures)
+                socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "Failure log saved", 'progress': 60})
             except Exception as e:
-                current_app.logger.error(f"Error writing failure log: {e}", exc_info=True)
+                socketio.emit('xmlRobotprogress',
+                              {'status': 'error', 'message': f"Error writing failure log: {e}", 'progress': 0})
                 return jsonify({"status": "error", "message": "Error saving failure log"}), 500
 
             suggestions = None
@@ -318,6 +488,8 @@ def create_routes(app):
                     unmatched_message = parser.display_corrective_actions_from_file(
                         failure_log_path, training_data, user_id, log_dir
                     )
+                    socketio.emit('xmlRobotprogress',
+                                  {'status': 'info', 'message': "Corrective actions generated", 'progress': 80})
 
                     # Read the generated suggestions
                     suggestions_file_path = os.path.join(log_dir, "robot_failure_suggestions.txt")
@@ -326,13 +498,15 @@ def create_routes(app):
                             suggestions = suggestion_file.read()
                 except ValueError as ve:
                     unmatched_message = str(ve)
-                    current_app.logger.warning(f"ValueError during corrective actions: {ve}")
+                    socketio.emit('xmlRobotprogress', {'status': 'warning', 'message': f"ValueError: {ve}", 'progress': 80})
                 except Exception as e:
                     unmatched_message = "An error occurred while generating suggestions."
-                    current_app.logger.error(f"Error during corrective actions: {e}", exc_info=True)
+                    socketio.emit('xmlRobotprogress', {'status': 'error', 'message': f"Error during corrective actions: {e}",
+                                               'progress': 0})
 
             # Clean up uploaded file
             os.remove(file_path)
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "Uploaded file cleaned up", 'progress': 90})
 
             # Prepare response data
             response_data = {
@@ -348,20 +522,28 @@ def create_routes(app):
             if unmatched_message:
                 response_data["unmatched_message"] = unmatched_message
 
-            current_app.logger.info("Upload and processing completed successfully.")
+            socketio.emit('xmlRobotprogress', {'status': 'success', 'message': "Upload and processing completed successfully",
+                                       'progress': 100})
             return jsonify(response_data), 200
 
         except ValueError as ve:
-            current_app.logger.error(f"ValueError: {ve}")
+            socketio.emit('xmlRobotprogress', {'status': 'error', 'message': f"ValueError: {ve}", 'progress': 0})
             return jsonify({"status": "error", "message": str(ve)}), 400
         except Exception as e:
-            current_app.logger.error(f"Exception: {e}", exc_info=True)
+            socketio.emit('xmlRobotprogress', {'status': 'error', 'message': "An unexpected error occurred", 'progress': 0})
             return jsonify({"status": "error", "message": "An unexpected error occurred."}), 500
+
+    @app.route('/api/progress', methods=['GET'])
+    def get_progress():
+        user_id = current_user.id
+        with lock:
+            message = progress.get(user_id, "No progress available")
+        return jsonify({"status": "success", "progress": message})
 
     @app.route('/fetchXML', methods=['POST'])
     def fetch_xml():
         """
-        Route for fetching XML from a URL and parsing it.
+        Route for fetching XML from a URL and parsing it, with progress tracking.
         """
         from utils import RobotLogParser
         import requests
@@ -369,33 +551,46 @@ def create_routes(app):
 
         parser = RobotLogParser(current_app.config['UPLOAD_FOLDER'])
         data = request.json
-
         url = data.get('url')
         jsessionid = data.get('jsessionid')
 
         if not url:
+            socketio.emit('xmlRobotprogress', {'status': 'error', 'message': "URL is required", 'progress': 0})
             return jsonify({"status": "error", "message": "URL is required"}), 400
 
         try:
+            # Start progress tracking
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "Starting fetch process...", 'progress': 10})
+
             # Fetch the XML content
             headers = {"User-Agent": "Mozilla/5.0"}
             cookies = {"JSESSIONID": jsessionid} if jsessionid else None
             response = requests.get(url, headers=headers, cookies=cookies)
 
             if response.status_code != 200:
+                socketio.emit('xmlRobotprogress', {'status': 'error', 'message': "Failed to fetch XML", 'progress': 30})
                 return jsonify({"status": "error", "message": "Failed to fetch XML"}), response.status_code
 
+            socketio.emit('progress', {'status': 'info', 'message': "XML fetched successfully", 'progress': 50})
+
+            # Parse the XML content
             tree = ET.parse(BytesIO(response.content))
             failures = parser.parse_robot_xml(tree=tree)
+            socketio.emit('xmlRobotprogress', {'status': 'info', 'message': "XML parsed successfully", 'progress': 80})
+
+            # Emit completion progress
+            socketio.emit('xmlRobotprogress',
+                          {'status': 'success', 'message': "Fetch and parse completed successfully", 'progress': 100})
 
             return jsonify({
                 "status": "success",
                 "message": "XML fetched and parsed successfully",
                 "failures": failures
             }), 200
-        except Exception as e:
-            return jsonify({"status": "error", "message": str(e)}), 500
 
+        except Exception as e:
+            socketio.emit('xmlRobotprogress', {'status': 'error', 'message': str(e), 'progress': 0})
+            return jsonify({"status": "error", "message": str(e)}), 500
 
     @app.route('/api/downloadTrainingData', methods=['GET'])
     @login_required  # Ensure the user is logged in
@@ -572,7 +767,6 @@ def create_routes(app):
             pattern = data.get('pattern')
             if not pattern:
                 return jsonify({"message": "Pattern is required."}), 400
-
             # Find and delete the pattern
             record = TrainingData.query.filter_by(pattern=pattern, user_id=current_user.id).first()
             if not record:
@@ -634,57 +828,75 @@ def create_routes(app):
 
     # Flask route to check device and link health
 
+
+
+
     @app.route('/check_device_health', methods=['POST'])
     @login_required
     def check_device_health_route():
-        def remove_none_values(d):
-            """Recursively remove None values from dictionaries or lists."""
-            if isinstance(d, dict):
-                return {k: remove_none_values(v) for k, v in d.items() if k is not None and v is not None}
-            elif isinstance(d, list):
-                return [remove_none_values(item) for item in d if item is not None]
-            else:
-                return d
-        data = request.get_json()
-        devices = data.get('devices', [])
-
         try:
-            router_details = get_router_details_from_db()
-            device_health_status = check_device_health(router_details, devices)
-            cleaned_device_health_status = remove_none_values(device_health_status)
-        except Exception as e:
-            logging.error(f"Error in device health check: {e}", exc_info=True)
-            return jsonify({"error": "Server error during device health check"}), 500
+            logging.info("Received request for device health check.")
+            data = request.get_json()
+            logging.debug(f"Raw request data: {data}")
 
-        return jsonify({
-            'device_health_status': cleaned_device_health_status
-        })
+            if not isinstance(data, dict):
+                logging.warning("Invalid request format: Expected JSON object.")
+                return jsonify({"error": "Invalid request format. Expected JSON object."}), 400
+
+            devices = data.get('devices', [])
+            logging.info(f"Devices received for health check: {devices}")
+
+            if not isinstance(devices, list):
+                logging.warning("Invalid 'devices' format: Expected a list.")
+                return jsonify({"error": "Invalid 'devices' format. Expected a list."}), 400
+
+            if not devices:
+                logging.info("No devices provided for health check.")
+                return jsonify({"error": "No devices provided for health check."}), 400
+
+            logging.info("Fetching router details from the database.")
+            router_details = get_router_details_from_db()
+            logging.debug(f"Router details from DB: {router_details}")
+
+            router_details = DeviceHealthCheck.preprocess_router_details(router_details)
+            logging.debug(f"Processed router details: {router_details}")
+
+            logging.info("Performing device health check.")
+            device_health_status = DeviceHealthCheck.check_device_health(router_details, devices)
+            logging.info(f"Device health status before cleaning: {device_health_status}")
+
+            cleaned_device_health_status = DeviceHealthCheck.remove_none_values(device_health_status)
+            logging.debug(f"Cleaned device health status: {cleaned_device_health_status}")
+            logging.info("Device health check completed successfully.")
+
+            return jsonify({'device_health_status': cleaned_device_health_status})
+
+        except DatabaseError as db_error:
+            logging.error(f"Database error during device health check: {db_error}", exc_info=True)
+            return jsonify({"error": "Database error during device health check."}), 500
+
+        except Exception as e:
+            logging.error(f"Unexpected error in device health check: {e}", exc_info=True)
+            return jsonify({"error": "Server error during device health check."}), 500
 
     @app.route('/check_link_health', methods=['POST'])
     @login_required
     def check_link_health_route():
-        def remove_none_values(d):
-            """Recursively remove None values from dictionaries or lists."""
-            if isinstance(d, dict):
-                return {k: remove_none_values(v) for k, v in d.items() if k is not None and v is not None}
-            elif isinstance(d, list):
-                return [remove_none_values(item) for item in d if item is not None]
-            else:
-                return d
-        data = request.get_json()
-        edges = data.get('edges', [])
         try:
+            data = request.get_json()
+            edges = data.get('edges', [])
+            logging.info(f"Edges received: {edges}")
+
+            logging.info("Fetching router details from the database.")
             router_details = get_router_details_from_db()
-            link_health_status = check_link_health(router_details, edges)
-            cleaned_link_health_status = remove_none_values(link_health_status)
+            logging.debug(f"Router details: {router_details}")
+
+            link_health_status = DeviceHealthCheck.check_link_health(router_details, edges)
+            return jsonify({'link_health_status': link_health_status})
+
         except Exception as e:
             logging.error(f"Error in link health check: {e}", exc_info=True)
             return jsonify({"error": "Server error during link health check"}), 500
-
-        return jsonify({
-            'link_health_status': cleaned_link_health_status
-        })
-
     # END
 
     @app.route('/upload_csv', methods=['POST'])
@@ -703,28 +915,57 @@ def create_routes(app):
         return jsonify({'success': False, 'error': 'File upload failed'})
 
 
-    @app.route('/install_image', methods=['POST'])
-    def install_image():
-        try:
-            if 'UPLOAD_FOLDER' not in current_app.config:
-                flash('Please login again', 'error')
-                return redirect(url_for('index'))
+    @app.route('/stop_copy', methods=['POST'])
+    def stop_copy():
+        """
+        Stops the ongoing image copy process for a specified device.
+        """
+        data = request.get_json(silent=True)
+        if not data or 'device_id' not in data:
+            return jsonify({"status": "error", "message": "Invalid request. Device ID missing."}), 400
 
-            data = request.json
+        device_id = data['device_id']
+
+        # ✅ Print registered devices before stopping
+        logging.info(f"📌 Stop request received for {device_id}. Available in stop_events: {list(stop_events.keys())}")
+
+        # ✅ Ensure `stop_events` contains the device before stopping
+        if device_id in stop_events:
+            stop_events[device_id].set()  # ✅ Stop SCP transfer for the device
+            logging.info(f"🛑 Stop signal received for {device_id}")
+            return jsonify({"status": "stopped", "message": f"Copy stopped for {device_id}"}), 200
+        else:
+            logging.warning(
+                f"❌ Stop request for unknown device: {device_id}. Available devices: {list(stop_events.keys())}")
+            return jsonify({"status": "not_found", "message": "Device not found"}), 404
+
+    '''@app.route('/install_image', methods=['POST'])
+    def install_image():
+        socketio.emit('install_progress', {
+            'stage': 'Init',
+            'message': "Starting!"
+        })
+        try:
+            #data = request.json
+            data = request.get_json(silent=True)
+            print(f"install_image: {data}")
+            if not data:
+                logging.error("No data received")
+                return jsonify(success=False, error="No data received"), 400
             logging.info('Received data: %s', data)
 
             if not data or 'imageName' not in data or 'deviceIds' not in data:
                 logging.error('Missing image name or device IDs')
                 return jsonify(success=False, error="Missing image name or device ID"), 400
 
-            image_name = data['imageName']
+            #image_name = data['imageName']
+            image_name = data['imageName'].replace("ALL_USER_UPLOAD_FOLDER/", "")
             device_ids = data['deviceIds']
             action = data['action']
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_name)
 
-            logging.info('install_image func Action: %s', action)
-            logging.info('install_image func Image Name: %s', image_name)
-            logging.info('install_image func Device IDs: %s', device_ids)
+            #image_path = os.path.join(current_app.config['uploads'], image_name)
+            #print(image_name)
+            image_path = os.path.join(app.config['ALL_USER_UPLOAD_FOLDER'], image_name)
 
             if not image_name:
                 logging.error('Image name is missing')
@@ -745,25 +986,7 @@ def create_routes(app):
             threads = []
             app_context = current_app._get_current_object()
             # Progress for SCP
-            def scp_progress(filename, size, sent, device_id):
-                progress = int((sent / size) * 100)
-                socketio.emit('install_progress', {
-                    'device_id': device_id,
-                    'progress': progress,
-                    'stage': 'copying'
-                })
-                #logging.info(f"Copying progress for {device_id}: {progress}%")
-            # Installation progress handler
-            def myprogress(report,device_id):
-                """
-                Progress handler for the image installation process.
-                """
-                logging.info(f"Installation progress on {device_id}: {report}")
-                socketio.emit('install_progress', {
-                    'device_id': device_id,
-                    'progress': report,
-                    'stage': 'installing'
-                })
+
 
             def check_versions_and_rollback(dev, package_name, device_id, sw):
                 def reboot_and_check(dev, device_id):
@@ -974,7 +1197,6 @@ def create_routes(app):
                         'message': f"Error checking versions: {str(e)}"
                     })
                     return False
-
             def install_image_on_device(dev, remote_image_path, device_id):
                 sw = SW(dev)
                 try:
@@ -1070,111 +1292,150 @@ def create_routes(app):
                     })
                     return False
 
+
+
+            def scp_progress(filename, size, sent, device_id):
+                """Tracks SCP copy progress and stops if requested."""
+                if stop_events[device_id].is_set():
+                    logging.warning(f"🛑 Stopping SCP transfer for {device_id}")
+                    raise Exception(f"SCP transfer stopped for {device_id}")
+
+                if size == 0:
+                    progress = 0
+                else:
+                    progress = int((sent / size) * 100)
+
+                socketio.emit('install_progress', {
+                    "device_id": device_id,
+                    "stage": "copying",
+                    "progress": progress,
+                    "message": f"Copying {filename}: {progress}%"
+                })
+
+
             def copy_image_to_device(device, image_path, image_size, device_id, action, app_context, device_connection,
                                      status):
+                """Handles SCP copy with real-time progress tracking and stop functionality."""
                 with app_context.app_context():
                     try:
-                        logging.info(f"Checking for existing image on device: {device_id}")
-                        try:
-                            dev = device_connection
-                            # Check available storage space on the device
-                            storage_ok, avail_space, mount_point = onboard_device_instance.check_storage_space(dev,
-                                                                                                               image_size)
-                            if not storage_ok:
-                                error_message = f"Insufficient storage space on {device_id}. Required: {image_size} bytes, Available: {avail_space} bytes"
-                                logging.error(error_message)
+                        # ✅ Ensure stop_events entry is created before SCP starts
+                        if device_id not in stop_events:
+                            stop_events[device_id] = threading.Event()
+                            logging.info(
+                                f"📌 Registered stop_events for {device_id}. Current list: {list(stop_events.keys())}")
+
+                        logging.info(f"📌 Checking for existing image on {device_id}")
+
+                        dev = device_connection
+
+                        # 🔹 Check storage space before copying
+                        storage_ok, avail_space, mount_point = onboard_device_instance.check_storage_space(dev,
+                                                                                                           image_size)
+                        if not storage_ok:
+                            error_message = f"❌ Insufficient storage on {device_id}. Required: {image_size} bytes, Available: {avail_space} bytes"
+                            logging.error(error_message)
+                            socketio.emit('install_progress', {
+                                'device_id': device_id, 'progress': 0, 'stage': 'error', 'message': error_message
+                            })
+                            return
+
+                        # 🔹 Set remote path
+                        remote_image_path = f"/var/tmp/{os.path.basename(image_path)}"
+                        logging.info(f"🗂️ Remote image path: {remote_image_path}")
+
+                        # 🔹 Check if the image already exists
+                        local_md5 = onboard_device_instance.calculate_md5(image_path)
+                        remote_md5 = onboard_device_instance.get_remote_md5(dev, remote_image_path, local_md5)
+
+                        if remote_md5 is True:
+                            message = f"✅ Image already exists on {device_id} (MD5 matched)."
+                            logging.info(message)
+                            socketio.emit('install_progress', {
+                                "device_id": device_id, "stage": "exists", "progress": 100,
+                                "message": "Already Exists.!"
+                            })
+                            thread_safe_append(status, 200)
+                            return
+
+                        logging.info(f"🔄 Starting SCP transfer to {device.hostname}")
+
+                        # 🔹 Attempt SCP copy with retries
+                        for attempt in range(3):
+                            if stop_events[device_id].is_set():
+                                logging.warning(f"🛑 SCP copy stopped for {device_id} before connection.")
                                 socketio.emit('install_progress', {
-                                    'device_id': device_id, 'progress': 0, 'stage': 'error', 'message': error_message
+                                    "device_id": device_id, "progress": 0, "stage": "stopped",
+                                    "message": "Copy Stopped!"
                                 })
-                                Installerrors.append(error_message)
                                 return
 
-                            # Set the remote image path to /var/tmp
-                            remote_image_path = f"/var/tmp/{os.path.basename(image_path)}"
-                            logging.info(f"Remote image path set to: {remote_image_path}")
-
-                            # Check if the image already exists on the device
-                            local_image_md5 = onboard_device_instance.calculate_md5(image_path)
-                            remote_md5 = onboard_device_instance.get_remote_md5(dev, remote_image_path, local_image_md5)
-
-                            if remote_md5 is True:
-                                message = f"Image already exists on {device_id} with matching MD5 checksum."
-                                logging.info(message)
-                                socketio.emit('install_progress', {
-                                    'device_id': device_id, 'stage': 'exists', 'progress': 100, 'message': "Already Exists.!"
-                                })
-                                thread_safe_append(status, 200)
-                            else:
-                                thread_safe_append(status, 201)
+                            try:
                                 logging.info(
-                                    f"No existing image found or MD5 mismatch on {device.hostname}. Proceeding with copy.")
+                                    f"🔌 Connecting to {device.hostname} for SCP transfer (Attempt {attempt + 1})")
+                                ssh = paramiko.SSHClient()
+                                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                                ssh.connect(device.ip, username=device.username, password=device.password, timeout=10)
 
-                                # Perform the image copy with progress emission
-                                for attempt in range(3):
-                                    try:
-                                        with SCP(dev, progress=lambda f, s, t: scp_progress(f, s, t, device_id)) as scp:
-                                            scp.put(image_path, remote_path=remote_image_path)
-
-                                        logging.info(
-                                            f'Image copied to {device.hostname}: {remote_image_path} successfully.')
-                                        socketio.emit('install_progress', {
-                                            'device_id': device_id, 'progress': 100, 'stage': 'copycomplete',
-                                            'message': 'Copying complete'
-                                        })
-                                        thread_safe_append(status,
-                                                           f"Image copied to {device_id}:{remote_image_path} successfully.")
-                                        break
-                                    except Exception as e:
-                                        logging.error(f'Error copying image on attempt {attempt + 1}: {str(e)}')
-                                        if attempt == 2:
-                                            socketio.emit('install_progress', {
-                                                'device_id': device_id, 'progress': 0, 'stage': 'error',
-                                                'message': str(e)
-                                            })
-                                            Installerrors.append(
-                                                f"Error copying image to {device_id} after 3 attempts: {str(e)}")
-                                            return
-
-                            # Emit "Installing" message only if action is 'installSelectedImageBtn'
-                            if action == 'installSelectedImageBtn':
                                 socketio.emit('install_progress', {
-                                    'device_id': device_id, 'progress': 0, 'stage': 'installing',
-                                    'message': 'Starting installation'
+                                    'device_id': device_id, 'progress': 0, 'stage': 'copying',
+                                    'message': 'Copying started...'
                                 })
-                                thread_safe_append(status, 202)
 
-                                # Proceed with installation
-                                for attempt in range(3):
-                                    try:
-                                        install_status = install_image_on_device(dev, remote_image_path, device_id)
-                                        if install_status:
-                                            thread_safe_append(status, f"Image installed on {device_id} successfully.")
-                                        else:
-                                            Installerrors.append(f"Install Fail.!.")
-                                        break
-                                    except Exception as e:
-                                        logging.error(f'Error Installing image on attempt {attempt + 1}: {str(e)}')
-                                        if attempt == 2:
-                                            socketio.emit('install_progress', {
-                                                'device_id': device_id, 'progress': 0, 'stage': 'error',
-                                                'message': str(e)
-                                            })
-                                            Installerrors.append(
-                                                f"Error Installing image to {device_id} after 3 attempts: {str(e)}")
-                                            return
-                        except Exception as e:
-                            logging.error(f"Error connecting to device {device_id}: {str(e)}")
-                            Installerrors.append(f"Error connecting to device {device_id}: {str(e)}")
+                                with SCPClient(ssh.get_transport(),
+                                               progress=lambda f, s, t: scp_progress(f, s, t, device_id)) as scp:
+                                    scp.put(image_path,
+                                            remote_path=remote_image_path)  # ✅ FIXED: Removed invalid `callback`
+
+                                logging.info(f"✅ SCP transfer completed: {device.hostname}:{remote_image_path}")
+                                socketio.emit('install_progress', {
+                                    "device_id": device_id, "progress": 100, "stage": "copycomplete",
+                                    "message": "Copy Done.!"
+                                })
+                                ssh.close()
+                                thread_safe_append(status, 201)  # Indicating success
+                                break  # Exit loop if SCP succeeds
+
+                            except Exception as e:
+                                logging.error(f"❌ SCP Error (Attempt {attempt + 1}): {str(e)}")
+                                if attempt == 2:
+                                    error_msg = f"Error copying image to {device_id} after 3 attempts: {str(e)}"
+                                    logging.error(error_msg)
+                                    socketio.emit('install_progress', {
+                                        "device_id": device_id, "progress": 0, "stage": "error", "message": error_msg
+                                    })
+                                    return
+
+                            finally:
+                                if 'ssh' in locals():
+                                    ssh.close()
+
+                            if stop_events[device_id].is_set():  # Check if stop signal was triggered
+                                logging.warning(f"🛑 SCP copy stopped for {device_id} during transfer.")
+                                socketio.emit('install_progress', {
+                                    "device_id": device_id, "progress": 0, "stage": "stopped",
+                                    "message": "Copy Stopped!"
+                                })
+                                return
+                        print()
+                        if action == "installSelectedImageBtn":
+                            print(f"Installing Image on : {device_id}")
                             socketio.emit('install_progress', {
-                                'device_id': device_id, 'progress': 0, 'stage': 'error', 'message': str(e)
+                                "device_id": device_id, "progress": 0, "stage": "installing",
+                                "message": "Starting installation"
                             })
-                    except Exception as e:
-                        logging.error(f"Unexpected error during the image copy process: {str(e)}")
-                        Installerrors.append(f"Unexpected error during the image copy process: {str(e)}")
-                        socketio.emit('install_progress', {
-                            'device_id': device_id, 'progress': 0, 'stage': 'error', 'message': str(e)
-                        })
+                            thread_safe_append(status, 202)
 
+                            install_status = install_image_on_device(dev, remote_image_path, device_id)
+                            if install_status:
+                                logging.info(f"✅ Image installed successfully on {device_id}")
+                                thread_safe_append(status, f"Image installed on {device_id} successfully.")
+                            else:
+                                Installerrors.append("❌ Install failed.")
+                    except Exception as e:
+                        logging.error(f"🚨 Unexpected error in SCP process: {str(e)}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0, "stage": "error", "message": str(e)
+                        })
 
             def thread_safe_append(lst, item):
                 with lock:
@@ -1210,40 +1471,1133 @@ def create_routes(app):
                 return jsonify(success=False, status=status, errors=Installerrors)
         except Exception as errors:
             logging.error(f"Unexpected error in install_image route: {str(errors)}")
+            return jsonify(success=False, error=str(errors)), 500'''
+
+
+
+    @app.route('/install_image', methods=['POST'])
+    def install_image():
+        socketio.emit('install_progress', {
+            'stage': 'Init',
+            'message': "Starting!"
+        })
+        try:
+            # data = request.json
+            data = request.get_json(silent=True)
+            print(f"install_image: {data}")
+            if not data:
+                logging.error("No data received")
+                return jsonify(success=False, error="No data received"), 400
+            logging.info('Received data: %s', data)
+
+            if not data or 'imageName' not in data or 'deviceIds' not in data:
+                logging.error('Missing image name or device IDs')
+                return jsonify(success=False, error="Missing image name or device ID"), 400
+
+            # image_name = data['imageName']
+            image_name = data['imageName'].replace("ALL_USER_UPLOAD_FOLDER/", "")
+            device_ids = data['deviceIds']
+            action = data['action']
+            # image_path = os.path.join(current_app.config['uploads'], image_name)
+            # print(image_name)
+            image_path = os.path.join(app.config['ALL_USER_UPLOAD_FOLDER'], image_name)
+            # image_path = os.path.join(app.config['ALL_USER_UPLOAD_FOLDER'], image_name)
+            if not image_name:
+                logging.error('Image name is missing')
+                return jsonify(success=False, error="Missing image name"), 400
+            if not device_ids or not isinstance(device_ids, list) or not all(device_ids):
+                logging.error('Invalid device IDs')
+                return jsonify(success=False, error="Invalid device IDs"), 400
+            if not os.path.exists(image_path):
+                logging.error('Image file not found')
+                return jsonify(success=False, error="Image file not found"), 404
+            image_size = os.path.getsize(image_path)
+            lock = threading.Lock()
+            stop_events = {}
+            status = {}
+            Installerrors = []
+            onboard_device_instance = OnboardDeviceClass(socketio, stop_events, Installerrors, None)
+            logging.info('Performing Install operation on devices.')
+            threads = []
+            app_context = current_app._get_current_object()
+
+            # Progress for SCP
+
+            def check_versions_and_rollback(dev, package_name, device_id, sw):
+                def reboot_and_check(dev, device_id):
+                    """
+                    Helper function to reboot the device and verify if it comes back online.
+                    - Reboots the device
+                    - Waits and retries SSH connection for a maximum of 12 attempts (10-12 minutes)
+                    - Handles SSH errors gracefully and logs appropriate messages
+                    """
+                    try:
+                        logging.info(f"🔄 Rebooting device {device_id}...")
+                        sw.reboot()
+                        socketio.emit('install_progress', {
+                            'device_id': device_id,
+                            'progress': 70,
+                            'stage': 'rebooting',
+                            'message': 'rebooting...'
+                        })
+
+                        time.sleep(60)  # Initial wait for reboot
+
+                        for attempt in range(1, 13):  # Try for 12 attempts (approx. 10-12 minutes)
+                            try:
+                                logging.info(f"⏳ Attempt {attempt}/12: Checking if {device_id} is back online...")
+                                dev.open(timeout=120)  # Reconnect with a longer timeout
+
+                                if dev.connected:
+                                    logging.info(f"✅ Device {device_id} is back online!")
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 90,
+                                        'stage': 'device_online',
+                                        'message': '✅ Device online!'
+                                    })
+                                    return True  # Successfully reconnected
+
+                            except NoValidConnectionsError:
+                                logging.warning(
+                                    f"⚠️ No valid SSH connections for {device_id}, retrying... ({attempt}/12)")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'stage': 'message',
+                                    'message': f"🔄 Connect retry..({attempt}/12)"
+                                })
+
+                            except SSHException as e:
+                                logging.warning(f"⚠️ SSHException on {device_id}: {str(e)}")
+
+                                # If SSH Banner Error, wait extra 30 seconds before retrying
+                                if "Error reading SSH protocol banner" in str(e):
+                                    logging.warning(
+                                        f"🛑 SSH Banner error detected on {device_id}, waiting 90 seconds before retrying...")
+                                    time.sleep(90)
+                                else:
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'stage': 'message',
+                                        'message': f"🔄 Connect retry.. ({attempt}/12)"
+                                    })
+                                    time.sleep(60)
+
+                            except TimeoutError:
+                                logging.warning(
+                                    f"⏳ Timeout while reconnecting to {device_id}, retrying... ({attempt}/12)")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'stage': 'message',
+                                    'message': f"🔄 Connect retry.. ({attempt}/12)"
+                                })
+                                time.sleep(60)
+
+                            except Exception as e:
+                                logging.warning(f"❌ Unexpected SSH error on {device_id}: {str(e)}")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'stage': 'message',
+                                    'message': f"🔄 Connect retry..({attempt}/12)"
+                                })
+                                time.sleep(60)
+
+                        # If the device is still unreachable after all attempts, log an error
+                        logging.error(f"🚨 Device {device_id} did not come back online after reboot.")
+                        socketio.emit('install_progress', {
+                            'device_id': device_id,
+                            'progress': 0,
+                            'stage': 'error',
+                            'message': f"Offline..!"
+                        })
+                        return False
+
+                    except Exception as e:
+                        logging.error(f"🚨Critical error in reboot_and_check for {device_id}: {str(e)}")
+                        socketio.emit('install_progress', {
+                            'device_id': device_id,
+                            'progress': 0,
+                            'stage': 'error',
+                            'message': f"Error reboot.!"
+                        })
+                        return False
+
+                try:
+                    # Fetch system software list XML output using CLI
+                    software_info_xml = dev.cli("show system software list | display xml", format='xml')
+                    # Extract relevant versions
+                    current_version = software_info_xml.xpath('//version-list/current-version')[0].text
+                    rollback_version = software_info_xml.xpath('//version-list/rollback-version')[
+                        0].text if software_info_xml.xpath('//version-list/rollback-version') else None
+                    nextboot_version = software_info_xml.xpath('//version-list/nextboot-version')[
+                        0].text if software_info_xml.xpath('//version-list/nextboot-version') else None
+                    other_versions_list = [v.text for v in software_info_xml.xpath('//other-versions')]
+                    package_name = os.path.basename(package_name).replace(".iso", "")
+
+                    logging.info(
+                        f"Checking Available Rollback.!: Device {device_id} - Package name: {package_name}, Current version: {current_version}, Rollback version: {rollback_version}, Nextboot version: {nextboot_version}, Other versions: {other_versions_list}")
+
+                    # Case 1: If current version matches package_name
+                    if current_version == package_name:
+                        logging.info(f"Device {device_id} is now running version {current_version}.")
+                        socketio.emit('install_progress', {
+                            'device_id': device_id,
+                            'progress': 100,
+                            'stage': 'version_check',
+                            'message': f'Version Match.!'
+                        })
+                        return True
+                    # Case 2: If nextboot_version is set but doesn't match package_name
+                    if nextboot_version:
+                        logging.info(
+                            f"Nextboot version {nextboot_version} is set. Rebooting device to check other versions.")
+                        socketio.emit('install_progress', {
+                            'device_id': device_id,
+                            'progress': 100,
+                            'stage': 'rebooting',
+                            'message': f"rebooting.!"
+                        })
+
+                        reboot_success = reboot_and_check(dev, device_id)
+                        if reboot_success:
+                            # After reboot, check if the current version matches the package name
+                            logging.info(
+                                f"Device {device_id} reboot Success.!.")
+                            # device_version_info = dev.rpc.get_software_information()
+                            if nextboot_version == package_name:
+                                logging.info(
+                                    f"Device {device_id} is now running version {package_name}.")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 100,
+                                    'stage': 'install_complete',
+                                    'message': f'Install Success.!'
+                                })
+                                return True
+
+                    # Case 3: If package_name is in other_versions_list or rollback version
+                    if package_name in other_versions_list or package_name == rollback_version:
+                        logging.info(f"Package {package_name} is available. Performing rollback.")
+                        max_retries = 3  # Maximum number of retry attempts
+                        retry_attempts = 0
+                        rpc_command = None
+
+                        while retry_attempts < max_retries:
+                            try:
+                                # Try initiating the rollback
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 20,
+                                    'stage': 'version_check',
+                                    'message': f'Checking Rollback'
+                                })
+                                rpc_command = dev.rpc.request_package_rollback(package_name=package_name)
+                                if rpc_command is not None:
+                                    logging.info(
+                                        f"Rollback of {package_name} initiated successfully on {device_id}")
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 80,
+                                        'stage': 'version_check',
+                                        'message': f'rollback complete'
+                                    })
+                                    time.sleep(10)
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 90,
+                                        'stage': 'rebooting'
+
+                                    })
+                                    reboot_success = reboot_and_check(dev, device_id)
+                                    if reboot_success:
+                                        socketio.emit('install_progress', {
+                                            'device_id': device_id,
+                                            'progress': 100,
+                                            'stage': 'install_complete'
+
+                                        })
+                                        return True  # Exit loop if rollback succeeds
+                            except Exception as err:
+                                logging.error(
+                                    f"Package {package_name} rollback failed on attempt {retry_attempts + 1}. Error: {err}")
+                                retry_attempts += 1
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 100,
+                                    'stage': 'version_check',
+                                    'message': f'rollback retry{retry_attempts}'
+                                })
+                                time.sleep(60)  # Wait 60 seconds before retrying
+                            if retry_attempts == max_retries:
+                                logging.error(
+                                    f"Package {package_name} rollback failed after {max_retries} attempts.")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 0,
+                                    'stage': 'error',
+                                    'message': f"rollback failed."
+                                })
+                                return False
+                        if rpc_command is not None:
+                            logging.info(f"Received rolback RPC of {package_name}  on {device_id}, starting Reboot.")
+                            socketio.emit('install_progress', {
+                                'device_id': device_id,
+                                'progress': 100,
+                                'stage': 'version_check',
+                                'message': f'Rollback Done.!'
+                            })
+                            reboot_success = reboot_and_check(dev, device_id)
+                            if reboot_success:
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 100,
+                                    'stage': 'version_check',
+                                    'message': f'Device Online.!'
+                                })
+                                # After reboot, verify the current version
+                                # device_version_info = dev.rpc.get_software_information()
+                                if current_version == package_name:
+                                    logging.info(
+                                        f"Device {device_id} is now running version {current_version}.")
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 100,
+                                        'stage': 'version_check',
+                                        'message': f'Success! Version {package_name} verified after rollback and reboot.'
+                                    })
+                                    return True
+                        else:
+                            logging.error(f"Failed to initiate rollback of {package_name} on {device_id}.")
+                            socketio.emit('install_progress', {
+                                'device_id': device_id,
+                                'progress': 0,
+                                'stage': 'error',
+                                'message': f"Failed to initiate rollback of {package_name}"
+                            })
+                            return False
+
+                    # If no conditions are met, return False to proceed with installation
+                    logging.info(
+                        f"No matching Rollback version found for {package_name}. {device_id}.")
+                    return False
+
+                except Exception as e:
+                    logging.error(f"Error checking versions or performing rollback on {device_id}: {str(e)}")
+                    socketio.emit('install_progress', {
+                        'device_id': device_id,
+                        'progress': 0,
+                        'stage': 'error',
+                        'message': f"❌Ver Check Error.!"
+                    })
+                    return False
+
+
+            def install_image_on_device(dev, remote_image_path, device_id, device_version):
+                sw = SW(dev)
+                max_retries = 5  # Retry installation if another package is being installed
+                retry_delay = 30  # Initial delay (in seconds) for exponential backoff
+
+                try:
+                    logging.info(f"🚀 Starting installation on {device_id} with image {remote_image_path}")
+
+                    if not device_id:
+                        logging.error("❌ device_id is missing or undefined")
+                        return False
+
+                    socketio.emit('install_progress', {
+                        'device_id': device_id,
+                        'progress': 20,
+                        'stage': 'installing',
+                        'message': 'Starting installation'
+                    })
+
+                    # ✅ **Check if rollback is needed before installation**
+                    if "EVO" in device_version.upper():
+                        logging.info(f"🔄 EVO device detected ({device_version}). Checking rollback before install.")
+                        rollback_handled = check_versions_and_rollback(dev, remote_image_path, device_id, sw)
+                        if rollback_handled:
+                            logging.info(f"✅ Rollback handled installation for {device_id}, skipping install.")
+                            return True
+
+                    logging.info(f"📦 Installing software on {device_id} with image {remote_image_path}")
+
+                    # ✅ **Retry mechanism for `sw.install()` if another package installation is in progress**
+                    for attempt in range(max_retries):
+                        try:
+                            ok, msg = sw.install(package=remote_image_path, validate=True, timeout=120, no_copy=True)
+                            logging.info(f"sw.install attempt {attempt + 1}: ok={ok}, msg={msg}")
+
+                            # ✅ If installation is successful, proceed with reboot
+                            if ok:
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 100,
+                                    'stage': 'install_complete',
+                                    'message': 'Install complete'
+                                })
+                                logging.info(f"✅ Image installed successfully on {device_id}")
+
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 100,
+                                    'stage': 'rebooting',
+                                    'message': 'Rebooting device'
+                                })
+                                return reboot_and_check(dev, device_id)
+
+                            # ❌ **If another package installation is in progress, retry after waiting**
+                            elif "installation in progress" in msg:
+                                if attempt < max_retries - 1:
+                                    wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
+                                    logging.warning(
+                                        f"⚠️ Another package installation is in progress on {device_id}. Retrying in {wait_time} seconds...")
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 20,
+                                        'stage': 'installing',
+                                        'message': f'Another installation in progress. Retrying in {wait_time}s...'
+                                    })
+                                    time.sleep(wait_time)
+                                else:
+                                    logging.error(
+                                        f"❌ Max retries reached for sw.install() on {device_id}. Aborting installation.")
+                                    return False
+
+                            # ❌ **Handle validation failure**
+                            elif "validation failed" in msg.lower():
+                                logging.warning(f"🚨 VALIDATION FAILED on {device_id}: {msg}")
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 0,
+                                    'stage': 'validation_failed',
+                                    'message': 'Package validation failed!'
+                                })
+                                return False
+
+                            # ❌ **Handle "Please reboot the system" message**
+                            elif "reboot the system" in msg:
+                                handle_pending_upgrade(dev, device_id, msg, remote_image_path)
+                                return True
+
+                        except RpcTimeoutError as err:
+                            logging.warning(f"⚠️ RpcTimeoutError on attempt {attempt + 1} for {device_id}: {err}")
+                            if attempt < max_retries - 1:
+                                wait_time = retry_delay * (2 ** attempt)
+                                logging.info(f"⏳ Retrying sw.install() in {wait_time} seconds...")
+                                time.sleep(wait_time)
+                            else:
+                                logging.error(f"❌ Max retries reached. Falling back to CLI method.")
+
+                    # ✅ **Fallback to CLI Installation with Retry**
+                    logging.info(f"🛠️ Falling back to CLI install for {device_id}")
+
+                    for attempt in range(max_retries):
+                        try:
+                            install_cmd = dev.rpc.request_package_add(no_validate=True,
+                                                                      package_name=f"{remote_image_path}", reboot=True)
+                            logging.info(f"install_cmd: {install_cmd}")
+
+                            install_response = dev.cli(install_cmd)
+                            socketio.emit('install_progress', {
+                                'device_id': device_id,
+                                'progress': 40,
+                                'stage': 'installing',
+                                'message': 'Running CLI Install.!'
+                            })
+
+                            logging.info(f"📜 Install Response for {device_id}: {install_response}")
+                            return True
+
+                        except RpcTimeoutError as err:
+                            logging.info(f"⚠️ RpcTimeoutError during CLI install: {device_id}: {err}")
+                            if attempt < max_retries - 1:
+                                wait_time = retry_delay * (2 ** attempt)
+                                logging.info(f"⏳ Retrying CLI install in {wait_time} seconds...")
+                                time.sleep(wait_time)
+                            else:
+                                logging.error(f"❌ Max retries reached for CLI install on {device_id}. Aborting.")
+
+                        except Exception as cli_err:
+                            logging.error(f"❌ CLI Install Failed for {device_id}: {cli_err}")
+                            return False
+
+                except Exception as e:
+                    logging.error(f"🚨 Error installing image on {device_id}: {str(e)}")
+                    socketio.emit('install_progress', {
+                        'device_id': device_id,
+                        'progress': 0,
+                        'stage': 'error',
+                        'message': f"Install Error.!"
+                    })
+                    return False
+
+
+            def handle_pending_upgrade(dev, device_id, msg, install_package):
+                """
+                Handles pending upgrade scenarios by either rebooting or rolling back based on conditions.
+                """
+                logging.info(f"🔍 Checking for pending upgrades on {device_id}...")
+
+                if "reboot the system" in msg:
+                    logging.info(f"⚠️ Pending upgrade detected on {device_id}, checking pending version...")
+
+                    match = re.search(r"pending sw version:([\w\.\-]+)", msg)
+                    if match:
+                        pending_version = match.group(1).strip()
+                        logging.info(f"📌 Pending software version found: {pending_version}")
+                        if pending_version in install_package:
+                            logging.info(
+                                f"✅ Pending version {pending_version} matches install package. Rebooting {device_id}...")
+                            # Send reboot command
+                            try:
+                                dev.rpc.request_reboot()
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id,
+                                    'progress': 60,
+                                    'stage': 'rebooting',
+                                    'message': 'Rebooting device...'
+                                })
+                            except Exception as e:
+                                logging.error(f"❌ Failed to send reboot command for {device_id}: {e}")
+                                return False
+
+                            # ✅ Step 1: Wait for the device to go offline
+                            logging.info(
+                                f"🔄 Waiting for {device_id} to go offline before checking if it's back online...")
+                            if wait_for_device_reboot(dev, device_id):
+                                logging.info(f"✅ {device_id} has rebooted. Checking if it's back online...")
+
+                                # ✅ Step 2: Now wait for the device to come back online
+                                if wait_for_device_online(dev, device_id):
+                                    logging.info(f"✅ {device_id} is back online after reboot.")
+                                    socketio.emit('install_progress', {
+                                        'device_id': device_id,
+                                        'progress': 80,
+                                        'stage': 'device_online',
+                                        'message': 'Device back online.'
+                                    })
+                                    return True
+                                else:
+                                    logging.error(
+                                        f"❌ {device_id} did not come back online after reboot. Manual intervention required.")
+                                    return False
+                            else:
+                                logging.error(
+                                    f"❌ {device_id} did not go offline after reboot request. Manual intervention required.")
+                                return False
+
+                        else:
+                            logging.warning(
+                                f"🔄 Pending version {pending_version} does NOT match install package {install_package}. Rolling back...")
+                            rollback_and_retry_installation(dev, device_id, install_package)
+                            return False
+
+                    else:
+                        logging.error(
+                            f"❌ Unable to determine pending software version for {device_id}. Manual intervention required.")
+                        return False
+
+                return None  # No reboot or rollback needed
+
+            def wait_for_device_reboot(dev, device_id, max_retries=15, retry_delay=20):
+                """
+                Waits for the device to go offline after a reboot is triggered.
+                - max_retries: Maximum attempts to detect the device going offline.
+                - retry_delay: Time (seconds) between each retry.
+                """
+                logging.info(f"🔄 Checking if {device_id} goes offline before checking if it comes back online...")
+
+                for attempt in range(max_retries):
+                    try:
+                        dev.open()  # Try to connect
+                        logging.warning(f"⚠️ {device_id} is still online... Retrying in {retry_delay} seconds.")
+                    except ConnectError:
+                        logging.info(f"✅ {device_id} has gone offline. Now waiting for it to come back online...")
+                        return True
+                    except Exception as e:
+                        logging.error(f"❌ Unexpected error while checking device status before reboot: {e}")
+                        return False
+
+                    time.sleep(retry_delay)
+
+                logging.error(
+                    f"❌ {device_id} did not go offline after {max_retries} attempts. Manual intervention required.")
+                return False
+
+            '''def wait_for_device_online(dev, device_id, max_retries=20, retry_delay=30):
+                """
+                Waits for the device to come back online after a reboot.
+                - max_retries: Maximum attempts to reconnect.
+                - retry_delay: Time (seconds) between each retry.
+                """
+                logging.info(f"🔄 Waiting for {device_id} to come back online after reboot...")
+
+                for attempt in range(max_retries):
+                    time.sleep(retry_delay)  # Wait before retrying
+                    try:
+                        logging.info(f"🔄 Checking if {device_id} is online (Attempt {attempt + 1}/{max_retries})...")
+                        dev.open()
+                        logging.info(f"✅ Device {device_id} is back online.")
+                        return True
+                    except (ConnectError, socket.timeout, SSHException, RpcTimeoutError) as e:
+                        logging.warning(
+                            f"⚠️ {device_id} is still offline... Retrying in {retry_delay} seconds. Error: {e}")
+                        continue
+                    except Exception as e:
+                        logging.error(f"❌ Unexpected error while checking device status: {e}")
+                        return False
+
+                logging.error(f"❌ Device {device_id} did not come back online after {max_retries} attempts.")
+                return False'''
+
+            def wait_for_device_online(dev, device_id, max_retries=20, retry_delay=60):
+                """
+                Waits for the device to come back online after a reboot.
+                - max_retries: Maximum attempts to reconnect.
+                - retry_delay: Time (seconds) between each retry.
+                """
+                logging.info(f"🔄 Waiting for {device_id} to come back online after reboot...")
+
+                for attempt in range(1, max_retries + 1):
+                    logging.info(f"🔄 Attempt {attempt}/{max_retries}: Checking if {device_id} is online...")
+
+                    try:
+                        time.sleep(retry_delay)  # Wait before retrying
+                        dev.open()
+                        logging.info(f"✅ Device {device_id} is back online.")
+                        return True  # Device is online
+
+                    except SSHException as e:
+                        if "Error reading SSH protocol banner" in str(e):
+                            logging.error(
+                                f"❌ SSH banner issue on {device_id}. Possible causes: service not running, firewall, or network issue. Retrying...")
+                        else:
+                            logging.error(f"❌ SSH error on {device_id}: {e}. Retrying...")
+
+                    except ConnectError as e:
+                        logging.warning(f"⚠️ {device_id} connection error. Retrying... Error: {e}")
+
+                    except socket.timeout as e:
+                        logging.warning(f"⚠️ {device_id} timed out while connecting. Retrying... Error: {e}")
+
+                    except ChannelException as e:
+                        logging.warning(f"⚠️ Channel error while connecting to {device_id}. Retrying... Error: {e}")
+
+
+                    except RpcTimeoutError as e:
+                        logging.warning(f"⚠️ RPC timeout on {device_id}. Retrying... Error: {e}")
+
+                    except ConnectionResetError as e:
+                        logging.warning(f"⚠️ Connection reset by peer ({device_id}). Retrying... Error: {e}")
+
+                    except OSError as e:
+                        logging.error(f"❌ OS-level error while connecting to {device_id}: {e}")
+                        return False  # OS error, stop retrying
+
+                    except Exception as e:
+                        logging.error(f"❌ Unexpected error while checking {device_id} status: {e}")
+                        break  # Exit loop on unknown errors
+
+                logging.error(f"❌ Device {device_id} did not come back online after {max_retries} attempts.")
+                return False  # Return False if the device never comes online
+
+            def rollback_and_retry_installation(dev, device_id, install_package):
+                """
+                Performs a rollback and re-attempts the software installation.
+                """
+                logging.info(f"🔄 Rolling back software on {device_id}...")
+                #dev.cli("request system software rollback")
+                dev.rpc.request_package_rollback()
+
+                logging.info(f"⏳ Waiting for rollback to complete on {device_id}...")
+                time.sleep(60)  # Wait for rollback to settle
+
+                logging.info(f"📦 Restarting installation of {install_package} on {device_id}...")
+                install_image_on_device(dev, install_package, device_id, device_version)  # Restart installation
+
+            def scp_progress(filename, size, sent, device_id):
+                """Tracks SCP copy progress and stops if requested."""
+                if stop_events[device_id].is_set():
+                    logging.warning(f"🛑 Stopping SCP transfer for {device_id}")
+                    raise Exception(f"SCP transfer stopped for {device_id}")
+
+                progress = int((sent / size) * 100) if size > 0 else 0
+
+                socketio.emit('install_progress', {
+                    "device_id": device_id,
+                    "stage": "copying",
+                    "progress": progress,
+                    "message": f"📤 Copying... {progress}%"
+                })
+
+            '''def copy_image_to_device(device, image_path, image_size, device_id, action, app_context, device_connection,
+                                     status,device_version):
+                """Handles SCP copy with real-time progress tracking and stop functionality."""
+                with app_context.app_context():
+                    try:
+                        if device_id not in stop_events:
+                            stop_events[device_id] = threading.Event()
+                        logging.info(f"📌 Checking for existing image on {device_id}")
+
+                        dev = device_connection
+
+                        # 🔹 Check storage space before copying
+                        storage_ok, avail_space, mount_point = onboard_device_instance.check_storage_space(dev,
+                                                                                                           image_size)
+                        if not storage_ok:
+                            error_message = f"❌ Insufficient storage on {device_id}. Required: {image_size} bytes, Available: {avail_space} bytes"
+                            logging.error(error_message)
+                            socketio.emit('install_progress', {
+                                'device_id': device_id, 'progress': 0, 'stage': 'error', 'message': error_message
+                            })
+                            return
+
+                        # 🔹 Set remote path
+                        remote_image_path = f"/var/tmp/{os.path.basename(image_path)}"
+                        logging.info(f"🗂️ Remote image path: {remote_image_path}")
+
+                        # 🔹 Check if the image already exists
+                        local_md5 = onboard_device_instance.calculate_md5(image_path)
+                        remote_md5 = onboard_device_instance.get_remote_md5(dev, remote_image_path, local_md5)
+
+                        if remote_md5 is True:
+                            message = f"✅ Image already exists on {device_id} (MD5 matched)."
+                            logging.info(message)
+                            socketio.emit('install_progress', {
+                                "device_id": device_id,
+                                "stage": "exists", "progress": 100,
+                                "message": "Image Exists,Skip copy.!"
+                            })
+                            thread_safe_append(status, device_id, 200)  # ✅ Image exists, no need to copy
+                            if action == 'installSelectedImageBtn':
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id, 'progress': 0, 'stage': 'installing',
+                                    'message': 'Starting installation'
+                                })
+                                install_success = install_image_on_device(dev, remote_image_path, device_id,device_version)
+                                if install_success:
+                                    thread_safe_append(status, device_id, 200)  # ✅ Install success
+                                else:
+                                    thread_safe_append(status, device_id, 202)  # ❌ Install failed
+
+                            return
+
+                        logging.info(f"🔄 Starting SCP transfer to {device.hostname}")
+
+                        # 🔹 Attempt SCP copy with retries
+                        for attempt in range(3):
+                            try:
+                                logging.info(
+                                    f"🔌 Connecting to {device.hostname} for SCP transfer (Attempt {attempt + 1})")
+                                ssh = paramiko.SSHClient()
+                                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                                ssh.connect(device.ip, username=device.username, password=device.password, timeout=10)
+
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id, 'progress': 0, 'stage': 'copying',
+                                    'message': 'Copying started...'
+                                })
+
+                                with SCPClient(ssh.get_transport(),
+                                               progress=lambda f, s, t: scp_progress(f, s, t, device_id)) as scp:
+                                    scp.put(image_path, remote_path=remote_image_path)
+
+                                logging.info(f"✅ SCP transfer completed: {device.hostname}:{remote_image_path}")
+                                socketio.emit('install_progress', {
+                                    "device_id": device_id, "progress": 100, "stage": "copycomplete",
+                                    "message": "Copy Done.!"
+                                })
+                                ssh.close()
+
+                                thread_safe_append(status, device_id, 200)  # ✅ Copy success
+                                break  # Exit loop if SCP succeeds
+
+                            except Exception as e:
+                                logging.error(f"❌ SCP Error (Attempt {attempt + 1}): {str(e)}")
+                                if attempt == 2:
+                                    error_msg = f"Error copying image to {device_id} after 3 attempts: {str(e)}"
+                                    logging.error(error_msg)
+                                    socketio.emit('install_progress', {
+                                        "device_id": device_id, "progress": 0, "stage": "error", "message": error_msg
+                                    })
+                                    return
+                    except Exception as e:
+                        logging.error(f"🚨 Unexpected error in SCP process: {str(e)}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0, "stage": "error", "message": "🚨Copy Error"
+                        })
+                    if action == "installSelectedImageBtn":
+                        print(f"Installing Image on : {device_id}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0,
+                            "stage": "installing",
+                            "message": "Installing.."
+                        })
+                        thread_safe_append(status, 200)
+
+                        install_status = install_image_on_device(dev, remote_image_path, device_id,device_version)
+                        if install_status:
+                            logging.info(f"✅ Image installed successfully on {device_id}")
+                            thread_safe_append(status, f"Image installed on {device_id} successfully.")
+                        else:
+                            Installerrors.append("❌ Install failed.")
+
+                    if stop_events[device_id].is_set():
+                        logging.warning(f"🛑 SCP copy stopped for {device_id}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0, "stage": "stopped",
+                            "message": "Copy Stopped!"
+                        })
+                        return'''
+
+            def copy_image_to_device(device, image_path, image_size, device_id, action, app_context, device_connection,
+                                     status, device_version):
+                """Handles SCP copy with real-time progress tracking and stop functionality."""
+                with app_context.app_context():
+                    try:
+                        if device_id not in stop_events:
+                            stop_events[device_id] = threading.Event()
+                        logging.info(f"📌 Checking for existing image on {device_id}")
+
+                        dev = device_connection
+
+                        # 🔹 Check storage space before copying
+                        storage_ok, avail_space, mount_point = onboard_device_instance.check_storage_space(dev,
+                                                                                                           image_size)
+                        if not storage_ok:
+                            error_message = (f"❌ Insufficient storage on {device_id}. "
+                                             f"Required: {image_size} bytes, Available: {avail_space} bytes")
+                            logging.error(error_message)
+                            socketio.emit('install_progress', {
+                                'device_id': device_id, 'progress': 0, 'stage': 'error',
+                                'message': "Insufficient Storage!"
+                            })
+                            return
+
+                        # 🔹 Set remote path
+                        remote_image_path = f"/var/tmp/{os.path.basename(image_path)}"
+                        logging.info(f"🗂️ Remote image path: {remote_image_path}")
+
+                        # 🔹 Check if the image already exists
+                        local_md5 = onboard_device_instance.calculate_md5(image_path)
+                        remote_md5 = onboard_device_instance.get_remote_md5(dev, remote_image_path, local_md5)
+
+                        if remote_md5 is True:
+                            message = f"✅ Image already exists on {device_id} (MD5 matched)."
+                            logging.info(message)
+                            socketio.emit('install_progress', {
+                                "device_id": device_id, "stage": "exists", "progress": 100,
+                                "message": "Image Exists, Skipping Copy.!"
+                            })
+                            thread_safe_append(status, device_id, 200)  # ✅ Fix: Pass device_id
+                            if action == 'installSelectedImageBtn':
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id, 'progress': 0, 'stage': 'installing',
+                                    'message': 'Starting installation'
+                                })
+                                install_success = install_image_on_device(dev, remote_image_path, device_id,
+                                                                          device_version)
+                                if install_success:
+                                    thread_safe_append(status, device_id, 200)  # ✅ Install success
+                                else:
+                                    thread_safe_append(status, device_id, 202)  # ❌ Install failed
+
+                            return
+
+                        logging.info(f"🔄 Starting SCP transfer to {device.hostname}")
+
+                        # 🔹 Attempt SCP copy with retries
+                        for attempt in range(3):
+                            try:
+                                logging.info(
+                                    f"🔌 Connecting to {device.hostname} for SCP transfer (Attempt {attempt + 1})")
+                                ssh = paramiko.SSHClient()
+                                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                                ssh.connect(device.ip, username=device.username, password=device.password, timeout=10)
+
+                                socketio.emit('install_progress', {
+                                    'device_id': device_id, 'progress': 100, 'stage': 'copying',
+                                    'message': 'Copy started...'
+                                })
+
+                                with SCPClient(ssh.get_transport(),
+                                               progress=lambda f, s, t: scp_progress(f, s, t, device_id)) as scp:
+                                    scp.put(image_path, remote_path=remote_image_path)
+
+                                logging.info(f"✅ SCP transfer completed: {device.hostname}:{remote_image_path}")
+                                socketio.emit('install_progress', {
+                                    "device_id": device_id, "progress": 100, "stage": "copycomplete",
+                                    "message": "Copy Completed!"
+                                })
+                                ssh.close()
+
+                                thread_safe_append(status, device_id, 200)  # ✅ Fix: Pass device_id
+                                break  # Exit loop if SCP succeeds
+
+                            except Exception as e:
+                                logging.error(f"❌ SCP Error (Attempt {attempt + 1}): {str(e)}")
+
+                                # 🔹 Handle "No space left on device" error by running cleanup
+                                if "No space left on device" in str(e):
+                                    logging.error(f"❌ Device {device_id} ran out of storage. Attempting cleanup...")
+
+                                    # 🔹 If EVO image, run additional cleanup
+                                    is_evo_image = "EVO" in os.path.basename(image_path).upper()
+                                    if attempt_storage_cleanup(dev, device_id, is_evo_image):
+                                        logging.info(f"✅ Storage cleanup successful. Retrying SCP copy...")
+                                        time.sleep(5)  # Give system time to free space
+                                    else:
+                                        logging.error(f"❌ Storage cleanup failed on {device_id}. Aborting SCP.")
+                                        socketio.emit('install_progress', {
+                                            'device_id': device_id, 'progress': 100, 'stage': 'error',
+                                            'message': "Storage Cleanup Failed!"
+                                        })
+                                        return
+
+                                # 🔹 After 3 failed attempts, stop retrying
+                                if attempt == 2:
+                                    error_msg = f"Error copying image to {device_id} after 3 attempts: {str(e)}"
+                                    logging.error(error_msg)
+                                    socketio.emit('install_progress', {
+                                        "device_id": device_id, "progress": 0, "stage": "error", "message": error_msg
+                                    })
+                                    return
+
+                    except Exception as e:
+                        logging.error(f"🚨 Unexpected error in SCP process: {str(e)}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0, "stage": "error", "message": "🚨 Copy Error"
+                        })
+
+                    # ✅ Fix: Ensure `thread_safe_append` is called correctly
+                    if action == "installSelectedImageBtn":
+                        logging.info(f"Installing Image on: {device_id}")
+                        socketio.emit('install_progress', {
+                            "device_id": device_id, "progress": 0, "stage": "installing",
+                            "message": "Installing.."
+                        })
+                        thread_safe_append(status, device_id, 200)  # ✅ Fix: Pass device_id
+
+                        install_status = install_image_on_device(dev, remote_image_path, device_id, device_version)
+                        if install_status:
+                            logging.info(f"✅ Image installed successfully on {device_id}")
+                            thread_safe_append(status, device_id, 200)  # ✅ Fix: Pass device_id
+                        else:
+                            Installerrors.append("❌ Install failed.")
+
+            """def attempt_storage_cleanup(dev, device_id, is_evo_image=False):
+                try:
+                    logging.info(f"🔄 Running Storage Cleanup on {device_id}...")
+                    response = dev.rpc.request_system_storage_cleanup(no_confirm=True)
+                    socketio.emit('install_progress', {
+                        'device_id': device_id, 'progress': 100, 'stage': 'message',
+                        'message': "Cleaning Storage.!"
+                    })
+                    logging.info(f"✅ Storage Cleanup Completed on {device_id}: {response}")
+
+                    # 🔹 If EVO image, perform additional cleanup
+                    if is_evo_image:
+                        logging.info(f"🔄 Running EVO Package Cleanup on {device_id}...")
+                        response_evo = dev.rpc.request_package_delete(archived=True)
+                        logging.info(f"✅ EVO Package Cleanup Completed on {device_id}: {response_evo}")
+
+                    return True
+
+                except RpcError as e:
+                    logging.error(f"❌ RPC Error during storage cleanup on {device_id}: {str(e)}")
+                except ConnectError as e:
+                    logging.error(f"❌ Connection Error during storage cleanup on {device_id}: {str(e)}")
+                except SSHException as e:
+                    logging.error(f"❌ SSH Error during storage cleanup on {device_id}: {str(e)}")
+                except Exception as e:
+                    logging.error(f"❌ Unexpected error during storage cleanup on {device_id}: {str(e)}")
+                return False  # Return False if cleanup fails"""
+
+            def attempt_storage_cleanup(dev, device_id, is_evo_image=False):
+                """
+                Attempts to free up storage on the device by executing the RPC command.
+                If the image is EVO, it performs an additional archive cleanup and deletes other installed versions.
+                """
+                try:
+                    logging.info(f"🔄 Running Storage Cleanup on {device_id}...")
+
+                    # Run storage cleanup
+                    response = dev.rpc.request_system_storage_cleanup(no_confirm=True)
+
+                    # Handle `None` response
+                    if response is None:
+                        logging.info(
+                            f"✅ Storage Cleanup Completed on {device_id}. (No output received, assuming success)")
+                    else:
+                        response_text = response.text if hasattr(response, 'text') else str(response)
+                        logging.info(f"✅ Storage Cleanup Output on {device_id}: {response_text}")
+
+                    # 🔹 If EVO image, perform additional cleanup
+                    if is_evo_image:
+                        logging.info(f"🔄 Running EVO Package Cleanup on {device_id}...")
+
+                        # Step 1: Delete all archived packages
+                        try:
+                            response_evo = dev.rpc.request_package_delete(archived=True)
+                            response_evo_text = response_evo.text if hasattr(response_evo, 'text') else str(
+                                response_evo)
+                            logging.info(f"✅ EVO Package Cleanup Completed on {device_id}: {response_evo_text}")
+                        except RpcError as e:
+                            logging.error(f"❌ Failed to delete archived EVO packages on {device_id}: {str(e)}")
+
+                        # Step 2: Delete other installed versions
+                        logging.info(f"🔍 Fetching system software list on {device_id}...")
+                        software_info = dev.rpc.get_software_information()
+
+                        if software_info is None:
+                            logging.info(
+                                f"✅ No additional `other-versions` found on {device_id}, skipping additional cleanup.")
+                            return True
+
+                        # Extract other versions
+                        other_versions = software_info.xpath("//other-versions")
+                        if not other_versions:
+                            logging.info(f"✅ No `other-versions` found on {device_id}, skipping cleanup.")
+                            return True
+
+                        other_versions_list = [version.text for version in other_versions]
+                        logging.info(f"📌 Found {len(other_versions_list)} `other-versions` to delete on {device_id}.")
+
+                        # Loop through and delete each version
+                        for version in other_versions_list:
+                            try:
+                                logging.info(f"🔄 Deleting package: {version} on {device_id}...")
+                                dev.rpc.request_package_delete(package_name=version)
+                                logging.info(f"✅ Successfully deleted {version} from {device_id}.")
+                            except RpcError as e:
+                                logging.error(f"❌ Failed to delete {version} on {device_id}: {str(e)}")
+
+                    return True  # Success
+
+                except RpcError as e:
+                    logging.error(f"❌ RPC Error during storage cleanup on {device_id}: {str(e)}")
+                except ConnectError as e:
+                    logging.error(f"❌ Connection Error during storage cleanup on {device_id}: {str(e)}")
+                except SSHException as e:
+                    logging.error(f"❌ SSH Error during storage cleanup on {device_id}: {str(e)}")
+                except Exception as e:
+                    logging.error(f"❌ Unexpected error during storage cleanup on {device_id}: {str(e)}")
+
+                logging.error(f"🚨 Storage cleanup failed on {device_id}.")
+                return False  # Return False if cleanup fails
+
+            def thread_safe_append(status_dict, device_id, code):
+                """Thread-safe way to store status codes for each device."""
+                with lock:
+                    status_dict[device_id] = code  # Store latest status code for each device
+
+            for device_id in device_ids:
+                device = db.session.query(DeviceInfo).filter_by(hostname=device_id).first()
+                #print(f"Install Image on {device.version}")
+                version=device.version
+                if not device:
+                    thread_safe_append(Installerrors, f"Device ID {device_id} not found")
+                    continue
+                device_connector = DeviceConnectorClass(device.hostname, device.ip, device.username, device.password)
+                try:
+                    device_connection = device_connector.connect_to_device()
+                except Exception as e:
+                    thread_safe_append(Installerrors, f"Failed to connect to device {device_id}: {str(e)}")
+                    continue
+
+                stop_events[device_id] = threading.Event()
+                logging.info(f"*********** {device_connection}")
+                thread = threading.Thread(target=copy_image_to_device, args=(
+                    device, image_path, image_size, device_id, action, app_context, device_connection, status,version))
+                thread.start()
+                threads.append(thread)
+
+            for thread in threads:
+                thread.join()
+
+            if status:
+                logging.info(f"Returning status: {status}, errors: {Installerrors}")
+                return jsonify(success=True, status=status, errors=Installerrors)
+            else:
+                logging.info(f"Returning errors: {Installerrors}")
+                return jsonify(success=False, status=status, errors=Installerrors)
+        except Exception as errors:
+            logging.error(f"Unexpected error in install_image route: {str(errors)}")
             return jsonify(success=False, error=str(errors)), 500
 
 
-    @app.route('/stop_image_copy', methods=['POST'])
-    def stop_image_copy():
-        data = request.json
-        device_id = data.get('device_id')
-        if device_id and device_id in stop_events:
-            stop_events[device_id].set()
-            logging.info(f"Image copy process stopped for device {device_id}.")
-            return jsonify(success=True, message=f"Image copy process stopped for device {device_id}.")
-        return jsonify(success=False, error="Invalid device ID"), 400
 
+    @app.route('/api/refresh_versions', methods=['POST'])
+    @login_required
+    def refresh_versions():
+        try:
+            devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            updated_versions = {}
+
+            for device in devices:
+                device_connector = DeviceConnectorClass(
+                    hostname=device.hostname,
+                    ip=device.ip,
+                    username=device.username,
+                    password=device.password
+                )
+
+                dev = device_connector.connect_to_device()
+                if dev:
+                    try:
+                        facts = dev.facts
+                        logging.info(f"Device Facts for {device.hostname}: {facts}")
+
+                        # ✅ Extract required facts
+                        device.version = facts.get("version", "Unknown")
+                        device.serial_number = facts.get("serialnumber", "N/A")
+                        device.model = facts.get("model", "Unknown")
+                        device.up_time = facts.get("RE0", {}).get("up_time", "Unknown")
+                        device.last_reboot_reason = facts.get("RE0", {}).get("last_reboot_reason", "N/A")
+
+                        # ✅ Update response dictionary
+                        updated_versions[device.hostname] = {
+                            "version": device.version,
+                            "serial_number": device.serial_number,
+                            "model": device.model,
+                            "up_time": device.up_time,
+                            "last_reboot_reason": device.last_reboot_reason
+                        }
+
+                        # ✅ Mark device as modified
+                        db.session.add(device)
+
+                        # ✅ Close device connection
+                        device_connector.close_connection(dev)
+
+                    except Exception as e:
+                        updated_versions[device.hostname] = {
+                            "error": f"Error fetching version: {str(e)}"
+                        }
+                        logging.error(f"⚠️ Error retrieving version from {device.hostname}: {e}")
+
+            # ✅ Commit changes once all devices are processed
+            db.session.commit()
+
+            return jsonify(success=True, updated_versions=updated_versions)
+
+        except Exception as e:
+            logging.error(f"Error in refresh_versions: {e}")
+            return jsonify(success=False, error=str(e)), 500
     @app.route('/upload_image', methods=['POST'])
     @login_required
     def upload_image():
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            return jsonify(success=False, error='Please login again'), 401
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            return jsonify(success=False, error='Please login again'), 401
-
-        if 'imageFile' not in request.files:
-            return jsonify(success=False, error='No file part'), 400
-
         file = request.files['imageFile']
         if file.filename == '':
             return jsonify(success=False, error='No selected file'), 400
 
         if file:
             filename = secure_filename(file.filename)
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            #file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            ## updload images in common folder ##
+            file_path = os.path.join(current_app.config['ALL_USER_UPLOAD_FOLDER'], filename)
             file.save(file_path)
             return jsonify(success=True), 200
-
         return jsonify(success=False, error='File not saved'), 500
 
     @app.route('/fetch_images', methods=['GET'])
@@ -1274,8 +2628,8 @@ def create_routes(app):
     def get_uploaded_images():
         if 'UPLOAD_FOLDER' not in current_app.config:
             return jsonify(success=False, error='Please login again'), 401
-
         upload_folder = current_app.config['UPLOAD_FOLDER']
+        logging.info(f"upload_folder: {upload_folder}")
         #print(upload_folder)
         try:
             images = os.listdir(upload_folder)
@@ -1288,22 +2642,136 @@ def create_routes(app):
         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
     ### this code is used for viewing the content of uploaded files ##
+
     @app.route('/list_uploaded_images', methods=['GET'])
     @login_required
     def list_uploaded_images():
-        files = os.listdir(app.config['UPLOAD_FOLDER'])
-        return jsonify({'files': files})
+        # User-specific folder paths
+        user_folder_paths = {
+            'UPLOAD_FOLDER': os.path.join(app.config['UPLOAD_FOLDER'], current_user.username),
+            'LOG_FOLDER': os.path.join(app.config['LOG_FOLDER'], current_user.username),
+            'DEVICE_CONFIG_FOLDER': os.path.join(app.config['DEVICE_CONFIG_FOLDER'], current_user.username),
+            'TEMPLATE_FOLDER': os.path.join(app.config['TEMPLATE_FOLDER'], current_user.username),
+        }
+
+        # All-user folder path
+        all_user_folder = app.config['ALL_USER_UPLOAD_FOLDER']
+
+        all_files = {}
+
+        # Handle user-specific folders
+        for folder_name, folder_path in user_folder_paths.items():
+            if os.path.exists(folder_path):
+                try:
+                    # List files only, excluding directories
+                    files = [
+                        f for f in os.listdir(folder_path)
+                        if os.path.isfile(os.path.join(folder_path, f))
+                    ]
+                    all_files[folder_name] = files
+                except Exception as e:
+                    all_files[folder_name] = [f"Error reading folder: {str(e)}"]
+            else:
+                all_files[folder_name] = ["Folder does not exist"]
+
+        # Handle all-user folder
+        if os.path.exists(all_user_folder):
+            try:
+                # List files only, excluding directories
+                all_files['ALL_USER_UPLOAD_FOLDER'] = [
+                    f for f in os.listdir(all_user_folder)
+                    if os.path.isfile(os.path.join(all_user_folder, f))
+                ]
+            except Exception as e:
+                all_files['ALL_USER_UPLOAD_FOLDER'] = [f"Error reading folder: {str(e)}"]
+        else:
+            all_files['ALL_USER_UPLOAD_FOLDER'] = ["Folder does not exist"]
+
+        return jsonify({'files': all_files})
 
     @app.route('/show_file_content', methods=['POST'])
     @login_required
     def show_file_content():
-        filename = request.form['filename']
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        if os.path.exists(filepath):
+        data = request.get_json()  # Expecting JSON input
+        filename = data.get('filename')
+        folder_key = data.get('folder_key')  # Dynamically provided folder key
+        print(f"Received request: filename={filename}, folder_key={folder_key}")
+        if not filename or not folder_key:
+            return jsonify({'error': 'Filename and folder key are required'}), 400
+        # Define allowed folders for the user
+        user_folder_paths = {
+            'UPLOAD_FOLDER': os.path.join(app.config['UPLOAD_FOLDER'], current_user.username),
+            'LOG_FOLDER': os.path.join(app.config['LOG_FOLDER'], current_user.username),
+            'DEVICE_CONFIG_FOLDER': os.path.join(app.config['DEVICE_CONFIG_FOLDER'], current_user.username),
+            'TEMPLATE_FOLDER': os.path.join(app.config['TEMPLATE_FOLDER'], current_user.username),
+        }
+        all_user_folder = app.config['ALL_USER_UPLOAD_FOLDER']
+        print(user_folder_paths)
+        # Resolve the folder path
+        folder_path = user_folder_paths.get(folder_key) or (
+            all_user_folder if folder_key == 'ALL_USER_UPLOAD_FOLDER' else None)
+        if not folder_path:
+            return jsonify({'error': 'Invalid folder key'}), 403
+
+        # Securely construct the file path
+        filepath = os.path.normpath(os.path.join(folder_path, filename))
+
+        # Ensure the filepath is within the resolved folder
+        if not filepath.startswith(folder_path):
+            return jsonify({'error': 'Invalid file path'}), 403
+
+        # Check if the file exists
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'File not found'}), 404
+
+        try:
+            # Read the file content
             with open(filepath, 'r') as file:
                 content = file.read()
             return jsonify({'content': content})
-        return jsonify({'error': 'File not found'}), 404
+        except Exception as e:
+            logging.error(f"Error reading file {filepath}: {str(e)}")
+            return jsonify({'error': f'Error reading file: {str(e)}'}), 500
+
+
+    @app.route('/delete_file/<path:filename>', methods=['DELETE'])
+    @login_required
+    def delete_file(filename):
+        folder_key = request.args.get('folder')
+
+        # Define user-specific and shared folder paths
+        allowed_folders = {
+            'UPLOAD_FOLDER': os.path.join(app.config['UPLOAD_FOLDER'], current_user.username),
+            'LOG_FOLDER': os.path.join(app.config['LOG_FOLDER'], current_user.username),
+            'DEVICE_CONFIG_FOLDER': os.path.join(app.config['DEVICE_CONFIG_FOLDER'], current_user.username),
+            'ALL_USER_UPLOAD_FOLDER': app.config['ALL_USER_UPLOAD_FOLDER'],
+            'TEMPLATE_FOLDER': os.path.join(app.config['TEMPLATE_FOLDER'], current_user.username),
+        }
+
+        # Validate the folder key
+        if folder_key not in allowed_folders:
+            logging.error(f"Invalid folder key specified: {folder_key}")
+            return jsonify({'success': False, 'error': 'Invalid folder key specified'}), 400
+
+        # Get the actual folder path
+        folder = allowed_folders[folder_key]
+
+        # Construct the full file path
+        filepath = os.path.join(folder, filename)
+
+        # Ensure the file exists and is not a directory
+        if not os.path.exists(filepath) or not os.path.isfile(filepath):
+            logging.error(f"File not found or it is a directory: {filepath}")
+            return jsonify({'success': False, 'error': 'File not found or it is a directory'}), 404
+
+        # Attempt to delete the file
+        try:
+            os.remove(filepath)
+            logging.info(f"File deleted successfully: {filepath}")
+            return jsonify({'success': True, 'message': f'File {filename} deleted successfully'})
+        except Exception as e:
+            logging.error(f"Error deleting file {filepath}: {str(e)}")
+            return jsonify({'success': False, 'error': f'Error deleting file: {str(e)}'}), 500
 
     @app.route('/save_file_content', methods=['POST'])
     @login_required
@@ -1319,32 +2787,7 @@ def create_routes(app):
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    ## END
 
-    @app.route('/delete_image/<image_name>', methods=['DELETE'])
-    @login_required  # Ensure this decorator is only used if you have a login system set up
-    def delete_image(image_name):
-        logging.info(f"Received request to delete image: {image_name}")
-
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            return jsonify({'success': False, 'error': 'Please login again'}), 401
-
-        user_folder = os.path.join(current_app.config['UPLOAD_FOLDER'])
-        image_path = os.path.join(user_folder, image_name)
-
-        logging.info(f"Full image path: {image_path}")
-
-        if not os.path.exists(image_path):
-            logging.error(f"Image file not found: {image_path}")
-            return jsonify(success=False, error="Image file not found"), 404
-
-        try:
-            os.remove(image_path)
-            logging.info(f"Successfully deleted image: {image_path}")
-            return jsonify(success=True)
-        except Exception as e:
-            logging.error(f"Error deleting image {image_name}: {str(e)}")
-            return jsonify(success=False, error=str(e)), 500
 
     @app.route('/fetch_device_config/<string:hostname>', methods=['GET'])
     @login_required
@@ -1361,7 +2804,7 @@ def create_routes(app):
 
         try:
             # Emit progress: Starting connection process
-            socketio.emit('progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 25,
                 'stage': 'Connecting to device'
@@ -1377,7 +2820,7 @@ def create_routes(app):
 
                 # Fetch configuration from the device
                 config = dev.rpc.get_config(options={'format': 'set'})
-                socketio.emit('progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 75,
                     'stage': 'Processing configuration'
@@ -1385,7 +2828,7 @@ def create_routes(app):
 
         except ConnectAuthError as e:
             logging.error(f"Connection authentication error for device {device.hostname}: {str(e)}")
-            socketio.emit('progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 0,
                 'stage': 'Error',
@@ -1395,7 +2838,7 @@ def create_routes(app):
 
         except ConnectError as e:
             logging.error(f"Connection error for device {device.hostname}: {str(e)}")
-            socketio.emit('progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 0,
                 'stage': 'Error',
@@ -1405,16 +2848,16 @@ def create_routes(app):
 
         except Exception as e:
             logging.error(f"Error fetching configuration for device {device.hostname}: {str(e)}")
-            socketio.emit('progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 0,
-                'stage': 'Error',
+                'status': 'Error',
                 'error': f"Error fetching configuration: {str(e)}"
             })
             return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
         # Emit progress: Configuration fetched successfully
-        socketio.emit('progress', {
+        socketio.emit('onboard_device_progress', {
             'device': device.hostname,
             'progress': 100,
             'stage': 'Completed'
@@ -1426,45 +2869,8 @@ def create_routes(app):
             "hostname": device.hostname,
             "config": config.text
         }
-
         logging.info(f"Configuration fetched successfully for device {device.hostname}")
         return jsonify(config_data)
-
-    '''@app.route('/fetch_device_config/<string:hostname>', methods=['GET'])
-    @login_required
-    def fetch_device_config(hostname):
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            flash('Please login again', 'error')
-            return jsonify({'success': False, 'error': 'Please login again'}), 401
-
-        device = db.session.query(DeviceInfo).filter_by(
-            hostname=hostname).first()  # Fetch by hostname instead of device_id
-        if not device:
-            flash("Device not found", "error")
-            return jsonify({"success": False, "message": "Device not found"}), 404
-        try:
-            with Device(host=device.ip, user=device.username, passwd=device.password, port=22) as dev:
-                config = dev.rpc.get_config(options={'format': 'set'})
-        except ConnectAuthError as e:
-            logging.error(f"Connection authentication error for device {device.hostname}: {str(e)}")
-            return jsonify({"success": False, "message": f"Connection authentication error: {str(e)}"}), 500
-        except ConnectError as e:
-            logging.error(f"Connection error for device {device.hostname}: {str(e)}")
-            return jsonify({"success": False, "message": f"Connection error: {str(e)}"}), 500
-        except Exception as e:
-            logging.error(f"Error fetching configuration for device {device.hostname}: {str(e)}")
-            return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
-
-        config_data = {
-            "success": True,
-            "hostname": device.hostname,
-            "config": config.text
-        }
-
-        logging.info(f"Configuration fetched successfully for device {device.hostname}")
-        return jsonify(config_data)'''
-
-
 
     @app.route('/update_device_configuration/<int:device_id>', methods=['POST'])
     def update_device_configuration(device_id):
@@ -1546,7 +2952,7 @@ def create_routes(app):
 
         try:
             # Emit progress: Start restoring configuration
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 25,
                 'stage': 'Reading configuration'
@@ -1561,7 +2967,7 @@ def create_routes(app):
                 config_format = 'set' if any(line.startswith('set ') for line in clean_config_lines) else 'text'
 
             # Emit progress: Preparing to transfer configuration
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 50,
                 'stage': 'Transferring configuration to device'
@@ -1576,7 +2982,7 @@ def create_routes(app):
                 # Configuration transfer was successful
                 completed_devices += 1
                 progress = int((completed_devices / total_devices) * 100)
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': progress,
                     'stage': 'Completed'
@@ -1586,7 +2992,7 @@ def create_routes(app):
 
             else:
                 # Handle configuration transfer errors
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 0,
                     'stage': 'Error',
@@ -1598,7 +3004,7 @@ def create_routes(app):
         except Exception as e:
             # Catch any general exceptions
             logging.error(f"Error restoring configuration for device {hostname}: {str(e)}")
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device.hostname,
                 'progress': 0,
                 'stage': 'Error',
@@ -1636,7 +3042,7 @@ def create_routes(app):
             config_content = config_data['config']  # Ensure the correct key is used
 
             # Emit progress: Starting configuration save
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device_data['hostname'],
                 'progress': 25,
                 'stage': 'Saving configuration'
@@ -1651,7 +3057,7 @@ def create_routes(app):
             progress = int((completed_devices / total_devices) * 100)
             logging.info(f"Config saved successfully for {device_data['hostname']} at {config_filepath}")
 
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device_data['hostname'],
                 'progress': progress,
                 'stage': 'Completed'
@@ -1663,7 +3069,7 @@ def create_routes(app):
             # Handle file I/O related errors specifically
             logging.error(
                 f"File error saving configuration for {device_data.get('hostname', 'unknown')}: {str(os_err)}")
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device_data['hostname'],
                 'progress': 0,
                 'stage': 'Error',
@@ -1674,7 +3080,7 @@ def create_routes(app):
         except Exception as e:
             # Catch all other exceptions
             logging.error(f"General error saving configuration for {device_data.get('hostname', 'unknown')}: {str(e)}")
-            socketio.emit('overall_progress', {
+            socketio.emit('onboard_device_progress', {
                 'device': device_data['hostname'],
                 'progress': 0,
                 'stage': 'Error',
@@ -1732,7 +3138,7 @@ def create_routes(app):
 
                 # Emit progress update via Socket.IO
                 progress = int(((index + 1) / total_devices) * 100)
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': progress,
                     'stage': 'Completed'
@@ -1742,7 +3148,7 @@ def create_routes(app):
                 # Handle device connection errors
                 logging.error(f"Error connecting to device {device.hostname}: {str(e)}")
                 errors.append({"device": device.hostname, "message": str(e)})
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 0,
                     'stage': 'Error',
@@ -1753,7 +3159,7 @@ def create_routes(app):
                 # Handle any general errors
                 logging.error(f"General error for device {device.hostname}: {str(e)}")
                 errors.append({"device": device.hostname, "message": str(e)})
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 0,
                     'stage': 'Error',
@@ -1800,7 +3206,7 @@ def create_routes(app):
             # Check if the config file exists for the device
             if not os.path.exists(config_filepath):
                 errors.append({"device": device.hostname, "message": "Configuration file not found"})
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 0,
                     'stage': 'Error',
@@ -1825,7 +3231,7 @@ def create_routes(app):
                     if "successfully" not in transfer_status:
                         logging.error(f"General error for device {device.hostname}: {transfer_status}")
                         errors.append({"device": device.hostname, "message": transfer_status})
-                        socketio.emit('overall_progress', {
+                        socketio.emit('onboard_device_progress', {
                             'device': device.hostname,
                             'progress': 0,
                             'stage': 'Error',
@@ -1836,7 +3242,7 @@ def create_routes(app):
                         completed_devices += 1
                         progress = int((completed_devices / total_devices) * 100)
 
-                        socketio.emit('overall_progress', {
+                        socketio.emit('onboard_device_progress', {
                             'device': device.hostname,
                             'progress': progress,
                             'stage': 'Completed'
@@ -1846,7 +3252,7 @@ def create_routes(app):
                 # Catch any other errors and log them
                 logging.error(f"General error for device {device.hostname}: {str(e)}")
                 errors.append({"device": device.hostname, "message": str(e)})
-                socketio.emit('overall_progress', {
+                socketio.emit('onboard_device_progress', {
                     'device': device.hostname,
                     'progress': 0,
                     'stage': 'Error',
@@ -1860,12 +3266,35 @@ def create_routes(app):
         else:
             return jsonify({"success": True, "message": "All configurations restored successfully"})
 
-    @app.route('/api/devices', methods=['GET'])
+    '''@app.route('/api/devices', methods=['GET'])
     @login_required
     def get_devices():
+        logging.info("Fetching device list")
         devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
         devices_data = [{'id': device.id, 'hostname': device.hostname, 'ip': device.ip, 'username': device.username,
                          'password': device.password} for device in devices]
+        return jsonify(devices_data)'''
+
+    @app.route('/api/devices', methods=['GET'])
+    @login_required
+    def get_devices():
+        logging.info("Fetching device list")
+        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+
+        # ✅ Include `version` field in the response
+        devices_data = [{
+            'id': device.id,
+            'hostname': device.hostname,
+            'ip': device.ip,
+            'username': device.username,
+            'password': device.password,
+            'version': device.version if device.version else 'Unknown',
+            'serial_number': device.serial_number if device.serial_number else 'N/A',
+            'model': device.model if device.model else 'Unknown',
+            'up_time': device.up_time if device.up_time else 'Unknown',
+            'last_reboot_reason': device.last_reboot_reason if device.last_reboot_reason else 'N/A'
+        } for device in devices]
+
         return jsonify(devices_data)
 
     ## Trigger Event ##
@@ -1996,7 +3425,9 @@ def create_routes(app):
             return hostname.split('.')[0]  # Only keep the part before the first dot
         # Define the path to the user-specific commands file for LLDP config
         user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
+        #print(f"view_underlay_lldp_config: {user_folder}")
         commands_file = os.path.join(user_folder, 'commands_lldp.json')
+        #print(f"commands_file: {commands_file}")
         # Check if the commands file exists
         if os.path.exists(commands_file):
             with open(commands_file, 'r') as f:
@@ -2034,6 +3465,7 @@ def create_routes(app):
             use_dlb = selected_load_balancer == "dlb"
             use_glb = selected_load_balancer == "glb"
             use_slb = selected_load_balancer == "slb"
+            ip_subnet = request.form.get('underlay_ip_subnet', '192.168.1.0/24')
             commands = defaultdict(list)
             local_as_mapping = {}
             ip_assignments = {}
@@ -2044,9 +3476,17 @@ def create_routes(app):
             device_list = []
 
             devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            #print(devices)
             if not devices:
-                flash('No devices found for the current user.', 'error')
-                return redirect(url_for('index'))
+                logging.warning(f"No devices found for the current user: {current_user.id}")
+                # Emit a socket message to notify the user
+                socketio.emit('underlay_progress', {
+                    'progress': 0,
+                    'stage': 'Error',
+                    'fail': 'No devices found for the current user.'
+                })
+                # Return a JSON response
+                return jsonify({'success': False, 'message': 'No devices found for the current user.'}), 400
 
             total_devices = len(devices)
             progress_increment = 100 // total_devices if total_devices > 0 else 0
@@ -2084,7 +3524,7 @@ def create_routes(app):
                     neighbors = lldp_builder.get_lldp_neighbors(dev)
 
                     current_progress += progress_increment // 3
-                    socketio.emit('overall_progress', {
+                    socketio.emit('underlay_progress', {
                         'device': device_name,
                         'progress': current_progress,
                         'stage': 'simplified_neighbors'
@@ -2094,12 +3534,12 @@ def create_routes(app):
                     for host, data in neighbors.items():
                         normalized_host = normalize_hostname(host)
                         neighbors_dict[normalized_host].extend(data)
-                    success_hosts.append(device_name)
+
 
                     simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
 
                     current_progress += progress_increment // 3
-                    socketio.emit('overall_progress', {
+                    socketio.emit('underlay_progress', {
                         'device': device_name,
                         'progress': current_progress,
                         'stage': 'lldp_builder'
@@ -2110,11 +3550,23 @@ def create_routes(app):
                         {normalize_hostname(device): interface for device, interface in conn.items()}
                         for conn in lldp_builder.build_connections(simplified_neighbors)
                     ]
-                    #logging.warning(connections)
+                    #print(f"connections: {connections}")
+                    if not connections:
+                        error_message = f"No LLDP neighbors found for {device_name} or mismatch hostname"
+                        failed_hosts.add((device_name, error_message))
+                        socketio.emit('underlay_progress', {
+                            'device': device_name,
+                            'progress': current_progress,
+                            'stage': 'Error',
+                            'fail': error_message
+                        })
+                        logging.warning(error_message)
+                        continue
+                    success_hosts.append(device_name)
                     generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,
-                                    use_dlb, use_glb, use_slb, ip_assignments)
+                                    use_dlb, use_glb, use_slb, ip_assignments,ip_subnet)
                     current_progress += progress_increment // 3
-                    socketio.emit('overall_progress', {
+                    socketio.emit('underlay_progress', {
                         'device': device_name,
                         'progress': current_progress,
                         'stage': 'generate_config'
@@ -2124,7 +3576,7 @@ def create_routes(app):
                         ConnectionResetError) as e:
                     error_message = f"Connection failed: {str(e)}"
                     failed_hosts.add((device_name, error_message))
-                    socketio.emit('overall_progress', {
+                    socketio.emit('underlay_progress', {
                         'device': device_name,
                         'progress': current_progress,
                         'stage': 'Error',
@@ -2136,7 +3588,7 @@ def create_routes(app):
                 except Exception as e:
                     error_message = f"Unexpected error: {str(e)}"
                     failed_hosts.add((device_name, error_message))
-                    socketio.emit('overall_progress', {
+                    socketio.emit('underlay_progress', {
                         'device': device_name,
                         'progress': current_progress,
                         'stage': 'Error',
@@ -2162,7 +3614,7 @@ def create_routes(app):
             final_message = "Configuration complete with some errors" if failed_hosts else "Configuration completed successfully"
 
             # Emit final progress update to report status
-            socketio.emit('overall_progress', {
+            socketio.emit('underlay_progress', {
                 'progress': 100,
                 'stage': 'Completed',
                 'message': final_message,
@@ -2173,18 +3625,16 @@ def create_routes(app):
             return jsonify({'status': 'Configuration completed successfully'}), 200
 
         except Exception as main_error:
-            error_traceback = traceback.format_exc()
-            logging.error(f"Unexpected error during LLDP configuration: {error_traceback}")
-
+            #error_traceback = traceback.format_exc()
+            logging.error(f"Unexpected error during LLDP configuration: {main_error}")
             # Emit detailed error message via socket
-            socketio.emit('overall_progress', {
+            socketio.emit('underlay_progress', {
                 'progress': 0,
                 'stage': 'Error',
-                'fail': f"Unexpected error: {error_traceback}"
+                'fail': f"Unexpected error: {main_error}"
             })
 
             return jsonify({'error': 'Unexpected error occurred.'}), 500
-
     @app.route('/show_underlay_csv_config', methods=['POST'])
     @login_required
     def show_underlay_csv_config():
@@ -2197,13 +3647,17 @@ def create_routes(app):
         use_glb = selected_load_balancer == "glb"
         use_slb = selected_load_balancer == "slb"
         as_counter = 65000
+        underlay_ip_subnet = request.form.get('underlay_ip_subnet', "").strip()
         unique_devices = set()
+
         # Check if file is uploaded
         if not csv_file or csv_file.filename == '':
             return jsonify({'error': 'No file selected. Please upload a CSV file.'}), 400
+
         # Check file format
         if not csv_file.filename.endswith('.csv'):
             return jsonify({'error': 'Invalid file format. Please upload a CSV file.'}), 400
+
         # Save the file
         filename = secure_filename(csv_file.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
@@ -2212,114 +3666,95 @@ def create_routes(app):
         try:
             with open(filepath, mode='r') as file:
                 csv_reader = csv.DictReader(file)
+                csv_reader.fieldnames = [header.strip().lower() for header in csv_reader.fieldnames]
+                if csv_reader.fieldnames:
+                    csv_reader.fieldnames = [header.strip().lower() for header in csv_reader.fieldnames]
+                else:
+                    return jsonify({'error': 'CSV file has no headers. Please provide a valid file.'}), 400
+
+                # Validate headers
+                required_headers = {'device1', 'interface1', 'device2', 'interface2'}
+                if not required_headers.issubset(csv_reader.fieldnames):
+                    missing_headers = required_headers - set(csv_reader.fieldnames)
+                    return jsonify({'error': f'CSV file format is incorrect. Missing headers: {required_headers}'}), 400
+
+
                 connections = []
                 local_as_mapping = {}
                 seen = set()
                 duplicates = []
-                duplicate_device_interfaces = []
 
-                # Track rows processed for progress calculation
-                row_count = sum(1 for _ in csv_reader)
-                file.seek(0)  # Reset file read position
-                progress_increment = 100 // row_count if row_count > 0 else 0
-                current_progress = 0
-
+                # Parse CSV rows and populate connections and devices
                 for row in csv_reader:
-                    # Skip rows where device names are headers or placeholders ("device1", "device2")
-                    if row['device1'].strip().lower() in {'device1', 'device2'} or row['device2'].strip().lower() in {
-                        'device1', 'device2'}:
-                        continue  # Skip this row
+                    device1, device2 = row['device1'].strip(), row['device2'].strip()
+                    interface1, interface2 = row['interface1'].strip(), row['interface2'].strip()
+
+                    # Skip invalid or placeholder rows
+                    if device1.lower() in {'device1', 'device2'} or device2.lower() in {'device1', 'device2'}:
+                        continue
 
                     # Track unique devices
-                    unique_devices.add(row['device1'])
-                    unique_devices.add(row['device2'])
+                    unique_devices.add(device1)
+                    unique_devices.add(device2)
 
-                    # Verify expected keys are present
-                    if not {'device1', 'interface1', 'device2', 'interface2'}.issubset(row.keys()):
-                        return jsonify({'error': 'CSV file format is incorrect. Missing required headers.'}), 400
-
-                    # Create tuples for both sides of the connection
-                    connection_tuple_1 = (row['device1'], row['interface1'])
-                    connection_tuple_2 = (row['device2'], row['interface2'])
-
-                    # Check for duplicates
-                    if connection_tuple_1 in seen or connection_tuple_2 in seen:
-                        duplicates.append({row['device1']: row['interface1'], row['device2']: row['interface2']})
-                        if connection_tuple_1 in seen:
-                            duplicate_device_interfaces.append(
-                                f"Duplicate device/interface found: {row['device1']} using {row['interface1']}")
-                        if connection_tuple_2 in seen:
-                            duplicate_device_interfaces.append(
-                                f"Duplicate device/interface found: {row['device2']} using {row['interface2']}")
+                    # Check for duplicate connections
+                    connection_tuple = frozenset({(device1, interface1), (device2, interface2)})
+                    if connection_tuple in seen:
+                        duplicates.append({device1: interface1, device2: interface2})
                     else:
-                        # Add unique connections
-                        seen.add(connection_tuple_1)
-                        seen.add(connection_tuple_2)
-                        connections.append({row['device1']: row['interface1'], row['device2']: row['interface2']})
-
-                    # Emit real-time progress update
-                    current_progress += progress_increment
-                    socketio.emit('overall_progress', {
-                        'progress': min(current_progress, 100),
-                        'stage': 'Processing CSV',
-                        'message': 'Parsing connections'
-                    })
+                        connections.append({device1: interface1, device2: interface2})
+                        seen.add(connection_tuple)
 
                 if duplicates:
-                    return jsonify({
-                        'error': 'Duplicate data found: same device/interface used multiple times.',
-                        'duplicates': duplicates,
-                        'duplicate_interfaces': duplicate_device_interfaces
-                    }), 400
-
-                devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
-                if not devices:
-                    return jsonify({'error': f"No devices found for user {current_user.id}"}), 400
-
-                # Map AS numbers to devices
-                for device in devices:
-                    if device.hostname not in local_as_mapping:
-                        local_as_mapping[device.hostname] = as_counter
+                    return jsonify(
+                        {'error': 'Duplicate connections found in the CSV file.', 'duplicates': duplicates}), 400
+                if not connections:
+                    error_message = "No valid connections found in the CSV file. Please check the file for errors or mismatched hostnames."
+                    logging.warning(error_message)
+                    socketio.emit('underlay_progress', {
+                        'progress': 0,
+                        'stage': 'Error',
+                        'fail': error_message
+                    })
+                    return jsonify({'error': error_message}), 400
+                # Assign AS numbers to devices
+                for device in unique_devices:
+                    if device not in local_as_mapping:
+                        local_as_mapping[device] = as_counter
                         as_counter += 1
 
-                # Generate configuration based on CSV data
+                # Generate configuration
                 commands = defaultdict(list)
+                generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,
+                                use_dlb, use_glb, use_slb, base_ips=underlay_ip_subnet)
 
-                generate_config(commands, connections, local_as_mapping, delete_underlay_group, use_ipv4, use_ipv6,use_dlb, use_glb,use_slb)
-
-                # Remove any configurations generated for placeholder names
-                commands = {host: cmds for host, cmds in commands.items() if host not in {"device1", "device2"}}
-
-                # Save each device's configuration to a JSON file
+                # Save configurations
                 user_folder = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username))
                 os.makedirs(user_folder, exist_ok=True)
+
                 for hostname, cmds in commands.items():
                     config_filename = f"{hostname}_config.txt"
                     config_filepath = os.path.join(user_folder, config_filename)
                     with open(config_filepath, 'w') as config_file:
                         config_file.write("\n".join(cmds))
 
+                # Save commands to a JSON file
                 commands_file = os.path.join(user_folder, 'commands_csv.json')
-
                 with open(commands_file, 'w') as f:
                     json.dump(commands, f)
 
-                # Prepare the list of success messages
-                success_hosts = [f"{device}: Success" for device in unique_devices if
-                                 device not in {"device1", "device2"}]
-
-                # Emit final progress update with success hosts
-                socketio.emit('overall_progress', {
+                # Emit progress completion
+                socketio.emit('underlay_progress', {
                     'progress': 100,
                     'stage': 'Completed',
                     'message': "Configuration completed successfully",
-                    'success_hosts': success_hosts
+                    'success_hosts': list(unique_devices)
                 })
 
                 return jsonify({'status': 'Configuration completed successfully'}), 200
 
         except csv.Error as e:
-            logging.info(f"Error processing CSV file in function show_underlay_csv_config: {e}")
+            logging.error(f"Error processing CSV file in show_underlay_csv_config: {e}")
             return jsonify({'error': f"Error processing CSV file: {e}"}), 400
 
     @app.route('/save_underlay_topology_lldp', methods=['POST'])
@@ -2332,51 +3767,79 @@ def create_routes(app):
         neighbors_dict = defaultdict(list)
         as_counter = 65000
         success_hosts = []
+        failed_hosts = []
         device_list = []
         devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
         unique_connections = []
         unique_connections_set = set()
 
         if not devices:
-            flash('No devices found for the current user.', 'error')
-            return redirect(url_for('index'))
+            socketio.emit('overall_progress', {
+                'progress': 0,
+                'stage': 'Error',
+                'message': 'No devices found for the current user.',
+                'failed_hosts': failed_hosts,
+                'success_hosts': success_hosts
+            })
+            return jsonify({'success': False, 'message': 'No devices found for the current user.'}), 400
 
         total_devices = len(devices)
-        progress_increment = 100 // total_devices
+        progress_increment = max(1, 100 // total_devices)
         current_progress = 0
-
-        # Prepare the local AS mapping
-        for device in devices:
-            device_list.append(device.hostname)
-            if device.hostname not in local_as_mapping:
-                local_as_mapping[device.hostname] = as_counter
-                as_counter += 1
 
         def strip_domain(hostname):
             """Strip the domain from a hostname."""
             return hostname.split('.')[0]
 
-        # Process each device and collect unique connections
+        # Prepare the local AS mapping
+        for device in devices:
+            if device and device.hostname:
+                device_list.append(device.hostname)
+                if device.hostname not in local_as_mapping:
+                    local_as_mapping[device.hostname] = as_counter
+                    as_counter += 1
+            else:
+                failed_hosts.append(device.hostname or "Unknown or missing hostname")
+                current_progress += progress_increment
+                socketio.emit('overall_progress', {
+                    'progress': current_progress,
+                    'stage': 'Error',
+                    'failed_hosts': failed_hosts,
+                    'success_hosts': success_hosts
+                })
+                continue
+
+        # Process each device
         for index, device in enumerate(devices):
+            device_name = device.hostname
             try:
                 dev_connector = DeviceConnectorClass(device.hostname, device.ip, device.username, device.password)
                 dev = dev_connector.connect_to_device()
 
-                lldp_builder = BuildLLDPConnectionClass(device.hostname, device_list)
-                neighbors = lldp_builder.get_lldp_neighbors(dev)
-                logging.info(f"get_lldp_neighbors= {neighbors}")
+                try:
+                    lldp_builder = BuildLLDPConnectionClass(device.hostname, device_list)
+                    neighbors = lldp_builder.get_lldp_neighbors(dev)
+                except Exception as rpc_error:
+                    logging.error(f"Failed to fetch LLDP neighbors for {device_name}: {rpc_error}")
+                    failed_hosts.append((device_name, f"RPC Error: {rpc_error}"))
+                    continue
 
-                # Combine neighbors into the global dictionary
+                current_progress += progress_increment // 3
+                socketio.emit('overall_progress', {
+                    'device': device_name,
+                    'progress': current_progress,
+                    'stage': 'simplified_neighbors'
+                })
+
+                # Process neighbors and build connections
                 for host, data in neighbors.items():
                     neighbors_dict[host].extend(data)
                 success_hosts.append(device.hostname)
 
-                # Simplify neighbors dict (remove domain from hostnames)
                 simplified_neighbors = lldp_builder.simplify_neighbors_dict(neighbors_dict)
                 connections = lldp_builder.build_connections(simplified_neighbors)
 
                 for connection in connections:
-                    # Remove domains and sort to create unique, domain-free connection tuples
                     stripped_connection = {strip_domain(k): v for k, v in connection.items()}
                     sorted_connection = tuple(sorted(stripped_connection.items()))
 
@@ -2384,38 +3847,35 @@ def create_routes(app):
                         unique_connections_set.add(sorted_connection)
                         unique_connections.append(connection)
 
-                # Emit progress increment via SocketIO
                 current_progress += progress_increment
                 socketio.emit('overall_progress', {
-                    'device': device.hostname,
+                    'device': device_name,
                     'progress': current_progress,
-                    'stage': 'In progress',
-                    'fail': None,
-                    'error': None
+                    'stage': 'In progress'
                 })
 
             except Exception as e:
-                logging.error(f"Error processing device {device.hostname}: {str(e)}")
+                logging.error(f"Error processing device {device_name}: {e}")
+                failed_hosts.append((device_name, str(e)))
                 socketio.emit('overall_progress', {
-                    'device': device.hostname,
+                    'device': device_name,
                     'progress': current_progress,
                     'stage': 'Error',
                     'fail': str(e),
-                    'error': str(e)
+                    'failed_hosts': failed_hosts,
+                    'success_hosts': success_hosts
                 })
-                return jsonify({'success': False, 'error': f"Error processing device {device.hostname}: {str(e)}"}), 500
+                continue
 
-        logging.info(f"Unique connections: {unique_connections}")
+        # Generate CSV content
         csv_content = "device1,interface1,device2,interface2\n"
         skip_interfaces = {'re0:mgmt-0', 'em0', 'fxp0'}
         skip_device_patterns = ['mgmt', 'management', 'hypercloud']
         interface_pattern = r"^(et|ge|xe|em|re|fxp)\-[0-9]+\/[0-9]+\/[0-9]+(:[0-9]+)?$"
 
-        # Generate CSV content
         for connection in unique_connections:
             keys = list(connection.keys())
             if len(keys) < 2:
-                logging.warning(f"Skipping connection with only one device: {connection}")
                 continue
             device1 = strip_domain(keys[0])
             device2 = strip_domain(keys[1])
@@ -2423,48 +3883,52 @@ def create_routes(app):
             interface2 = connection[keys[1]]
 
             if interface1 in skip_interfaces or interface2 in skip_interfaces:
-                logging.info(
-                    f"Skipping connection with ignored interfaces: {device1} ({interface1}), {device2} ({interface2})")
                 continue
 
             if any(pattern in device1.lower() for pattern in skip_device_patterns) or \
                     any(pattern in device2.lower() for pattern in skip_device_patterns):
-                logging.info(f"Skipping connection with ignored device patterns: {device1}, {device2}")
                 continue
 
             if not re.match(interface_pattern, interface1) or not re.match(interface_pattern, interface2):
-                logging.warning(
-                    f"Skipping connection due to invalid interface format: {device1} ({interface1}), {device2} ({interface2})")
                 continue
 
             csv_content += f"{device1},{interface1},{device2},{interface2}\n"
 
-        logging.info(f"Saving LLDP neighbors to user database: {csv_content}")
+        # Save topology to the database
         try:
             topology = Topology(user_id=current_user.id, csv_data=str(csv_content))
             db.session.add(topology)
             db.session.commit()
-            logging.info('Saved topology to database for user: %s', current_user.username)
         except Exception as e:
-            logging.error(f"Failed to save topology to the database: {str(e)}")
+            logging.error(f"Failed to save topology to the database: {e}")
             socketio.emit('overall_progress', {
                 'device': 'Database',
                 'progress': current_progress,
                 'stage': 'Error',
-                'fail': str(e),
-                'error': str(e)
+                'fail': str(e)
             })
-            return jsonify({'success': False, 'error': f"Failed to save topology: {str(e)}"}), 500
+            return jsonify({'success': False, 'error': f"Failed to save topology: {e}"}), 500
 
-        socketio.emit('overall_progress', {
-            'device': 'All Devices',
-            'progress': 100,
-            'stage': 'Completed',
-            'fail': None,
-            'error': None
-        })
-
-        return jsonify({'success': True, 'connections': unique_connections, 'progress': 100})
+        # Finalize and emit completion status
+        if failed_hosts:
+            final_message = f"Completed with errors: {len(failed_hosts)} hosts failed."
+            socketio.emit('overall_progress', {
+                'device': 'All Devices',
+                'progress': 100,
+                'stage': 'Completed with Errors',
+                'failed_hosts': failed_hosts,
+                'success_hosts': success_hosts
+            })
+            return jsonify({'success': False, 'message': final_message, 'failed_hosts': failed_hosts}), 400
+        else:
+            socketio.emit('overall_progress', {
+                'device': 'All Devices',
+                'progress': 100,
+                'stage': 'Completed',
+                'failed_hosts': failed_hosts,
+                'success_hosts': success_hosts
+            })
+            return jsonify({'success': True, 'message': 'Configuration completed successfully.', 'progress': 100})
 
     @app.route('/save_underlay_topology_csv', methods=['POST'])
     @login_required
@@ -3119,7 +4583,7 @@ def create_routes(app):
                 'progress': 10,
                 'message': f"Starting transfer to {device_name} ({router_ip})..."
             })
-
+            #print(config_lines)
             # Simulate transfer process
             transfer_status = transfer_file_to_router(config_lines, router_ip, router_user, router_password,
                                                       device_name, config_format)
@@ -3168,7 +4632,194 @@ def create_routes(app):
             }
         return jsonify(response)
 
-    @app.route('/vxlan', methods=['POST'])
+    '''@app.route('/download_template')
+    @login_required
+    def download_template():
+        template_path = os.path.join(current_app.root_path, 'templates', 'ConfigTemplates', 'overlay_template.txt')
+
+        if os.path.exists(template_path):
+            return send_file(template_path, as_attachment=True)
+        else:
+            flash('Template file not found.', 'error')
+            return redirect(url_for('vxlan'))'''
+
+    @app.route('/list_uploaded_templates', methods=['GET'])
+    @login_required
+    def list_uploaded_templates():
+        user_folder = VxlanConfigGeneratorClass.get_user_template_folder(current_user.username)
+        #user_folder = os.path.join(current_app.config['UPLOAD_FOLDER'], current_user.username)
+
+        if not os.path.exists(user_folder):
+            return jsonify({"success": True, "templates": []})  # Return empty list if no templates exist
+
+        templates = [f for f in os.listdir(user_folder) if f.endswith('.j2')]
+        return jsonify({"success": True, "templates": templates})
+
+    '''@app.route('/upload_template', methods=['POST'])
+    @login_required
+    def upload_template():
+        ALLOWED_EXTENSIONS = {'j2'}
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+        if 'file' not in request.files:
+            return jsonify({"success": False, "error": "No file part"}), 400
+
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"success": False, "error": "No selected file"}), 400
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            user_folder = os.path.join(current_app.config['UPLOAD_FOLDER'], current_user.username)
+
+            if not os.path.exists(user_folder):
+                os.makedirs(user_folder)
+
+            file_path = os.path.join(user_folder, filename)
+            file.save(file_path)
+            return jsonify({"success": True, "file_path": file_path})
+
+        return jsonify({"success": False, "error": "Invalid file type"}), 400
+    '''
+
+    @app.route('/upload_template', methods=['POST'])
+    @login_required
+    def upload_template():
+        ALLOWED_EXTENSIONS = {'j2'}
+
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+        if 'file' not in request.files:
+            return jsonify({"success": False, "error": "No file part"}), 400
+
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"success": False, "error": "No selected file"}), 400
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+
+            # 🔍 Get the user-specific template folder dynamically
+            user_folder = VxlanConfigGeneratorClass.get_user_template_folder(current_user.username)
+
+            # ✅ Ensure the user folder exists
+            os.makedirs(user_folder, exist_ok=True)
+
+            file_path = os.path.join(user_folder, filename)
+            file.save(file_path)
+
+            return jsonify({"success": True, "file_path": file_path})
+
+        return jsonify({"success": False, "error": "Invalid file type"}), 400
+
+    @app.route('/download_template', methods=['GET'])
+    @login_required
+    def download_template():
+        try:
+            # Get the requested template type from query parameters
+            template_type = request.args.get('template_type', '').strip()
+
+            # Log the received template_type
+            current_app.logger.info(f"Received template_type: {template_type}")
+
+            # Ensure the template type is provided and valid
+            template_map = {
+                'mac_vrf_vlan_aware': 'mac_vrf_vlan_aware_template.j2',
+                'mac_vrf_vlan_based': 'mac_vrf_vlan_based_template.j2',
+                'type5_vxlan': 'vxlan_type5_vlan_based_template.j2',
+                'type5_vxlan_vlan_aware': 'vxlan_type5_vlan_aware_template.j2',
+                'vxlan_type2_to_sym_type2_stitching': 'vxlan_type2_to_sym_type2_stitching.j2',
+                'vxlan_type2_to_sym_type5': 'vxlan_type2_to_sym_type5_tmpl.j2',
+                'vxlan_bgp_over_sym_type5': 'vxlan_bgp_over_sym_type5_tmpl.j2',
+                'vxlan_vlan_aware_t2_seamless_stitching': 'vxlan_vlan_aware_t2_seamless_stitching.j2',
+                'vxlan_vlan_aware_t2_seamless_stitching_translation_vni': 'vxlan_vlan_aware_t2_seamless_stitching_translation_vni.j2',
+                'leaf_config': 'leaf_config_tmpl.j2',
+            }
+
+            if template_type not in template_map:
+                abort(400, description="Invalid template type requested")
+
+            # Get the correct template filename
+            template_filename = template_map[template_type]
+
+            # Construct the template path using VxlanConfigGeneratorClass
+            vxlan_generator = VxlanConfigGeneratorClass(
+                spine_ips=[], leaf_ips=[], base_ip_parts=[], base_ipv6_parts=[], last_octet=0,
+                base_vxlan_vni=0, base_vxlan_vlan_id=0, num_vxlan_configs=0, overlay_service_type=template_type,
+                leaf_base_as=0, spine_base_as=0, service_count=0, service_int_leaves=[],
+                esi_lag_services=[], spine_tags=[], leaf_tags=[], GenerateOverlayBtn_State=None
+            )
+
+            # Load the template and extract the file path
+            template = vxlan_generator.load_template(template_filename)
+            file_path = template.filename  # Extract full path from Jinja2 template
+
+            # Log the file path for debugging
+            current_app.logger.info(f"Attempting to download template from path: {file_path}")
+
+            # Check if the file exists
+            if not os.path.exists(file_path):
+                abort(404, description="Template file not found")
+
+            # Send the file for download
+            return send_file(file_path, as_attachment=True)
+
+        except Exception as e:
+            # Log the exception details for debugging
+            current_app.logger.error(f"Error downloading template: {str(e)}")
+            abort(500, description=f"Error downloading template: {str(e)}")
+
+    @app.route('/download_template_variables', methods=['GET'])
+    @login_required
+    def download_template_variables():
+        """
+        Allow users to download the expected variable structure (specific to the selected template type).
+        """
+        try:
+            # Get the requested template type from query parameters
+            template_type = request.args.get('template_type', '').strip()
+
+            # Log received template_type for debugging
+            current_app.logger.info(f"Received template_type: {template_type}")
+
+            # Define default variable structure
+            variable_data = {
+                "leaf_ip": "10.0.1.1",
+                "leaf_index": 0,
+                "service_count": 5,
+                "vxlan_vni_list": [10000, 10001, 10002],
+                "base_vxlan_vni": 10000,
+                "base_vxlan_vlan_id": 200,
+                "service_ips": ["10.0.1.2", "10.0.1.3"],
+                "v6_service_ips": ["2001:db8::1", "2001:db8::2"],
+                "service_int_leaves": ["et-0/0/1", "et-0/0/2"],
+                "esi_lag_services": [{"esi_id": "00:00:00:00:00:00:00:00:00:01", "lag_intfs": ["ae1"]}],
+                "other_service_ips_per_vlan": [["10.0.2.1"], ["10.0.2.2"]],
+                "enumerate": "Python built-in enumerate() function",
+                "overlay_as": 65001,
+                "spine_ips": ["10.0.0.1", "10.0.0.2"],
+                "GenerateOverlayBtn_State": None,
+                "overlay_service_type": template_type,  # Include the selected service type
+            }
+
+            # Convert the dictionary to JSON format
+            variable_json = json.dumps(variable_data, indent=4)
+
+            # Create a temporary file to store the JSON
+            file_path = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'],
+                                     f"{template_type}_template_variables.json")
+            with open(file_path, "w") as file:
+                file.write(variable_json)
+
+            return send_file(file_path, as_attachment=True)
+
+        except Exception as e:
+            current_app.logger.error(f"Error downloading template variables: {str(e)}")
+            abort(500, description=f"Error downloading template variables: {str(e)}")
+
+    '''@app.route('/vxlan', methods=['POST'])
     @login_required
     def vxlan():
         if 'UPLOAD_FOLDER' not in current_app.config:
@@ -3297,16 +4948,152 @@ def create_routes(app):
             vxlan_filename=vxlan_filename,
             enumerate=enumerate,
             devices=devices
+        )'''
+
+    @app.route('/vxlan', methods=['POST'])
+    @login_required
+    def vxlan():
+        # Retrieve the status of the checked radio button
+        GenerateOverlayBtn_State = request.form.get('GenerateOverlayBtn', None)
+        #print(f"GenerateOverlayBtn_State: {GenerateOverlayBtn_State}")
+        # Fetch user-selected custom template (if applicable)
+        # Get custom template path if selected
+        user_template = None
+        overlay_service_type = request.form['overlay_service_type']
+        #print(f"overlay_service_type: {overlay_service_type}")
+        if overlay_service_type == "custom_template":
+            selected_template = request.form.get('customTemplate')
+            # 🔍 Get the user-specific template folder dynamically
+            user_folder = VxlanConfigGeneratorClass.get_user_template_folder(current_user.username)
+            if selected_template:
+                user_template = os.path.join(user_folder,selected_template)
+                print(f"user_template: {user_template}")
+            else:
+                flash("❌ No custom template selected!", "error")
+                return redirect(url_for('vxlan_page'))
+        # Retrieve the form data
+        num_spines = int(request.form['num_spines'])
+        num_leafs = int(request.form['num_leafs'])
+
+        # For spine IPs
+        spine_ips = [request.form.get(f'spine_ip_{i + 1}', None) for i in range(num_spines)]
+        # For leaf IPs
+        leaf_ips = [request.form.get(f'leaf_ip_{i + 1}', None) for i in range(num_leafs)]
+
+        # Retrieve Service Intf Leaf values
+        service_int_leaves = [request.form.get(f'service_int_{i}', None) for i in range(num_leafs)]
+
+        # Retrieve Leaf Service Table values
+        esi_lag_services = []
+        for i in range(num_leafs):
+            service_int = request.form.get(f'service_int_{i}', None)
+            esi_lag_enabled = request.form.get(f'enable_esi_lag_{i}') == 'true'
+            esi_id = request.form.get(f'esi_id_{i}', None)
+            lacp_mode = request.form.get(f'lacp_mode_{i}', 'active')
+            lag_intfs = request.form.get(f'lag_intfs_{i}', None)
+            esi_lag_services.append({
+                'service_int': service_int,
+                'esi_lag_enabled': esi_lag_enabled,
+                'esi_id': esi_id,
+                'lacp_mode': lacp_mode,
+                'lag_intfs': lag_intfs
+            })
+
+        # Retrieve and split the combined base IP input into IPv4 and IPv6 components
+        base_ip_input = request.form['base_ip_parts']
+        # Split the base IP input string (assumed to be 'IPv4/IPv6')
+        base_ipv4_address, base_ipv6_address = base_ip_input.split('/')
+
+        # Parse IPv4
+        base_ip_parts = list(map(int, base_ipv4_address.split('.')))  # Convert to integers
+        #print(f"Parsed IPv4 Parts: {base_ip_parts}")
+
+        # Parse IPv6
+        base_ipv6_parts = ipaddress.IPv6Address(base_ipv6_address).exploded.split(':')
+        #print(f"Parsed IPv6 Parts: {base_ipv6_parts}")
+
+
+        last_octet = int(request.form['last_octet'])
+        base_vxlan_vni = int(request.form['base_vxlan_vni'])
+        base_vxlan_vlan_id = int(request.form['base_vxlan_vlan_id'])
+        num_vxlan_configs = int(request.form['num_vxlan_configs'])
+        vxlan_filename = request.form['vxlan_filename']
+        leaf_base_as = int(request.form['leaf_base_as'])
+        spine_base_as = int(request.form['spine_base_as'])
+        #overlay_service_type = request.form['overlay_service_type']
+        service_count = int(request.form['overlay_service_count'])
+
+        # Get spine and leaf tags from the form
+        spine_tags = [request.form.get(f'spine_tag_{i}') for i in range(1, num_spines + 1)]
+        leaf_tags = [request.form.get(f'leaf_tag_{i}') for i in range(1, num_leafs + 1)]
+
+        #print(f"self.spine_tags: {spine_tags}")
+        #print(f"self.leaf_tags: {leaf_tags}")
+
+        # Create an instance of the VxlanConfigGeneratorClass with separate IPv4 and IPv6 parts
+        vxlan_generator = VxlanConfigGeneratorClass(
+            spine_ips=spine_ips,
+            leaf_ips=leaf_ips,
+            base_ip_parts=base_ip_parts,  # Pass the IPv4 parts separately
+            base_ipv6_parts=base_ipv6_parts,  # Pass the IPv6 parts separately
+            last_octet=last_octet,
+            base_vxlan_vni=base_vxlan_vni,
+            base_vxlan_vlan_id=base_vxlan_vlan_id,
+            num_vxlan_configs=num_vxlan_configs,
+            overlay_service_type=overlay_service_type,
+            leaf_base_as=leaf_base_as,
+            spine_base_as=spine_base_as,
+            service_count=service_count,
+            service_int_leaves=service_int_leaves,
+            esi_lag_services=esi_lag_services,
+            leaf_tags=leaf_tags,
+            spine_tags=spine_tags,
+            GenerateOverlayBtn_State=GenerateOverlayBtn_State,
+            user_template = user_template
         )
 
+        # Generate the configurations for spines and leaves
+        spine_configs, leaf_configs = vxlan_generator.generate_configs(spine_tags, leaf_tags)
+        # Save spine configurations if available
+        if spine_configs and len(spine_configs) > 0:
+            for i, spine_config in enumerate(spine_configs):
+                # Ensure filename is properly generated without concatenating prefixes repeatedly
+                filename = f"spine_{i + 1}_{vxlan_filename}"
+                config_file_path = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username),
+                                                filename)
+                filtered_config = [line for line in spine_config if not line.strip().startswith('#')]
+                print(config_file_path)
+                with open(config_file_path, "w") as config_file:
+                    config_file.write("\n".join(filtered_config))
+
+        # Save leaf configurations if available
+        if leaf_configs and len(leaf_configs) > 0:
+            for i, leaf_config in enumerate(leaf_configs):
+                # Ensure filename is properly generated without concatenating prefixes repeatedly
+                filename = f"leaf_{i + 1}_{vxlan_filename}"
+                config_file_path = os.path.join(current_app.config['DEVICE_CONFIG_FOLDER'], str(current_user.username),
+                                                filename)
+                #print(config_file_path)
+                # Filter out lines that start with '#'
+                filtered_config = [line for line in leaf_config if not line.strip().startswith('#')]
+                with open(config_file_path, "w") as config_file:
+                    config_file.write("\n".join(filtered_config))
+        download_link = True
+        devices = get_router_details_from_db()
+        #print(vxlan_filename)
+        # Render the result page
+        return render_template(
+            'result_generate_vxlan_config.html',
+            spine_configs=spine_configs,
+            leaf_configs=leaf_configs,
+            download_link=download_link,
+            vxlan_filename=vxlan_filename,
+            enumerate=enumerate,
+            devices=devices
+        )
     @app.route('/onboard_devices', methods=['GET', 'POST'])
     @login_required
     def onboard_devices():
-        from sqlalchemy.exc import IntegrityError
-        if 'UPLOAD_FOLDER' not in current_app.config:
-            flash('Please login again', 'error')
-            return redirect(url_for('index'))
-
         if request.method == 'POST':
             if 'file' not in request.files:
                 return jsonify({'success': False, 'error': 'No file part'}), 400
@@ -3319,7 +5106,8 @@ def create_routes(app):
                 if not filename.lower().endswith('.csv'):
                     return jsonify({'success': False, 'error': 'File is not a CSV'}), 400
 
-                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], current_user.username, filename)
+                #os.path.join(app.config['LOG_FOLDER'], current_user.username),
                 file.save(file_path)
                 #   print(file_path)
                 added_devices = []
@@ -3413,20 +5201,43 @@ def create_routes(app):
                     return jsonify({'success': False, 'message': 'No devices were added.'}), 400
         return redirect(url_for('index'))
 
+
     @app.route('/add_device', methods=['POST'])
     @login_required
     def add_device():
         data = request.get_json()
-        hostname = data.get('hostname')
-        ip = data.get('ip')
-        username = data.get('username')
-        password = data.get('password')
 
-        existing_device = DeviceInfo.query.filter_by(ip=ip).first()
+        # Normalize input data
+        hostname = data.get('hostname', '').strip()
+        ip = data.get('ip', '').strip()
+        username = data.get('username', '').strip()
+        password = data.get('password', '').strip()
+
+        # Validation: Disallow spaces inside the values
+        if any(' ' in field for field in [hostname, ip, username, password]):
+            return jsonify(
+                {'success': False, 'message': 'Spaces are not allowed in hostname, IP, username, or password.'}), 400
+
+        # Check if the device IP or hostname already exists
+        existing_device = DeviceInfo.query.filter(
+            (DeviceInfo.ip == ip) | (DeviceInfo.hostname == hostname)
+        ).first()
+
         if existing_device:
-            print(existing_device)
-            return jsonify({'success': False, 'message': 'Device already exists'}), 400
+            if existing_device.user_id != current_user.id:
+                # Notify the current user about the conflict with another user
+                conflicting_user = User.query.get(existing_device.user_id)
+                conflicting_username = conflicting_user.username if conflicting_user else 'Unknown'
+                return jsonify({
+                    'success': False,
+                    'message': f"Device with IP '{ip}' or hostname '{hostname}' is already onboarded by user '{conflicting_username}'."
+                }), 400
+            else:
+                # Device already exists for the current user
+                return jsonify(
+                    {'success': False, 'message': 'Device with the same IP or hostname already exists.'}), 400
 
+        # Try to add the new device
         try:
             new_device = DeviceInfo(
                 user_id=current_user.id,
@@ -3441,27 +5252,64 @@ def create_routes(app):
         except Exception as e:
             return jsonify({'success': False, 'message': 'Failed to add device'}), 500
 
+
     @app.route('/delete_device/<string:device_hostname>', methods=['POST'])
     @login_required
     def delete_device(device_hostname):
-        # Find the device by hostname and current user's ID
-        device = DeviceInfo.query.filter_by(hostname=device_hostname, user_id=current_user.id).first()
+        app.logger.debug(f"Received request to delete device: {device_hostname}")
+        app.logger.debug(f"Current user ID: {current_user.id}")
+        logging.info(f"Received request to delete device: {device_hostname}")
+        # Normalize input by stripping whitespace
+        normalized_hostname = device_hostname.strip()
+
+        # Log devices for debugging
+        devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+        app.logger.debug(f"Devices for current user: {[device.hostname for device in devices]}")
+
+        # Query the device with normalized input
+        from sqlalchemy import func
+        device = DeviceInfo.query.filter(
+            func.trim(DeviceInfo.hostname) == normalized_hostname,
+            DeviceInfo.user_id == current_user.id
+        ).first()
+
         if device:
             db.session.delete(device)
             db.session.commit()
+            app.logger.debug(f"Device deleted: {normalized_hostname}")
             return jsonify({'success': True, 'message': 'Device deleted successfully'})
+
+        app.logger.debug(f"Device not found for hostname: {normalized_hostname}")
         return jsonify({'success': False, 'message': 'Device not found'}), 404
 
-    '''@app.route('/download/<filename>', methods=['GET'])
+    @app.route('/delete_selected_devices', methods=['POST'])
     @login_required
-    def download(filename):
-        # telemetry_folder = current_app.config['TELEMETRY_FOLDER']
-        config_dir = os.path.abspath(current_app.config['UPLOAD_FOLDER'])
-        # Assume telemetry_folder already includes the username
-        config_file_path = os.path.join(config_dir, filename)
-        #config_file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        logging.info(f"download: {config_file_path}")
-        return send_file(config_file_path, as_attachment=True)'''
+    def delete_selected_devices():
+        try:
+            data = request.get_json()
+            device_hostnames = data.get('devices', [])
+
+            if not device_hostnames:
+                return jsonify({'success': False, 'message': 'No devices provided'}), 400
+
+            from sqlalchemy import func
+            devices = DeviceInfo.query.filter(
+                func.trim(DeviceInfo.hostname).in_(device_hostnames),
+                DeviceInfo.user_id == current_user.id
+            ).all()
+
+            if not devices:
+                return jsonify({'success': False, 'message': 'No matching devices found'}), 404
+
+            for device in devices:
+                db.session.delete(device)
+
+            db.session.commit()
+            return jsonify({'success': True, 'message': 'Selected devices deleted successfully'})
+
+        except Exception as e:
+            app.logger.error(f"Error deleting selected devices: {str(e)}")
+            return jsonify({'success': False, 'message': 'Error deleting devices'}), 500
 
     @app.route('/download/<filename>')
     @login_required
@@ -3475,4 +5323,114 @@ def create_routes(app):
 
         # Send the file for download
         return send_from_directory(user_folder, filename, as_attachment=True)
+
+
+    """@app.route('/open_ssh_terminal', methods=['POST'])
+    @login_required
+    def open_ssh_terminal():
+        import subprocess
+        import platform
+        import time
+
+        try:
+            data = request.get_json()
+            ip = data.get("ip")
+            username = data.get("username")
+            password = data.get("password")
+
+            if not ip or not username or not password:
+                return jsonify({"success": False, "message": "Missing IP, username, or password"}), 400
+
+            ssh_command = f"sshpass -p '{password}' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {username}@{ip}"
+            system_os = platform.system()
+
+            # ✅ **Windows:** Open new cmd window in foreground
+            if system_os == "Windows":
+                subprocess.run(["cmd.exe", "/c", "start", "/wait", "cmd", "/k", ssh_command], shell=True)
+
+            # ✅ **macOS:** Open SSH in a new Terminal window
+            elif system_os == "Darwin":
+                osascript_command = f'''
+                tell application "Terminal"
+                    do script "{ssh_command}"
+                    activate
+                end tell
+                '''
+                subprocess.run(["osascript", "-e", osascript_command], shell=False)
+
+            # ✅ **Linux:** Open in a new terminal window
+            else:
+                try:
+                    # Try GNOME terminal
+                    process = subprocess.Popen(["gnome-terminal", "--", "bash", "-c", ssh_command])
+                except FileNotFoundError:
+                    # Fallback to `x-terminal-emulator` (Debian-based)
+                    process = subprocess.Popen(["x-terminal-emulator", "-e", "bash", "-c", ssh_command])
+
+                time.sleep(1)  # Give the terminal a moment to open
+
+            return jsonify({"success": True, "message": "SSH terminal opened successfully"})
+
+        except Exception as e:
+            print("Error executing SSH command:", str(e))
+            return jsonify({"success": False, "message": str(e)}), 500"""
+
+    @app.route('/open_ssh_terminal', methods=['POST'])
+    @login_required
+    def open_ssh_terminal():
+        import subprocess
+        import platform
+        import time
+        import shutil  # To check if sshpass exists
+
+        try:
+            data = request.get_json()
+            ip = data.get("ip")
+            username = data.get("username")
+            password = data.get("password")
+
+            if not ip or not username or not password:
+                return jsonify({"success": False, "message": "Missing IP, username, or password"}), 400
+
+            # ✅ Check if sshpass is installed
+            if shutil.which("sshpass") is None:
+                return jsonify({
+                    "success": False,
+                    "message": "❌ sshpass is not installed. Please install it using: `brew install hudochenkov/sshpass/sshpass`"
+                }), 400
+
+            ssh_command = f"sshpass -p '{password}' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {username}@{ip}"
+            system_os = platform.system()
+
+            # ✅ **Windows:** Open new cmd window in foreground
+            if system_os == "Windows":
+                subprocess.run(["cmd.exe", "/c", "start", "/wait", "cmd", "/k", ssh_command], shell=True)
+
+            # ✅ **macOS:** Open SSH in a new Terminal window
+            elif system_os == "Darwin":
+                osascript_command = f'''
+                tell application "Terminal"
+                    do script "{ssh_command}"
+                    activate
+                end tell
+                '''
+                subprocess.run(["osascript", "-e", osascript_command], shell=False)
+
+            # ✅ **Linux:** Open in a new terminal window
+            else:
+                try:
+                    # Try GNOME terminal
+                    process = subprocess.Popen(["gnome-terminal", "--", "bash", "-c", ssh_command])
+                except FileNotFoundError:
+                    # Fallback to `x-terminal-emulator` (Debian-based)
+                    process = subprocess.Popen(["x-terminal-emulator", "-e", "bash", "-c", ssh_command])
+
+                time.sleep(1)  # Give the terminal a moment to open
+
+            return jsonify({"success": True, "message": "SSH terminal opened successfully"})
+
+        except Exception as e:
+            print("Error executing SSH command:", str(e))
+            return jsonify({"success": False, "message": str(e)}), 500
+
 

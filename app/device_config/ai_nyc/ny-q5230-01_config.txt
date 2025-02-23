@@ -1,0 +1,990 @@
+
+## Last changed: 2025-01-10 17:37:39 PST
+version 23.4X100-D30-202501100101.0-EVO;
+groups {
+    global {
+        system {
+            host-name ny-q5230-01;
+            root-authentication {
+                encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/";
+            }
+            login {
+                class wheel {
+                    permissions [ admin clear field floppy interface maintenance network reset routing shell snmp system trace view ];
+                }
+                class readonly {
+                    permissions [ interface network routing system trace view ];
+                }
+                user regress {
+                    uid 928;
+                    class superuser;
+                    shell csh;
+                    authentication {
+                        encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7.";
+                    }
+                }
+                user fregress {
+                    uid 929;
+                    class superuser;
+                    shell csh;
+                    authentication {
+                        encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/";
+                    }
+                }
+            }
+            syslog {
+                file messages {
+                    kernel info;
+                    any notice;
+                    authorization info;
+                    pfe info;
+                    archive world-readable;
+                }
+                file security {
+                    interactive-commands any;
+                    archive world-readable;
+                }
+            }
+            services {
+                netconf {
+                    ssh;
+                }
+                ssh {
+                    root-login allow;
+                }
+                finger;
+                ftp;
+                telnet;
+                xnm-clear-text;
+            }
+            domain-name englab.juniper.net;
+            domain-search [ englab.juniper.net juniper.net jnpr.net spglab.juniper.net ];
+            backup-router 10.155.31.254 destination 0.0.0.0/0;
+            time-zone America/Los_Angeles;
+            debugger-on-break;
+            dump-on-panic;
+            authentication-order password;
+            name-server {
+                10.92.236.2;
+                10.102.152.11;
+            }
+            processes {
+                routing enable;
+                ntp enable;
+                management enable;
+                watchdog enable;
+                snmp enable;
+                inet-process enable;
+                mib-process enable;
+            }
+            ntp {
+                server 66.129.233.81;
+            }
+        }
+        chassis {
+            dump-on-panic;
+        }
+        interfaces {
+            re0:mgmt-0 {
+                unit 0 {
+                    family inet {
+                        address 10.155.0.55/19;
+                    }
+                }
+            }
+            lo0 {
+                unit 0 {
+                    family inet {
+                        address 127.0.0.1/32;
+                        address 127.0.0.64/32;
+                    }
+                }
+            }
+        }
+        snmp {
+            location "Systest lab";
+            contact "Jay Lloyd";
+            interface re0:mgmt-0.0;
+            community public {
+                authorization read-only;
+            }
+            community private {
+                authorization read-write;
+            }
+        }
+        routing-instances {
+            mgmt_junos {
+                routing-options {
+                    static {
+                        /* corperate and alpha net */
+                        route 172.16.0.0/12 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* eng lab nets */
+                        route 192.168.0.0/16 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* corporate ssh servers */
+                        route 207.17.136.0/24 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.0/10 */
+                        route 10.0.0.0/10 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.64/10 */
+                        route 10.64.0.0/10 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.128/10 */
+                        route 10.128.0.0/10 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.192/11 */
+                        route 10.192.0.0/11 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.224/12 */
+                        route 10.224.0.0/12 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.240/13 */
+                        route 10.240.0.0/13 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.248/14 */
+                        route 10.248.0.0/14 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.252/15 */
+                        route 10.252.0.0/15 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.254/16 */
+                        route 10.254.0.0/16 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 66.129/16 */
+                        route 66.129.0.0/16 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                        /* 10.48/15 */
+                        route 10.48.0.0/15 {
+                            next-hop 10.155.31.254;
+                            retain;
+                            no-readvertise;
+                        }
+                    }
+                }
+            }
+        }
+        routing-options {
+            static {
+                /* corperate and alpha net */
+                route 172.16.0.0/12 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* eng lab nets */
+                route 192.168.0.0/16 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* corporate ssh servers */
+                route 207.17.136.0/24 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.0/10 */
+                route 10.0.0.0/10 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.64/10 */
+                route 10.64.0.0/10 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.128/10 */
+                route 10.128.0.0/10 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.192/11 */
+                route 10.192.0.0/11 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.224/12 */
+                route 10.224.0.0/12 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.240/13 */
+                route 10.240.0.0/13 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.248/14 */
+                route 10.248.0.0/14 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.252/15 */
+                route 10.252.0.0/15 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.254/16 */
+                route 10.254.0.0/16 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 66.129/16 */
+                route 66.129.0.0/16 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+                /* 10.48/15 */
+                route 10.48.0.0/15 {
+                    next-hop 10.155.31.254;
+                    retain;
+                    no-readvertise;
+                }
+            }
+        }
+    }
+}
+apply-groups global;
+system {
+    host-name spine2;
+    services {
+        ssh {
+            root-login allow;
+        }
+    }
+    management-instance;
+    extensions {
+        extension-service {
+            application {
+                file aos_show_tech_evo.py {
+                    username root;
+                }
+                file aos_show_version_evo.py {
+                    username root;
+                }
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/5 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/34 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/35 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/36 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/37 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/38 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/39 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/40 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/41 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/42 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/43 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/44 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/45 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/46 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/47 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/48 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/49 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/50 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/51 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/52 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/53 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/54 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/55 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/56 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/57 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/58 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/60 {
+        description facing_acs-rack-001-leaf1:et-0/0/63:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.8/31;
+            }
+        }
+    }
+    et-0/0/61 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/62 {
+        description facing_acs-rack-001-leaf2:et-0/0/60;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.10/31;
+            }
+        }
+    }
+    et-0/0/63 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/64 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/65 {
+        unit 0 {
+            family inet;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.0.1.1/32;
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-20 {
+            from protocol bgp;
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement SPINE_TO_LEAF_EVPN_OUT {
+        term SPINE_TO_LEAF_EVPN_OUT-10 {
+            then {
+                community add FROM_SPINE_EVPN_TIER;
+                accept;
+            }
+        }
+    }
+    policy-statement SPINE_TO_LEAF_FABRIC_OUT {
+        term SPINE_TO_LEAF_FABRIC_OUT-10 {
+            then {
+                community add FROM_SPINE_FABRIC_TIER;
+                accept;
+            }
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 2:20007 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+}
+class-of-service {
+    classifiers {
+        dscp gpu_direct {
+            forwarding-class gpu_direct {
+                loss-priority low code-points 011000;
+            }
+            forwarding-class network_control {
+                loss-priority low code-points 110000;
+            }
+            forwarding-class network_mgmt {
+                loss-priority low code-points 010000;
+            }
+        }
+        dscp fabric {
+            forwarding-class gpu_direct {
+                loss-priority low code-points 011000;
+            }
+            forwarding-class network_control {
+                loss-priority low code-points 110000;
+            }
+            forwarding-class network_mgmt {
+                loss-priority low code-points 010000;
+            }
+            forwarding-class rdma_storage {
+                loss-priority low code-points 101000;
+            }
+        }
+        dscp rdma_storage {
+            forwarding-class network_control {
+                loss-priority low code-points 110000;
+            }
+            forwarding-class network_mgmt {
+                loss-priority low code-points 010000;
+            }
+            forwarding-class rdma_storage {
+                loss-priority low code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001000 001001 001010 001011 001100 001101 001110 001111 010001 010010 010011 010100 010101 010110 010111 011001 011010 011011 011100 011101 011110 011111 100000 100001 100010 100011 100100 100101 100110 100111 101001 101010 101011 101100 101101 101110 101111 110001 110010 110011 110100 110101 110110 110111 111000 111001 111010 111011 111100 111101 111110 111111 101000 ];
+            }
+        }
+    }
+    drop-profiles {
+        dp_as {
+            interpolate {
+                fill-level [ 5 10 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+    }
+    shared-buffer {
+        ingress {
+            buffer-partition lossless {
+                percent 45;
+            }
+            buffer-partition lossless-headroom {
+                percent 50;
+            }
+            buffer-partition lossy {
+                percent 5;
+            }
+        }
+        egress {
+            buffer-partition lossless {
+                percent 45;
+            }
+            buffer-partition lossy {
+                percent 5;
+            }
+        }
+    }
+    dedicated-buffer {
+        ingress {
+            percent 50;
+        }
+        egress {
+            percent 50;
+        }
+    }
+    forwarding-classes {
+        class best_effort queue-num 0;
+        class gpu_direct queue-num 3 no-loss pfc-priority 3;
+        class network_control queue-num 7;
+        class network_mgmt queue-num 1;
+        class rdma_storage queue-num 2 no-loss pfc-priority 2;
+    }
+    congestion-notification-profile {
+        fabric {
+            input {
+                dscp {
+                    code-point 011000 {
+                        pfc;
+                        mru 9214;
+                    }
+                    code-point 101000 {
+                        pfc;
+                        mru 9214;
+                    }
+                }
+            }
+            output {
+                ieee-802.1 {
+                    code-point 010 {
+                        flow-control-queue 2;
+                    }
+                    code-point 011 {
+                        flow-control-queue 3;
+                    }
+                }
+            }
+        }
+        rdma_storage {
+            input {
+                dscp {
+                    code-point 101000 {
+                        pfc;
+                        mru 9214;
+                    }
+                }
+            }
+            output {
+                ieee-802.1 {
+                    code-point 010 {
+                        flow-control-queue 2;
+                    }
+                }
+            }
+        }
+    }
+    interfaces {
+        et-* {
+            congestion-notification-profile fabric;
+            scheduler-map sm1;
+            unit 0 {
+                classifiers {
+                    dscp fabric;
+                }
+            }
+        }
+    }
+    scheduler-maps {
+        sm1 {
+            forwarding-class best_effort scheduler sc0;
+            forwarding-class gpu_direct scheduler sc3;
+            forwarding-class network_control scheduler sc7;
+            forwarding-class network_mgmt scheduler sc1;
+            forwarding-class rdma_storage scheduler sc2;
+        }
+    }
+    schedulers {
+        sc0 {
+            transmit-rate percent 8;
+            buffer-size percent 8;
+        }
+        sc1 {
+            transmit-rate percent 1;
+            buffer-size percent 1;
+        }
+        sc2 {
+            transmit-rate percent 40;
+            buffer-size percent 40;
+            drop-profile-map loss-priority any protocol any drop-profile dp_as;
+            explicit-congestion-notification;
+        }
+        sc3 {
+            transmit-rate percent 50;
+            buffer-size percent 50;
+            drop-profile-map loss-priority any protocol any drop-profile dp_as;
+            explicit-congestion-notification;
+        }
+        sc7 {
+            transmit-rate percent 1;
+            shaping-rate percent 1;
+            buffer-size percent 1;
+            priority strict-high;
+        }
+    }
+}
+routing-options {
+    router-id 10.0.1.1;
+    autonomous-system 10001;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+    }
+}
+protocols {
+    bgp {
+        group l3clos-s {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor 10.0.1.9 {
+                description facing_acs-rack-001-leaf1;
+                local-address 10.0.1.8;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 10002;
+            }
+            neighbor 10.0.1.11 {
+                description facing_acs-rack-001-leaf2;
+                local-address 10.0.1.10;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 10003;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-s-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 10.0.1.2 {
+                description facing_acs-rack-001-leaf1-evpn-overlay;
+                local-address 10.0.1.1;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 10002;
+            }
+            neighbor 10.0.1.3 {
+                description facing_acs-rack-001-leaf2-evpn-overlay;
+                local-address 10.0.1.1;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 10003;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        disable;
+    }
+}

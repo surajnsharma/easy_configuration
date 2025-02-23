@@ -1,0 +1,10 @@
+Failure Group: TrafficErrors
+Occurrences: 6
+Failures:
+ - [20241001 11:01:55.965] - Expecting imbalanced, but observe balanced traffic. Please check config. (Occurred 2 times)
+ - [20241001 10:53:12.305] - Expecting imbalanced, but observe balanced traffic. Please check config. (Occurred 1 times)
+ - [20241001 10:57:33.984] - Expecting imbalanced, but observe balanced traffic. Please check config. (Occurred 1 times)
+ - [20241001 11:06:15.484] - Expecting imbalanced, but observe balanced traffic. Please check config. (Occurred 1 times)
+ - [20241001 11:10:37.129] - Expecting imbalanced, but observe balanced traffic. Please check config. (Occurred 1 times)
+Suggested Action: SW PR: Verify traffic configuration and load balancing settings. Ensure that the device configuration matches the expected traffic pattern and investigate hardware or software anomalies causing traffic imbalance.
+--------------------------------------------------

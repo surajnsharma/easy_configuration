@@ -1,0 +1,48 @@
+{
+    "leaf_ip": "10.0.1.1",
+    "leaf_index": 0,
+    "service_count": 5,
+    "vxlan_vni_list": [
+        10000,
+        10001,
+        10002
+    ],
+    "base_vxlan_vni": 10000,
+    "base_vxlan_vlan_id": 200,
+    "service_ips": [
+        "10.0.1.2",
+        "10.0.1.3"
+    ],
+    "v6_service_ips": [
+        "2001:db8::1",
+        "2001:db8::2"
+    ],
+    "service_int_leaves": [
+        "et-0/0/1",
+        "et-0/0/2"
+    ],
+    "esi_lag_services": [
+        {
+            "esi_id": "00:00:00:00:00:00:00:00:00:01",
+            "lag_intfs": [
+                "ae1"
+            ]
+        }
+    ],
+    "other_service_ips_per_vlan": [
+        [
+            "10.0.2.1"
+        ],
+        [
+            "10.0.2.2"
+        ]
+    ],
+    "enumerate": "Python built-in enumerate() function",
+    "overlay_as": 65001,
+    "spine_ips": [
+        "10.0.0.1",
+        "10.0.0.2"
+    ],
+    "GenerateOverlayBtn_State": null,
+    "overlay_service_type": ""
+}

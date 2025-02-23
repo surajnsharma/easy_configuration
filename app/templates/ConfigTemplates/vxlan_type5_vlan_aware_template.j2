@@ -1,0 +1,31 @@
+#* T5 MAC VRF VLAN AWARE *#
+
+set routing-instances MACVRF_VLAN_AWARE  instance-type mac-vrf
+set routing-instances MACVRF_VLAN_AWARE protocols evpn encapsulation vxlan
+set routing-instances MACVRF_VLAN_AWARE protocols evpn default-gateway no-gateway-community
+set routing-instances MACVRF_VLAN_AWARE protocols evpn remote-ip-host-routes
+set routing-instances MACVRF_VLAN_AWARE vtep-source-interface lo0.0
+set routing-instances MACVRF_VLAN_AWARE service-type vlan-aware
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher {{ leaf_ip }}:{{ overlay_as }}
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:{{ overlay_as }}:{{ overlay_as }}
+
+
+{%- for i in range(service_count) %}
+    {%- set vxlan_vlan_id = base_vxlan_vlan_id + i %}
+    {%- set vxlan_vni = base_vxlan_vni + i %}
+    set routing-instances MACVRF_VLAN_AWARE vlans vlan{{ vxlan_vlan_id }} vlan-id {{ vxlan_vlan_id }}
+    set routing-instances MACVRF_VLAN_AWARE vlans vlan{{ vxlan_vlan_id }} vxlan vni {{ vxlan_vni }}{{ leaf_index }}
+    set routing-instances MACVRF_VLAN_AWARE vlans vlan{{ vxlan_vlan_id }} l3-interface irb.{{ vxlan_vlan_id }}
+    set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list {{ vxlan_vni }}{{ leaf_index }}
+    set interfaces irb.{{ vxlan_vlan_id }} family inet address {{ service_ips[i] }}/24
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} instance-type vrf
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} protocols evpn ip-prefix-routes advertise direct-nexthop
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} protocols evpn ip-prefix-routes encapsulation vxlan
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} protocols evpn ip-prefix-routes vni {{ vxlan_vni }}
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} vtep-source-interface lo0.0
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} interface irb.{{ vxlan_vlan_id }}
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} route-distinguisher {{ leaf_ip }}:{{ vxlan_vlan_id }}
+    set routing-instances T5_VRF{{ vxlan_vlan_id }} vrf-target target:{{ vxlan_vlan_id }}:{{ vxlan_vlan_id }}
+
+
+{% endfor %}

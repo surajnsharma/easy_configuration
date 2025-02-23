@@ -1871,8 +1871,6 @@ class AddStreamDialog(QDialog):
         self.add_payload_data_section()
         self.add_rocev2_section()
 
-
-
     def populate_stream_fields(self, stream_data=None):
         """Populates the dialog fields with the existing stream data or default values."""
         if not stream_data:
@@ -1894,6 +1892,7 @@ class AddStreamDialog(QDialog):
         l1_value = stream_data.get("L1", "None")
         self.l1_none.setChecked(l1_value == "None")
         self.l1_mac.setChecked(l1_value == "MAC")
+        self.l1_raw.setChecked(l1_value == "RAW")
 
         # VLAN Section
         vlan_value = stream_data.get("VLAN", "Untagged")
@@ -1918,6 +1917,7 @@ class AddStreamDialog(QDialog):
         l2_value = stream_data.get("L2", "None")
         self.l2_none.setChecked(l2_value == "None")
         self.l2_ethernet.setChecked(l2_value == "Ethernet II")
+        self.l2_mpls.setChecked(l2_value == "MPLS")
 
         # L3 Section
         l3_value = stream_data.get("L3", "None")
@@ -1935,8 +1935,7 @@ class AddStreamDialog(QDialog):
         self.l4_udp.setChecked(l4_value == "UDP")
         self.l4_rocev2.setChecked(l4_value == "RoCEv2")
 
-        # Populate TCP Flags if L4 is TCP
-
+        # TCP Flags (if L4 is TCP)
         tcp_flags = stream_data.get("tcp_flags", "")
         flags = [flag.strip() for flag in tcp_flags.split(",")] if tcp_flags else []
         for flag, widget in [
@@ -1948,14 +1947,19 @@ class AddStreamDialog(QDialog):
             ("FIN", self.flag_fin),
         ]:
             widget.setChecked(flag in flags)
-        # Populate RoCEv2 Fields if L4 is RoCEv2
-        print("Populating RoCEv2 fields...")
+
+        # RoCEv2 Fields (if L4 is RoCEv2)
         self.rocev2_traffic_class.setCurrentText(stream_data.get("rocev2_traffic_class", "0"))
         self.rocev2_flow_label.setText(stream_data.get("rocev2_flow_label", "000000"))
         self.rocev2_source_gid.setText(stream_data.get("rocev2_source_gid", "0:0:0:0:0:ffff:192.168.1.1"))
         self.rocev2_destination_gid.setText(stream_data.get("rocev2_destination_gid", "0:0:0:0:0:ffff:192.168.1.2"))
         self.rocev2_source_qp.setText(stream_data.get("rocev2_source_qp", "0"))
         self.rocev2_destination_qp.setText(stream_data.get("rocev2_destination_qp", "0"))
+
+        # MPLS Section
+        self.mpls_label_field.setText(stream_data.get("mpls_label", "16"))
+        self.mpls_ttl_field.setText(stream_data.get("mpls_ttl", "64"))
+        self.mpls_experimental_field.setText(stream_data.get("mpls_experimental", "0"))
 
         # Payload Section
         payload_value = stream_data.get("Payload", "None")
@@ -1964,48 +1968,20 @@ class AddStreamDialog(QDialog):
         self.payload_hex.setChecked(payload_value == "Hex Dump")
 
         # MAC Section
-        # Populate MAC Destination Fields
         self.mac_destination_mode.setCurrentText(stream_data.get("mac_destination_mode", "Fixed"))
         self.mac_destination_address.setText(stream_data.get("mac_destination_address", "00:00:00:00:00:00"))
         self.mac_destination_count.setText(stream_data.get("mac_destination_count", "1"))
         self.mac_destination_step.setText(stream_data.get("mac_destination_step", "1"))
-        self.toggle_mac_fields(
-            mode=self.mac_destination_mode.currentText(),
-            count_field=self.mac_destination_count,
-            step_field=self.mac_destination_step,
-        )
-
-        # Populate MAC Source Fields
         self.mac_source_mode.setCurrentText(stream_data.get("mac_source_mode", "Fixed"))
         self.mac_source_address.setText(stream_data.get("mac_source_address", "00:00:00:00:00:00"))
         self.mac_source_count.setText(stream_data.get("mac_source_count", "1"))
         self.mac_source_step.setText(stream_data.get("mac_source_step", "1"))
-        self.toggle_mac_fields(
-            mode=self.mac_source_mode.currentText(),
-            count_field=self.mac_source_count,
-            step_field=self.mac_source_step,
-        )
 
         # IPv4 Section
         self.source_field.setText(stream_data.get("ipv4_source", "0.0.0.0"))
         self.destination_field.setText(stream_data.get("ipv4_destination", "0.0.0.0"))
         self.ttl_field.setText(stream_data.get("ipv4_ttl", "64"))
         self.identification_field.setText(stream_data.get("ipv4_identification", "0000"))
-        self.source_mode_dropdown.setCurrentText(stream_data.get("ipv4_source_mode", "Fixed"))
-        self.destination_mode_dropdown.setCurrentText(stream_data.get("ipv4_destination_mode", "Fixed"))
-
-        # IPv4 Increment
-        self.increment_source_checkbox.setChecked(stream_data.get("ipv4_increment_source", False))
-        self.source_increment_step.setText(stream_data.get("ipv4_source_increment_step", "1"))
-        self.source_increment_count.setText(stream_data.get("ipv4_source_increment_count", "1"))
-        self.source_increment_step.setEnabled(self.increment_source_checkbox.isChecked())
-        self.source_increment_count.setEnabled(self.increment_source_checkbox.isChecked())
-
-        self.increment_destination_checkbox.setChecked(stream_data.get("ipv4_increment_destination", False))
-        self.destination_increment_step.setText(stream_data.get("ipv4_destination_increment_step", "1"))
-        self.destination_increment_count.setText(stream_data.get("ipv4_destination_increment_count", "1"))
-        self.destination_increment_step.setEnabled(self.increment_destination_checkbox.isChecked())
-        self.destination_increment_count.setEnabled(self.increment_destination_checkbox.isChecked())
         self.df_checkbox.setChecked(stream_data.get("ipv4_df", False))
         self.mf_checkbox.setChecked(stream_data.get("ipv4_mf", False))
         self.fragment_offset_field.setText(stream_data.get("ipv4_fragment_offset", "0"))
@@ -2021,25 +1997,6 @@ class AddStreamDialog(QDialog):
         elif tos_dscp_mode == "Custom":
             self.custom_tos_field.setText(stream_data.get("ipv4_custom_tos", ""))
 
-        # TCP Section
-        self.source_port_field.setText(stream_data.get("tcp_source_port", "0"))
-        self.destination_port_field.setText(stream_data.get("tcp_destination_port", "0"))
-        self.window_field.setText(stream_data.get("tcp_window", "1024"))
-        self.tcp_checksum_field.setText(stream_data.get("tcp_checksum", ""))
-        self.override_source_port_checkbox.setChecked(stream_data.get("override_source_tcp_port", False))
-        self.source_port_field.setEnabled(self.override_source_port_checkbox.isChecked())
-        self.override_destination_port_checkbox.setChecked(stream_data.get("override_destination_tcp_port", False))
-        self.destination_port_field.setEnabled(self.override_destination_port_checkbox.isChecked())
-        self.increment_tcp_source_checkbox.setChecked(stream_data.get("tcp_increment_source_port", False))
-        self.tcp_source_increment_step.setText(stream_data.get("tcp_source_port_step", "1"))
-        self.tcp_source_increment_count.setText(stream_data.get("tcp_source_port_count", "1"))
-        self.increment_tcp_destination_checkbox.setChecked(stream_data.get("tcp_increment_destination_port", False))
-        self.tcp_destination_increment_step.setText(stream_data.get("tcp_destination_port_step", "1"))
-        self.tcp_destination_increment_count.setText(stream_data.get("tcp_destination_port_count", "1"))
-
-        # Payload Data
-        self.payload_data_field.setText(stream_data.get("payload_data", ""))
-
         # Stream Rate Section
         self.rate_type_dropdown.setCurrentText(stream_data.get("stream_rate_type", "Packets Per Second (PPS)"))
         self.stream_pps_rate.setText(stream_data.get("stream_pps_rate", "1000"))
@@ -2049,10 +2006,8 @@ class AddStreamDialog(QDialog):
         # Stream Duration Section
         duration_mode = stream_data.get("stream_duration_mode", "Continuous")
         self.duration_mode_dropdown.setCurrentText(duration_mode)
-
         if duration_mode == "Seconds":
-            duration_value = stream_data.get("stream_duration_seconds", "10")
-            self.stream_duration_field.setText(str(duration_value))
+            self.stream_duration_field.setText(stream_data.get("stream_duration_seconds", "10"))
         else:
             self.stream_duration_field.clear()
 

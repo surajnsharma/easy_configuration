@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     var socket = io();
-
-    socket.on('connect', function() {
+    /*socket.on('connect', function() {
         console.log('Connected to server');
     });
-
     socket.on('disconnect', function() {
         console.log('Disconnected from server');
-    });
+    });*/
 
     const progressMap = new Map();
 
@@ -51,6 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
 
     socket.on('progress', function(data) {
+        console.log('Connected to upload_device_config config WebSocket server');
         updateProgress(data.ip, data.progress, data.error);
         //console.log(`Progress update for ${data.ip}: ${data.progress}%`);
     });

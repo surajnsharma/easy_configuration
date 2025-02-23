@@ -1,0 +1,715 @@
+Test log write successful.
+2025-01-27 11:16:16,275 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/ai_nyc/debug.log
+2025-01-27 11:16:16,275 [INFO] Test log entry to verify logging setup.
+2025-01-27 11:16:16,630 [INFO] Fetching device list
+2025-01-27 11:16:16,670 [INFO] Fetching device list
+2025-01-27 11:16:57,915 [INFO] Fetching device list
+2025-01-27 11:17:11,569 [INFO] Fetching device list
+2025-01-27 11:17:22,853 [INFO] Fetching device list
+2025-01-27 11:17:34,759 [INFO] Fetching device list
+2025-01-27 11:17:42,080 [INFO] Connecting to device ny-q5230-01 at ny-q5230-01
+2025-01-27 11:17:42,657 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:17:43,156 [INFO] Authentication (publickey) failed.
+2025-01-27 11:17:43,212 [INFO] Authentication (password) successful!
+2025-01-27 11:17:43,556 [INFO] [host ny-q5230-01 session 0x1108cce90] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:17:43,785 [INFO] [host ny-q5230-01 session 0x1108cce90] Received message from host
+2025-01-27 11:17:43,788 [INFO] [host ny-q5230-01 session-id 31917] initialized: session-id=31917 | server_capabilities=<dict_keyiterator object at 0x110e94090>
+2025-01-27 11:17:43,789 [INFO] Successfully connected to ny-q5230-01
+2025-01-27 11:17:43,790 [INFO] [host ny-q5230-01 session-id 31917] Requesting 'ExecuteRpc'
+2025-01-27 11:17:43,889 [INFO] [host ny-q5230-01 session-id 31917] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5f8b44dd-ca73-421a-8d3f-aa8892ebf6ea"><get-configuration format="text"/></nc:rpc>]]>]]>'
+2025-01-27 11:17:43,966 [INFO] [host ny-q5230-01 session-id 31917] Received message from host
+2025-01-27 11:17:43,979 [INFO] [host ny-q5230-01 session-id 31917] Requesting 'CloseSession'
+2025-01-27 11:17:44,068 [INFO] [host ny-q5230-01 session-id 31917] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:4a343603-d4cd-45c4-b409-f415b4dd859e"><nc:close-session/></nc:rpc>]]>]]>'
+2025-01-27 11:17:44,117 [INFO] [host ny-q5230-01 session-id 31917] Received message from host
+2025-01-27 11:17:44,120 [INFO] Config written successfully to /Users/surajsharma/FLASK/app/device_config/ai_nyc/ny-q5230-01_config.txt
+2025-01-27 11:17:44,120 [INFO] Connecting to device ny-q5230-04 at ny-q5230-04
+2025-01-27 11:17:44,719 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:17:45,205 [INFO] Authentication (publickey) failed.
+2025-01-27 11:17:45,262 [INFO] Authentication (password) successful!
+2025-01-27 11:17:45,467 [INFO] [host ny-q5230-04 session 0x110e69350] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:17:45,709 [INFO] [host ny-q5230-04 session 0x110e69350] Received message from host
+2025-01-27 11:17:45,711 [INFO] [host ny-q5230-04 session-id 28376] initialized: session-id=28376 | server_capabilities=<dict_keyiterator object at 0x110832840>
+2025-01-27 11:17:45,711 [INFO] Successfully connected to ny-q5230-04
+2025-01-27 11:17:45,712 [INFO] [host ny-q5230-04 session-id 28376] Requesting 'ExecuteRpc'
+2025-01-27 11:17:45,811 [INFO] [host ny-q5230-04 session-id 28376] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:23d807ec-7c51-4dcb-8b5f-8b4b9990eab3"><get-configuration format="text"/></nc:rpc>]]>]]>'
+2025-01-27 11:17:45,887 [INFO] [host ny-q5230-04 session-id 28376] Received message from host
+2025-01-27 11:17:45,890 [INFO] [host ny-q5230-04 session-id 28376] Requesting 'CloseSession'
+2025-01-27 11:17:45,990 [INFO] [host ny-q5230-04 session-id 28376] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:fbffd962-c06f-46ad-8841-e0ed9a83f5c3"><nc:close-session/></nc:rpc>]]>]]>'
+2025-01-27 11:17:46,021 [INFO] [host ny-q5230-04 session-id 28376] Received message from host
+2025-01-27 11:17:46,026 [INFO] Config written successfully to /Users/surajsharma/FLASK/app/device_config/ai_nyc/ny-q5230-04_config.txt
+2025-01-27 11:17:46,026 [INFO] Connecting to device ny-q5240-13 at ny-q5240-13
+2025-01-27 11:17:46,449 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:17:46,957 [INFO] Authentication (publickey) failed.
+2025-01-27 11:17:47,022 [INFO] Authentication (password) successful!
+2025-01-27 11:17:47,244 [INFO] [host ny-q5240-13 session 0x110e80950] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:17:47,745 [INFO] [host ny-q5240-13 session 0x110e80950] Received message from host
+2025-01-27 11:17:47,746 [INFO] [host ny-q5240-13 session-id 10116] initialized: session-id=10116 | server_capabilities=<dict_keyiterator object at 0x110f13290>
+2025-01-27 11:17:47,747 [INFO] Successfully connected to ny-q5240-13
+2025-01-27 11:17:47,747 [INFO] [host ny-q5240-13 session-id 10116] Requesting 'ExecuteRpc'
+2025-01-27 11:17:47,847 [INFO] [host ny-q5240-13 session-id 10116] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:ccf1ca3b-192c-4a68-acf4-7aaa77b85419"><get-configuration format="text"/></nc:rpc>]]>]]>'
+2025-01-27 11:17:47,909 [INFO] [host ny-q5240-13 session-id 10116] Received message from host
+2025-01-27 11:17:47,915 [INFO] [host ny-q5240-13 session-id 10116] Requesting 'CloseSession'
+2025-01-27 11:17:48,011 [INFO] [host ny-q5240-13 session-id 10116] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:7bb1b9f0-8a0b-4233-9b10-dd5e2c0e972d"><nc:close-session/></nc:rpc>]]>]]>'
+2025-01-27 11:17:48,043 [INFO] [host ny-q5240-13 session-id 10116] Received message from host
+2025-01-27 11:17:48,045 [INFO] Config written successfully to /Users/surajsharma/FLASK/app/device_config/ai_nyc/ny-q5240-13_config.txt
+2025-01-27 11:17:48,045 [INFO] Connecting to device ny-q5240-q07 at ny-q5240-q07
+2025-01-27 11:17:54,965 [ERROR] Exception (client): Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:17:54,974 [ERROR] Traceback (most recent call last):
+2025-01-27 11:17:54,975 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2369, in _check_banner
+2025-01-27 11:17:54,975 [ERROR]     buf = self.packetizer.readline(timeout)
+2025-01-27 11:17:54,975 [ERROR]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:17:54,975 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 395, in readline
+2025-01-27 11:17:54,975 [ERROR]     buf += self._read_timeout(timeout)
+2025-01-27 11:17:54,975 [ERROR]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:17:54,975 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 663, in _read_timeout
+2025-01-27 11:17:54,975 [ERROR]     x = self.__socket.recv(128)
+2025-01-27 11:17:54,975 [ERROR]         ^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:17:54,975 [ERROR] ConnectionResetError: [Errno 54] Connection reset by peer
+2025-01-27 11:17:54,975 [ERROR] 
+2025-01-27 11:17:54,975 [ERROR] During handling of the above exception, another exception occurred:
+2025-01-27 11:17:54,975 [ERROR] 
+2025-01-27 11:17:54,975 [ERROR] Traceback (most recent call last):
+2025-01-27 11:17:54,976 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2185, in run
+2025-01-27 11:17:54,976 [ERROR]     self._check_banner()
+2025-01-27 11:17:54,976 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2373, in _check_banner
+2025-01-27 11:17:54,976 [ERROR]     raise SSHException(
+2025-01-27 11:17:54,976 [ERROR] paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:17:54,976 [ERROR] 
+2025-01-27 11:17:54,976 [ERROR] Error connecting to device ny-q5240-q07: ConnectError(host: ny-q5240-q07, msg: Negotiation failed: Error reading SSH protocol banner[Errno 54] Connection reset by peer)
+2025-01-27 11:17:54,977 [INFO] Errors occurred: [{'device': 'ny-q5240-q07', 'message': 'ConnectError(host: ny-q5240-q07, msg: Negotiation failed: Error reading SSH protocol banner[Errno 54] Connection reset by peer)'}]
+2025-01-27 11:20:23,894 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 11:20:23,962 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:20:24,466 [INFO] Authentication (publickey) failed.
+2025-01-27 11:20:24,522 [INFO] Authentication (password) successful!
+2025-01-27 11:20:24,865 [INFO] [host ny-q5230-01 session 0x110e86550] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:20:25,118 [INFO] [host ny-q5230-01 session 0x110e86550] Received message from host
+2025-01-27 11:20:25,119 [INFO] [host ny-q5230-01 session-id 5320] initialized: session-id=5320 | server_capabilities=<dict_keyiterator object at 0x1108d1800>
+2025-01-27 11:20:25,119 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 11:20:25,122 [INFO] [host ny-q5230-01 session-id 5320] Requesting 'ExecuteRpc'
+2025-01-27 11:20:25,220 [INFO] [host ny-q5230-01 session-id 5320] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:f463adbf-7381-49f9-97d4-01d2370ba461"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:20:25,256 [INFO] [host ny-q5230-01 session-id 5320] Received message from host
+2025-01-27 11:20:25,263 [INFO] neighbors_dict: {}
+2025-01-27 11:20:25,406 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 11:20:25,580 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:20:26,058 [INFO] Authentication (publickey) failed.
+2025-01-27 11:20:26,128 [INFO] Authentication (password) successful!
+2025-01-27 11:20:26,333 [INFO] [host ny-q5230-04 session 0x1108cec10] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:20:26,616 [INFO] [host ny-q5230-04 session 0x1108cec10] Received message from host
+2025-01-27 11:20:26,617 [INFO] [host ny-q5230-04 session-id 1142] initialized: session-id=1142 | server_capabilities=<dict_keyiterator object at 0x110f12700>
+2025-01-27 11:20:26,617 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 11:20:26,617 [INFO] [host ny-q5230-04 session-id 1142] Requesting 'ExecuteRpc'
+2025-01-27 11:20:26,718 [INFO] [host ny-q5230-04 session-id 1142] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:9313d51e-d98d-4d92-8112-0020607a5518"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:20:26,768 [INFO] [host ny-q5230-04 session-id 1142] Received message from host
+2025-01-27 11:20:26,771 [INFO] neighbors_dict: {}
+2025-01-27 11:20:26,863 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 11:20:26,934 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:20:27,448 [INFO] Authentication (publickey) failed.
+2025-01-27 11:20:27,531 [INFO] Authentication (password) successful!
+2025-01-27 11:20:27,690 [INFO] [host ny-q5240-13 session 0x110f9ac10] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:20:27,920 [INFO] [host ny-q5240-13 session 0x110f9ac10] Received message from host
+2025-01-27 11:20:27,922 [INFO] [host ny-q5240-13 session-id 16408] initialized: session-id=16408 | server_capabilities=<dict_keyiterator object at 0x110f70fe0>
+2025-01-27 11:20:27,922 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 11:20:27,923 [INFO] [host ny-q5240-13 session-id 16408] Requesting 'ExecuteRpc'
+2025-01-27 11:20:28,023 [INFO] [host ny-q5240-13 session-id 16408] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:69237198-3c61-436a-b87d-2bb701eb7a63"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:20:28,066 [INFO] [host ny-q5240-13 session-id 16408] Received message from host
+2025-01-27 11:20:28,071 [INFO] neighbors_dict: {}
+2025-01-27 11:20:28,175 [INFO] Attempting connection to ny-q5240-q07 using hostname (Attempt 1).
+2025-01-27 11:20:28,327 [ERROR] Exception (client): Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:20:28,333 [ERROR] Traceback (most recent call last):
+2025-01-27 11:20:28,334 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2369, in _check_banner
+2025-01-27 11:20:28,334 [ERROR]     buf = self.packetizer.readline(timeout)
+2025-01-27 11:20:28,334 [ERROR]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:20:28,335 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 395, in readline
+2025-01-27 11:20:28,335 [ERROR]     buf += self._read_timeout(timeout)
+2025-01-27 11:20:28,335 [ERROR]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:20:28,335 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 663, in _read_timeout
+2025-01-27 11:20:28,335 [ERROR]     x = self.__socket.recv(128)
+2025-01-27 11:20:28,335 [ERROR]         ^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:20:28,335 [ERROR] ConnectionResetError: [Errno 54] Connection reset by peer
+2025-01-27 11:20:28,335 [ERROR] 
+2025-01-27 11:20:28,335 [ERROR] During handling of the above exception, another exception occurred:
+2025-01-27 11:20:28,336 [ERROR] 
+2025-01-27 11:20:28,336 [ERROR] Traceback (most recent call last):
+2025-01-27 11:20:28,336 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2185, in run
+2025-01-27 11:20:28,336 [ERROR]     self._check_banner()
+2025-01-27 11:20:28,336 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2373, in _check_banner
+2025-01-27 11:20:28,336 [ERROR]     raise SSHException(
+2025-01-27 11:20:28,336 [ERROR] paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:20:28,336 [ERROR] 
+2025-01-27 11:20:28,337 [ERROR] Attempt 1 failed for ny-q5240-q07 or IP ny-q5240-q07. Last error: ConnectRefusedError: ConnectRefusedError(ny-q5240-q07)
+2025-01-27 11:20:28,337 [ERROR] All 1 attempts to connect to ny-q5240-q07 failed. Last error: ConnectRefusedError: ConnectRefusedError(ny-q5240-q07)
+2025-01-27 11:20:28,338 [WARNING] Failed to fetch LLDP neighbors: 'tuple' object has no attribute 'rpc'
+2025-01-27 11:20:28,338 [ERROR] Failed to fetch LLDP neighbors for ny-q5240-q07: 'tuple' object has no attribute 'rpc'
+2025-01-27 11:27:32,664 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 11:27:32,742 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:27:33,258 [INFO] Authentication (publickey) failed.
+2025-01-27 11:27:33,318 [INFO] Authentication (password) successful!
+2025-01-27 11:27:33,542 [INFO] [host ny-q5230-01 session 0x110f6b150] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:27:33,788 [INFO] [host ny-q5230-01 session 0x110f6b150] Received message from host
+2025-01-27 11:27:33,795 [INFO] [host ny-q5230-01 session-id 22057] initialized: session-id=22057 | server_capabilities=<dict_keyiterator object at 0x1108bb880>
+2025-01-27 11:27:33,796 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 11:27:33,796 [INFO] Connected to ny-q5230-01
+2025-01-27 11:27:33,796 [INFO] [host ny-q5230-01 session-id 22057] Requesting 'ExecuteRpc'
+2025-01-27 11:27:33,896 [INFO] [host ny-q5230-01 session-id 22057] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:b859ca8c-d8f1-4189-a730-28f1f8ea115e"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:27:33,937 [INFO] [host ny-q5230-01 session-id 22057] Received message from host
+2025-01-27 11:27:33,947 [INFO] neighbors_dict: {}
+2025-01-27 11:27:34,057 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 11:27:34,128 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:27:34,625 [INFO] Authentication (publickey) failed.
+2025-01-27 11:27:34,691 [INFO] Authentication (password) successful!
+2025-01-27 11:27:34,894 [INFO] [host ny-q5230-04 session 0x110fc7090] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:27:35,155 [INFO] [host ny-q5230-04 session 0x110fc7090] Received message from host
+2025-01-27 11:27:35,156 [INFO] [host ny-q5230-04 session-id 16062] initialized: session-id=16062 | server_capabilities=<dict_keyiterator object at 0x110f10fe0>
+2025-01-27 11:27:35,157 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 11:27:35,157 [INFO] Connected to ny-q5230-04
+2025-01-27 11:27:35,158 [INFO] [host ny-q5230-04 session-id 16062] Requesting 'ExecuteRpc'
+2025-01-27 11:27:35,257 [INFO] [host ny-q5230-04 session-id 16062] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:94a5b1ab-669b-4bf0-ba85-08beb8a61a17"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:27:35,296 [INFO] [host ny-q5230-04 session-id 16062] Received message from host
+2025-01-27 11:27:35,300 [INFO] neighbors_dict: {}
+2025-01-27 11:27:35,403 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 11:27:35,553 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:27:36,064 [INFO] Authentication (publickey) failed.
+2025-01-27 11:27:36,137 [INFO] Authentication (password) successful!
+2025-01-27 11:27:36,336 [INFO] [host ny-q5240-13 session 0x110f6b290] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:27:36,597 [INFO] [host ny-q5240-13 session 0x110f6b290] Received message from host
+2025-01-27 11:27:36,597 [INFO] [host ny-q5240-13 session-id 31642] initialized: session-id=31642 | server_capabilities=<dict_keyiterator object at 0x11079e160>
+2025-01-27 11:27:36,597 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 11:27:36,598 [INFO] Connected to ny-q5240-13
+2025-01-27 11:27:36,598 [INFO] [host ny-q5240-13 session-id 31642] Requesting 'ExecuteRpc'
+2025-01-27 11:27:36,698 [INFO] [host ny-q5240-13 session-id 31642] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:0141de8c-fcb5-4ddd-a3b5-76a0972d07a4"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:27:36,753 [INFO] [host ny-q5240-13 session-id 31642] Received message from host
+2025-01-27 11:27:36,755 [INFO] neighbors_dict: {}
+2025-01-27 11:27:36,868 [INFO] Attempting connection to ny-q5240-q07 using hostname (Attempt 1).
+2025-01-27 11:27:37,038 [ERROR] Exception (client): Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:27:37,039 [ERROR] Traceback (most recent call last):
+2025-01-27 11:27:37,039 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2369, in _check_banner
+2025-01-27 11:27:37,039 [ERROR]     buf = self.packetizer.readline(timeout)
+2025-01-27 11:27:37,039 [ERROR]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:27:37,039 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 395, in readline
+2025-01-27 11:27:37,040 [ERROR]     buf += self._read_timeout(timeout)
+2025-01-27 11:27:37,040 [ERROR]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:27:37,040 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/packet.py", line 663, in _read_timeout
+2025-01-27 11:27:37,040 [ERROR]     x = self.__socket.recv(128)
+2025-01-27 11:27:37,040 [ERROR]         ^^^^^^^^^^^^^^^^^^^^^^^
+2025-01-27 11:27:37,040 [ERROR] ConnectionResetError: [Errno 54] Connection reset by peer
+2025-01-27 11:27:37,040 [ERROR] 
+2025-01-27 11:27:37,040 [ERROR] During handling of the above exception, another exception occurred:
+2025-01-27 11:27:37,040 [ERROR] 
+2025-01-27 11:27:37,040 [ERROR] Traceback (most recent call last):
+2025-01-27 11:27:37,040 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2185, in run
+2025-01-27 11:27:37,040 [ERROR]     self._check_banner()
+2025-01-27 11:27:37,040 [ERROR]   File "/Users/surajsharma/venv3/lib/python3.11/site-packages/paramiko/transport.py", line 2373, in _check_banner
+2025-01-27 11:27:37,040 [ERROR]     raise SSHException(
+2025-01-27 11:27:37,040 [ERROR] paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 54] Connection reset by peer
+2025-01-27 11:27:37,041 [ERROR] 
+2025-01-27 11:27:37,041 [ERROR] Attempt 1 failed for ny-q5240-q07 or IP ny-q5240-q07. Last error: ConnectRefusedError: ConnectRefusedError(ny-q5240-q07)
+2025-01-27 11:27:37,041 [ERROR] All 1 attempts to connect to ny-q5240-q07 failed. Last error: ConnectRefusedError: ConnectRefusedError(ny-q5240-q07)
+2025-01-27 11:27:37,042 [INFO] Connected to ny-q5240-q07
+2025-01-27 11:27:37,042 [WARNING] Failed to fetch LLDP neighbors: 'tuple' object has no attribute 'rpc'
+2025-01-27 11:27:37,042 [ERROR] Unexpected error during LLDP configuration for device ny-q5240-q07: 'tuple' object has no attribute 'rpc'
+2025-01-27 11:28:07,002 [INFO] Fetching device list
+2025-01-27 11:28:11,652 [INFO] Received request to delete device: ny-q5240-q07
+2025-01-27 11:28:11,672 [INFO] Fetching device list
+2025-01-27 11:28:19,597 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 11:28:19,666 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:28:20,178 [INFO] Authentication (publickey) failed.
+2025-01-27 11:28:20,240 [INFO] Authentication (password) successful!
+2025-01-27 11:28:20,444 [INFO] [host ny-q5230-01 session 0x1100fb550] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:28:20,703 [INFO] [host ny-q5230-01 session 0x1100fb550] Received message from host
+2025-01-27 11:28:20,704 [INFO] [host ny-q5230-01 session-id 23693] initialized: session-id=23693 | server_capabilities=<dict_keyiterator object at 0x110e9f740>
+2025-01-27 11:28:20,705 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 11:28:20,705 [INFO] Connected to ny-q5230-01
+2025-01-27 11:28:20,706 [INFO] [host ny-q5230-01 session-id 23693] Requesting 'ExecuteRpc'
+2025-01-27 11:28:20,805 [INFO] [host ny-q5230-01 session-id 23693] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:3da19ba4-774a-4d93-8ff8-b3e6630cafb3"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:28:20,840 [INFO] [host ny-q5230-01 session-id 23693] Received message from host
+2025-01-27 11:28:20,843 [INFO] neighbors_dict: {}
+2025-01-27 11:28:20,878 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 11:28:20,944 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:28:21,469 [INFO] Authentication (publickey) failed.
+2025-01-27 11:28:21,528 [INFO] Authentication (password) successful!
+2025-01-27 11:28:21,727 [INFO] [host ny-q5230-04 session 0x1108c4dd0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:28:21,985 [INFO] [host ny-q5230-04 session 0x1108c4dd0] Received message from host
+2025-01-27 11:28:21,986 [INFO] [host ny-q5230-04 session-id 17839] initialized: session-id=17839 | server_capabilities=<dict_keyiterator object at 0x110e53c40>
+2025-01-27 11:28:21,986 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 11:28:21,986 [INFO] Connected to ny-q5230-04
+2025-01-27 11:28:21,986 [INFO] [host ny-q5230-04 session-id 17839] Requesting 'ExecuteRpc'
+2025-01-27 11:28:22,087 [INFO] [host ny-q5230-04 session-id 17839] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:9850d977-772f-44a3-b739-b20aa9f79fc8"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:28:22,143 [INFO] [host ny-q5230-04 session-id 17839] Received message from host
+2025-01-27 11:28:22,146 [INFO] neighbors_dict: {}
+2025-01-27 11:28:22,168 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 11:28:22,244 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 11:28:22,778 [INFO] Authentication (publickey) failed.
+2025-01-27 11:28:22,841 [INFO] Authentication (password) successful!
+2025-01-27 11:28:23,074 [INFO] [host ny-q5240-13 session 0x110e48890] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 11:28:23,371 [INFO] [host ny-q5240-13 session 0x110e48890] Received message from host
+2025-01-27 11:28:23,377 [INFO] [host ny-q5240-13 session-id 834] initialized: session-id=834 | server_capabilities=<dict_keyiterator object at 0x1108d2890>
+2025-01-27 11:28:23,377 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 11:28:23,378 [INFO] Connected to ny-q5240-13
+2025-01-27 11:28:23,378 [INFO] [host ny-q5240-13 session-id 834] Requesting 'ExecuteRpc'
+2025-01-27 11:28:23,478 [INFO] [host ny-q5240-13 session-id 834] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:e94abf74-a3a9-44c8-9058-512725749d1e"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 11:28:23,568 [INFO] [host ny-q5240-13 session-id 834] Received message from host
+2025-01-27 11:28:23,606 [INFO] neighbors_dict: {}
+2025-01-27 13:20:26,109 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:20:27,025 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:20:28,436 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:27:34,266 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:27:36,208 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:27:37,141 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:28:21,428 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:28:22,450 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 13:28:24,018 [ERROR] Socket exception: Connection reset by peer (54)
+2025-01-27 21:31:40,891 [INFO] Fetching device list
+2025-01-27 21:31:40,922 [INFO] Fetching device list
+2025-01-27 22:15:35,410 [INFO] Fetching device list
+2025-01-27 22:15:46,060 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 22:15:46,292 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:15:46,871 [INFO] Authentication (publickey) failed.
+2025-01-27 22:15:46,953 [INFO] Authentication (password) successful!
+2025-01-27 22:15:47,174 [INFO] [host ny-q5230-01 session 0x110fad6d0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:15:47,409 [INFO] [host ny-q5230-01 session 0x110fad6d0] Received message from host
+2025-01-27 22:15:47,416 [INFO] [host ny-q5230-01 session-id 24961] initialized: session-id=24961 | server_capabilities=<dict_keyiterator object at 0x110fe8d10>
+2025-01-27 22:15:47,417 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 22:15:47,417 [INFO] Connected to ny-q5230-01
+2025-01-27 22:15:47,418 [INFO] [host ny-q5230-01 session-id 24961] Requesting 'ExecuteRpc'
+2025-01-27 22:15:47,517 [INFO] [host ny-q5230-01 session-id 24961] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:a57ca034-a5f6-491b-9ef6-1555e41838a4"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:15:47,579 [INFO] [host ny-q5230-01 session-id 24961] Received message from host
+2025-01-27 22:15:47,588 [INFO] neighbors_dict: {}
+2025-01-27 22:15:48,018 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 22:15:48,206 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:15:48,735 [INFO] Authentication (publickey) failed.
+2025-01-27 22:15:48,814 [INFO] Authentication (password) successful!
+2025-01-27 22:15:49,058 [INFO] [host ny-q5230-04 session 0x110fe6890] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:15:49,280 [INFO] [host ny-q5230-04 session 0x110fe6890] Received message from host
+2025-01-27 22:15:49,281 [INFO] [host ny-q5230-04 session-id 23465] initialized: session-id=23465 | server_capabilities=<dict_keyiterator object at 0x110fe9940>
+2025-01-27 22:15:49,281 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 22:15:49,281 [INFO] Connected to ny-q5230-04
+2025-01-27 22:15:49,282 [INFO] [host ny-q5230-04 session-id 23465] Requesting 'ExecuteRpc'
+2025-01-27 22:15:49,381 [INFO] [host ny-q5230-04 session-id 23465] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:230e2d23-9376-4963-be61-c540c65e587f"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:15:49,470 [INFO] [host ny-q5230-04 session-id 23465] Received message from host
+2025-01-27 22:15:49,472 [INFO] neighbors_dict: {}
+2025-01-27 22:15:49,918 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 22:15:50,115 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:15:50,678 [INFO] Authentication (publickey) failed.
+2025-01-27 22:15:50,769 [INFO] Authentication (password) successful!
+2025-01-27 22:15:50,982 [INFO] [host ny-q5240-13 session 0x110f92410] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:15:51,515 [INFO] [host ny-q5240-13 session 0x110f92410] Received message from host
+2025-01-27 22:15:51,517 [INFO] [host ny-q5240-13 session-id 24312] initialized: session-id=24312 | server_capabilities=<dict_keyiterator object at 0x110fe8d60>
+2025-01-27 22:15:51,518 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 22:15:51,518 [INFO] Connected to ny-q5240-13
+2025-01-27 22:15:51,518 [INFO] [host ny-q5240-13 session-id 24312] Requesting 'ExecuteRpc'
+2025-01-27 22:15:51,618 [INFO] [host ny-q5240-13 session-id 24312] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:c421949e-2327-4cce-93f3-fb395d66f8dc"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:15:51,666 [INFO] [host ny-q5240-13 session-id 24312] Received message from host
+2025-01-27 22:15:51,670 [INFO] neighbors_dict: {}
+2025-01-27 22:21:24,076 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading
+Test log write successful.
+2025-01-27 22:42:34,960 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/ai_nyc/debug.log
+2025-01-27 22:42:34,960 [INFO] Test log entry to verify logging setup.
+2025-01-27 22:42:35,110 [INFO] Fetching device list
+2025-01-27 22:42:35,124 [INFO] Fetching device list
+2025-01-27 22:43:27,884 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading
+Test log write successful.
+2025-01-27 22:47:54,309 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/ai_nyc/debug.log
+2025-01-27 22:47:54,309 [INFO] Test log entry to verify logging setup.
+2025-01-27 22:47:54,539 [INFO] Fetching device list
+2025-01-27 22:47:54,557 [INFO] Fetching device list
+2025-01-27 22:48:03,422 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 22:48:03,506 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:48:04,031 [INFO] Authentication (publickey) failed.
+2025-01-27 22:48:04,119 [INFO] Authentication (password) successful!
+2025-01-27 22:48:04,306 [INFO] [host ny-q5230-01 session 0x11130f5d0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:48:04,569 [INFO] [host ny-q5230-01 session 0x11130f5d0] Received message from host
+2025-01-27 22:48:04,571 [INFO] [host ny-q5230-01 session-id 31982] initialized: session-id=31982 | server_capabilities=<dict_keyiterator object at 0x11131c310>
+2025-01-27 22:48:04,572 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 22:48:04,572 [INFO] Connected to ny-q5230-01
+2025-01-27 22:48:04,573 [INFO] [host ny-q5230-01 session-id 31982] Requesting 'ExecuteRpc'
+2025-01-27 22:48:04,673 [INFO] [host ny-q5230-01 session-id 31982] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:47af51b5-c837-4f3e-a293-012608f9722b"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:48:04,720 [INFO] [host ny-q5230-01 session-id 31982] Received message from host
+2025-01-27 22:48:04,722 [INFO] neighbors_dict: {}
+2025-01-27 22:48:04,723 [WARNING] No LLDP neighbors found for ny-q5230-01
+2025-01-27 22:48:04,822 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 22:48:04,897 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:48:05,407 [INFO] Authentication (publickey) failed.
+2025-01-27 22:48:05,487 [INFO] Authentication (password) successful!
+2025-01-27 22:48:05,680 [INFO] [host ny-q5230-04 session 0x111356ad0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:48:05,952 [INFO] [host ny-q5230-04 session 0x111356ad0] Received message from host
+2025-01-27 22:48:05,952 [INFO] [host ny-q5230-04 session-id 24441] initialized: session-id=24441 | server_capabilities=<dict_keyiterator object at 0x11131f240>
+2025-01-27 22:48:05,953 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 22:48:05,953 [INFO] Connected to ny-q5230-04
+2025-01-27 22:48:05,953 [INFO] [host ny-q5230-04 session-id 24441] Requesting 'ExecuteRpc'
+2025-01-27 22:48:06,053 [INFO] [host ny-q5230-04 session-id 24441] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:710d97b6-9a2c-41e9-90cb-f8a5981bb5a8"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:48:06,098 [INFO] [host ny-q5230-04 session-id 24441] Received message from host
+2025-01-27 22:48:06,099 [INFO] neighbors_dict: {}
+2025-01-27 22:48:06,100 [WARNING] No LLDP neighbors found for ny-q5230-04
+2025-01-27 22:48:06,288 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 22:48:06,363 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:48:06,895 [INFO] Authentication (publickey) failed.
+2025-01-27 22:48:07,008 [INFO] Authentication (password) successful!
+2025-01-27 22:48:07,198 [INFO] [host ny-q5240-13 session 0x11137e610] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:48:07,589 [INFO] [host ny-q5240-13 session 0x11137e610] Received message from host
+2025-01-27 22:48:07,589 [INFO] [host ny-q5240-13 session-id 23067] initialized: session-id=23067 | server_capabilities=<dict_keyiterator object at 0x11134b830>
+2025-01-27 22:48:07,589 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 22:48:07,589 [INFO] Connected to ny-q5240-13
+2025-01-27 22:48:07,590 [INFO] [host ny-q5240-13 session-id 23067] Requesting 'ExecuteRpc'
+2025-01-27 22:48:07,694 [INFO] [host ny-q5240-13 session-id 23067] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:fce1473b-5b54-45da-bbfc-8c8cc0713078"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:48:07,766 [INFO] [host ny-q5240-13 session-id 23067] Received message from host
+2025-01-27 22:48:07,769 [INFO] neighbors_dict: {}
+2025-01-27 22:48:07,769 [WARNING] No LLDP neighbors found for ny-q5240-13
+2025-01-27 22:50:06,082 [INFO] Fetching device list
+2025-01-27 22:50:06,118 [INFO] Fetching device list
+2025-01-27 22:50:12,356 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 22:50:12,432 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:50:12,975 [INFO] Authentication (publickey) failed.
+2025-01-27 22:50:13,070 [INFO] Authentication (password) successful!
+2025-01-27 22:50:13,294 [INFO] [host ny-q5230-01 session 0x111391b90] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:50:13,540 [INFO] [host ny-q5230-01 session 0x111391b90] Received message from host
+2025-01-27 22:50:13,544 [INFO] [host ny-q5230-01 session-id 4207] initialized: session-id=4207 | server_capabilities=<dict_keyiterator object at 0x111309990>
+2025-01-27 22:50:13,545 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 22:50:13,545 [INFO] Connected to ny-q5230-01
+2025-01-27 22:50:13,545 [INFO] [host ny-q5230-01 session-id 4207] Requesting 'ExecuteRpc'
+2025-01-27 22:50:13,645 [INFO] [host ny-q5230-01 session-id 4207] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:f62f5366-bf7e-4e79-9a37-6a8a0ff93b33"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:50:13,701 [INFO] [host ny-q5230-01 session-id 4207] Received message from host
+2025-01-27 22:50:13,712 [INFO] neighbors_dict: {}
+2025-01-27 22:50:13,713 [WARNING] No LLDP neighbors found for ny-q5230-01
+2025-01-27 22:50:13,741 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 22:50:13,820 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:50:14,377 [INFO] Authentication (publickey) failed.
+2025-01-27 22:50:14,453 [INFO] Authentication (password) successful!
+2025-01-27 22:50:14,680 [INFO] [host ny-q5230-04 session 0x1111e6710] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:50:14,935 [INFO] [host ny-q5230-04 session 0x1111e6710] Received message from host
+2025-01-27 22:50:14,936 [INFO] [host ny-q5230-04 session-id 28710] initialized: session-id=28710 | server_capabilities=<dict_keyiterator object at 0x1113a3e70>
+2025-01-27 22:50:14,936 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 22:50:14,937 [INFO] Connected to ny-q5230-04
+2025-01-27 22:50:14,937 [INFO] [host ny-q5230-04 session-id 28710] Requesting 'ExecuteRpc'
+2025-01-27 22:50:15,036 [INFO] [host ny-q5230-04 session-id 28710] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:e6621efb-8d00-4db9-8a3d-599631433dcb"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:50:15,090 [INFO] [host ny-q5230-04 session-id 28710] Received message from host
+2025-01-27 22:50:15,092 [INFO] neighbors_dict: {}
+2025-01-27 22:50:15,093 [WARNING] No LLDP neighbors found for ny-q5230-04
+2025-01-27 22:50:15,115 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 22:50:15,210 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:50:15,767 [INFO] Authentication (publickey) failed.
+2025-01-27 22:50:15,861 [INFO] Authentication (password) successful!
+2025-01-27 22:50:16,056 [INFO] [host ny-q5240-13 session 0x111397b50] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:50:16,761 [INFO] [host ny-q5240-13 session 0x111397b50] Received message from host
+2025-01-27 22:50:16,762 [INFO] [host ny-q5240-13 session-id 27210] initialized: session-id=27210 | server_capabilities=<dict_keyiterator object at 0x1113a3b00>
+2025-01-27 22:50:16,762 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 22:50:16,762 [INFO] Connected to ny-q5240-13
+2025-01-27 22:50:16,762 [INFO] [host ny-q5240-13 session-id 27210] Requesting 'ExecuteRpc'
+2025-01-27 22:50:16,863 [INFO] [host ny-q5240-13 session-id 27210] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:2bb4f86d-1980-44c6-b0c3-f31deefde52e"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:50:16,917 [INFO] [host ny-q5240-13 session-id 27210] Received message from host
+2025-01-27 22:50:16,919 [INFO] neighbors_dict: {}
+2025-01-27 22:50:16,920 [WARNING] No LLDP neighbors found for ny-q5240-13
+2025-01-27 22:51:38,631 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-01-27 22:51:38,708 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:51:39,254 [INFO] Authentication (publickey) failed.
+2025-01-27 22:51:39,330 [INFO] Authentication (password) successful!
+2025-01-27 22:51:39,553 [INFO] [host ny-q5230-01 session 0x11119e6d0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:51:39,866 [INFO] [host ny-q5230-01 session 0x11119e6d0] Received message from host
+2025-01-27 22:51:39,867 [INFO] [host ny-q5230-01 session-id 7426] initialized: session-id=7426 | server_capabilities=<dict_keyiterator object at 0x1113a3ba0>
+2025-01-27 22:51:39,867 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-01-27 22:51:39,867 [INFO] Connected to ny-q5230-01
+2025-01-27 22:51:39,867 [INFO] [host ny-q5230-01 session-id 7426] Requesting 'ExecuteRpc'
+2025-01-27 22:51:39,967 [INFO] [host ny-q5230-01 session-id 7426] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:4884f837-30d4-4a2d-a81a-263fadd7f9b0"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:51:40,031 [INFO] [host ny-q5230-01 session-id 7426] Received message from host
+2025-01-27 22:51:40,034 [INFO] neighbors_dict: {}
+2025-01-27 22:51:40,034 [WARNING] No LLDP neighbors found for ny-q5230-01
+2025-01-27 22:51:40,133 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-01-27 22:51:40,206 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:51:40,718 [INFO] Authentication (publickey) failed.
+2025-01-27 22:51:40,805 [INFO] Authentication (password) successful!
+2025-01-27 22:51:41,030 [INFO] [host ny-q5230-04 session 0x111161b90] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:51:41,315 [INFO] [host ny-q5230-04 session 0x111161b90] Received message from host
+2025-01-27 22:51:41,315 [INFO] [host ny-q5230-04 session-id 31613] initialized: session-id=31613 | server_capabilities=<dict_keyiterator object at 0x1113b31f0>
+2025-01-27 22:51:41,315 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-01-27 22:51:41,315 [INFO] Connected to ny-q5230-04
+2025-01-27 22:51:41,315 [INFO] [host ny-q5230-04 session-id 31613] Requesting 'ExecuteRpc'
+2025-01-27 22:51:41,416 [INFO] [host ny-q5230-04 session-id 31613] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:ca485b77-c0e7-48f2-b4dd-bfa1a1ef5f61"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:51:41,468 [INFO] [host ny-q5230-04 session-id 31613] Received message from host
+2025-01-27 22:51:41,471 [INFO] neighbors_dict: {}
+2025-01-27 22:51:41,471 [WARNING] No LLDP neighbors found for ny-q5230-04
+2025-01-27 22:51:41,589 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-01-27 22:51:41,660 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-01-27 22:51:42,162 [INFO] Authentication (publickey) failed.
+2025-01-27 22:51:42,265 [INFO] Authentication (password) successful!
+2025-01-27 22:51:42,450 [INFO] [host ny-q5240-13 session 0x1113b9010] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-01-27 22:51:42,751 [INFO] [host ny-q5240-13 session 0x1113b9010] Received message from host
+2025-01-27 22:51:42,752 [INFO] [host ny-q5240-13 session-id 29806] initialized: session-id=29806 | server_capabilities=<dict_keyiterator object at 0x1113632e0>
+2025-01-27 22:51:42,752 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-01-27 22:51:42,752 [INFO] Connected to ny-q5240-13
+2025-01-27 22:51:42,752 [INFO] [host ny-q5240-13 session-id 29806] Requesting 'ExecuteRpc'
+2025-01-27 22:51:42,852 [INFO] [host ny-q5240-13 session-id 29806] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:a0e3943c-da9a-4578-820c-7d389e6d95ce"><get-lldp-neighbors-information/></nc:rpc>]]>]]>'
+2025-01-27 22:51:42,918 [INFO] [host ny-q5240-13 session-id 29806] Received message from host
+2025-01-27 22:51:42,920 [INFO] neighbors_dict: {}
+2025-01-27 22:51:42,920 [WARNING] No LLDP neighbors found for ny-q5240-13
+2025-01-27 22:52:26,512 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading
+Test log write successful.
+2025-02-21 09:50:39,082 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/ai_nyc/debug.log
+2025-02-21 09:50:39,082 [INFO] Test log entry to verify logging setup.
+2025-02-21 09:50:39,082 [INFO] User-specific log folder set up at: /Users/surajsharma/FLASK/app/logs/ai_nyc
+2025-02-21 09:50:39,084 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-21 09:50:39,094 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET / HTTP/1.1" 200 -
+2025-02-21 09:50:39,137 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /static/css/easy_config.css HTTP/1.1" 200 -
+2025-02-21 09:50:39,137 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,137 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,138 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,138 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,139 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/upload_device_config.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,143 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,143 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/xmlRobotDebugger.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,144 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "[36mGET /static/index.js HTTP/1.1[0m" 304 -
+2025-02-21 09:50:39,144 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /static/favicon.ico HTTP/1.1" 200 -
+2025-02-21 09:50:39,243 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWPh HTTP/1.1" 200 -
+2025-02-21 09:50:39,244 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWPi HTTP/1.1" 200 -
+2025-02-21 09:50:39,245 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWPi.0 HTTP/1.1" 200 -
+2025-02-21 09:50:39,247 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWPj HTTP/1.1" 200 -
+2025-02-21 09:50:39,250 [INFO] Fetching device list
+2025-02-21 09:50:39,253 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /api/devices HTTP/1.1" 200 -
+2025-02-21 09:50:39,255 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /list_uploaded_images HTTP/1.1" 200 -
+2025-02-21 09:50:39,258 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /getCategories HTTP/1.1" 200 -
+2025-02-21 09:50:39,260 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "POST /socket.io/?EIO=4&transport=polling&t=PKfeWQJ&sid=4MZE4SPAfHtLnqmiAABh HTTP/1.1" 200 -
+2025-02-21 09:50:39,262 [INFO] Fetching device list
+2025-02-21 09:50:39,263 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQM&sid=4MZE4SPAfHtLnqmiAABh HTTP/1.1" 200 -
+2025-02-21 09:50:39,265 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "POST /socket.io/?EIO=4&transport=polling&t=PKfeWQN&sid=i904MJLrlq1MrDL_AABg HTTP/1.1" 200 -
+2025-02-21 09:50:39,267 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQO&sid=i904MJLrlq1MrDL_AABg HTTP/1.1" 200 -
+2025-02-21 09:50:39,268 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "POST /socket.io/?EIO=4&transport=polling&t=PKfeWQP&sid=5uRYZfjy9Sk3JbshAABi HTTP/1.1" 200 -
+2025-02-21 09:50:39,269 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQQ&sid=5uRYZfjy9Sk3JbshAABi HTTP/1.1" 200 -
+2025-02-21 09:50:39,270 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /api/devices HTTP/1.1" 200 -
+2025-02-21 09:50:39,271 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "POST /socket.io/?EIO=4&transport=polling&t=PKfeWQQ.0&sid=8uY7tk-tKNrNSIR3AABj HTTP/1.1" 200 -
+2025-02-21 09:50:39,272 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /getCategories HTTP/1.1" 200 -
+2025-02-21 09:50:39,274 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQS&sid=8uY7tk-tKNrNSIR3AABj HTTP/1.1" 200 -
+2025-02-21 09:50:39,279 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /getCategories HTTP/1.1" 200 -
+2025-02-21 09:50:39,287 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQf&sid=4MZE4SPAfHtLnqmiAABh HTTP/1.1" 200 -
+2025-02-21 09:50:39,295 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQh&sid=i904MJLrlq1MrDL_AABg HTTP/1.1" 200 -
+2025-02-21 09:50:39,313 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWR0&sid=4MZE4SPAfHtLnqmiAABh HTTP/1.1" 200 -
+2025-02-21 09:50:39,314 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWR2&sid=i904MJLrlq1MrDL_AABg HTTP/1.1" 200 -
+2025-02-21 09:50:39,316 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQi&sid=5uRYZfjy9Sk3JbshAABi HTTP/1.1" 200 -
+2025-02-21 09:50:39,320 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:39] "GET /socket.io/?EIO=4&transport=polling&t=PKfeWQn&sid=8uY7tk-tKNrNSIR3AABj HTTP/1.1" 200 -
+2025-02-21 09:50:45,758 [INFO] Attempting connection to ny-q5230-01 using hostname (Attempt 1).
+2025-02-21 09:50:45,934 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-02-21 09:50:46,423 [INFO] Authentication (publickey) failed.
+2025-02-21 09:50:46,466 [INFO] Authentication (password) successful!
+2025-02-21 09:50:46,789 [INFO] [host ny-q5230-01 session 0x1078210d0] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-02-21 09:50:47,239 [INFO] [host ny-q5230-01 session 0x1078210d0] Received message from host
+2025-02-21 09:50:47,240 [INFO] [host ny-q5230-01 session-id 2523] initialized: session-id=2523 | server_capabilities=<dict_keyiterator object at 0x107829490>
+2025-02-21 09:50:47,240 [INFO] Successfully connected to ny-q5230-01 using hostname.
+2025-02-21 09:50:47,241 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:47,341 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:872df516-2199-4290-a83c-1380c7c5c009"><get-route-engine-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:47,374 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:47,377 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:47,475 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:3d2426dd-ddc9-4f2d-9d63-d656229f9dbf"><file-list><path>~</path></file-list></nc:rpc>]]>]]>'
+2025-02-21 09:50:47,529 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:47,531 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:47,632 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:d8528c1d-6937-47f8-8ec8-0098cea6c6ec"><get-chassis-inventory/></nc:rpc>]]>]]>'
+2025-02-21 09:50:47,668 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:47,671 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:47,770 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5dfe1918-46be-422d-809b-3a6cd2b0a4ff"><file-show><filename>/usr/share/cevo/cevo_version</filename></file-show></nc:rpc>]]>]]>'
+2025-02-21 09:50:47,824 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:47,825 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:47,926 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:2a892ba8-fc72-4c69-838f-340ed30f84b7"><get-system-nodes-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:47,973 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:47,976 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,075 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:2663118b-88e3-4a76-932f-49056ab88a61"><get-configuration database="committed" inherit="inherit" commit-scripts="apply"><configuration>\n            <system>\n                <domain-name/>\n             </system>\n        </configuration></get-configuration></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,159 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,162 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,261 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5d5e7fac-c921-4532-9336-14a4f10d845f"><command>show version invoke-on all-routing-engines</command></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,451 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,453 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,552 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:c7413e8a-bfc5-4631-b382-37ca96e5191d"><get-chassis-cluster-status/></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,579 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,580 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,681 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:84ba31aa-6f7d-41ba-bfeb-6c240eb3c480"><get-ethernet-switching-table-information><summary/></get-ethernet-switching-table-information></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,707 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,709 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,809 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:0da818c0-055b-4fd7-a944-82bf2a6451ec"><command>show bridge mac-table count</command></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,835 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,836 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'ExecuteRpc'
+2025-02-21 09:50:48,936 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:31bcc1d8-d43b-4934-9c79-5811d98459d0"><get-virtual-chassis-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:48,962 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:48,963 [INFO] Device Facts for ny-q5230-01: {'2RE': False, 'HOME': '/home/root', 'RE0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot', 'up_time': '7 days, 14 hours, 54 minutes, 34 seconds'}, 'RE1': None, 'RE_hw_mi': False, 'current_re': ['re0'], 'domain': 'englab.juniper.net', 'fqdn': None, 'hostname': None, 'hostname_info': None, 'ifd_style': 'CLASSIC', 'junos_info': None, 'master': 'RE0', 'model': None, 'model_info': None, 'personality': None, 're_info': {'default': {'0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot'}, 'default': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot'}}}, 're_master': {'default': '0'}, 'serialnumber': 'FU3424AN0010', 'srx_cluster': None, 'srx_cluster_id': None, 'srx_cluster_redundancy_group': None, 'switch_style': None, 'vc_capable': False, 'vc_fabric': None, 'vc_master': None, 'vc_mode': None, 'version': None, 'version_RE0': None, 'version_RE1': None, 'version_info': None, 'virtual': None}
+2025-02-21 09:50:48,965 [INFO] [host ny-q5230-01 session-id 2523] Requesting 'CloseSession'
+2025-02-21 09:50:49,064 [INFO] [host ny-q5230-01 session-id 2523] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:bfe62ff1-043e-4732-a824-b8cd2ee51c8a"><nc:close-session/></nc:rpc>]]>]]>'
+2025-02-21 09:50:49,091 [INFO] [host ny-q5230-01 session-id 2523] Received message from host
+2025-02-21 09:50:49,094 [INFO] Closed connection to ny-q5230-01 (or IP ny-q5230-01)
+2025-02-21 09:50:49,455 [INFO] Attempting connection to ny-q5230-04 using hostname (Attempt 1).
+2025-02-21 09:50:49,634 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-02-21 09:50:50,071 [INFO] Authentication (publickey) failed.
+2025-02-21 09:50:50,128 [INFO] Authentication (password) successful!
+2025-02-21 09:50:50,323 [INFO] [host ny-q5230-04 session 0x106ac9c10] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-02-21 09:50:50,688 [INFO] [host ny-q5230-04 session 0x106ac9c10] Received message from host
+2025-02-21 09:50:50,689 [INFO] [host ny-q5230-04 session-id 22858] initialized: session-id=22858 | server_capabilities=<dict_keyiterator object at 0x10779ea20>
+2025-02-21 09:50:50,690 [INFO] Successfully connected to ny-q5230-04 using hostname.
+2025-02-21 09:50:50,690 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:50,791 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:7c44e2a2-cb18-4f0a-a070-ecef161dd5ce"><get-route-engine-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,087 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,089 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,188 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:05876ded-28ac-40fe-90a7-6271fa56b849"><file-list><path>~</path></file-list></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,236 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,239 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,338 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:ab962c9a-18cb-46ef-92d9-b42b32ec933e"><get-chassis-inventory/></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,394 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,399 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,497 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:b65ad043-047c-489d-956f-5e49bdd43c27"><file-show><filename>/usr/share/cevo/cevo_version</filename></file-show></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,535 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,538 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,638 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:8c02ed75-9b9f-4b3b-b4b7-df2b35d077c7"><get-system-nodes-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,698 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,702 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,800 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:da3ba646-16ea-4aa3-a04d-d3737293ddb2"><get-configuration database="committed" inherit="inherit" commit-scripts="apply"><configuration>\n            <system>\n                <domain-name/>\n             </system>\n        </configuration></get-configuration></nc:rpc>]]>]]>'
+2025-02-21 09:50:51,889 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:51,890 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:51,990 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:edb50f1e-3e98-4410-83a5-fea7fd6e703c"><command>show version invoke-on all-routing-engines</command></nc:rpc>]]>]]>'
+2025-02-21 09:50:52,181 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:52,182 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:52,282 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:44fb2446-52e8-4753-972e-806d6b6063d5"><get-chassis-cluster-status/></nc:rpc>]]>]]>'
+2025-02-21 09:50:52,309 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:52,311 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:52,418 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:4d174659-37a8-4b18-ab8d-ce2056be8777"><get-ethernet-switching-table-information><summary/></get-ethernet-switching-table-information></nc:rpc>]]>]]>'
+2025-02-21 09:50:52,458 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:52,460 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'ExecuteRpc'
+2025-02-21 09:50:52,560 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:c6576534-d935-4791-8c74-d00dbf2b4231"><get-virtual-chassis-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:52,600 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:52,602 [INFO] Device Facts for ny-q5230-04: {'2RE': False, 'HOME': '/home/root', 'RE0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot', 'up_time': '7 days, 14 hours, 53 minutes, 35 seconds'}, 'RE1': None, 'RE_hw_mi': False, 'current_re': ['re0'], 'domain': 'englab.juniper.net', 'fqdn': None, 'hostname': None, 'hostname_info': None, 'ifd_style': 'CLASSIC', 'junos_info': None, 'master': 'RE0', 'model': None, 'model_info': None, 'personality': None, 're_info': {'default': {'0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot'}, 'default': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5230-64CD', 'last_reboot_reason': 'software reboot'}}}, 're_master': {'default': '0'}, 'serialnumber': 'FU1924AN0088', 'srx_cluster': None, 'srx_cluster_id': None, 'srx_cluster_redundancy_group': None, 'switch_style': 'VLAN_L2NG', 'vc_capable': False, 'vc_fabric': None, 'vc_master': None, 'vc_mode': None, 'version': None, 'version_RE0': None, 'version_RE1': None, 'version_info': None, 'virtual': None}
+2025-02-21 09:50:52,603 [INFO] [host ny-q5230-04 session-id 22858] Requesting 'CloseSession'
+2025-02-21 09:50:52,703 [INFO] [host ny-q5230-04 session-id 22858] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:d24ad5d0-19b6-4bc6-9975-c76119081a93"><nc:close-session/></nc:rpc>]]>]]>'
+2025-02-21 09:50:52,763 [INFO] [host ny-q5230-04 session-id 22858] Received message from host
+2025-02-21 09:50:52,768 [INFO] Closed connection to ny-q5230-04 (or IP ny-q5230-04)
+2025-02-21 09:50:53,127 [INFO] Attempting connection to ny-q5240-13 using hostname (Attempt 1).
+2025-02-21 09:50:53,305 [INFO] Connected (version 2.0, client OpenSSH_7.5)
+2025-02-21 09:50:53,744 [INFO] Authentication (publickey) failed.
+2025-02-21 09:50:53,796 [INFO] Authentication (password) successful!
+2025-02-21 09:50:53,988 [INFO] [host ny-q5240-13 session 0x107725f10] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:capabilities><nc:capability>urn:ietf:params:netconf:base:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:base:1.1</nc:capability><nc:capability>urn:ietf:params:netconf:capability:writable-running:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:candidate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:startup:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file,https,sftp</nc:capability><nc:capability>urn:ietf:params:netconf:capability:validate:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:xpath:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:notification:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:interleave:1.0</nc:capability><nc:capability>urn:ietf:params:netconf:capability:with-defaults:1.0</nc:capability></nc:capabilities></nc:hello>]]>]]>'
+2025-02-21 09:50:54,216 [INFO] [host ny-q5240-13 session 0x107725f10] Received message from host
+2025-02-21 09:50:54,224 [INFO] [host ny-q5240-13 session-id 23583] initialized: session-id=23583 | server_capabilities=<dict_keyiterator object at 0x106b11fd0>
+2025-02-21 09:50:54,224 [INFO] Successfully connected to ny-q5240-13 using hostname.
+2025-02-21 09:50:54,224 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:54,325 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:d09074ae-6327-453a-910e-60d22a64f656"><get-route-engine-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,142 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,144 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,244 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5a8320a5-f30d-47c2-8f29-a10116e851f5"><file-list><path>~</path></file-list></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,302 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,303 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,403 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:68e138c8-c407-4d0f-9cbb-f427be8ac9e8"><get-chassis-inventory/></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,434 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,434 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,535 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:7b9db8d3-28f6-4fb0-b382-bb71c03b4c4d"><file-show><filename>/usr/share/cevo/cevo_version</filename></file-show></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,573 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,574 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,675 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:dc19570b-7303-4b14-a6e2-3289cdf23bd3"><get-system-nodes-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,724 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,726 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,826 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:779d62b9-121f-4a23-83f3-2c98b5bb9761"><get-configuration database="committed" inherit="inherit" commit-scripts="apply"><configuration>\n            <system>\n                <domain-name/>\n             </system>\n        </configuration></get-configuration></nc:rpc>]]>]]>'
+2025-02-21 09:50:55,880 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:55,882 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:55,982 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5f8a7286-494a-421e-90d7-0905fdc61749"><command>show version invoke-on all-routing-engines</command></nc:rpc>]]>]]>'
+2025-02-21 09:50:56,169 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:56,172 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:56,270 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:bcd5d240-aaab-42f6-9c87-57e77cd509c5"><get-chassis-cluster-status/></nc:rpc>]]>]]>'
+2025-02-21 09:50:56,299 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:56,301 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:56,401 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:5668b582-ca31-4a9a-ae2f-e4858aea39e6"><get-ethernet-switching-table-information><summary/></get-ethernet-switching-table-information></nc:rpc>]]>]]>'
+2025-02-21 09:50:56,426 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:56,427 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'ExecuteRpc'
+2025-02-21 09:50:56,527 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:afc7a076-67d5-4887-8710-b207aac6b8b0"><get-virtual-chassis-information/></nc:rpc>]]>]]>'
+2025-02-21 09:50:56,552 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:56,552 [INFO] Device Facts for ny-q5240-13: {'2RE': False, 'HOME': '/home/root', 'RE0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5240', 'last_reboot_reason': 'software reboot', 'up_time': '10 hours, 53 minutes, 55 seconds'}, 'RE1': None, 'RE_hw_mi': False, 'current_re': ['re0'], 'domain': 'englab.juniper.net', 'fqdn': None, 'hostname': None, 'hostname_info': None, 'ifd_style': 'CLASSIC', 'junos_info': None, 'master': 'RE0', 'model': None, 'model_info': None, 'personality': None, 're_info': {'default': {'0': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5240', 'last_reboot_reason': 'software reboot'}, 'default': {'mastership_state': 'Master', 'status': 'OK', 'model': 'RE-QFX5240', 'last_reboot_reason': 'software reboot'}}}, 're_master': {'default': '0'}, 'serialnumber': 'AO08034488', 'srx_cluster': None, 'srx_cluster_id': None, 'srx_cluster_redundancy_group': None, 'switch_style': 'VLAN_L2NG', 'vc_capable': False, 'vc_fabric': None, 'vc_master': None, 'vc_mode': None, 'version': None, 'version_RE0': None, 'version_RE1': None, 'version_info': None, 'virtual': None}
+2025-02-21 09:50:56,552 [INFO] [host ny-q5240-13 session-id 23583] Requesting 'CloseSession'
+2025-02-21 09:50:56,653 [INFO] [host ny-q5240-13 session-id 23583] Sending:
+b'<?xml version="1.0" encoding="UTF-8"?><nc:rpc xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:3e0a14b7-d022-4b81-9786-37ba8394c4a5"><nc:close-session/></nc:rpc>]]>]]>'
+2025-02-21 09:50:56,678 [INFO] [host ny-q5240-13 session-id 23583] Received message from host
+2025-02-21 09:50:56,680 [INFO] Closed connection to ny-q5240-13 (or IP ny-q5240-13)
+2025-02-21 09:50:56,698 [INFO] 127.0.0.1 - - [21/Feb/2025 09:50:56] "POST /api/refresh_versions HTTP/1.1" 200 -
+2025-02-21 09:51:17,898 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:17] "POST /open_ssh_terminal HTTP/1.1" 200 -
+2025-02-21 09:51:30,415 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "GET /socket.io/?EIO=4&transport=websocket&sid=5uRYZfjy9Sk3JbshAABi HTTP/1.1" 200 -
+2025-02-21 09:51:30,415 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "GET /socket.io/?EIO=4&transport=websocket&sid=4MZE4SPAfHtLnqmiAABh HTTP/1.1" 200 -
+2025-02-21 09:51:30,416 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "GET /socket.io/?EIO=4&transport=websocket&sid=i904MJLrlq1MrDL_AABg HTTP/1.1" 200 -
+2025-02-21 09:51:30,416 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "GET /socket.io/?EIO=4&transport=websocket&sid=8uY7tk-tKNrNSIR3AABj HTTP/1.1" 200 -
+2025-02-21 09:51:30,446 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-21 09:51:30,453 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-21 09:51:30,467 [INFO] 127.0.0.1 - - [21/Feb/2025 09:51:30] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-21 09:51:34,955 [INFO] DEBUG: session['LOG_FOLDER'] set to /Users/surajsharma/FLASK/app/logs/tesla

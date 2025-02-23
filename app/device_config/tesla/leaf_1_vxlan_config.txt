@@ -1,0 +1,67 @@
+set routing-instances MACVRF_VLAN_AWARE instance-type mac-vrf
+set routing-instances MACVRF_VLAN_AWARE service-type vlan-aware
+set routing-instances MACVRF_VLAN_AWARE protocols evpn encapsulation vxlan
+set routing-instances MACVRF_VLAN_AWARE protocols evpn default-gateway no-gateway-community
+set routing-instances MACVRF_VLAN_AWARE protocols evpn remote-ip-host-routes
+set routing-instances MACVRF_VLAN_AWARE vtep-source-interface lo0.0
+set routing-options route-distinguisher 20.0.0.2:1001
+set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list 30000
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:20.0.0.2:100
+set routing-instances MACVRF_VLAN_AWARE vlans vlan100 vlan-id 100
+set routing-instances MACVRF_VLAN_AWARE vlans vlan100 vxlan vni 30000
+set routing-instances MACVRF_VLAN_AWARE vlans vlan100 l3-interface irb.100
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher 1001:100
+set routing-instances vrf_vlan100 instance-type vrf
+set routing-instances vrf_vlan100 interface irb.100
+set routing-instances vrf_vlan100 route-distinguisher 20.0.0.2:100
+set routing-instances vrf_vlan100 vrf-target target:20.0.0.2:100
+set interfaces irb.100 family inet address 192.168.0.1/24
+set interfaces irb.100 family inet6 address 2001:192:0::1/64
+set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list 30001
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:20.0.0.2:101
+set routing-instances MACVRF_VLAN_AWARE vlans vlan101 vlan-id 101
+set routing-instances MACVRF_VLAN_AWARE vlans vlan101 vxlan vni 30001
+set routing-instances MACVRF_VLAN_AWARE vlans vlan101 l3-interface irb.101
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher 1001:101
+set routing-instances vrf_vlan101 instance-type vrf
+set routing-instances vrf_vlan101 interface irb.101
+set routing-instances vrf_vlan101 route-distinguisher 20.0.0.2:101
+set routing-instances vrf_vlan101 vrf-target target:20.0.0.2:101
+set interfaces irb.101 family inet address 192.168.1.1/24
+set interfaces irb.101 family inet6 address 2001:192:1::1/64
+set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list 30002
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:20.0.0.2:102
+set routing-instances MACVRF_VLAN_AWARE vlans vlan102 vlan-id 102
+set routing-instances MACVRF_VLAN_AWARE vlans vlan102 vxlan vni 30002
+set routing-instances MACVRF_VLAN_AWARE vlans vlan102 l3-interface irb.102
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher 1001:102
+set routing-instances vrf_vlan102 instance-type vrf
+set routing-instances vrf_vlan102 interface irb.102
+set routing-instances vrf_vlan102 route-distinguisher 20.0.0.2:102
+set routing-instances vrf_vlan102 vrf-target target:20.0.0.2:102
+set interfaces irb.102 family inet address 192.168.2.1/24
+set interfaces irb.102 family inet6 address 2001:192:2::1/64
+set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list 30003
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:20.0.0.2:103
+set routing-instances MACVRF_VLAN_AWARE vlans vlan103 vlan-id 103
+set routing-instances MACVRF_VLAN_AWARE vlans vlan103 vxlan vni 30003
+set routing-instances MACVRF_VLAN_AWARE vlans vlan103 l3-interface irb.103
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher 1001:103
+set routing-instances vrf_vlan103 instance-type vrf
+set routing-instances vrf_vlan103 interface irb.103
+set routing-instances vrf_vlan103 route-distinguisher 20.0.0.2:103
+set routing-instances vrf_vlan103 vrf-target target:20.0.0.2:103
+set interfaces irb.103 family inet address 192.168.3.1/24
+set interfaces irb.103 family inet6 address 2001:192:3::1/64
+set routing-instances MACVRF_VLAN_AWARE protocols evpn extended-vni-list 30004
+set routing-instances MACVRF_VLAN_AWARE vrf-target target:20.0.0.2:104
+set routing-instances MACVRF_VLAN_AWARE vlans vlan104 vlan-id 104
+set routing-instances MACVRF_VLAN_AWARE vlans vlan104 vxlan vni 30004
+set routing-instances MACVRF_VLAN_AWARE vlans vlan104 l3-interface irb.104
+set routing-instances MACVRF_VLAN_AWARE route-distinguisher 1001:104
+set routing-instances vrf_vlan104 instance-type vrf
+set routing-instances vrf_vlan104 interface irb.104
+set routing-instances vrf_vlan104 route-distinguisher 20.0.0.2:104
+set routing-instances vrf_vlan104 vrf-target target:20.0.0.2:104
+set interfaces irb.104 family inet address 192.168.4.1/24
+set interfaces irb.104 family inet6 address 2001:192:4::1/64

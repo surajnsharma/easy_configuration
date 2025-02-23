@@ -1,0 +1,138 @@
+
+set version 25.2I-20250128_dev_common.0.0257
+set groups global system root-authentication encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/"
+set groups global system login class wheel permissions admin
+set groups global system login class wheel permissions clear
+set groups global system login class wheel permissions field
+set groups global system login class wheel permissions floppy
+set groups global system login class wheel permissions interface
+set groups global system login class wheel permissions maintenance
+set groups global system login class wheel permissions network
+set groups global system login class wheel permissions reset
+set groups global system login class wheel permissions routing
+set groups global system login class wheel permissions shell
+set groups global system login class wheel permissions snmp
+set groups global system login class wheel permissions system
+set groups global system login class wheel permissions trace
+set groups global system login class wheel permissions view
+set groups global system login class readonly permissions interface
+set groups global system login class readonly permissions network
+set groups global system login class readonly permissions routing
+set groups global system login class readonly permissions system
+set groups global system login class readonly permissions trace
+set groups global system login class readonly permissions view
+set groups global system login user regress uid 928
+set groups global system login user regress class superuser
+set groups global system login user regress shell csh
+set groups global system login user regress authentication encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."
+set groups global system login user fregress uid 929
+set groups global system login user fregress class superuser
+set groups global system login user fregress shell csh
+set groups global system login user fregress authentication encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/"
+set groups global system login user remote uid 9999
+set groups global system login user remote class superuser
+set groups global system login user remote shell csh
+set groups global system services netconf ssh
+set groups global system services ssh root-login allow
+set groups global system services finger
+set groups global system services ftp
+set groups global system services telnet
+set groups global system services xnm-clear-text
+set groups global system domain-name englab.juniper.net
+set groups global system domain-search englab.juniper.net
+set groups global system domain-search juniper.net
+set groups global system domain-search jnpr.net
+set groups global system domain-search spglab.juniper.net
+set groups global system time-zone America/Los_Angeles
+set groups global system debugger-on-panic
+set groups global system debugger-on-break
+set groups global system dump-on-panic
+set groups global system authentication-order password
+set groups global system name-server 10.92.236.2
+set groups global system name-server 10.48.144.9
+set groups global system syslog file messages kernel info
+set groups global system syslog file messages any notice
+set groups global system syslog file messages authorization info
+set groups global system syslog file messages pfe info
+set groups global system syslog file messages archive world-readable
+set groups global system syslog file security interactive-commands any
+set groups global system syslog file security archive world-readable
+set groups global system processes routing enable
+set groups global system processes ntp enable
+set groups global system processes management enable
+set groups global system processes watchdog enable
+set groups global system processes snmp enable
+set groups global system processes inet-process enable
+set groups global system processes mib-process enable
+set groups global system ntp server 66.129.233.81
+set groups global chassis dump-on-panic
+set groups global interfaces lo0 unit 0 family inet address 127.0.0.1/32
+set groups global interfaces lo0 unit 0 family inet address 10.255.30.207/32 primary
+set groups global interfaces lo0 unit 0 family iso address 47.0005.80ff.f800.0000.0108.0001.0102.5503.0207.00
+set groups global interfaces lo0 unit 0 family inet6 address abcd::10:255:30:207/128 primary
+set groups global snmp location "Systest lab"
+set groups global snmp contact "Jay Lloyd"
+set groups global snmp interface em0.0
+set groups global snmp community public authorization read-only
+set groups global snmp community private authorization read-write
+set groups global routing-options router-id 10.255.30.207
+set groups global routing-options static route 172.16.0.0/12 next-hop 10.92.229.254
+set groups global routing-options static route 172.16.0.0/12 retain
+set groups global routing-options static route 172.16.0.0/12 no-readvertise
+set groups global routing-options static route 192.168.0.0/16 next-hop 10.92.229.254
+set groups global routing-options static route 192.168.0.0/16 retain
+set groups global routing-options static route 192.168.0.0/16 no-readvertise
+set groups global routing-options static route 207.17.136.0/24 next-hop 10.92.229.254
+set groups global routing-options static route 207.17.136.0/24 retain
+set groups global routing-options static route 207.17.136.0/24 no-readvertise
+set groups global routing-options static route 10.0.0.0/10 next-hop 10.92.229.254
+set groups global routing-options static route 10.0.0.0/10 retain
+set groups global routing-options static route 10.0.0.0/10 no-readvertise
+set groups global routing-options static route 10.64.0.0/10 next-hop 10.92.229.254
+set groups global routing-options static route 10.64.0.0/10 retain
+set groups global routing-options static route 10.64.0.0/10 no-readvertise
+set groups global routing-options static route 10.128.0.0/10 next-hop 10.92.229.254
+set groups global routing-options static route 10.128.0.0/10 retain
+set groups global routing-options static route 10.128.0.0/10 no-readvertise
+set groups global routing-options static route 10.192.0.0/11 next-hop 10.92.229.254
+set groups global routing-options static route 10.192.0.0/11 retain
+set groups global routing-options static route 10.192.0.0/11 no-readvertise
+set groups global routing-options static route 10.224.0.0/12 next-hop 10.92.229.254
+set groups global routing-options static route 10.224.0.0/12 retain
+set groups global routing-options static route 10.224.0.0/12 no-readvertise
+set groups global routing-options static route 10.240.0.0/13 next-hop 10.92.229.254
+set groups global routing-options static route 10.240.0.0/13 retain
+set groups global routing-options static route 10.240.0.0/13 no-readvertise
+set groups global routing-options static route 10.248.0.0/14 next-hop 10.92.229.254
+set groups global routing-options static route 10.248.0.0/14 retain
+set groups global routing-options static route 10.248.0.0/14 no-readvertise
+set groups global routing-options static route 10.252.0.0/15 next-hop 10.92.229.254
+set groups global routing-options static route 10.252.0.0/15 retain
+set groups global routing-options static route 10.252.0.0/15 no-readvertise
+set groups global routing-options static route 10.254.0.0/16 next-hop 10.92.229.254
+set groups global routing-options static route 10.254.0.0/16 retain
+set groups global routing-options static route 10.254.0.0/16 no-readvertise
+set groups global routing-options static route 66.129.0.0/16 next-hop 10.92.229.254
+set groups global routing-options static route 66.129.0.0/16 retain
+set groups global routing-options static route 66.129.0.0/16 no-readvertise
+set groups global routing-options static route 10.48.0.0/15 next-hop 10.92.229.254
+set groups global routing-options static route 10.48.0.0/15 retain
+set groups global routing-options static route 10.48.0.0/15 no-readvertise
+set groups member0 system host-name svla-q5120-05
+set groups member0 system backup-router 10.92.229.254
+set groups member0 interfaces em0 unit 0 family inet address 10.92.229.82/23
+set apply-groups global
+set apply-groups member0
+set system services extension-service request-response grpc clear-text address 0.0.0.0
+set system services extension-service request-response grpc clear-text port 50051
+set system services extension-service request-response grpc max-connections 30
+set system services extension-service request-response grpc skip-authentication
+set system services extension-service notification allow-clients address 0.0.0.0/0
+set system ports console log-out-on-disconnect
+set system packet-forwarding-options hw-resource-monitor resource-list R1 resource-names all-resources
+set system packet-forwarding-options hw-resource-monitor resource-list R1 monitor-profile M1
+set system packet-forwarding-options hw-resource-monitor monitor-profile M1 lower-threshold 50
+set system packet-forwarding-options hw-resource-monitor monitor-profile M1 upper-threshold 80
+set system packet-forwarding-options hw-resource-monitor monitor-profile M1 notification-type alarm
+set system packet-forwarding-options hw-resource-monitor polling-interval 1000
+set chassis fpc 0 pic 0 port 50 channel-speed 10g

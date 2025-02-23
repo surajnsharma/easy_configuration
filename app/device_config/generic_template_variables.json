@@ -1,0 +1,47 @@
+{
+    "spine_ips": [
+        "10.0.0.1",
+        "10.0.0.2"
+    ],
+    "leaf_ips": [
+        "10.0.1.1",
+        "10.0.1.2"
+    ],
+    "base_ip_parts": [
+        10,
+        0,
+        1
+    ],
+    "base_ipv6_parts": [
+        "2001",
+        "db8",
+        "0"
+    ],
+    "last_octet": 100,
+    "base_vxlan_vni": 10000,
+    "base_vxlan_vlan_id": 200,
+    "num_vxlan_configs": 2,
+    "overlay_service_type": "generic",
+    "leaf_base_as": 65001,
+    "spine_base_as": 65000,
+    "service_count": 5,
+    "service_int_leaves": [
+        "et-0/0/1",
+        "et-0/0/2"
+    ],
+    "esi_lag_services": [
+        {
+            "esi_id": "00:00:00:00:00:00:00:00:00:01",
+            "lag_intfs": [
+                "ae1"
+            ]
+        }
+    ],
+    "leaf_tags": [
+        "tag1",
+        "tag2"
+    ],
+    "spine_tags": [
+        "tag1"
+    ]
+}

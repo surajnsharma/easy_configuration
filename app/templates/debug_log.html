@@ -4,12 +4,73 @@
     <meta charset="UTF-8">
     <title>Debug Log</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Styling for flash messages */
+        .flash-message {
+            color: orange; /* Flash message color */
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Optional styling for preformatted log content */
+        pre {
+            background-color: #f9f9f9; /* Light gray background */
+            border: 1px solid #ccc; /* Border around the log content */
+            padding: 10px;
+            overflow-x: auto; /* Horizontal scroll for long lines */
+            font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+        }
+
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333; /* Darker text for the heading */
+            text-align: center;
+        }
+
+        a {
+            color: #007bff; /* Bootstrap-like blue link */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            margin: 20px 0;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Debug Log</h1>
-        <a href="{{ url_for('index') }}">Back to Home</a><br><br>
-        <pre>{{ log_content }}</pre>
+    <h4>Debug Log</h4>
+
+    <!-- Action links -->
+    <div class="actions">
+        <a href="{{ url_for('index') }}">Back to Home</a> |
+        <a href="{{ url_for('download_log') }}">Download Log</a>
     </div>
+
+    <!-- Display flashed messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                    <p class="flash-message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Display the log content only if it exists -->
+    {% if log_content %}
+        <pre>{{ log_content }}</pre>
+    {% endif %}
 </body>
 </html>

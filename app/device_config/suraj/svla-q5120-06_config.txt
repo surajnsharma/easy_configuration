@@ -1,0 +1,45 @@
+delete protocols bgp group underlay_v4
+delete protocols bgp group underlay_v6
+set protocols bgp group underlay_v4 family inet unicast
+## BGP Neighbor Config ##
+set protocols bgp group underlay_v4 neighbor 192.168.1.2 peer-as 65002
+set protocols bgp group underlay_v4 neighbor 192.168.1.2 local-address 192.168.1.1
+set protocols bgp group underlay_v4 local-as 65000
+set protocols bgp group underlay_v6 family inet6 unicast
+set protocols bgp group underlay_v6 neighbor fd00:1::2 peer-as 65002
+set protocols bgp group underlay_v6 neighbor fd00:1::2 local-address fd00:1::1
+set protocols bgp group underlay_v6 local-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.2.2 peer-as 65002
+set protocols bgp group underlay_v4 neighbor 192.168.2.2 local-address 192.168.2.1
+set protocols bgp group underlay_v6 neighbor fd00:2::2 peer-as 65002
+set protocols bgp group underlay_v6 neighbor fd00:2::2 local-address fd00:2::1
+set protocols bgp group underlay_v4 neighbor 192.168.3.2 peer-as 65001
+set protocols bgp group underlay_v4 neighbor 192.168.3.2 local-address 192.168.3.1
+set protocols bgp group underlay_v6 neighbor fd00:3::2 peer-as 65001
+set protocols bgp group underlay_v6 neighbor fd00:3::2 local-address fd00:3::1
+set protocols bgp group underlay_v4 neighbor 192.168.4.2 peer-as 65001
+set protocols bgp group underlay_v4 neighbor 192.168.4.2 local-address 192.168.4.1
+set protocols bgp group underlay_v6 neighbor fd00:4::2 peer-as 65001
+set protocols bgp group underlay_v6 neighbor fd00:4::2 local-address fd00:4::1
+set protocols lldp interface all
+set policy-options policy-statement export_v4_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v4_lo0 term 1 then accept
+set protocols bgp group underlay_v4 export export_v4_lo0
+set protocols bgp group underlay_v4 type external
+set policy-options policy-statement export_v6_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v6_lo0 term 1 from rib inet6.0
+set policy-options policy-statement export_v6_lo0 term 1 then accept
+set protocols bgp group underlay_v6 export export_v6_lo0
+set protocols bgp group underlay_v6 type external
+delete interfaces et-0/0/53
+set interfaces et-0/0/53 unit 0 family inet address 192.168.1.1/30
+set interfaces et-0/0/53 unit 0 family inet6 address fd00:1::1/64
+delete interfaces et-0/0/52
+set interfaces et-0/0/52 unit 0 family inet address 192.168.2.1/30
+set interfaces et-0/0/52 unit 0 family inet6 address fd00:2::1/64
+delete interfaces et-0/0/54
+set interfaces et-0/0/54 unit 0 family inet address 192.168.3.1/30
+set interfaces et-0/0/54 unit 0 family inet6 address fd00:3::1/64
+delete interfaces et-0/0/55
+set interfaces et-0/0/55 unit 0 family inet address 192.168.4.1/30
+set interfaces et-0/0/55 unit 0 family inet6 address fd00:4::1/64

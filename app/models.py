@@ -50,6 +50,11 @@ class DeviceInfo(db.Model):
     ip = db.Column(db.String(150), nullable=False)
     username = db.Column(db.String(150), nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    version = db.Column(db.String(50), nullable=True)
+    serial_number = db.Column(db.String(100), nullable=True)
+    model = db.Column(db.String(100), nullable=True)
+    up_time = db.Column(db.String(100), nullable=True)
+    last_reboot_reason = db.Column(db.String(255), nullable=True)
     last_updated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     # Ensure that each user has unique devices based on IP
     __table_args__ = (

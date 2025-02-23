@@ -1,157 +1,70 @@
-// Upload Form Submission
+document.addEventListener('DOMContentLoaded', () => {
+    const cardHeaders = document.querySelectorAll('.card-header');
 
-/*document.addEventListener('DOMContentLoaded', () => {
-    // Handle File Upload Form
-    const uploadForm = document.getElementById('uploadForm');
-    const fileInput = document.getElementById('fileInput');
-    const resultDisplay = document.getElementById('result');
+    cardHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const cardBody = header.nextElementSibling;
 
-    uploadForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    if (!fileInput.files[0]) {
-        resultDisplay.textContent = "Please select a file before uploading.";
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
-    const nameSuggestions = document.getElementById('nameSuggestions').checked;
-    formData.append('nameSuggestions', nameSuggestions);
-
-    try {
-        const response = await fetch('/api/uploadRobotDebugFile', {
-            method: 'POST',
-            body: formData,
+            if (cardBody.style.display === 'none' || cardBody.style.display === '') {
+                cardBody.style.display = 'block'; // Show the card body
+            } else {
+                cardBody.style.display = 'none'; // Hide the card body
+            }
         });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            resultDisplay.innerHTML = ""; // Clear previous content
-
-            // Display failures
-            if (result.failures) {
-                const failureHeader = document.createElement('div');
-                failureHeader.textContent = "Failures:";
-                failureHeader.style.fontWeight = "bold";
-                resultDisplay.appendChild(failureHeader);
-
-                const lines = result.failures.split("\n");
-                lines.forEach((line) => {
-                    const lineElement = document.createElement('div');
-                    if (line.startsWith("=> General Failures")) {
-                        // Treat "General Failures" as a section header, not an error
-                        lineElement.style.color = "#2972b6"; // Apply blue color
-                        lineElement.style.fontWeight = "bold";
-                    } else if (line.startsWith("=>")) {
-                        // Other headers or sections
-                        lineElement.style.color = "#2972b6"; // Apply blue color
-                    } else {
-                        // Regular failure lines
-                        lineElement.style.color = "black"; // Default color for error details
-                    }
-                    lineElement.textContent = line;
-                    resultDisplay.appendChild(lineElement);
-                });
-            }
-
-            // Display suggestions
-            if (result.suggestions) {
-                const suggestionHeader = document.createElement('div');
-                suggestionHeader.textContent = "Corrective Actions:";
-                suggestionHeader.style.fontWeight = "bold";
-                suggestionHeader.style.marginTop = "20px";
-                resultDisplay.appendChild(suggestionHeader);
-
-                const suggestionLines = result.suggestions.split("\n");
-                suggestionLines.forEach((line) => {
-                    const suggestionElement = document.createElement('div');
-                    suggestionElement.style.color = "green"; // Apply green color for suggestions
-                    suggestionElement.textContent = line;
-                    resultDisplay.appendChild(suggestionElement);
-                });
-            }
-
-            // Display unmatched message if present
-            if (result.unmatched_message) {
-                const unmatchedHeader = document.createElement('div');
-                unmatchedHeader.textContent = "Unmatched Errors:";
-                unmatchedHeader.style.fontWeight = "bold";
-                unmatchedHeader.style.color = "red";
-                unmatchedHeader.style.marginTop = "20px";
-                resultDisplay.appendChild(unmatchedHeader);
-
-                const unmatchedMessageElement = document.createElement('div');
-                unmatchedMessageElement.style.color = "red";
-                unmatchedMessageElement.textContent = result.unmatched_message;
-                resultDisplay.appendChild(unmatchedMessageElement);
-            }
-        } else {
-            resultDisplay.textContent = `Error: ${result.message || 'Unknown error occurred'}`;
-        }
-    } catch (error) {
-        resultDisplay.textContent = `Error: ${error.message}`;
-    }
+    });
 });
 
 
-
-    // Handle URL Fetch Form
-    const urlForm = document.getElementById('urlForm');
-    const urlInput = document.getElementById('urlInput');
-    const jsessionidInput = document.getElementById('jsessionidInput');
-
-    urlForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const url = urlInput.value;
-        const jsessionid = jsessionidInput.value;
-
-        if (!url) {
-            resultDisplay.textContent = "Please enter a URL before fetching.";
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/fetchXML', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ url, jsessionid }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                resultDisplay.innerHTML = ""; // Clear previous content
-                const lines = result.failures.split("\n");
-                lines.forEach((line) => {
-                    const lineElement = document.createElement('div');
-                    if (line.startsWith("=> General Failures") || line.startsWith("=>")) {
-                        lineElement.style.color = "blue"; // Apply blue color
-                    }
-                    lineElement.textContent = line;
-                    resultDisplay.appendChild(lineElement);
-                });
-            } else {
-                resultDisplay.textContent = `Error: ${result.message || 'Unknown error occurred'}`;
-            }
-        } catch (error) {
-            resultDisplay.textContent = `Error: ${error.message}`;
-        }
-    });
-});*/
 
 document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
     const fileInput = document.getElementById('fileInput');
     const resultDisplay = document.getElementById('result');
+    const xmlprogressBar = document.getElementById('xmlprogressBar');
+    const socket = io();
+    console.log("Initialized xml Robot WebSocket connection with Socket.IO");
+
+
+// Handle progress updates from the server
+socket.on('xmlRobotprogress', (data) => {
+    console.log("Progress update received:", data);
+
+    // Ensure the progress bar is visible
+    progressContainer.style.display = 'block';
+
+    if (data.progress !== undefined) {
+        const progress = Math.min(Math.max(data.progress, 0), 100); // Clamp between 0 and 100
+        xmlprogressBar.style.width = `${progress}%`;
+        xmlprogressBar.textContent = `${progress}%`;
+        console.log(`Progress bar updated to: ${progress}%`);
+
+        // Hide the progress bar after reaching 100%
+        if (progress === 100) {
+            setTimeout(() => {
+                xmlprogressBar.style.width = '0%'; // Reset the width for next use
+                xmlprogressBar.textContent = ''; // Clear the text content
+                progressContainer.style.display = 'none'; // Hide the progress bar container
+                console.log("Progress bar hidden after completion.");
+            }, 2000); // Brief delay before hiding
+        }
+    }
+
+    // Display status messages
+    const messageElement = document.createElement('div');
+    messageElement.textContent = `${data.status.toUpperCase()}: ${data.message}`;
+    resultDisplay.appendChild(messageElement);
+});
+
+
+
 
     uploadForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-
+        // Clear previous results
+        if (resultDisplay) {
+            resultDisplay.innerHTML = ''; // Clear the Parse Results section
+            //console.log("Parse Results cleared.");
+        }
         const file = fileInput.files[0];
         if (!file) {
             resultDisplay.textContent = "Please select a file before uploading.";
@@ -162,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('file', fileInput.files[0]);
         const nameSuggestions = document.getElementById('nameSuggestions').checked;
         formData.append('nameSuggestions', nameSuggestions);
+        xmlprogressBar.style.width = '0%';
+        xmlprogressBar.textContent = '0%';
+
+
 
         try {
             const response = await fetch('/api/uploadRobotDebugFile', {
@@ -247,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
 
 
 // Display Results Function

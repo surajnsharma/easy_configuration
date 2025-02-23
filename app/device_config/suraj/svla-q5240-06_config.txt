@@ -1,0 +1,1135 @@
+delete protocols bgp group underlay_v4
+delete protocols bgp group underlay_v6
+## BGP Neighbor Config ##
+set protocols bgp group underlay_v4 neighbor 192.168.3.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.3.1 local-address 192.168.3.2
+set protocols bgp group underlay_v4 local-as 65001
+set protocols bgp group underlay_v6 neighbor fd00:3::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:3::1 local-address fd00:3::2
+set protocols bgp group underlay_v6 local-as 65001
+set protocols bgp group underlay_v4 neighbor 192.168.4.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.4.1 local-address 192.168.4.2
+set protocols bgp group underlay_v6 neighbor fd00:4::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:4::1 local-address fd00:4::2
+set protocols bgp group underlay_v4 neighbor 192.168.5.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.5.1 local-address 192.168.5.2
+set protocols bgp group underlay_v6 neighbor fd00:5::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:5::1 local-address fd00:5::2
+set protocols bgp group underlay_v4 neighbor 192.168.6.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.6.1 local-address 192.168.6.2
+set protocols bgp group underlay_v6 neighbor fd00:6::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:6::1 local-address fd00:6::2
+set protocols bgp group underlay_v4 neighbor 192.168.7.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.7.1 local-address 192.168.7.2
+set protocols bgp group underlay_v6 neighbor fd00:7::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:7::1 local-address fd00:7::2
+set protocols bgp group underlay_v4 neighbor 192.168.8.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.8.1 local-address 192.168.8.2
+set protocols bgp group underlay_v6 neighbor fd00:8::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:8::1 local-address fd00:8::2
+set protocols bgp group underlay_v4 neighbor 192.168.9.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.9.1 local-address 192.168.9.2
+set protocols bgp group underlay_v6 neighbor fd00:9::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:9::1 local-address fd00:9::2
+set protocols bgp group underlay_v4 neighbor 192.168.10.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.10.1 local-address 192.168.10.2
+set protocols bgp group underlay_v6 neighbor fd00:10::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:10::1 local-address fd00:10::2
+set protocols bgp group underlay_v4 neighbor 192.168.11.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.11.1 local-address 192.168.11.2
+set protocols bgp group underlay_v6 neighbor fd00:11::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:11::1 local-address fd00:11::2
+set protocols bgp group underlay_v4 neighbor 192.168.12.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.12.1 local-address 192.168.12.2
+set protocols bgp group underlay_v6 neighbor fd00:12::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:12::1 local-address fd00:12::2
+set protocols bgp group underlay_v4 neighbor 192.168.13.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.13.1 local-address 192.168.13.2
+set protocols bgp group underlay_v6 neighbor fd00:13::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:13::1 local-address fd00:13::2
+set protocols bgp group underlay_v4 neighbor 192.168.14.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.14.1 local-address 192.168.14.2
+set protocols bgp group underlay_v6 neighbor fd00:14::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:14::1 local-address fd00:14::2
+set protocols bgp group underlay_v4 neighbor 192.168.15.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.15.1 local-address 192.168.15.2
+set protocols bgp group underlay_v6 neighbor fd00:15::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:15::1 local-address fd00:15::2
+set protocols bgp group underlay_v4 neighbor 192.168.16.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.16.1 local-address 192.168.16.2
+set protocols bgp group underlay_v6 neighbor fd00:16::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:16::1 local-address fd00:16::2
+set protocols bgp group underlay_v4 neighbor 192.168.17.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.17.1 local-address 192.168.17.2
+set protocols bgp group underlay_v6 neighbor fd00:17::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:17::1 local-address fd00:17::2
+set protocols bgp group underlay_v4 neighbor 192.168.18.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.18.1 local-address 192.168.18.2
+set protocols bgp group underlay_v6 neighbor fd00:18::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:18::1 local-address fd00:18::2
+set protocols bgp group underlay_v4 neighbor 192.168.19.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.19.1 local-address 192.168.19.2
+set protocols bgp group underlay_v6 neighbor fd00:19::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:19::1 local-address fd00:19::2
+set protocols bgp group underlay_v4 neighbor 192.168.20.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.20.1 local-address 192.168.20.2
+set protocols bgp group underlay_v6 neighbor fd00:20::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:20::1 local-address fd00:20::2
+set protocols bgp group underlay_v4 neighbor 192.168.21.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.21.1 local-address 192.168.21.2
+set protocols bgp group underlay_v6 neighbor fd00:21::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:21::1 local-address fd00:21::2
+set protocols bgp group underlay_v4 neighbor 192.168.22.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.22.1 local-address 192.168.22.2
+set protocols bgp group underlay_v6 neighbor fd00:22::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:22::1 local-address fd00:22::2
+set protocols bgp group underlay_v4 neighbor 192.168.23.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.23.1 local-address 192.168.23.2
+set protocols bgp group underlay_v6 neighbor fd00:23::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:23::1 local-address fd00:23::2
+set protocols bgp group underlay_v4 neighbor 192.168.24.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.24.1 local-address 192.168.24.2
+set protocols bgp group underlay_v6 neighbor fd00:24::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:24::1 local-address fd00:24::2
+set protocols bgp group underlay_v4 neighbor 192.168.25.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.25.1 local-address 192.168.25.2
+set protocols bgp group underlay_v6 neighbor fd00:25::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:25::1 local-address fd00:25::2
+set protocols bgp group underlay_v4 neighbor 192.168.26.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.26.1 local-address 192.168.26.2
+set protocols bgp group underlay_v6 neighbor fd00:26::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:26::1 local-address fd00:26::2
+set protocols bgp group underlay_v4 neighbor 192.168.27.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.27.1 local-address 192.168.27.2
+set protocols bgp group underlay_v6 neighbor fd00:27::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:27::1 local-address fd00:27::2
+set protocols bgp group underlay_v4 neighbor 192.168.28.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.28.1 local-address 192.168.28.2
+set protocols bgp group underlay_v6 neighbor fd00:28::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:28::1 local-address fd00:28::2
+set protocols bgp group underlay_v4 neighbor 192.168.29.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.29.1 local-address 192.168.29.2
+set protocols bgp group underlay_v6 neighbor fd00:29::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:29::1 local-address fd00:29::2
+set protocols bgp group underlay_v4 neighbor 192.168.30.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.30.1 local-address 192.168.30.2
+set protocols bgp group underlay_v6 neighbor fd00:30::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:30::1 local-address fd00:30::2
+set protocols bgp group underlay_v4 neighbor 192.168.31.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.31.1 local-address 192.168.31.2
+set protocols bgp group underlay_v6 neighbor fd00:31::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:31::1 local-address fd00:31::2
+set protocols bgp group underlay_v4 neighbor 192.168.32.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.32.1 local-address 192.168.32.2
+set protocols bgp group underlay_v6 neighbor fd00:32::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:32::1 local-address fd00:32::2
+set protocols bgp group underlay_v4 neighbor 192.168.33.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.33.1 local-address 192.168.33.2
+set protocols bgp group underlay_v6 neighbor fd00:33::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:33::1 local-address fd00:33::2
+set protocols bgp group underlay_v4 neighbor 192.168.34.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.34.1 local-address 192.168.34.2
+set protocols bgp group underlay_v6 neighbor fd00:34::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:34::1 local-address fd00:34::2
+set protocols bgp group underlay_v4 neighbor 192.168.35.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.35.1 local-address 192.168.35.2
+set protocols bgp group underlay_v6 neighbor fd00:35::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:35::1 local-address fd00:35::2
+set protocols bgp group underlay_v4 neighbor 192.168.36.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.36.1 local-address 192.168.36.2
+set protocols bgp group underlay_v6 neighbor fd00:36::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:36::1 local-address fd00:36::2
+set protocols bgp group underlay_v4 neighbor 192.168.37.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.37.1 local-address 192.168.37.2
+set protocols bgp group underlay_v6 neighbor fd00:37::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:37::1 local-address fd00:37::2
+set protocols bgp group underlay_v4 neighbor 192.168.38.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.38.1 local-address 192.168.38.2
+set protocols bgp group underlay_v6 neighbor fd00:38::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:38::1 local-address fd00:38::2
+set protocols bgp group underlay_v4 neighbor 192.168.39.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.39.1 local-address 192.168.39.2
+set protocols bgp group underlay_v6 neighbor fd00:39::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:39::1 local-address fd00:39::2
+set protocols bgp group underlay_v4 neighbor 192.168.40.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.40.1 local-address 192.168.40.2
+set protocols bgp group underlay_v6 neighbor fd00:40::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:40::1 local-address fd00:40::2
+set protocols bgp group underlay_v4 neighbor 192.168.41.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.41.1 local-address 192.168.41.2
+set protocols bgp group underlay_v6 neighbor fd00:41::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:41::1 local-address fd00:41::2
+set protocols bgp group underlay_v4 neighbor 192.168.42.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.42.1 local-address 192.168.42.2
+set protocols bgp group underlay_v6 neighbor fd00:42::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:42::1 local-address fd00:42::2
+set protocols bgp group underlay_v4 neighbor 192.168.43.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.43.1 local-address 192.168.43.2
+set protocols bgp group underlay_v6 neighbor fd00:43::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:43::1 local-address fd00:43::2
+set protocols bgp group underlay_v4 neighbor 192.168.44.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.44.1 local-address 192.168.44.2
+set protocols bgp group underlay_v6 neighbor fd00:44::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:44::1 local-address fd00:44::2
+set protocols bgp group underlay_v4 neighbor 192.168.45.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.45.1 local-address 192.168.45.2
+set protocols bgp group underlay_v6 neighbor fd00:45::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:45::1 local-address fd00:45::2
+set protocols bgp group underlay_v4 neighbor 192.168.46.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.46.1 local-address 192.168.46.2
+set protocols bgp group underlay_v6 neighbor fd00:46::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:46::1 local-address fd00:46::2
+set protocols bgp group underlay_v4 neighbor 192.168.47.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.47.1 local-address 192.168.47.2
+set protocols bgp group underlay_v6 neighbor fd00:47::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:47::1 local-address fd00:47::2
+set protocols bgp group underlay_v4 neighbor 192.168.48.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.48.1 local-address 192.168.48.2
+set protocols bgp group underlay_v6 neighbor fd00:48::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:48::1 local-address fd00:48::2
+set protocols bgp group underlay_v4 neighbor 192.168.49.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.49.1 local-address 192.168.49.2
+set protocols bgp group underlay_v6 neighbor fd00:49::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:49::1 local-address fd00:49::2
+set protocols bgp group underlay_v4 neighbor 192.168.50.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.50.1 local-address 192.168.50.2
+set protocols bgp group underlay_v6 neighbor fd00:50::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:50::1 local-address fd00:50::2
+set protocols bgp group underlay_v4 neighbor 192.168.51.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.51.1 local-address 192.168.51.2
+set protocols bgp group underlay_v6 neighbor fd00:51::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:51::1 local-address fd00:51::2
+set protocols bgp group underlay_v4 neighbor 192.168.52.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.52.1 local-address 192.168.52.2
+set protocols bgp group underlay_v6 neighbor fd00:52::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:52::1 local-address fd00:52::2
+set protocols bgp group underlay_v4 neighbor 192.168.53.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.53.1 local-address 192.168.53.2
+set protocols bgp group underlay_v6 neighbor fd00:53::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:53::1 local-address fd00:53::2
+set protocols bgp group underlay_v4 neighbor 192.168.54.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.54.1 local-address 192.168.54.2
+set protocols bgp group underlay_v6 neighbor fd00:54::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:54::1 local-address fd00:54::2
+set protocols bgp group underlay_v4 neighbor 192.168.55.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.55.1 local-address 192.168.55.2
+set protocols bgp group underlay_v6 neighbor fd00:55::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:55::1 local-address fd00:55::2
+set protocols bgp group underlay_v4 neighbor 192.168.56.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.56.1 local-address 192.168.56.2
+set protocols bgp group underlay_v6 neighbor fd00:56::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:56::1 local-address fd00:56::2
+set protocols bgp group underlay_v4 neighbor 192.168.57.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.57.1 local-address 192.168.57.2
+set protocols bgp group underlay_v6 neighbor fd00:57::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:57::1 local-address fd00:57::2
+set protocols bgp group underlay_v4 neighbor 192.168.58.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.58.1 local-address 192.168.58.2
+set protocols bgp group underlay_v6 neighbor fd00:58::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:58::1 local-address fd00:58::2
+set protocols bgp group underlay_v4 neighbor 192.168.59.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.59.1 local-address 192.168.59.2
+set protocols bgp group underlay_v6 neighbor fd00:59::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:59::1 local-address fd00:59::2
+set protocols bgp group underlay_v4 neighbor 192.168.60.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.60.1 local-address 192.168.60.2
+set protocols bgp group underlay_v6 neighbor fd00:60::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:60::1 local-address fd00:60::2
+set protocols bgp group underlay_v4 neighbor 192.168.61.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.61.1 local-address 192.168.61.2
+set protocols bgp group underlay_v6 neighbor fd00:61::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:61::1 local-address fd00:61::2
+set protocols bgp group underlay_v4 neighbor 192.168.62.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.62.1 local-address 192.168.62.2
+set protocols bgp group underlay_v6 neighbor fd00:62::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:62::1 local-address fd00:62::2
+set protocols bgp group underlay_v4 neighbor 192.168.63.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.63.1 local-address 192.168.63.2
+set protocols bgp group underlay_v6 neighbor fd00:63::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:63::1 local-address fd00:63::2
+set protocols bgp group underlay_v4 neighbor 192.168.64.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.64.1 local-address 192.168.64.2
+set protocols bgp group underlay_v6 neighbor fd00:64::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:64::1 local-address fd00:64::2
+set protocols bgp group underlay_v4 neighbor 192.168.65.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.65.1 local-address 192.168.65.2
+set protocols bgp group underlay_v6 neighbor fd00:65::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:65::1 local-address fd00:65::2
+set protocols bgp group underlay_v4 neighbor 192.168.66.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.66.1 local-address 192.168.66.2
+set protocols bgp group underlay_v6 neighbor fd00:66::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:66::1 local-address fd00:66::2
+set protocols bgp group underlay_v4 neighbor 192.168.67.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.67.1 local-address 192.168.67.2
+set protocols bgp group underlay_v6 neighbor fd00:67::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:67::1 local-address fd00:67::2
+set protocols bgp group underlay_v4 neighbor 192.168.68.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.68.1 local-address 192.168.68.2
+set protocols bgp group underlay_v6 neighbor fd00:68::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:68::1 local-address fd00:68::2
+set protocols bgp group underlay_v4 neighbor 192.168.69.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.69.1 local-address 192.168.69.2
+set protocols bgp group underlay_v6 neighbor fd00:69::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:69::1 local-address fd00:69::2
+set protocols bgp group underlay_v4 neighbor 192.168.70.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.70.1 local-address 192.168.70.2
+set protocols bgp group underlay_v6 neighbor fd00:70::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:70::1 local-address fd00:70::2
+set protocols bgp group underlay_v4 neighbor 192.168.71.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.71.1 local-address 192.168.71.2
+set protocols bgp group underlay_v6 neighbor fd00:71::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:71::1 local-address fd00:71::2
+set protocols bgp group underlay_v4 neighbor 192.168.72.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.72.1 local-address 192.168.72.2
+set protocols bgp group underlay_v6 neighbor fd00:72::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:72::1 local-address fd00:72::2
+set protocols bgp group underlay_v4 neighbor 192.168.73.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.73.1 local-address 192.168.73.2
+set protocols bgp group underlay_v6 neighbor fd00:73::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:73::1 local-address fd00:73::2
+set protocols bgp group underlay_v4 neighbor 192.168.74.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.74.1 local-address 192.168.74.2
+set protocols bgp group underlay_v6 neighbor fd00:74::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:74::1 local-address fd00:74::2
+set protocols bgp group underlay_v4 neighbor 192.168.75.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.75.1 local-address 192.168.75.2
+set protocols bgp group underlay_v6 neighbor fd00:75::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:75::1 local-address fd00:75::2
+set protocols bgp group underlay_v4 neighbor 192.168.76.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.76.1 local-address 192.168.76.2
+set protocols bgp group underlay_v6 neighbor fd00:76::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:76::1 local-address fd00:76::2
+set protocols bgp group underlay_v4 neighbor 192.168.77.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.77.1 local-address 192.168.77.2
+set protocols bgp group underlay_v6 neighbor fd00:77::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:77::1 local-address fd00:77::2
+set protocols bgp group underlay_v4 neighbor 192.168.78.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.78.1 local-address 192.168.78.2
+set protocols bgp group underlay_v6 neighbor fd00:78::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:78::1 local-address fd00:78::2
+set protocols bgp group underlay_v4 neighbor 192.168.79.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.79.1 local-address 192.168.79.2
+set protocols bgp group underlay_v6 neighbor fd00:79::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:79::1 local-address fd00:79::2
+set protocols bgp group underlay_v4 neighbor 192.168.80.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.80.1 local-address 192.168.80.2
+set protocols bgp group underlay_v6 neighbor fd00:80::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:80::1 local-address fd00:80::2
+set protocols bgp group underlay_v4 neighbor 192.168.81.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.81.1 local-address 192.168.81.2
+set protocols bgp group underlay_v6 neighbor fd00:81::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:81::1 local-address fd00:81::2
+set protocols bgp group underlay_v4 neighbor 192.168.82.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.82.1 local-address 192.168.82.2
+set protocols bgp group underlay_v6 neighbor fd00:82::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:82::1 local-address fd00:82::2
+set protocols bgp group underlay_v4 neighbor 192.168.83.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.83.1 local-address 192.168.83.2
+set protocols bgp group underlay_v6 neighbor fd00:83::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:83::1 local-address fd00:83::2
+set protocols bgp group underlay_v4 neighbor 192.168.84.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.84.1 local-address 192.168.84.2
+set protocols bgp group underlay_v6 neighbor fd00:84::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:84::1 local-address fd00:84::2
+set protocols bgp group underlay_v4 neighbor 192.168.85.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.85.1 local-address 192.168.85.2
+set protocols bgp group underlay_v6 neighbor fd00:85::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:85::1 local-address fd00:85::2
+set protocols bgp group underlay_v4 neighbor 192.168.86.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.86.1 local-address 192.168.86.2
+set protocols bgp group underlay_v6 neighbor fd00:86::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:86::1 local-address fd00:86::2
+set protocols bgp group underlay_v4 neighbor 192.168.87.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.87.1 local-address 192.168.87.2
+set protocols bgp group underlay_v6 neighbor fd00:87::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:87::1 local-address fd00:87::2
+set protocols bgp group underlay_v4 neighbor 192.168.88.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.88.1 local-address 192.168.88.2
+set protocols bgp group underlay_v6 neighbor fd00:88::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:88::1 local-address fd00:88::2
+set protocols bgp group underlay_v4 neighbor 192.168.89.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.89.1 local-address 192.168.89.2
+set protocols bgp group underlay_v6 neighbor fd00:89::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:89::1 local-address fd00:89::2
+set protocols bgp group underlay_v4 neighbor 192.168.90.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.90.1 local-address 192.168.90.2
+set protocols bgp group underlay_v6 neighbor fd00:90::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:90::1 local-address fd00:90::2
+set protocols bgp group underlay_v4 neighbor 192.168.91.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.91.1 local-address 192.168.91.2
+set protocols bgp group underlay_v6 neighbor fd00:91::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:91::1 local-address fd00:91::2
+set protocols bgp group underlay_v4 neighbor 192.168.92.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.92.1 local-address 192.168.92.2
+set protocols bgp group underlay_v6 neighbor fd00:92::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:92::1 local-address fd00:92::2
+set protocols bgp group underlay_v4 neighbor 192.168.93.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.93.1 local-address 192.168.93.2
+set protocols bgp group underlay_v6 neighbor fd00:93::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:93::1 local-address fd00:93::2
+set protocols bgp group underlay_v4 neighbor 192.168.94.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.94.1 local-address 192.168.94.2
+set protocols bgp group underlay_v6 neighbor fd00:94::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:94::1 local-address fd00:94::2
+set protocols bgp group underlay_v4 neighbor 192.168.95.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.95.1 local-address 192.168.95.2
+set protocols bgp group underlay_v6 neighbor fd00:95::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:95::1 local-address fd00:95::2
+set protocols bgp group underlay_v4 neighbor 192.168.96.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.96.1 local-address 192.168.96.2
+set protocols bgp group underlay_v6 neighbor fd00:96::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:96::1 local-address fd00:96::2
+set protocols bgp group underlay_v4 neighbor 192.168.97.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.97.1 local-address 192.168.97.2
+set protocols bgp group underlay_v6 neighbor fd00:97::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:97::1 local-address fd00:97::2
+set protocols bgp group underlay_v4 neighbor 192.168.98.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.98.1 local-address 192.168.98.2
+set protocols bgp group underlay_v6 neighbor fd00:98::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:98::1 local-address fd00:98::2
+set protocols bgp group underlay_v4 neighbor 192.168.99.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.99.1 local-address 192.168.99.2
+set protocols bgp group underlay_v6 neighbor fd00:99::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:99::1 local-address fd00:99::2
+set protocols bgp group underlay_v4 neighbor 192.168.100.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.100.1 local-address 192.168.100.2
+set protocols bgp group underlay_v6 neighbor fd00:100::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:100::1 local-address fd00:100::2
+set protocols bgp group underlay_v4 neighbor 192.168.101.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.101.1 local-address 192.168.101.2
+set protocols bgp group underlay_v6 neighbor fd00:101::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:101::1 local-address fd00:101::2
+set protocols bgp group underlay_v4 neighbor 192.168.102.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.102.1 local-address 192.168.102.2
+set protocols bgp group underlay_v6 neighbor fd00:102::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:102::1 local-address fd00:102::2
+set protocols bgp group underlay_v4 neighbor 192.168.103.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.103.1 local-address 192.168.103.2
+set protocols bgp group underlay_v6 neighbor fd00:103::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:103::1 local-address fd00:103::2
+set protocols bgp group underlay_v4 neighbor 192.168.104.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.104.1 local-address 192.168.104.2
+set protocols bgp group underlay_v6 neighbor fd00:104::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:104::1 local-address fd00:104::2
+set protocols bgp group underlay_v4 neighbor 192.168.105.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.105.1 local-address 192.168.105.2
+set protocols bgp group underlay_v6 neighbor fd00:105::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:105::1 local-address fd00:105::2
+set protocols bgp group underlay_v4 neighbor 192.168.106.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.106.1 local-address 192.168.106.2
+set protocols bgp group underlay_v6 neighbor fd00:106::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:106::1 local-address fd00:106::2
+set protocols bgp group underlay_v4 neighbor 192.168.107.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.107.1 local-address 192.168.107.2
+set protocols bgp group underlay_v6 neighbor fd00:107::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:107::1 local-address fd00:107::2
+set protocols bgp group underlay_v4 neighbor 192.168.108.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.108.1 local-address 192.168.108.2
+set protocols bgp group underlay_v6 neighbor fd00:108::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:108::1 local-address fd00:108::2
+set protocols bgp group underlay_v4 neighbor 192.168.109.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.109.1 local-address 192.168.109.2
+set protocols bgp group underlay_v6 neighbor fd00:109::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:109::1 local-address fd00:109::2
+set protocols bgp group underlay_v4 neighbor 192.168.110.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.110.1 local-address 192.168.110.2
+set protocols bgp group underlay_v6 neighbor fd00:110::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:110::1 local-address fd00:110::2
+set protocols bgp group underlay_v4 neighbor 192.168.111.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.111.1 local-address 192.168.111.2
+set protocols bgp group underlay_v6 neighbor fd00:111::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:111::1 local-address fd00:111::2
+set protocols bgp group underlay_v4 neighbor 192.168.112.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.112.1 local-address 192.168.112.2
+set protocols bgp group underlay_v6 neighbor fd00:112::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:112::1 local-address fd00:112::2
+set protocols bgp group underlay_v4 neighbor 192.168.113.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.113.1 local-address 192.168.113.2
+set protocols bgp group underlay_v6 neighbor fd00:113::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:113::1 local-address fd00:113::2
+set protocols bgp group underlay_v4 neighbor 192.168.114.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.114.1 local-address 192.168.114.2
+set protocols bgp group underlay_v6 neighbor fd00:114::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:114::1 local-address fd00:114::2
+set protocols bgp group underlay_v4 neighbor 192.168.115.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.115.1 local-address 192.168.115.2
+set protocols bgp group underlay_v6 neighbor fd00:115::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:115::1 local-address fd00:115::2
+set protocols bgp group underlay_v4 neighbor 192.168.116.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.116.1 local-address 192.168.116.2
+set protocols bgp group underlay_v6 neighbor fd00:116::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:116::1 local-address fd00:116::2
+set protocols bgp group underlay_v4 neighbor 192.168.117.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.117.1 local-address 192.168.117.2
+set protocols bgp group underlay_v6 neighbor fd00:117::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:117::1 local-address fd00:117::2
+set protocols bgp group underlay_v4 neighbor 192.168.118.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.118.1 local-address 192.168.118.2
+set protocols bgp group underlay_v6 neighbor fd00:118::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:118::1 local-address fd00:118::2
+set protocols bgp group underlay_v4 neighbor 192.168.119.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.119.1 local-address 192.168.119.2
+set protocols bgp group underlay_v6 neighbor fd00:119::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:119::1 local-address fd00:119::2
+set protocols bgp group underlay_v4 neighbor 192.168.120.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.120.1 local-address 192.168.120.2
+set protocols bgp group underlay_v6 neighbor fd00:120::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:120::1 local-address fd00:120::2
+set protocols bgp group underlay_v4 neighbor 192.168.121.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.121.1 local-address 192.168.121.2
+set protocols bgp group underlay_v6 neighbor fd00:121::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:121::1 local-address fd00:121::2
+set protocols bgp group underlay_v4 neighbor 192.168.122.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.122.1 local-address 192.168.122.2
+set protocols bgp group underlay_v6 neighbor fd00:122::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:122::1 local-address fd00:122::2
+set protocols bgp group underlay_v4 neighbor 192.168.123.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.123.1 local-address 192.168.123.2
+set protocols bgp group underlay_v6 neighbor fd00:123::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:123::1 local-address fd00:123::2
+set protocols bgp group underlay_v4 neighbor 192.168.124.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.124.1 local-address 192.168.124.2
+set protocols bgp group underlay_v6 neighbor fd00:124::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:124::1 local-address fd00:124::2
+set protocols bgp group underlay_v4 neighbor 192.168.125.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.125.1 local-address 192.168.125.2
+set protocols bgp group underlay_v6 neighbor fd00:125::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:125::1 local-address fd00:125::2
+set protocols bgp group underlay_v4 neighbor 192.168.126.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.126.1 local-address 192.168.126.2
+set protocols bgp group underlay_v6 neighbor fd00:126::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:126::1 local-address fd00:126::2
+set protocols bgp group underlay_v4 neighbor 192.168.127.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.127.1 local-address 192.168.127.2
+set protocols bgp group underlay_v6 neighbor fd00:127::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:127::1 local-address fd00:127::2
+set protocols bgp group underlay_v4 neighbor 192.168.128.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.128.1 local-address 192.168.128.2
+set protocols bgp group underlay_v6 neighbor fd00:128::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:128::1 local-address fd00:128::2
+set protocols bgp group underlay_v4 neighbor 192.168.129.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.129.1 local-address 192.168.129.2
+set protocols bgp group underlay_v6 neighbor fd00:129::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:129::1 local-address fd00:129::2
+set protocols bgp group underlay_v4 neighbor 192.168.130.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.130.1 local-address 192.168.130.2
+set protocols bgp group underlay_v6 neighbor fd00:130::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:130::1 local-address fd00:130::2
+set protocols bgp group underlay_v4 neighbor 192.168.131.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.131.1 local-address 192.168.131.2
+set protocols bgp group underlay_v6 neighbor fd00:131::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:131::1 local-address fd00:131::2
+set protocols bgp group underlay_v4 neighbor 192.168.132.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.132.1 local-address 192.168.132.2
+set protocols bgp group underlay_v6 neighbor fd00:132::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:132::1 local-address fd00:132::2
+set protocols bgp group underlay_v4 neighbor 192.168.133.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.133.1 local-address 192.168.133.2
+set protocols bgp group underlay_v6 neighbor fd00:133::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:133::1 local-address fd00:133::2
+set protocols bgp group underlay_v4 neighbor 192.168.134.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.134.1 local-address 192.168.134.2
+set protocols bgp group underlay_v6 neighbor fd00:134::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:134::1 local-address fd00:134::2
+set protocols bgp group underlay_v4 neighbor 192.168.135.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.135.1 local-address 192.168.135.2
+set protocols bgp group underlay_v6 neighbor fd00:135::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:135::1 local-address fd00:135::2
+set protocols bgp group underlay_v4 neighbor 192.168.136.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.136.1 local-address 192.168.136.2
+set protocols bgp group underlay_v6 neighbor fd00:136::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:136::1 local-address fd00:136::2
+set protocols bgp group underlay_v4 neighbor 192.168.137.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.137.1 local-address 192.168.137.2
+set protocols bgp group underlay_v6 neighbor fd00:137::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:137::1 local-address fd00:137::2
+set protocols bgp group underlay_v4 neighbor 192.168.138.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.138.1 local-address 192.168.138.2
+set protocols bgp group underlay_v6 neighbor fd00:138::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:138::1 local-address fd00:138::2
+set protocols bgp group underlay_v4 neighbor 192.168.139.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.139.1 local-address 192.168.139.2
+set protocols bgp group underlay_v6 neighbor fd00:139::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:139::1 local-address fd00:139::2
+set protocols bgp group underlay_v4 neighbor 192.168.140.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.140.1 local-address 192.168.140.2
+set protocols bgp group underlay_v6 neighbor fd00:140::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:140::1 local-address fd00:140::2
+set protocols bgp group underlay_v4 neighbor 192.168.141.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.141.1 local-address 192.168.141.2
+set protocols bgp group underlay_v6 neighbor fd00:141::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:141::1 local-address fd00:141::2
+set protocols bgp group underlay_v4 neighbor 192.168.142.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.142.1 local-address 192.168.142.2
+set protocols bgp group underlay_v6 neighbor fd00:142::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:142::1 local-address fd00:142::2
+set protocols bgp group underlay_v4 neighbor 192.168.143.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.143.1 local-address 192.168.143.2
+set protocols bgp group underlay_v6 neighbor fd00:143::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:143::1 local-address fd00:143::2
+set protocols bgp group underlay_v4 neighbor 192.168.144.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.144.1 local-address 192.168.144.2
+set protocols bgp group underlay_v6 neighbor fd00:144::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:144::1 local-address fd00:144::2
+set protocols bgp group underlay_v4 neighbor 192.168.145.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.145.1 local-address 192.168.145.2
+set protocols bgp group underlay_v6 neighbor fd00:145::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:145::1 local-address fd00:145::2
+set protocols bgp group underlay_v4 neighbor 192.168.146.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.146.1 local-address 192.168.146.2
+set protocols bgp group underlay_v6 neighbor fd00:146::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:146::1 local-address fd00:146::2
+set protocols bgp group underlay_v4 neighbor 192.168.147.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.147.1 local-address 192.168.147.2
+set protocols bgp group underlay_v6 neighbor fd00:147::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:147::1 local-address fd00:147::2
+set protocols bgp group underlay_v4 neighbor 192.168.148.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.148.1 local-address 192.168.148.2
+set protocols bgp group underlay_v6 neighbor fd00:148::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:148::1 local-address fd00:148::2
+set protocols bgp group underlay_v4 neighbor 192.168.149.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.149.1 local-address 192.168.149.2
+set protocols bgp group underlay_v6 neighbor fd00:149::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:149::1 local-address fd00:149::2
+set protocols bgp group underlay_v4 neighbor 192.168.150.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.150.1 local-address 192.168.150.2
+set protocols bgp group underlay_v6 neighbor fd00:150::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:150::1 local-address fd00:150::2
+set protocols bgp group underlay_v4 neighbor 192.168.151.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.151.1 local-address 192.168.151.2
+set protocols bgp group underlay_v6 neighbor fd00:151::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:151::1 local-address fd00:151::2
+set protocols bgp group underlay_v4 neighbor 192.168.152.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.152.1 local-address 192.168.152.2
+set protocols bgp group underlay_v6 neighbor fd00:152::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:152::1 local-address fd00:152::2
+set protocols bgp group underlay_v4 neighbor 192.168.153.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.153.1 local-address 192.168.153.2
+set protocols bgp group underlay_v6 neighbor fd00:153::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:153::1 local-address fd00:153::2
+set protocols bgp group underlay_v4 neighbor 192.168.154.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.154.1 local-address 192.168.154.2
+set protocols bgp group underlay_v6 neighbor fd00:154::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:154::1 local-address fd00:154::2
+set protocols bgp group underlay_v4 neighbor 192.168.155.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.155.1 local-address 192.168.155.2
+set protocols bgp group underlay_v6 neighbor fd00:155::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:155::1 local-address fd00:155::2
+set protocols bgp group underlay_v4 neighbor 192.168.156.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.156.1 local-address 192.168.156.2
+set protocols bgp group underlay_v6 neighbor fd00:156::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:156::1 local-address fd00:156::2
+set protocols bgp group underlay_v4 neighbor 192.168.157.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.157.1 local-address 192.168.157.2
+set protocols bgp group underlay_v6 neighbor fd00:157::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:157::1 local-address fd00:157::2
+set protocols bgp group underlay_v4 neighbor 192.168.158.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.158.1 local-address 192.168.158.2
+set protocols bgp group underlay_v6 neighbor fd00:158::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:158::1 local-address fd00:158::2
+set protocols bgp group underlay_v4 neighbor 192.168.159.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.159.1 local-address 192.168.159.2
+set protocols bgp group underlay_v6 neighbor fd00:159::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:159::1 local-address fd00:159::2
+set protocols bgp group underlay_v4 neighbor 192.168.160.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.160.1 local-address 192.168.160.2
+set protocols bgp group underlay_v6 neighbor fd00:160::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:160::1 local-address fd00:160::2
+set protocols bgp group underlay_v4 neighbor 192.168.161.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.161.1 local-address 192.168.161.2
+set protocols bgp group underlay_v6 neighbor fd00:161::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:161::1 local-address fd00:161::2
+set protocols bgp group underlay_v4 neighbor 192.168.162.1 peer-as 65000
+set protocols bgp group underlay_v4 neighbor 192.168.162.1 local-address 192.168.162.2
+set protocols bgp group underlay_v6 neighbor fd00:162::1 peer-as 65000
+set protocols bgp group underlay_v6 neighbor fd00:162::1 local-address fd00:162::2
+set protocols lldp interface all
+set policy-options policy-statement export_v4_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v4_lo0 term 1 then accept
+set protocols bgp group underlay_v4 export export_v4_lo0
+set protocols bgp group underlay_v4 type external
+set policy-options policy-statement export_v6_lo0 term 1 from interface lo0
+set policy-options policy-statement export_v6_lo0 term 1 from rib inet6.0
+set policy-options policy-statement export_v6_lo0 term 1 then accept
+set protocols bgp group underlay_v6 export export_v6_lo0
+set protocols bgp group underlay_v6 type external
+delete interfaces et-0/0/20:2
+set interfaces et-0/0/20:2 unit 0 family inet address 192.168.3.2/30
+set interfaces et-0/0/20:2 unit 0 family inet6 address fd00:3::2/64
+delete interfaces et-0/0/20:3
+set interfaces et-0/0/20:3 unit 0 family inet address 192.168.4.2/30
+set interfaces et-0/0/20:3 unit 0 family inet6 address fd00:4::2/64
+delete interfaces et-0/0/22:2
+set interfaces et-0/0/22:2 unit 0 family inet address 192.168.5.2/30
+set interfaces et-0/0/22:2 unit 0 family inet6 address fd00:5::2/64
+delete interfaces et-0/0/22:3
+set interfaces et-0/0/22:3 unit 0 family inet address 192.168.6.2/30
+set interfaces et-0/0/22:3 unit 0 family inet6 address fd00:6::2/64
+delete interfaces et-0/0/24:2
+set interfaces et-0/0/24:2 unit 0 family inet address 192.168.7.2/30
+set interfaces et-0/0/24:2 unit 0 family inet6 address fd00:7::2/64
+delete interfaces et-0/0/24:3
+set interfaces et-0/0/24:3 unit 0 family inet address 192.168.8.2/30
+set interfaces et-0/0/24:3 unit 0 family inet6 address fd00:8::2/64
+delete interfaces et-0/0/26:2
+set interfaces et-0/0/26:2 unit 0 family inet address 192.168.9.2/30
+set interfaces et-0/0/26:2 unit 0 family inet6 address fd00:9::2/64
+delete interfaces et-0/0/26:3
+set interfaces et-0/0/26:3 unit 0 family inet address 192.168.10.2/30
+set interfaces et-0/0/26:3 unit 0 family inet6 address fd00:10::2/64
+delete interfaces et-0/0/28:2
+set interfaces et-0/0/28:2 unit 0 family inet address 192.168.11.2/30
+set interfaces et-0/0/28:2 unit 0 family inet6 address fd00:11::2/64
+delete interfaces et-0/0/28:3
+set interfaces et-0/0/28:3 unit 0 family inet address 192.168.12.2/30
+set interfaces et-0/0/28:3 unit 0 family inet6 address fd00:12::2/64
+delete interfaces et-0/0/30:2
+set interfaces et-0/0/30:2 unit 0 family inet address 192.168.13.2/30
+set interfaces et-0/0/30:2 unit 0 family inet6 address fd00:13::2/64
+delete interfaces et-0/0/30:3
+set interfaces et-0/0/30:3 unit 0 family inet address 192.168.14.2/30
+set interfaces et-0/0/30:3 unit 0 family inet6 address fd00:14::2/64
+delete interfaces et-0/0/0:4
+set interfaces et-0/0/0:4 unit 0 family inet address 192.168.15.2/30
+set interfaces et-0/0/0:4 unit 0 family inet6 address fd00:15::2/64
+delete interfaces et-0/0/0:5
+set interfaces et-0/0/0:5 unit 0 family inet address 192.168.16.2/30
+set interfaces et-0/0/0:5 unit 0 family inet6 address fd00:16::2/64
+delete interfaces et-0/0/0:6
+set interfaces et-0/0/0:6 unit 0 family inet address 192.168.17.2/30
+set interfaces et-0/0/0:6 unit 0 family inet6 address fd00:17::2/64
+delete interfaces et-0/0/0:7
+set interfaces et-0/0/0:7 unit 0 family inet address 192.168.18.2/30
+set interfaces et-0/0/0:7 unit 0 family inet6 address fd00:18::2/64
+delete interfaces et-0/0/2:4
+set interfaces et-0/0/2:4 unit 0 family inet address 192.168.19.2/30
+set interfaces et-0/0/2:4 unit 0 family inet6 address fd00:19::2/64
+delete interfaces et-0/0/2:5
+set interfaces et-0/0/2:5 unit 0 family inet address 192.168.20.2/30
+set interfaces et-0/0/2:5 unit 0 family inet6 address fd00:20::2/64
+delete interfaces et-0/0/2:6
+set interfaces et-0/0/2:6 unit 0 family inet address 192.168.21.2/30
+set interfaces et-0/0/2:6 unit 0 family inet6 address fd00:21::2/64
+delete interfaces et-0/0/2:7
+set interfaces et-0/0/2:7 unit 0 family inet address 192.168.22.2/30
+set interfaces et-0/0/2:7 unit 0 family inet6 address fd00:22::2/64
+delete interfaces et-0/0/4:4
+set interfaces et-0/0/4:4 unit 0 family inet address 192.168.23.2/30
+set interfaces et-0/0/4:4 unit 0 family inet6 address fd00:23::2/64
+delete interfaces et-0/0/4:5
+set interfaces et-0/0/4:5 unit 0 family inet address 192.168.24.2/30
+set interfaces et-0/0/4:5 unit 0 family inet6 address fd00:24::2/64
+delete interfaces et-0/0/4:6
+set interfaces et-0/0/4:6 unit 0 family inet address 192.168.25.2/30
+set interfaces et-0/0/4:6 unit 0 family inet6 address fd00:25::2/64
+delete interfaces et-0/0/4:7
+set interfaces et-0/0/4:7 unit 0 family inet address 192.168.26.2/30
+set interfaces et-0/0/4:7 unit 0 family inet6 address fd00:26::2/64
+delete interfaces et-0/0/6:4
+set interfaces et-0/0/6:4 unit 0 family inet address 192.168.27.2/30
+set interfaces et-0/0/6:4 unit 0 family inet6 address fd00:27::2/64
+delete interfaces et-0/0/6:5
+set interfaces et-0/0/6:5 unit 0 family inet address 192.168.28.2/30
+set interfaces et-0/0/6:5 unit 0 family inet6 address fd00:28::2/64
+delete interfaces et-0/0/6:6
+set interfaces et-0/0/6:6 unit 0 family inet address 192.168.29.2/30
+set interfaces et-0/0/6:6 unit 0 family inet6 address fd00:29::2/64
+delete interfaces et-0/0/6:7
+set interfaces et-0/0/6:7 unit 0 family inet address 192.168.30.2/30
+set interfaces et-0/0/6:7 unit 0 family inet6 address fd00:30::2/64
+delete interfaces et-0/0/8:4
+set interfaces et-0/0/8:4 unit 0 family inet address 192.168.31.2/30
+set interfaces et-0/0/8:4 unit 0 family inet6 address fd00:31::2/64
+delete interfaces et-0/0/8:5
+set interfaces et-0/0/8:5 unit 0 family inet address 192.168.32.2/30
+set interfaces et-0/0/8:5 unit 0 family inet6 address fd00:32::2/64
+delete interfaces et-0/0/8:6
+set interfaces et-0/0/8:6 unit 0 family inet address 192.168.33.2/30
+set interfaces et-0/0/8:6 unit 0 family inet6 address fd00:33::2/64
+delete interfaces et-0/0/8:7
+set interfaces et-0/0/8:7 unit 0 family inet address 192.168.34.2/30
+set interfaces et-0/0/8:7 unit 0 family inet6 address fd00:34::2/64
+delete interfaces et-0/0/10:4
+set interfaces et-0/0/10:4 unit 0 family inet address 192.168.35.2/30
+set interfaces et-0/0/10:4 unit 0 family inet6 address fd00:35::2/64
+delete interfaces et-0/0/10:5
+set interfaces et-0/0/10:5 unit 0 family inet address 192.168.36.2/30
+set interfaces et-0/0/10:5 unit 0 family inet6 address fd00:36::2/64
+delete interfaces et-0/0/10:6
+set interfaces et-0/0/10:6 unit 0 family inet address 192.168.37.2/30
+set interfaces et-0/0/10:6 unit 0 family inet6 address fd00:37::2/64
+delete interfaces et-0/0/10:7
+set interfaces et-0/0/10:7 unit 0 family inet address 192.168.38.2/30
+set interfaces et-0/0/10:7 unit 0 family inet6 address fd00:38::2/64
+delete interfaces et-0/0/12:4
+set interfaces et-0/0/12:4 unit 0 family inet address 192.168.39.2/30
+set interfaces et-0/0/12:4 unit 0 family inet6 address fd00:39::2/64
+delete interfaces et-0/0/12:5
+set interfaces et-0/0/12:5 unit 0 family inet address 192.168.40.2/30
+set interfaces et-0/0/12:5 unit 0 family inet6 address fd00:40::2/64
+delete interfaces et-0/0/12:6
+set interfaces et-0/0/12:6 unit 0 family inet address 192.168.41.2/30
+set interfaces et-0/0/12:6 unit 0 family inet6 address fd00:41::2/64
+delete interfaces et-0/0/12:7
+set interfaces et-0/0/12:7 unit 0 family inet address 192.168.42.2/30
+set interfaces et-0/0/12:7 unit 0 family inet6 address fd00:42::2/64
+delete interfaces et-0/0/14:4
+set interfaces et-0/0/14:4 unit 0 family inet address 192.168.43.2/30
+set interfaces et-0/0/14:4 unit 0 family inet6 address fd00:43::2/64
+delete interfaces et-0/0/14:5
+set interfaces et-0/0/14:5 unit 0 family inet address 192.168.44.2/30
+set interfaces et-0/0/14:5 unit 0 family inet6 address fd00:44::2/64
+delete interfaces et-0/0/14:6
+set interfaces et-0/0/14:6 unit 0 family inet address 192.168.45.2/30
+set interfaces et-0/0/14:6 unit 0 family inet6 address fd00:45::2/64
+delete interfaces et-0/0/14:7
+set interfaces et-0/0/14:7 unit 0 family inet address 192.168.46.2/30
+set interfaces et-0/0/14:7 unit 0 family inet6 address fd00:46::2/64
+delete interfaces et-0/0/16:4
+set interfaces et-0/0/16:4 unit 0 family inet address 192.168.47.2/30
+set interfaces et-0/0/16:4 unit 0 family inet6 address fd00:47::2/64
+delete interfaces et-0/0/16:5
+set interfaces et-0/0/16:5 unit 0 family inet address 192.168.48.2/30
+set interfaces et-0/0/16:5 unit 0 family inet6 address fd00:48::2/64
+delete interfaces et-0/0/16:6
+set interfaces et-0/0/16:6 unit 0 family inet address 192.168.49.2/30
+set interfaces et-0/0/16:6 unit 0 family inet6 address fd00:49::2/64
+delete interfaces et-0/0/16:7
+set interfaces et-0/0/16:7 unit 0 family inet address 192.168.50.2/30
+set interfaces et-0/0/16:7 unit 0 family inet6 address fd00:50::2/64
+delete interfaces et-0/0/18:4
+set interfaces et-0/0/18:4 unit 0 family inet address 192.168.51.2/30
+set interfaces et-0/0/18:4 unit 0 family inet6 address fd00:51::2/64
+delete interfaces et-0/0/18:5
+set interfaces et-0/0/18:5 unit 0 family inet address 192.168.52.2/30
+set interfaces et-0/0/18:5 unit 0 family inet6 address fd00:52::2/64
+delete interfaces et-0/0/18:6
+set interfaces et-0/0/18:6 unit 0 family inet address 192.168.53.2/30
+set interfaces et-0/0/18:6 unit 0 family inet6 address fd00:53::2/64
+delete interfaces et-0/0/18:7
+set interfaces et-0/0/18:7 unit 0 family inet address 192.168.54.2/30
+set interfaces et-0/0/18:7 unit 0 family inet6 address fd00:54::2/64
+delete interfaces et-0/0/20:4
+set interfaces et-0/0/20:4 unit 0 family inet address 192.168.55.2/30
+set interfaces et-0/0/20:4 unit 0 family inet6 address fd00:55::2/64
+delete interfaces et-0/0/20:5
+set interfaces et-0/0/20:5 unit 0 family inet address 192.168.56.2/30
+set interfaces et-0/0/20:5 unit 0 family inet6 address fd00:56::2/64
+delete interfaces et-0/0/20:6
+set interfaces et-0/0/20:6 unit 0 family inet address 192.168.57.2/30
+set interfaces et-0/0/20:6 unit 0 family inet6 address fd00:57::2/64
+delete interfaces et-0/0/20:7
+set interfaces et-0/0/20:7 unit 0 family inet address 192.168.58.2/30
+set interfaces et-0/0/20:7 unit 0 family inet6 address fd00:58::2/64
+delete interfaces et-0/0/22:4
+set interfaces et-0/0/22:4 unit 0 family inet address 192.168.59.2/30
+set interfaces et-0/0/22:4 unit 0 family inet6 address fd00:59::2/64
+delete interfaces et-0/0/22:5
+set interfaces et-0/0/22:5 unit 0 family inet address 192.168.60.2/30
+set interfaces et-0/0/22:5 unit 0 family inet6 address fd00:60::2/64
+delete interfaces et-0/0/22:6
+set interfaces et-0/0/22:6 unit 0 family inet address 192.168.61.2/30
+set interfaces et-0/0/22:6 unit 0 family inet6 address fd00:61::2/64
+delete interfaces et-0/0/22:7
+set interfaces et-0/0/22:7 unit 0 family inet address 192.168.62.2/30
+set interfaces et-0/0/22:7 unit 0 family inet6 address fd00:62::2/64
+delete interfaces et-0/0/24:4
+set interfaces et-0/0/24:4 unit 0 family inet address 192.168.63.2/30
+set interfaces et-0/0/24:4 unit 0 family inet6 address fd00:63::2/64
+delete interfaces et-0/0/24:5
+set interfaces et-0/0/24:5 unit 0 family inet address 192.168.64.2/30
+set interfaces et-0/0/24:5 unit 0 family inet6 address fd00:64::2/64
+delete interfaces et-0/0/24:6
+set interfaces et-0/0/24:6 unit 0 family inet address 192.168.65.2/30
+set interfaces et-0/0/24:6 unit 0 family inet6 address fd00:65::2/64
+delete interfaces et-0/0/24:7
+set interfaces et-0/0/24:7 unit 0 family inet address 192.168.66.2/30
+set interfaces et-0/0/24:7 unit 0 family inet6 address fd00:66::2/64
+delete interfaces et-0/0/26:4
+set interfaces et-0/0/26:4 unit 0 family inet address 192.168.67.2/30
+set interfaces et-0/0/26:4 unit 0 family inet6 address fd00:67::2/64
+delete interfaces et-0/0/26:5
+set interfaces et-0/0/26:5 unit 0 family inet address 192.168.68.2/30
+set interfaces et-0/0/26:5 unit 0 family inet6 address fd00:68::2/64
+delete interfaces et-0/0/26:6
+set interfaces et-0/0/26:6 unit 0 family inet address 192.168.69.2/30
+set interfaces et-0/0/26:6 unit 0 family inet6 address fd00:69::2/64
+delete interfaces et-0/0/26:7
+set interfaces et-0/0/26:7 unit 0 family inet address 192.168.70.2/30
+set interfaces et-0/0/26:7 unit 0 family inet6 address fd00:70::2/64
+delete interfaces et-0/0/28:4
+set interfaces et-0/0/28:4 unit 0 family inet address 192.168.71.2/30
+set interfaces et-0/0/28:4 unit 0 family inet6 address fd00:71::2/64
+delete interfaces et-0/0/28:5
+set interfaces et-0/0/28:5 unit 0 family inet address 192.168.72.2/30
+set interfaces et-0/0/28:5 unit 0 family inet6 address fd00:72::2/64
+delete interfaces et-0/0/28:6
+set interfaces et-0/0/28:6 unit 0 family inet address 192.168.73.2/30
+set interfaces et-0/0/28:6 unit 0 family inet6 address fd00:73::2/64
+delete interfaces et-0/0/28:7
+set interfaces et-0/0/28:7 unit 0 family inet address 192.168.74.2/30
+set interfaces et-0/0/28:7 unit 0 family inet6 address fd00:74::2/64
+delete interfaces et-0/0/30:4
+set interfaces et-0/0/30:4 unit 0 family inet address 192.168.75.2/30
+set interfaces et-0/0/30:4 unit 0 family inet6 address fd00:75::2/64
+delete interfaces et-0/0/30:5
+set interfaces et-0/0/30:5 unit 0 family inet address 192.168.76.2/30
+set interfaces et-0/0/30:5 unit 0 family inet6 address fd00:76::2/64
+delete interfaces et-0/0/30:6
+set interfaces et-0/0/30:6 unit 0 family inet address 192.168.77.2/30
+set interfaces et-0/0/30:6 unit 0 family inet6 address fd00:77::2/64
+delete interfaces et-0/0/30:7
+set interfaces et-0/0/30:7 unit 0 family inet address 192.168.78.2/30
+set interfaces et-0/0/30:7 unit 0 family inet6 address fd00:78::2/64
+delete interfaces et-0/0/0:0
+set interfaces et-0/0/0:0 unit 0 family inet address 192.168.79.2/30
+set interfaces et-0/0/0:0 unit 0 family inet6 address fd00:79::2/64
+delete interfaces et-0/0/0:1
+set interfaces et-0/0/0:1 unit 0 family inet address 192.168.80.2/30
+set interfaces et-0/0/0:1 unit 0 family inet6 address fd00:80::2/64
+delete interfaces et-0/0/2:0
+set interfaces et-0/0/2:0 unit 0 family inet address 192.168.81.2/30
+set interfaces et-0/0/2:0 unit 0 family inet6 address fd00:81::2/64
+delete interfaces et-0/0/2:1
+set interfaces et-0/0/2:1 unit 0 family inet address 192.168.82.2/30
+set interfaces et-0/0/2:1 unit 0 family inet6 address fd00:82::2/64
+delete interfaces et-0/0/4:0
+set interfaces et-0/0/4:0 unit 0 family inet address 192.168.83.2/30
+set interfaces et-0/0/4:0 unit 0 family inet6 address fd00:83::2/64
+delete interfaces et-0/0/4:1
+set interfaces et-0/0/4:1 unit 0 family inet address 192.168.84.2/30
+set interfaces et-0/0/4:1 unit 0 family inet6 address fd00:84::2/64
+delete interfaces et-0/0/6:0
+set interfaces et-0/0/6:0 unit 0 family inet address 192.168.85.2/30
+set interfaces et-0/0/6:0 unit 0 family inet6 address fd00:85::2/64
+delete interfaces et-0/0/6:1
+set interfaces et-0/0/6:1 unit 0 family inet address 192.168.86.2/30
+set interfaces et-0/0/6:1 unit 0 family inet6 address fd00:86::2/64
+delete interfaces et-0/0/8:0
+set interfaces et-0/0/8:0 unit 0 family inet address 192.168.87.2/30
+set interfaces et-0/0/8:0 unit 0 family inet6 address fd00:87::2/64
+delete interfaces et-0/0/8:1
+set interfaces et-0/0/8:1 unit 0 family inet address 192.168.88.2/30
+set interfaces et-0/0/8:1 unit 0 family inet6 address fd00:88::2/64
+delete interfaces et-0/0/10:0
+set interfaces et-0/0/10:0 unit 0 family inet address 192.168.89.2/30
+set interfaces et-0/0/10:0 unit 0 family inet6 address fd00:89::2/64
+delete interfaces et-0/0/10:1
+set interfaces et-0/0/10:1 unit 0 family inet address 192.168.90.2/30
+set interfaces et-0/0/10:1 unit 0 family inet6 address fd00:90::2/64
+delete interfaces et-0/0/12:0
+set interfaces et-0/0/12:0 unit 0 family inet address 192.168.91.2/30
+set interfaces et-0/0/12:0 unit 0 family inet6 address fd00:91::2/64
+delete interfaces et-0/0/12:1
+set interfaces et-0/0/12:1 unit 0 family inet address 192.168.92.2/30
+set interfaces et-0/0/12:1 unit 0 family inet6 address fd00:92::2/64
+delete interfaces et-0/0/14:0
+set interfaces et-0/0/14:0 unit 0 family inet address 192.168.93.2/30
+set interfaces et-0/0/14:0 unit 0 family inet6 address fd00:93::2/64
+delete interfaces et-0/0/14:1
+set interfaces et-0/0/14:1 unit 0 family inet address 192.168.94.2/30
+set interfaces et-0/0/14:1 unit 0 family inet6 address fd00:94::2/64
+delete interfaces et-0/0/16:0
+set interfaces et-0/0/16:0 unit 0 family inet address 192.168.95.2/30
+set interfaces et-0/0/16:0 unit 0 family inet6 address fd00:95::2/64
+delete interfaces et-0/0/16:1
+set interfaces et-0/0/16:1 unit 0 family inet address 192.168.96.2/30
+set interfaces et-0/0/16:1 unit 0 family inet6 address fd00:96::2/64
+delete interfaces et-0/0/18:0
+set interfaces et-0/0/18:0 unit 0 family inet address 192.168.97.2/30
+set interfaces et-0/0/18:0 unit 0 family inet6 address fd00:97::2/64
+delete interfaces et-0/0/18:1
+set interfaces et-0/0/18:1 unit 0 family inet address 192.168.98.2/30
+set interfaces et-0/0/18:1 unit 0 family inet6 address fd00:98::2/64
+delete interfaces et-0/0/20:0
+set interfaces et-0/0/20:0 unit 0 family inet address 192.168.99.2/30
+set interfaces et-0/0/20:0 unit 0 family inet6 address fd00:99::2/64
+delete interfaces et-0/0/20:1
+set interfaces et-0/0/20:1 unit 0 family inet address 192.168.100.2/30
+set interfaces et-0/0/20:1 unit 0 family inet6 address fd00:100::2/64
+delete interfaces et-0/0/22:0
+set interfaces et-0/0/22:0 unit 0 family inet address 192.168.101.2/30
+set interfaces et-0/0/22:0 unit 0 family inet6 address fd00:101::2/64
+delete interfaces et-0/0/22:1
+set interfaces et-0/0/22:1 unit 0 family inet address 192.168.102.2/30
+set interfaces et-0/0/22:1 unit 0 family inet6 address fd00:102::2/64
+delete interfaces et-0/0/24:0
+set interfaces et-0/0/24:0 unit 0 family inet address 192.168.103.2/30
+set interfaces et-0/0/24:0 unit 0 family inet6 address fd00:103::2/64
+delete interfaces et-0/0/24:1
+set interfaces et-0/0/24:1 unit 0 family inet address 192.168.104.2/30
+set interfaces et-0/0/24:1 unit 0 family inet6 address fd00:104::2/64
+delete interfaces et-0/0/26:0
+set interfaces et-0/0/26:0 unit 0 family inet address 192.168.105.2/30
+set interfaces et-0/0/26:0 unit 0 family inet6 address fd00:105::2/64
+delete interfaces et-0/0/26:1
+set interfaces et-0/0/26:1 unit 0 family inet address 192.168.106.2/30
+set interfaces et-0/0/26:1 unit 0 family inet6 address fd00:106::2/64
+delete interfaces et-0/0/28:0
+set interfaces et-0/0/28:0 unit 0 family inet address 192.168.107.2/30
+set interfaces et-0/0/28:0 unit 0 family inet6 address fd00:107::2/64
+delete interfaces et-0/0/28:1
+set interfaces et-0/0/28:1 unit 0 family inet address 192.168.108.2/30
+set interfaces et-0/0/28:1 unit 0 family inet6 address fd00:108::2/64
+delete interfaces et-0/0/30:0
+set interfaces et-0/0/30:0 unit 0 family inet address 192.168.109.2/30
+set interfaces et-0/0/30:0 unit 0 family inet6 address fd00:109::2/64
+delete interfaces et-0/0/30:1
+set interfaces et-0/0/30:1 unit 0 family inet address 192.168.110.2/30
+set interfaces et-0/0/30:1 unit 0 family inet6 address fd00:110::2/64
+delete interfaces et-0/0/1:0
+set interfaces et-0/0/1:0 unit 0 family inet address 192.168.111.2/30
+set interfaces et-0/0/1:0 unit 0 family inet6 address fd00:111::2/64
+delete interfaces et-0/0/1:1
+set interfaces et-0/0/1:1 unit 0 family inet address 192.168.112.2/30
+set interfaces et-0/0/1:1 unit 0 family inet6 address fd00:112::2/64
+delete interfaces et-0/0/3:0
+set interfaces et-0/0/3:0 unit 0 family inet address 192.168.113.2/30
+set interfaces et-0/0/3:0 unit 0 family inet6 address fd00:113::2/64
+delete interfaces et-0/0/3:1
+set interfaces et-0/0/3:1 unit 0 family inet address 192.168.114.2/30
+set interfaces et-0/0/3:1 unit 0 family inet6 address fd00:114::2/64
+delete interfaces et-0/0/5:0
+set interfaces et-0/0/5:0 unit 0 family inet address 192.168.115.2/30
+set interfaces et-0/0/5:0 unit 0 family inet6 address fd00:115::2/64
+delete interfaces et-0/0/5:1
+set interfaces et-0/0/5:1 unit 0 family inet address 192.168.116.2/30
+set interfaces et-0/0/5:1 unit 0 family inet6 address fd00:116::2/64
+delete interfaces et-0/0/7:0
+set interfaces et-0/0/7:0 unit 0 family inet address 192.168.117.2/30
+set interfaces et-0/0/7:0 unit 0 family inet6 address fd00:117::2/64
+delete interfaces et-0/0/7:1
+set interfaces et-0/0/7:1 unit 0 family inet address 192.168.118.2/30
+set interfaces et-0/0/7:1 unit 0 family inet6 address fd00:118::2/64
+delete interfaces et-0/0/9:0
+set interfaces et-0/0/9:0 unit 0 family inet address 192.168.119.2/30
+set interfaces et-0/0/9:0 unit 0 family inet6 address fd00:119::2/64
+delete interfaces et-0/0/9:1
+set interfaces et-0/0/9:1 unit 0 family inet address 192.168.120.2/30
+set interfaces et-0/0/9:1 unit 0 family inet6 address fd00:120::2/64
+delete interfaces et-0/0/11:0
+set interfaces et-0/0/11:0 unit 0 family inet address 192.168.121.2/30
+set interfaces et-0/0/11:0 unit 0 family inet6 address fd00:121::2/64
+delete interfaces et-0/0/11:1
+set interfaces et-0/0/11:1 unit 0 family inet address 192.168.122.2/30
+set interfaces et-0/0/11:1 unit 0 family inet6 address fd00:122::2/64
+delete interfaces et-0/0/13:0
+set interfaces et-0/0/13:0 unit 0 family inet address 192.168.123.2/30
+set interfaces et-0/0/13:0 unit 0 family inet6 address fd00:123::2/64
+delete interfaces et-0/0/13:1
+set interfaces et-0/0/13:1 unit 0 family inet address 192.168.124.2/30
+set interfaces et-0/0/13:1 unit 0 family inet6 address fd00:124::2/64
+delete interfaces et-0/0/15:0
+set interfaces et-0/0/15:0 unit 0 family inet address 192.168.125.2/30
+set interfaces et-0/0/15:0 unit 0 family inet6 address fd00:125::2/64
+delete interfaces et-0/0/15:1
+set interfaces et-0/0/15:1 unit 0 family inet address 192.168.126.2/30
+set interfaces et-0/0/15:1 unit 0 family inet6 address fd00:126::2/64
+delete interfaces et-0/0/17:0
+set interfaces et-0/0/17:0 unit 0 family inet address 192.168.127.2/30
+set interfaces et-0/0/17:0 unit 0 family inet6 address fd00:127::2/64
+delete interfaces et-0/0/17:1
+set interfaces et-0/0/17:1 unit 0 family inet address 192.168.128.2/30
+set interfaces et-0/0/17:1 unit 0 family inet6 address fd00:128::2/64
+delete interfaces et-0/0/19:0
+set interfaces et-0/0/19:0 unit 0 family inet address 192.168.129.2/30
+set interfaces et-0/0/19:0 unit 0 family inet6 address fd00:129::2/64
+delete interfaces et-0/0/19:1
+set interfaces et-0/0/19:1 unit 0 family inet address 192.168.130.2/30
+set interfaces et-0/0/19:1 unit 0 family inet6 address fd00:130::2/64
+delete interfaces et-0/0/21:0
+set interfaces et-0/0/21:0 unit 0 family inet address 192.168.131.2/30
+set interfaces et-0/0/21:0 unit 0 family inet6 address fd00:131::2/64
+delete interfaces et-0/0/21:1
+set interfaces et-0/0/21:1 unit 0 family inet address 192.168.132.2/30
+set interfaces et-0/0/21:1 unit 0 family inet6 address fd00:132::2/64
+delete interfaces et-0/0/23:0
+set interfaces et-0/0/23:0 unit 0 family inet address 192.168.133.2/30
+set interfaces et-0/0/23:0 unit 0 family inet6 address fd00:133::2/64
+delete interfaces et-0/0/23:1
+set interfaces et-0/0/23:1 unit 0 family inet address 192.168.134.2/30
+set interfaces et-0/0/23:1 unit 0 family inet6 address fd00:134::2/64
+delete interfaces et-0/0/25:0
+set interfaces et-0/0/25:0 unit 0 family inet address 192.168.135.2/30
+set interfaces et-0/0/25:0 unit 0 family inet6 address fd00:135::2/64
+delete interfaces et-0/0/25:1
+set interfaces et-0/0/25:1 unit 0 family inet address 192.168.136.2/30
+set interfaces et-0/0/25:1 unit 0 family inet6 address fd00:136::2/64
+delete interfaces et-0/0/27:0
+set interfaces et-0/0/27:0 unit 0 family inet address 192.168.137.2/30
+set interfaces et-0/0/27:0 unit 0 family inet6 address fd00:137::2/64
+delete interfaces et-0/0/27:1
+set interfaces et-0/0/27:1 unit 0 family inet address 192.168.138.2/30
+set interfaces et-0/0/27:1 unit 0 family inet6 address fd00:138::2/64
+delete interfaces et-0/0/29:0
+set interfaces et-0/0/29:0 unit 0 family inet address 192.168.139.2/30
+set interfaces et-0/0/29:0 unit 0 family inet6 address fd00:139::2/64
+delete interfaces et-0/0/29:1
+set interfaces et-0/0/29:1 unit 0 family inet address 192.168.140.2/30
+set interfaces et-0/0/29:1 unit 0 family inet6 address fd00:140::2/64
+delete interfaces et-0/0/31:0
+set interfaces et-0/0/31:0 unit 0 family inet address 192.168.141.2/30
+set interfaces et-0/0/31:0 unit 0 family inet6 address fd00:141::2/64
+delete interfaces et-0/0/31:1
+set interfaces et-0/0/31:1 unit 0 family inet address 192.168.142.2/30
+set interfaces et-0/0/31:1 unit 0 family inet6 address fd00:142::2/64
+delete interfaces et-0/0/0:2
+set interfaces et-0/0/0:2 unit 0 family inet address 192.168.143.2/30
+set interfaces et-0/0/0:2 unit 0 family inet6 address fd00:143::2/64
+delete interfaces et-0/0/0:3
+set interfaces et-0/0/0:3 unit 0 family inet address 192.168.144.2/30
+set interfaces et-0/0/0:3 unit 0 family inet6 address fd00:144::2/64
+delete interfaces et-0/0/2:2
+set interfaces et-0/0/2:2 unit 0 family inet address 192.168.145.2/30
+set interfaces et-0/0/2:2 unit 0 family inet6 address fd00:145::2/64
+delete interfaces et-0/0/2:3
+set interfaces et-0/0/2:3 unit 0 family inet address 192.168.146.2/30
+set interfaces et-0/0/2:3 unit 0 family inet6 address fd00:146::2/64
+delete interfaces et-0/0/4:2
+set interfaces et-0/0/4:2 unit 0 family inet address 192.168.147.2/30
+set interfaces et-0/0/4:2 unit 0 family inet6 address fd00:147::2/64
+delete interfaces et-0/0/4:3
+set interfaces et-0/0/4:3 unit 0 family inet address 192.168.148.2/30
+set interfaces et-0/0/4:3 unit 0 family inet6 address fd00:148::2/64
+delete interfaces et-0/0/6:2
+set interfaces et-0/0/6:2 unit 0 family inet address 192.168.149.2/30
+set interfaces et-0/0/6:2 unit 0 family inet6 address fd00:149::2/64
+delete interfaces et-0/0/6:3
+set interfaces et-0/0/6:3 unit 0 family inet address 192.168.150.2/30
+set interfaces et-0/0/6:3 unit 0 family inet6 address fd00:150::2/64
+delete interfaces et-0/0/8:2
+set interfaces et-0/0/8:2 unit 0 family inet address 192.168.151.2/30
+set interfaces et-0/0/8:2 unit 0 family inet6 address fd00:151::2/64
+delete interfaces et-0/0/8:3
+set interfaces et-0/0/8:3 unit 0 family inet address 192.168.152.2/30
+set interfaces et-0/0/8:3 unit 0 family inet6 address fd00:152::2/64
+delete interfaces et-0/0/10:2
+set interfaces et-0/0/10:2 unit 0 family inet address 192.168.153.2/30
+set interfaces et-0/0/10:2 unit 0 family inet6 address fd00:153::2/64
+delete interfaces et-0/0/10:3
+set interfaces et-0/0/10:3 unit 0 family inet address 192.168.154.2/30
+set interfaces et-0/0/10:3 unit 0 family inet6 address fd00:154::2/64
+delete interfaces et-0/0/12:2
+set interfaces et-0/0/12:2 unit 0 family inet address 192.168.155.2/30
+set interfaces et-0/0/12:2 unit 0 family inet6 address fd00:155::2/64
+delete interfaces et-0/0/12:3
+set interfaces et-0/0/12:3 unit 0 family inet address 192.168.156.2/30
+set interfaces et-0/0/12:3 unit 0 family inet6 address fd00:156::2/64
+delete interfaces et-0/0/14:2
+set interfaces et-0/0/14:2 unit 0 family inet address 192.168.157.2/30
+set interfaces et-0/0/14:2 unit 0 family inet6 address fd00:157::2/64
+delete interfaces et-0/0/14:3
+set interfaces et-0/0/14:3 unit 0 family inet address 192.168.158.2/30
+set interfaces et-0/0/14:3 unit 0 family inet6 address fd00:158::2/64
+delete interfaces et-0/0/16:2
+set interfaces et-0/0/16:2 unit 0 family inet address 192.168.159.2/30
+set interfaces et-0/0/16:2 unit 0 family inet6 address fd00:159::2/64
+delete interfaces et-0/0/16:3
+set interfaces et-0/0/16:3 unit 0 family inet address 192.168.160.2/30
+set interfaces et-0/0/16:3 unit 0 family inet6 address fd00:160::2/64
+delete interfaces et-0/0/18:2
+set interfaces et-0/0/18:2 unit 0 family inet address 192.168.161.2/30
+set interfaces et-0/0/18:2 unit 0 family inet6 address fd00:161::2/64
+delete interfaces et-0/0/18:3
+set interfaces et-0/0/18:3 unit 0 family inet address 192.168.162.2/30
+set interfaces et-0/0/18:3 unit 0 family inet6 address fd00:162::2/64

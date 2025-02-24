@@ -103,6 +103,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorLogList = document.getElementById('errorLogList');
     const closeErrorLogButton = document.getElementById('closeErrorLogBtn');
     const showConfigButton = document.getElementById('showUnderlayConfigBtn');
+    const closeTopologyBottomBtn = document.getElementById('closeTopologyBottomBtn');
+
+function closeTopologyModal() {
+        topologyModal.style.display = 'none';
+    }
+closeTopologyBottomBtn.addEventListener('click', closeTopologyModal);
+
+
+function adjustModalSize() {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        topologyModalContent.style.width = `${Math.min(viewportWidth * 0.95, 1600)}px`;
+        topologyModalContent.style.height = `${Math.min(viewportHeight * 0.90, 900)}px`;
+    }
+
+window.addEventListener('resize', adjustModalSize);
 
 
 
@@ -729,6 +746,8 @@ function renderTopologyInModal(devices, edges) {
 
 
 
+
+
 function addModalEventListeners(modalId, closeButtons) {
     const modal = document.getElementById(modalId);
 
@@ -966,3 +985,4 @@ $(document).ready(function () {
 }); // Closing for $(document).ready(function () {...})
 
 });
+

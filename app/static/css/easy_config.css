@@ -3,33 +3,48 @@
     margin-bottom: 10px;
 }
 
-
-/* Modal Styling */
 #topologyModal {
-    display: none; /* Hidden by default */
-    position: absolute;
-    z-index: 1000; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    overflow: hidden; /* Prevent body scrolling */
 }
 
-/* Modal Content */
 #topologyModalContent {
-    background-color: #fefefe;
-    margin: 5% auto; /* Centered */
+    background-color: white;
+    margin: 2% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 90%; /* Increase width */
-    max-width: 1200px; /* Limit maximum width */
-    height: 80vh; /* Set height relative to viewport */
-    max-height: 90vh; /* Limit maximum height */
-    overflow: hidden; /* Hide overflow */
+    width: 95%;
+    max-width: 1600px;  /* Increased max width */
+    height: 85vh;
+    max-height: 90vh;
+    overflow: hidden;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    resize: both; /* Allows resizing */
+}
+
+#cyModalContent {
+    flex-grow: 1;  /* Ensures it takes available space */
+    overflow: auto; /* Enables scrolling for large graphs */
+    width: 100%;
+    height: 100%;
+}
+
+
+#topologymodalFooter {
+    padding: 10px;
+    background: #f8f9fa;
+    border-top: 1px solid #ddd;
+    text-align: right;
 }
 
 /* Modal Header */
@@ -39,6 +54,26 @@
     align-items: center;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
+}
+
+/* Style for Close button */
+.close-btn {
+    padding: 5px 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.close-btn:hover {
+    background-color: #b52b3a;
+}
+
+.topology-modal-close {
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /* Close Button */
@@ -53,12 +88,6 @@
     color: red;
 }
 
-/* Cytoscape Container */
-#cyModalContent {
-    height: calc(100% - 50px); /* Fill remaining height */
-    overflow: auto;
-    cursor: context-menu; /* Indicate that right-click actions are available */
-}
 
 
 #topologyTools button {

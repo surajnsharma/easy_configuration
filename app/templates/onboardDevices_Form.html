@@ -131,12 +131,13 @@
                 <th style="width: 50px;">
                     <input type="checkbox" id="selectAllDevices">
                 </th>
+                <th><i class="fa-solid fa-network-wired" style="cursor: pointer;"></i></th>
+
                 <th>
                     <i id="expandAllIcon" class="fa-solid fa-angles-down"
                        onclick="toggleAllRows()" style="cursor: pointer; margin-right: 8px; display: inline-block;"></i>
                     Hostname
                 </th>
-
                 <th>IP Address</th>
                 <th>Username</th>
                 <th>Password</th>
@@ -148,6 +149,9 @@
         <tbody>
             <tr data-device-id="svla-q5240-03">
                 <td><input type="checkbox" class="device-checkbox"></td>
+                <td class="device-state" data-ip="192.168.1.1">
+                    <i class="fa-solid fa-circle text-secondary"></i> <!-- Default Gray -->
+                </td>
                 <td>
                     <i class="fas fa-chevron-down dropdown-icon" onclick="toggleRow(this)" style="cursor: pointer; margin-right: 5px;"></i>
                     svla-q5240-03
@@ -164,8 +168,18 @@
                 </td>
             </tr>
 
+        <tr class="expandable-row" style="display: none;">
+            <td colspan="9"> <!-- Adjust colspan to match your table -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; padding: 10px; background-color: #f8f9fa; border-radius: 5px;">
+                    <span><i class="fa-solid fa-server"></i> <strong>Model:</strong> QFX5240-64OD</span>
+                    <span><i class="fa-solid fa-barcode"></i> <strong>Serial Number:</strong> AO10026048</span>
+                    <span><i class="fa-solid fa-clock"></i> <strong>Up Time:</strong> 18 hours, 56 minutes, 57 seconds</span>
+                    <span><i class="fa-solid fa-power-off"></i> <strong>Last Reboot Reason:</strong> Software Reboot</span>
+                </div>
+            </td>
+        </tr>
 
-            <tr class="expandable-row" style="display: none;">
+            <!--tr class="expandable-row" style="display: none;">
                 <td colspan="8">
                     <div style="display: flex; justify-content: space-between; padding: 5px;">
                         <span><strong>Model:</strong> QFX5240-64OD</span>
@@ -175,7 +189,7 @@
 
                     </div>
                 </td>
-            </tr>
+            </tr-->
         </tbody>
     </table>
 </div>

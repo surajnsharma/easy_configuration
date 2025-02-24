@@ -56,10 +56,17 @@ class DeviceInfo(db.Model):
     up_time = db.Column(db.String(100), nullable=True)
     last_reboot_reason = db.Column(db.String(255), nullable=True)
     last_updated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    reachability_status = db.Column(db.String(50), nullable=True, default="unknown")
     # Ensure that each user has unique devices based on IP
     __table_args__ = (
         db.UniqueConstraint('user_id', 'ip', name='unique_user_device'),
     )
+
+    def update_reachability(self, status):
+        """Update the reachability status and commit to the database."""
+        self.reachability_status = status
+        self.last_updated = datetime.utcnow()
+        db.session.commit()
 
 
 class Topology(db.Model):

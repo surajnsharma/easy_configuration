@@ -33,7 +33,7 @@ from paramiko.ssh_exception import ChannelException, ProxyCommandFailure
 import json, gzip
 #from inspect import signature
 from scp import SCPClient
-#from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 logging.basicConfig(level=logging.ERROR)
 # Set logging level and format
@@ -828,8 +828,91 @@ def create_routes(app):
 
     # Flask route to check device and link health
 
+    '''@app.route('/api/check_device_health', methods=['POST'])
+    @login_required
+    def check_device_health():
+        try:
+            data = request.get_json()
+            devices = data.get("devices", [])
 
+            if not devices:
+                logging.warning("⚠️ No devices provided for health check.")
+                return jsonify({"error": "No devices provided"}), 400
 
+            # ✅ Fetch router details from the database for the logged-in user
+            user_devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            if not user_devices:
+                logging.warning(f"⚠️ No devices found for user {current_user.id}.")
+                return jsonify({"error": "No devices found for this user"}), 404
+
+            # ✅ Construct router details dictionary
+            router_details = {
+                device.hostname: {
+                    "id": device.hostname,
+                    "hostname": device.hostname,
+                    "ip": device.ip,
+                    "username": device.username,
+                    "password": device.password
+                }
+                for device in user_devices
+            }
+
+            # ✅ Run device health check
+            health_status = DeviceHealthCheck.check_device_health(router_details, devices)
+
+            logging.info(f"✅ Device health check completed for user {current_user.id}. Results: {health_status}")
+
+            return jsonify({"health_status": health_status})
+
+        except Exception as e:
+            logging.error(f"🚨 Error in /api/check_device_health: {e}", exc_info=True)
+            return jsonify({"error": f"Unexpected error: {str(e)}"}), 500'''
+
+    @app.route('/api/check_device_health', methods=['POST'])
+    @login_required
+    def check_device_health():
+        try:
+            data = request.get_json()
+            devices = data.get("devices", [])
+
+            if not devices:
+                logging.warning("⚠️ No devices provided for health check.")
+                return jsonify({"error": "No devices provided"}), 400
+
+            # ✅ Fetch router details from the database for the logged-in user
+            user_devices = DeviceInfo.query.filter_by(user_id=current_user.id).all()
+            if not user_devices:
+                logging.warning(f"⚠️ No devices found for user {current_user.id}.")
+                return jsonify({"error": "No devices found for this user"}), 404
+
+            # ✅ Construct router details dictionary
+            router_details = {
+                device.hostname: {
+                    "id": device.hostname,
+                    "hostname": device.hostname,
+                    "ip": device.ip,
+                    "username": device.username,
+                    "password": device.password
+                }
+                for device in user_devices
+            }
+
+            # ✅ Run device health check
+            health_status = DeviceHealthCheck.check_device_health(router_details, devices)
+
+            # ✅ **Store reachability status in the database**
+            for device in user_devices:
+                device_id = device.hostname
+                status = health_status.get(device_id, "unknown")  # Default to "unknown"
+                device.update_reachability(status)
+
+            logging.info(f"✅ Device health check completed for user {current_user.id}. Results: {health_status}")
+
+            return jsonify({"health_status": health_status})
+
+        except Exception as e:
+            logging.error(f"🚨 Error in /api/check_device_health: {e}", exc_info=True)
+            return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
 
     @app.route('/check_device_health', methods=['POST'])
     @login_required
@@ -2584,6 +2667,9 @@ def create_routes(app):
         except Exception as e:
             logging.error(f"Error in refresh_versions: {e}")
             return jsonify(success=False, error=str(e)), 500
+
+
+
     @app.route('/upload_image', methods=['POST'])
     @login_required
     def upload_image():
@@ -3292,7 +3378,8 @@ def create_routes(app):
             'serial_number': device.serial_number if device.serial_number else 'N/A',
             'model': device.model if device.model else 'Unknown',
             'up_time': device.up_time if device.up_time else 'Unknown',
-            'last_reboot_reason': device.last_reboot_reason if device.last_reboot_reason else 'N/A'
+            'last_reboot_reason': device.last_reboot_reason if device.last_reboot_reason else 'N/A',
+            'reachability_status': device.reachability_status if device.reachability_status else 'unknown'
         } for device in devices]
 
         return jsonify(devices_data)
@@ -5105,8 +5192,12 @@ def create_routes(app):
                 filename = file.filename
                 if not filename.lower().endswith('.csv'):
                     return jsonify({'success': False, 'error': 'File is not a CSV'}), 400
-
+                base_upload_folder = session.get('UPLOAD_FOLDER')
+                user_upload_folder = os.path.join(base_upload_folder, current_user.username)
+                #print(f"********************user_upload_folder: {user_upload_folder}")
                 file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], current_user.username, filename)
+                #print(f"********************file_path: {file_path}")
+                #file_path = os.path.join(user_upload_folder, filename)
                 #os.path.join(app.config['LOG_FOLDER'], current_user.username),
                 file.save(file_path)
                 #   print(file_path)
@@ -5134,7 +5225,7 @@ def create_routes(app):
                             for row in csvreader:
                                 # Log the row data for debugging
                                 logging.info(f"Processing row: {row}")
-
+                                row = {key: value.strip() if value else value for key, value in row.items()}
                                 # Check if row has all necessary keys
                                 if not all(key in row for key in expected_keys):
                                     logging.error(f"Row is missing required keys: {row}")

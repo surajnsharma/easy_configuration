@@ -1,0 +1,43 @@
+Test log write successful.
+2025-02-23 15:19:39,758 [INFO] Logging initialized at /Users/surajsharma/FLASK/app/logs/aws/debug.log
+2025-02-23 15:19:39,758 [INFO] Test log entry to verify logging setup.
+2025-02-23 15:19:39,758 [INFO] User-specific log folder set up at: /Users/surajsharma/FLASK/app/logs/aws
+2025-02-23 15:19:39,759 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-23 15:19:39,764 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET / HTTP/1.1" 200 -
+2025-02-23 15:19:39,826 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/vlanConfigForm.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,826 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/css/easy_config.css HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,833 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/bgpForm.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,833 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/underlayConfigForm.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,834 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /static/xmlRobotDebugger.js HTTP/1.1" 200 -
+2025-02-23 15:19:39,834 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/upload_device_config.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,835 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,835 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/vxlanForm.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,837 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "[36mGET /static/onboard_devices.js HTTP/1.1[0m" 304 -
+2025-02-23 15:19:39,837 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /static/index.js HTTP/1.1" 200 -
+2025-02-23 15:19:39,956 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Qi HTTP/1.1" 200 -
+2025-02-23 15:19:39,959 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Qk HTTP/1.1" 200 -
+2025-02-23 15:19:39,962 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Ql HTTP/1.1" 200 -
+2025-02-23 15:19:39,978 [INFO] Fetching device list
+2025-02-23 15:19:39,979 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Qm HTTP/1.1" 200 -
+2025-02-23 15:19:39,982 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /api/devices HTTP/1.1" 200 -
+2025-02-23 15:19:39,984 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /list_uploaded_images HTTP/1.1" 200 -
+2025-02-23 15:19:39,985 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /getCategories HTTP/1.1" 200 -
+2025-02-23 15:19:39,989 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "POST /socket.io/?EIO=4&transport=polling&t=PKr6_Qy&sid=tJbM-QVuXFhBm6D3AAAW HTTP/1.1" 200 -
+2025-02-23 15:19:39,989 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Q-&sid=tJbM-QVuXFhBm6D3AAAW HTTP/1.1" 200 -
+2025-02-23 15:19:39,990 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "POST /socket.io/?EIO=4&transport=polling&t=PKr6_Q_&sid=lS_2_oYcAtfDFvc6AAAX HTTP/1.1" 200 -
+2025-02-23 15:19:39,991 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Q_.0&sid=lS_2_oYcAtfDFvc6AAAX HTTP/1.1" 200 -
+2025-02-23 15:19:39,991 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "POST /socket.io/?EIO=4&transport=polling&t=PKr6_R5&sid=kO0x1zpo_tudqRaxAAAY HTTP/1.1" 200 -
+2025-02-23 15:19:39,993 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:39] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_R6&sid=kO0x1zpo_tudqRaxAAAY HTTP/1.1" 200 -
+2025-02-23 15:19:40,002 [INFO] Fetching device list
+2025-02-23 15:19:40,004 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /api/devices HTTP/1.1" 200 -
+2025-02-23 15:19:40,007 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /getCategories HTTP/1.1" 200 -
+2025-02-23 15:19:40,008 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "POST /socket.io/?EIO=4&transport=polling&t=PKr6_RL&sid=QfrE3YTwsKkvLskXAAAZ HTTP/1.1" 200 -
+2025-02-23 15:19:40,008 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_RM&sid=QfrE3YTwsKkvLskXAAAZ HTTP/1.1" 200 -
+2025-02-23 15:19:40,014 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_RW&sid=tJbM-QVuXFhBm6D3AAAW HTTP/1.1" 200 -
+2025-02-23 15:19:40,030 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /getCategories HTTP/1.1" 200 -
+2025-02-23 15:19:40,049 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Rz&sid=tJbM-QVuXFhBm6D3AAAW HTTP/1.1" 200 -
+2025-02-23 15:19:40,055 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Ra&sid=lS_2_oYcAtfDFvc6AAAX HTTP/1.1" 200 -
+2025-02-23 15:19:40,058 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Rc&sid=kO0x1zpo_tudqRaxAAAY HTTP/1.1" 200 -
+2025-02-23 15:19:40,062 [INFO] 127.0.0.1 - - [23/Feb/2025 15:19:40] "GET /socket.io/?EIO=4&transport=polling&t=PKr6_Rv&sid=QfrE3YTwsKkvLskXAAAZ HTTP/1.1" 200 -
+2025-02-23 15:20:04,461 [INFO] 127.0.0.1 - - [23/Feb/2025 15:20:04] "[35m[1mPOST /onboard_devices HTTP/1.1[0m" 500 -
+2025-02-23 15:32:32,160 [INFO]  * Detected change in '/Users/surajsharma/FLASK/app/routes.py', reloading

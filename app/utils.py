@@ -1119,6 +1119,7 @@ class DeviceHealthCheck:
         logging.error(error_message)
         return None, error_message
 
+
     @staticmethod
     def get_interface_status(device, interface_name):
         try:
@@ -1277,6 +1278,9 @@ class DeviceHealthCheck:
                 device_health_status[device_id] = "unreachable"
             except TimeoutError as e:
                 logging.error(f"Timeout error for device {device_id} ({hostname}): {e}")
+                device_health_status[device_id] = "unreachable"
+            except socket.gaierror as e:
+                logging.error(f"❌ DNS resolution error for {device_id} ({hostname}): {e}")
                 device_health_status[device_id] = "unreachable"
             except Exception as e:
                 logging.error(f"Unexpected error for device {device_id} ({hostname}): {e}", exc_info=True)

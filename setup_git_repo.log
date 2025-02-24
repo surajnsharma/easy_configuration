@@ -855,3 +855,139 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ
 Press Enter after adding the SSH key to GitHub...
 SSH configuration updated to use id_ed25519 for GitHub.
 Checking for files larger than 100 MB to track with Git LFS...
+[main fda1b51] Auto-commit: updating remote repository
+ 152 files changed, 333687 insertions(+), 356477 deletions(-)
+ create mode 100644 INTENT_NETWORKING/__pycache__/intent_functions.cpython-311.pyc
+ create mode 100644 INTENT_NETWORKING/skipped_devices.log
+ create mode 100644 INTENT_NETWORKING/snapshots/post/svla-q5240-03.englab.juniper.net_post.txt
+ create mode 100644 INTENT_NETWORKING/snapshots/pre/svla-q5240-03.englab.juniper.net_pre.txt
+ create mode 100644 app/__pycache__/__init__.cpython-311.pyc
+ create mode 100644 app/__pycache__/config.cpython-311.pyc
+ create mode 100644 app/__pycache__/models.cpython-311.pyc
+ create mode 100644 app/__pycache__/routes.cpython-311.pyc
+ create mode 100644 app/__pycache__/utils.cpython-311.pyc
+ create mode 100644 app/device_config/_template_variables.json
+ delete mode 100644 app/device_config/admin/commands_csv.json
+ delete mode 100644 app/device_config/admin/leaf_1_vxlan_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5230-01.englab.juniper.net_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5230-01_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5230-04.englab.juniper.net_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5230-04_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5240-13.englab.juniper.net_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5240-13_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5240-q07.englab.juniper.net_config.txt
+ delete mode 100644 app/device_config/admin/ny-q5240-q07_config.txt
+ create mode 100644 app/device_config/admin/svla-q5130-03_config.txt
+ create mode 100644 app/device_config/admin/svla-q5240-06_config.txt
+ create mode 100644 app/device_config/admin/svla-q5240-08_config.txt
+ create mode 100644 app/device_config/ai_nyc/commands_csv.json
+ create mode 100644 app/device_config/ai_nyc/commands_lldp.json
+ create mode 100644 app/device_config/ai_nyc/ny-q5230-01.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/ai_nyc/ny-q5230-01_config.txt
+ create mode 100644 app/device_config/ai_nyc/ny-q5230-02.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/ai_nyc/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 app/device_config/ai_nyc/ny-q5230-04_config.txt
+ create mode 100644 app/device_config/ai_nyc/ny-q5240-13_config.txt
+ create mode 100644 app/device_config/generic_template_variables.json
+ create mode 100644 app/device_config/suraj/commands_csv.json
+ create mode 100644 app/device_config/suraj/commands_lldp.json
+ create mode 100644 app/device_config/suraj/leaf_1_vxlan_config.txt
+ create mode 100644 app/device_config/suraj/leaf_2_vxlan_config.txt
+ create mode 100644 app/device_config/suraj/san-q5120-02_config.txt
+ create mode 100644 app/device_config/suraj/san-q5120-03_config.txt
+ create mode 100644 app/device_config/suraj/san-q5130-02_config.txt
+ rename app/device_config/{admin/ny-q5230-02.englab.juniper.net_config.txt => suraj/san-q5230-05_config.txt} (58%)
+ rename app/{uploads/admin => device_config/suraj}/san-q5230-06_config.txt (50%)
+ create mode 100644 app/device_config/suraj/svla-q5120-06_config.txt
+ create mode 100644 app/device_config/suraj/svla-q5130-03_config.txt
+ create mode 100644 app/device_config/suraj/svla-q5130-04_config.txt
+ create mode 100644 app/device_config/suraj/svla-q5240-03_config.txt
+ create mode 100644 app/device_config/suraj/svla-q5240-06_config.txt
+ create mode 100644 app/device_config/tesla/commands_lldp.json
+ create mode 100644 app/device_config/tesla/leaf_1_vxlan_config.txt
+ create mode 100644 app/device_config/tesla/leaf_2_vxlan_config.txt
+ rename app/device_config/{admin => tesla}/spine_1_vxlan_config.txt (100%)
+ rename app/device_config/{admin => tesla}/spine_2_vxlan_config.txt (100%)
+ create mode 100644 app/device_config/tesla/svla-q5120-05_config.txt
+ create mode 100644 app/device_config/tesla/svla-q5130-03_config.txt
+ create mode 100644 app/device_config/tesla/svla-q5240-03_config.txt
+ create mode 100644 app/logs/ai_nyc/debug.log
+ create mode 100644 app/logs/debug.log
+ create mode 100644 app/logs/tesla/debug.log
+ create mode 100644 app/templates/ConfigTemplates/tesla/mac_vrf_vlan_based_template.j2
+ create mode 100644 app/templates/ConfigTemplates/vxlan_type5_vlan_aware_template.j2
+ rename app/templates/ConfigTemplates/{vxlan_type5_template.j2 => vxlan_type5_vlan_based_template.j2} (96%)
+ create mode 100644 app/templates/ssh_client.html
+ create mode 100644 app/uploads/admin/admin/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml
+ delete mode 100644 app/uploads/admin/bgp_config.txt
+ delete mode 100644 app/uploads/admin/config.txt
+ create mode 100644 app/uploads/admin/device.csv
+ delete mode 100644 app/uploads/admin/leaf_1_vxlan_config.txt
+ delete mode 100644 app/uploads/admin/ny-q5230-01.englab.juniper.net_config.txt
+ delete mode 100644 app/uploads/admin/ny-q5230-04.englab.juniper.net_config.txt
+ rename app/uploads/{suraj/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml_failure_log.txt => admin/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz_failure_log.txt} (96%)
+ rename app/uploads/{suraj => admin}/robot_failure_logs/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml_failure_log.txt (100%)
+ rename app/uploads/{suraj => admin}/robot_failure_logs/platforms_mts_hwdre_issu_001_output.xml_failure_log.txt (90%)
+ create mode 100644 app/uploads/admin/robot_failure_logs/robot_failure_suggestions.txt
+ delete mode 100644 app/uploads/admin/san-q5230-05_config.txt
+ delete mode 100644 app/uploads/admin/test2.log
+ delete mode 100644 app/uploads/admin/underlay_config.csv
+ delete mode 100644 app/uploads/admin/underlay_junos.csv
+ delete mode 100644 app/uploads/config.txt
+ delete mode 100644 app/uploads/leaf_1_vxlan_config.txt
+ delete mode 100644 app/uploads/ny-q5230-01.englab.juniper.net_config.txt
+ delete mode 100644 app/uploads/ny-q5230-04.englab.juniper.net_config.txt
+ delete mode 100644 app/uploads/san-q5230-05_config.txt
+ delete mode 100644 app/uploads/san-q5230-06_config.txt
+ delete mode 100644 app/uploads/suraj/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz
+ delete mode 100644 app/uploads/suraj/platforms_mts_hwdre_issu_001.log
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/cos_brcm_dcqcn_l2_fuc2_mts_002_output.xml_failure_log.txt
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/evpn_vxlan_mts_ar_oism_ssm_001_output.xml.gz_failure_log.txt
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/platforms_mts_hwdre_issu_001_output.xml.gz_failure_log.txt
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/protocols_xSTP_issu_mts_007_output.xml.gz_failure_log.txt
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/protocols_xSTP_issu_mts_007_output.xml_failure_log.txt
+ delete mode 100644 app/uploads/suraj/robot_failure_logs/robot_failure_suggestions.txt
+ create mode 100644 app/uploads/suraj/suraj/robot_failure_logs/load_balance_vxlan_flex_hashing_neg_mts_001_output.xml_failure_log.txt
+ create mode 100644 app/uploads/suraj/suraj/robot_failure_logs/robot_failure_suggestions.txt
+ delete mode 100644 app/uploads/underlay_config.csv
+ delete mode 100644 app/uploads/user_1/ny-q5230-01.englab.juniper.net_config.txt
+ delete mode 100644 app/uploads/user_1/ny-q5230-02.englab.juniper.net_config.txt
+ delete mode 100644 app/uploads/user_1/ny-q5230-04.englab.juniper.net_config.txt
+ create mode 100644 flask_sessions/2029240f6d1128be89ddc32729463129
+ create mode 100644 flask_sessions/26baf9c1bf3621c75a8dc5562242e7d9
+ create mode 100644 flask_sessions/572540f02ee0c27076ff9e3353c8a211
+ create mode 100644 flask_sessions/9dce886f2afb266b158f92e5a3cc037f
+ create mode 100644 migrations/__pycache__/env.cpython-311.pyc
+ create mode 100644 migrations/versions/054a590783e0_.py
+ create mode 100644 migrations/versions/__pycache__/054a590783e0_.cpython-311.pyc
+ create mode 100644 migrations/versions/__pycache__/a71a54d5c550_.cpython-311.pyc
+ create mode 100644 migrations/versions/__pycache__/af65ad16c790_initial_migration.cpython-311.pyc
+ create mode 100644 migrations/versions/__pycache__/cc9518ba4cad_add_unique_constraint_to_user_id_and_.cpython-311.pyc
+ create mode 100644 migrations/versions/a71a54d5c550_.py
+ create mode 100644 uploads/tesla/mac_vrf_vlan_based_template.j2
+ create mode 100644 vlan_bridge_manager.sh
+ create mode 100644 vm_manager.sh
+To github.com:surajnsharma/easy_configuration.git
+   ceaa3e5..fda1b51  main -> main
+Starting Git setup script...
+Git repository already exists in this directory.
+Current Git configuration:
+GitHub Username: surajnsharma
+GitHub Email: surajshamra@juniper.net
+Repository Name: easy_configuration
+Remote URL: git@github.com:surajnsharma/easy_configuration.git
+
+Press Enter to keep this configuration or type 'change' to update.
+Choose an action:
+1) Update (pull latest changes)
+2) Push new changes (requires SSH access)
+3) Delete the local Git repository
+4) Delete Online Git repository
+Enter your choice: Remote URL updated to git@github.com:surajnsharma/easy_configuration.git
+SSH key already exists at ~/.ssh/id_ed25519
+Copy the SSH key below and add it to your GitHub account under Settings > SSH and GPG keys > New SSH key:
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5ZZbbCJz/F35OWEetwkGSby6rbaazqpyhY9pw0VWZZ surajshamra@juniper.net
+
+Press Enter after adding the SSH key to GitHub...
+SSH configuration updated to use id_ed25519 for GitHub.
+Checking for files larger than 100 MB to track with Git LFS...

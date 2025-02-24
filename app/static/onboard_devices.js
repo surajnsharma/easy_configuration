@@ -971,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const row = document.querySelector(`tr[data-device-id="${hostname}"]`);
                         if (row) {
                             // ✅ Update Version in Main Row (Column Index: 5)
-                            row.cells[5].innerHTML = formatVersion(deviceData.version);
+                            row.cells[6].innerHTML = formatVersion(deviceData.version);
 
                             // ✅ Find the Expandable Row
                             const expandableRow = row.nextElementSibling;
@@ -1162,116 +1162,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
 
-     /*
-        async function fetchOnboardedDevices() {
-            try {
-                const response = await fetch('/api/devices');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch onboarded devices');
-                }
-                devices = await response.json();  // Store the devices in a global variable
-                const tableBody = document.querySelector('#onboardedDevicesTable tbody');
-                tableBody.innerHTML = '';  // Clear the table before updating
-
-                // **Fixing the Table Header**
-                const thead = document.querySelector('#onboardedDevicesTable thead');
-                thead.innerHTML = `
-                    <tr>
-                        <th style="width: 50px;">
-                            <input type="checkbox" id="selectAllDevices">
-                            <label for="selectAllDevices">  </label>
-                        </th>
-                        <th style="width: 150px;">Hostname</th>
-                        <th style="width: 150px;">IP Address</th>
-                        <th style="width: 150px;">Username</th>
-                        <th style="width: 150px;">Password</th>
-                        <th style="width: 80px;">
-                            Version
-                            <i class="fa-solid fa-arrows-rotate" id="refreshVersionBtn" title="Refresh Version" style="cursor: pointer; margin-left: 5px;"></i>
-                        </th>
-                        <th style="width: 150px;">Actions</th>
-                        <th style="width: 200px;">Progress</th>
-                    </tr>
-                `;
-                // **Attach Event Listener for Refresh Version Button**
-                document.getElementById('refreshVersionBtn').addEventListener('click', refreshDeviceVersions);
-
-                // **Ensure Select All Checkbox Works Correctly**
-                document.getElementById('selectAllDevices').addEventListener('change', toggleSelectAllDevices);
-
-                // **Populate the table with the fetched devices**
-                devices.forEach(device => {
-                    const row = tableBody.insertRow();
-                    row.setAttribute('data-device-id', device.hostname);
-
-                    // Checkbox Column
-                    const checkboxCell = row.insertCell(0);
-                    checkboxCell.innerHTML = `<input type="checkbox" class="device-checkbox">`;
-
-                    // Device Data Columns
-                    row.insertCell(1).textContent = device.hostname;
-                    row.insertCell(2).textContent = device.ip;
-                    row.insertCell(3).innerHTML = `<input type="text" value="${device.username}" style="width: 100%;" />`; // ✅ Reduced width
-                    row.insertCell(4).innerHTML = `<input type="text" class="passwordInput" value="${device.password}" style="width: 100%;" />`; // ✅ Reduced width
-                    //row.insertCell(5).textContent = device.version || 'Unknown'; // ✅ Fixed Version Column
-                    row.insertCell(5).innerHTML = formatVersion(device.version);
-
-                    // **Actions Column**
-                    const actionsCell = row.insertCell(6);
-                    actionsCell.style.display = "flex";
-                    actionsCell.style.flexWrap = "wrap";
-
-                    function createIconSpan(iconClass, title, onClickHandler) {
-                        const span = document.createElement('span');
-                        span.innerHTML = `<i class="${iconClass}"></i>`;
-                        span.title = title;
-                        span.classList.add('icon-span');
-                        span.style.cursor = 'pointer';
-                        span.style.marginRight = '5px'; // Reduce margin for better spacing
-                        span.style.fontSize = "12px"; // Reduce icon size
-                        span.addEventListener('click', onClickHandler);
-                        return span;
-                    }
-
-                    // **All Required Actions**
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-trash', 'Delete Device', () => deleteDevice(device.hostname)));
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-floppy-disk', 'Save Device Config', () => saveDeviceConfig(row, device.hostname)));
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-rotate', 'Update User/Pass', () => updateDeviceConfig(row, device.hostname)));
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-eye', 'Show Device Config', () => showDeviceConfig(device.hostname, device.hostname)));
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-recycle', 'Restore Device Config', () => restoreDeviceConfig(device.hostname)));
-                    actionsCell.appendChild(createIconSpan('fa-solid fa-terminal', 'SSH into Device', () => openSshTerminal(device.ip, device.username, device.password)));
-
-                    // **Progress Column**
-                    row.insertCell(7).innerHTML = `
-                        <div class="progress" style="height: 20px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;"
-                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                        </div>
-                    `;
-                });
-
-                // **Ensure Delete Selected Devices Button Works**
-                const deleteSelectedBtn = document.getElementById('deleteSelectedDevices');
-                if (deleteSelectedBtn) {
-                    deleteSelectedBtn.addEventListener('click', deleteSelectedDevices);
-                }
-
-            } catch (error) {
-                console.error('Error fetching devices:', error);
-            }
-        }
-
-        // **Helper Function to Handle "Select All" Checkbox**
-
-        function toggleSelectAllDevices(event) {
-            const checkboxes = document.querySelectorAll('.device-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = event.target.checked;
-            });
-        }
-        */
-
-
+ /*
    async function fetchOnboardedDevices() {
         try {
             const response = await fetch('/api/devices');
@@ -1381,17 +1272,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const expandableRow = tableBody.insertRow();
                 expandableRow.className = "expandable-row";
                 expandableRow.style.display = "none";
-                /*expandableRow.innerHTML = `
-                    <td colspan="8">
-                        <div style="display: flex; justify-content: space-between; padding: 5px;">
-                            <span><strong>Model:</strong> ${model}</span>
-                            <span><strong>Serial Number:</strong> ${serialNumber}</span>
-                            <span><strong>Up Time:</strong> ${uptime}</span>
-                            <span><strong>Last Reboot Reason:</strong> ${lastRebootReason}</span>
 
-                        </div>
-                    </td>
-                `;*/
                 expandableRow.innerHTML = `
                 <td colspan="7">
                     <div style="display: flex; justify-content: space-between; padding: 5px;">
@@ -1414,9 +1295,277 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching devices:', error);
         }
     }
+*/
 
 
-        fetchOnboardedDevices();
+async function fetchOnboardedDevices() {
+    try {
+        const response = await fetch('/api/devices');
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch onboarded devices');
+        }
+
+        const devices = await response.json();
+        const tableBody = document.querySelector('#onboardedDevicesTable tbody');
+        tableBody.innerHTML = ''; // Clear the table before updating
+
+        // **Fixing the Table Header**
+        const thead = document.querySelector('#onboardedDevicesTable thead');
+        thead.innerHTML = `
+            <tr>
+                <th style="width: 50px;">
+                    <input type="checkbox" id="selectAllDevices">
+                </th>
+
+
+                <th style="width: 50px;">
+                    <i class="fa-solid fa-network-wired" id="checkAllDevicesHealth"
+                       style="cursor: pointer;" title="Check Device Reachability"></i>
+                </th>
+
+                <th style="width: 150px;">
+                    <i id="expandAllIcon" class="fa-solid fa-angles-down" onclick="toggleAllRows()"
+                        style="cursor: pointer; margin-right: 8px; display: inline-block;"></i>
+                    Hostname
+                </th>
+                <th style="width: 150px;">IP Address</th>
+                <th style="width: 150px;">Username</th>
+                <th style="width: 150px;">Password</th>
+                <th style="width: 80px;">
+                    Version
+                    <i class="fa-solid fa-arrows-rotate" id="refreshVersionBtn" title="Refresh Version" style="cursor: pointer; margin-left: 5px;"></i>
+                </th>
+                <th style="width: 150px;">Actions</th>
+                <th style="width: 200px;">Progress</th>
+            </tr>
+        `;
+
+        // **Attach Event Listener for Refresh Version Button**
+        document.getElementById('refreshVersionBtn').addEventListener('click', refreshDeviceVersions);
+
+        // **Ensure Select All Checkbox Works Correctly**
+        document.getElementById('selectAllDevices').addEventListener('change', toggleSelectAllDevices);
+
+
+        // **Populate the table with the fetched devices**
+        devices.forEach(device => {
+            const row = tableBody.insertRow();
+            row.setAttribute('data-device-id', device.hostname);
+
+            // **Checkbox Column**
+            row.insertCell(0).innerHTML = `<input type="checkbox" class="device-checkbox">`;
+
+            // **State Column (Device Reachability)**
+            const stateCell = row.insertCell(1);
+            stateCell.classList.add("device-state");
+            stateCell.setAttribute("data-ip", device.ip);
+            stateCell.innerHTML = getReachabilityIcon(device.reachability_status);
+            //stateCell.innerHTML = `<i class="fa-solid fa-circle text-secondary"></i>`; // Default Gray
+
+            // **Hostname Column with Dropdown Icon**
+            row.insertCell(2).innerHTML = `
+                <i class="fas fa-chevron-down dropdown-icon" onclick="toggleRow(this)" style="cursor: pointer; margin-right: 5px;"></i>
+                ${device.hostname}
+            `;
+
+            // **Device Data Columns**
+            row.insertCell(3).textContent = device.ip;
+            row.insertCell(4).innerHTML = `<input type="text" value="${device.username}" style="width: 100%;" />`;
+            row.insertCell(5).innerHTML = `<input type="text" class="passwordInput" value="${device.password}" style="width: 100%;" />`;
+            row.insertCell(6).innerHTML = formatVersion(device.version);
+
+            // **Actions Column**
+            const actionsCell = row.insertCell(7);
+            function createIconSpan(iconClass, title, onClickHandler) {
+                const span = document.createElement('span');
+                span.innerHTML = `<i class="${iconClass}"></i>`;
+                span.title = title;
+                span.classList.add('icon-span');
+                span.style.cursor = 'pointer';
+                span.style.marginRight = '5px';
+                span.style.fontSize = "14px";
+                span.addEventListener('click', onClickHandler);
+                return span;
+            }
+            actionsCell.appendChild(createIconSpan('fa-solid fa-trash', 'Delete Device', () => deleteDevice(device.hostname)));
+            actionsCell.appendChild(createIconSpan('fa-solid fa-floppy-disk', 'Save Device Config', () => saveDeviceConfig(row, device.hostname)));
+            actionsCell.appendChild(createIconSpan('fa-solid fa-rotate', 'Update User/Pass', () => updateDeviceConfig(row, device.hostname)));
+            actionsCell.appendChild(createIconSpan('fa-solid fa-eye', 'Show Device Config', () => showDeviceConfig(device.hostname, device.hostname)));
+            actionsCell.appendChild(createIconSpan('fa-solid fa-recycle', 'Restore Device Config', () => restoreDeviceConfig(device.hostname)));
+            actionsCell.appendChild(createIconSpan('fa-solid fa-terminal', 'SSH into Device', () => openSshTerminal(device.ip, device.username, device.password)));
+
+            // **Progress Column**
+            row.insertCell(8).innerHTML = `
+                <div class="progress" style="height: 20px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            `;
+
+            // **Add Expandable Row (Ensure It's Directly After)**
+            const expandableRow = tableBody.insertRow();
+            expandableRow.classList.add("expandable-row");
+            expandableRow.style.display = "none";
+
+            expandableRow.innerHTML = `
+                <td colspan="9">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; padding: 10px; background-color: #f8f9fa; border-radius: 5px;">
+                        <span><i class="fa-solid fa-server"></i> <strong>Model:</strong> ${device.model || "Unknown"}</span>
+                        <span><i class="fa-solid fa-barcode"></i> <strong>Serial Number:</strong> ${device.serial_number || "N/A"}</span>
+                        <span><i class="fa-solid fa-clock"></i> <strong>Up Time:</strong> ${device.up_time || "Unknown"}</span>
+                        <span><i class="fa-solid fa-power-off"></i> <strong>Last Reboot Reason:</strong> ${device.last_reboot_reason || "N/A"}</span>
+                    </div>
+                </td>
+            `;
+        });
+
+        // **Check Device Health after loading**
+        checkDeviceHealth(devices);
+
+        // **Ensure Delete Selected Devices Button Works**
+        const deleteSelectedBtn = document.getElementById('deleteSelectedDevices');
+        if (deleteSelectedBtn) {
+            deleteSelectedBtn.addEventListener('click', deleteSelectedDevices);
+        }
+        const checkAllHealthIcon = document.getElementById("checkAllDevicesHealth");
+        if (checkAllHealthIcon) {
+            checkAllHealthIcon.addEventListener("click", checkDeviceOnlineStatus);
+        } else {
+            console.warn("⚠️ Warning: 'fa-network-wired' icon for health check not found.");
+        }
+
+    } catch (error) {
+        console.error('Error fetching devices:', error);
+    }
+}
+fetchOnboardedDevices();
+
+
+
+function getReachabilityIcon(status) {
+    let colorClass = "text-secondary"; // Default gray
+    let tooltip = "Unknown";
+
+    switch (status) {
+        case "reachable":
+            colorClass = "text-success"; // Green
+            tooltip = "Reachable";
+            break;
+        case "unreachable":
+            colorClass = "text-danger"; // Red
+            tooltip = "Unreachable";
+            break;
+        case "connect_error":
+            colorClass = "text-warning"; // Yellow
+            tooltip = "Connection Error";
+            break;
+        case "auth_error":
+            colorClass = "text-orange"; // Orange
+            tooltip = "Authentication Error";
+            break;
+        default:
+            colorClass = "text-secondary"; // Gray
+            tooltip = "Unknown";
+    }
+
+    return `<i class="fa-solid fa-circle ${colorClass}" title="${tooltip}"></i>`;
+}
+
+
+// ✅ Function to Check Device Online Status
+async function checkDeviceOnlineStatus() {
+    try {
+        const deviceRows = document.querySelectorAll("#onboardedDevicesTable tbody tr[data-device-id]");
+        if (deviceRows.length === 0) {
+            console.warn("No devices found to check health for.");
+            return;
+        }
+
+        // ✅ Collect Devices for API Request
+        const devices = [];
+        deviceRows.forEach(row => {
+            const hostname = row.getAttribute("data-device-id");
+            const stateCell = row.querySelector(".device-state");
+
+            if (!stateCell) {
+                console.warn(`No state cell found for ${hostname}`);
+                return;
+            }
+
+            const ip = stateCell.getAttribute("data-ip");
+            if (!ip) {
+                console.warn(`No IP found for ${hostname}, skipping.`);
+                return;
+            }
+
+            devices.push({ id: hostname, ip: ip });
+        });
+
+        if (devices.length === 0) {
+            console.warn("No valid devices with IPs found.");
+            return;
+        }
+
+        // ✅ Send API Request to Check Device Health
+        const response = await fetch("/api/check_device_health", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ devices })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch device health");
+        }
+
+        const healthData = await response.json();
+        const healthStatus = healthData.health_status;
+
+        // ✅ Update UI Based on Health Status
+        deviceRows.forEach(row => {
+            const stateCell = row.querySelector(".device-state i");
+            const hostname = row.getAttribute("data-device-id");
+
+            if (!stateCell) {
+                console.warn(`State icon missing for ${hostname}`);
+                return;
+            }
+
+            const status = healthStatus[hostname] || "unknown";
+            let colorClass = "text-secondary"; // Default gray
+            let tooltip = "Unknown";
+
+            switch (status) {
+                case "reachable":
+                    colorClass = "text-success"; // Green
+                    tooltip = "Reachable";
+                    break;
+                case "unreachable":
+                    colorClass = "text-danger"; // Red
+                    tooltip = "Unreachable";
+                    break;
+                case "connect_error":
+                    colorClass = "text-warning"; // Yellow
+                    tooltip = "Connection Error";
+                    break;
+                case "auth_error":
+                    colorClass = "text-orange"; // Orange
+                    tooltip = "Authentication Error";
+                    break;
+                default:
+                    colorClass = "text-secondary"; // Gray
+                    tooltip = "Unknown";
+            }
+
+            // Apply new styles and tooltip
+            stateCell.className = `fa-solid fa-circle ${colorClass}`;
+            stateCell.setAttribute("title", tooltip);
+        });
+
+    } catch (error) {
+        console.error("Error checking device health:", error);
+    }
+}
+
 
 
 
@@ -1715,6 +1864,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+function toggleRow(icon) {
+    let row = icon.closest("tr"); // Find the main row
+    let nextRow = row.nextElementSibling;
+
+    // Search for the expandable row in case it's not immediately next
+    while (nextRow && !nextRow.classList.contains("expandable-row")) {
+        nextRow = nextRow.nextElementSibling;
+    }
+
+    // Ensure an expandable row is found
+    if (!nextRow) {
+        console.warn("Warning: No expandable row found after", row);
+        return;
+    }
+
+    // Toggle display
+    nextRow.style.display = nextRow.style.display === "none" ? "table-row" : "none";
+
+    // Toggle icons
+    icon.classList.toggle("fa-chevron-right");
+    icon.classList.toggle("fa-chevron-down");
+}
+
+
+/*
 // **Make `toggleRow` Available Globally**
 function toggleRow(icon) {
     let row = icon.closest("tr").nextElementSibling;
@@ -1722,7 +1896,7 @@ function toggleRow(icon) {
     icon.classList.toggle("fa-chevron-right");
     icon.classList.toggle("fa-chevron-down");
 }
-
+*/
 // **Helper Function to Handle "Select All" Checkbox**
 function toggleSelectAllDevices(event) {
     document.querySelectorAll('.device-checkbox').forEach(checkbox => {
